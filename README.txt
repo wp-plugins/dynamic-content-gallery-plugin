@@ -14,7 +14,7 @@ Creates a dynamic gallery of images for latest and/or featured posts.
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
+This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign/’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
 
 
 == Features ==
@@ -43,7 +43,6 @@ There are a number of configuration options for the plugin, readily available vi
 == Download ==
 
 Latest version is version 2.0 beta (131k, ZIP file) 
-Download the latest version from www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
  
 
 == Installation ==
