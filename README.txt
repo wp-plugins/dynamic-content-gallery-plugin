@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery
 Requires at least: 2.5
-Tested up to: 2.7 beta 1 (WP) and 2.6.3 (WPMU)
+Tested up to: 2.7 beta 2 (WP) and 2.6.3 (WPMU)
 Stable tag: 2.1
 
 Creates a dynamic gallery of images for latest and/or featured posts.
@@ -162,7 +162,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 1. Javascript conflicts.  The plugin uses SmoothGallery which is built on the Mootools javascript framework.  This may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, try deactivating, one by one, any plugins which use javascript in order to identify the conflicting plugin.
 
-2. Known conflicts: Lightbox-2 and its derivatives.  Use Shadowbox instead, available from www.sivel.net. A list of plugins which are known to conflict with teh Dynamic Content gallery can be found at http://www.studiograsshopper.ch/forum/
+2. Known conflicts: Lightbox-2 and its derivatives.  A list of plugins which are known to conflict with teh Dynamic Content gallery can be found at http://www.studiograsshopper.ch/forum/
 
 3. The gallery script will not run properly if it cannot find the first of the 5 images.  The plugin has been designed to prevent this from happening by using default images in the event that a post custom field image has not been specified for a post.  If you experience problems with the gallery displaying a black screen with a loading bar, but no images load, check that you have uploaded correctly named default images to the folder specified in the Settings page.
 
@@ -200,9 +200,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Technical Notes ==
 
-Version 2.0 is the result of a major rewrite of much of the underlying code.  The plugin automatically detects whether it has been installed on a Wordpress or WPMU platform and loads tailored options and Settings page for the relevant platform. Version 2.0 is designated "beta" only because Wordpress 2.7 is still in beta. The plugin version will be upgraded to stable 2.0 once Wordpress 2.7 is officially released. This is to allow me to make any final tweaks to the plugin code in the event that the Wordpress 2.7 core undergoes further changes between now and its public release.  
-
-The plugin has been tested for compatibility with Wordpress 2.7 beta 1. 
+The plugin has been tested for compatibility with Wordpress 2.7 beta 2. 
 
 Language Support: This is not yet fully implemented in version 2.0 beta but will be completed before final release of Version 2.0  
 
