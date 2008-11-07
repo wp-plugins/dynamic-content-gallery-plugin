@@ -72,7 +72,7 @@ dfcg_load_textdomain();
 		<div class="dfcginfo">
 			<h3><?php _e('How to add the Dynamic Content Gallery to your Theme:', DFCG_DOMAIN); ?></h3>
 			<p><?php _e('To display the Dynamic Content Gallery in your theme, add this code to your theme file wherever you want to display the gallery:', DFCG_DOMAIN); ?><br /><br />
-			<code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-gallery/dynamic-gallery.php'); ?&gt;</code></p>
+			<code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;</code></p>
 		</div>
 		
 		<fieldset name="dynamic_content_gallery" class="options">
