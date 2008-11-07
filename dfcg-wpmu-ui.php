@@ -1,6 +1,6 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.1
-**********************************************************************
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.0 beta 2
+*****************************************************************************
 Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
 
 Options Page for Wordpress MU
@@ -64,7 +64,7 @@ dfcg_load_textdomain();
 		?>
 		
 		<div class="dfcginfo">
-		<p>Version for Wordpress Mu</p>
+		<p>You are using the version for Wordpress Mu</p>
 			<p><?php _e('This is where you configure the plugin options including the selection of Categories and Posts to be displayed, and the Gallery layout and CSS options. For further information, see the README document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-mu-configuration/">Dynamic Content Gallery MU configuration</a> page.</p>
 			<p><strong><?php _e('IMPORTANT: Please follow all the below instructions and configure these settings before using the plugin.', DFCG_DOMAIN); ?></strong></p>
 		</div>

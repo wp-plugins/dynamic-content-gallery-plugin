@@ -1,6 +1,6 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.1
-**********************************************************************
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.0 beta 2
+*****************************************************************************
 Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
 
 Options Page for Wordpress
@@ -64,7 +64,7 @@ dfcg_load_textdomain();
 		?>
 		
 		<div class="dfcginfo">
-			<p>Version for Wordpress</p>
+			<p>You are using the version for Wordpress</p>
 			<p><?php _e('This is where you set up the selection of Categories and the paths to the locations of the gallery images. For further information, see the README document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
 			<p><strong><?php _e('IMPORTANT: You must follow the instructions in sections 1 and 2 below and configure this page before using the plugin.', DFCG_DOMAIN); ?></strong></p>
 		</div>
