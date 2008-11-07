@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 2.0 beta
+Version: 2.0 beta2
 Author: Ade Walker
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">Smooth Gallery</a>. Inspired by the Featured Content Gallery developed by Jason Schuller. Set up the plugin options in Settings>Dynamic Content Gallery.
@@ -26,6 +26,9 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
+	2.0 beta2	- Bug fix re path to scripts thanks to WP.org zip file naming
+				convention
+				
 	2.0 beta	- Major code rewrite and reorganisation of functions
 				- Added WPMU support
 				- Added RESET checkbox to reset options to defaults
@@ -74,7 +77,7 @@ register_activation_hook(__FILE__, 'dfcg_activate');
 /* This is where the plugin does its stuff */
 function dfcg_gallery_styles() {
     /* Set the URL to plugin's directory: */
-    $dfcg_gallery_path =  WP_PLUGIN_URL."/dynamic-gallery/";
+    $dfcg_gallery_path =  WP_PLUGIN_URL."/dynamic-content-gallery-plugin/";
 
     /* The XHTML code needed in the header for gallery to work: */
 	$dfcg_galleryscript = "
