@@ -1,6 +1,6 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.0 beta
-***************************************************************************
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.0 beta 2
+*****************************************************************************
 Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
 
  *** Do not edit this block *** */
