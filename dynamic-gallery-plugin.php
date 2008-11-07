@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 2.0 beta 2
+Version: 2.1
 Author: Ade Walker
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">Smooth Gallery</a>. Inspired by the Featured Content Gallery developed by Jason Schuller. Set up the plugin options in Settings>Dynamic Content Gallery.

@@ -1,13 +1,13 @@
 === Dynamic Content Gallery ===
 
-Version: 2.0 beta 2
+Version: 2.1
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery
 Requires at least: 2.5
 Tested up to: 2.7 beta 1 (WP) and 2.6.3 (WPMU)
-Stable tag: 2.0 beta2
+Stable tag: 2.1
 
 Creates a dynamic gallery of images for latest and/or featured posts.
 
@@ -42,7 +42,7 @@ There are a number of configuration options for the plugin, readily available vi
 
 == Download ==
 
-Latest version is version 2.0 beta 2 (131k, ZIP file) 
+Latest version is version 2.1 (131k, ZIP file) 
  
 
 == Installation ==
@@ -183,7 +183,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Release History ==
 
-2.0 beta 2	07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming
+2.1			07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming
 						convention.
 						
 2.0 beta	05/11/2008	Major code overhaul
