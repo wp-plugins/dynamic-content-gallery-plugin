@@ -14,16 +14,19 @@ Creates a dynamic gallery of images for latest and/or featured posts.
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign/’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
+This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign\’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
 
 Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version.
 
+**Key Features**
+----------------
+
 * SmoothGallery javascript driven image gallery using mootools framework.
-* Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories – or any other combination in-between.
+* Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
 * Highly configurable.
 * Valid xhtml ouput.
-* Tested to be compatible with Wordpress 2.5 to 2.7 beta 1
-* Compatible with Worpress Mu to 2.6.3 (note that some settings are not available when used with Wordpress Mu) 
+* Tested to be compatible with Wordpress 2.5 to 2.7 beta 2
+* Compatible with Worpress Mu to 2.6.3 (note that some Settings are not available when used with Wordpress Mu) 
 
 
 == Features ==
@@ -48,31 +51,32 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 
 == Installation ==
 
-* If you are installing this plugin in a Wordpress installation, follow the instructions marked WORDPRESS.
-* If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked WPMU.
+* If you are installing this plugin in a Wordpress installation, follow the instructions marked **WORDPRESS**.
+* If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked **WPMU**.
 
 **WORDPRESS: Installing for the FIRST TIME**
 --------------------------------------------
 
-1.Download the latest version of the plugin to your computer.
-1.Extract and upload the folder \"dynamic-content-gallery-plugin\" and its contents to your /wp-content/plugins/ directory.  Please ensure that you do not rename any folder or filenames in the process.
-1.Activate the plugin in your Dashboard via the \“Plugins\” menu item.
+1. Download the latest version of the plugin to your computer.
+2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/wp-content/plugins/** directory.  Please ensure that you do not rename any folder or filenames in the process.
+3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
 
 **WORDPRESS: Ugrading from an older version**
 ---------------------------------------------
 
-If upgrading from version 1.0.0 it is recommended that you deactivate the old version, then delete the dynamic-gallery folder and its files from your /wp-content/plugins/ folder. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME". If you use the Wordpress Automatic Plugin upgrade this will be done automatically.
+If upgrading from version 1.0.0 it is recommended that you deactivate the old version, then delete the existing **dynamic-gallery** folder and its files from your /wp-content/plugins/ folder. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME". If you use the Wordpress Automatic Plugin upgrade facility this will be done automatically.
 
-For those who have made extensive changes to the CSS contained in the file jd.gallery.css, it is recommended that you backup this file before deleting the old version of the plugin, as you may wish to refer to this when configuring the settings for the upgraded version of the plugin.
+For those who have made extensive changes to the CSS contained in the file jd.gallery.css, it is recommended that you backup this file before deleting the old version of the plugin, as you may wish to refer to this when configuring the settings for the upgraded version of the plugin. Due to changes in the way the gallery CSS is handled in the new version, you should not overwrite the newly installed jd.gallery.css file with your backed up version. Just use it as reference when configuring the gallery layout and CSS options in the Settings page.  
 
-For those who have customised the jd.gallery.js file in their existing installation, backup this file before following the above instructions. You can then upload your backed up copy of jd.gallery.js to the /dynamic-content-gallery-plugin/js/ folder, overwriting the newly installed version of this file. This will prevent you from losing any gallery script configurations that you made previously. 
+For those who have customised the jd.gallery.js file in their existing installation, backup this file before following the above instructions. You can then upload your backed up copy of jd.gallery.js to the **/dynamic-content-gallery-plugin/js/** folder, overwriting the newly installed version of this file. This will prevent you from losing any gallery script configurations that you made previously. 
 
-*WPMU: Installing for the FIRST TIME*
--------------------------------------
+**WPMU: Installing for the FIRST TIME**
+---------------------------------------
 
-1.Download the latest version of the plugin to your computer.
-2.Extract and upload the folder “dynamic-gallery” and its contents to your /plugins/ directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
-3.Activate the plugin in your Dashboard via the “Plugins” menu item.
+1. Download the latest version of the plugin to your computer.
+2. Extract and upload the folder “dynamic-gallery” and its contents to your /plugins/ directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
+3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
+4. In order for this plugin to be visible to blog ownwers, the plugin has to be activated for each blog by the Site Administrator.
 
 
 == Instructions for use ==
