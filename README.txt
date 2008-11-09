@@ -4,7 +4,7 @@ Version: 2.1
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
-Tags: gallery
+Tags: gallery,
 Requires at least: 2.5
 Tested up to: 2.7 beta 2 (WP) and 2.6.3 (WPMU)
 Stable tag: 2.1
@@ -16,8 +16,7 @@ Creates a dynamic gallery of images for latest and/or featured posts.
 
 This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign/’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
 
-
-== Features ==
+Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version.
 
 * SmoothGallery javascript driven image gallery using mootools framework.
 * Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories – or any other combination in-between.
@@ -26,6 +25,8 @@ This plugin creates a dynamic gallery of images for latest and/or featured posts
 * Tested to be compatible with Wordpress 2.5 to 2.7 beta 1
 * Compatible with Worpress Mu to 2.6.3 (note that some settings are not available when used with Wordpress Mu) 
 
+
+== Features ==
 
 So, what does it do?
 --------------------
@@ -42,23 +43,23 @@ There are a number of configuration options for the plugin, readily available vi
 
 == Download ==
 
-Latest version is version 2.1 (131k, ZIP file) 
+Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
  
 
 == Installation ==
 
-If you are installing this plugin in a Wordpress installation, follow the instructions marked WORDPRESS.
-If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked WPMU.
+* If you are installing this plugin in a Wordpress installation, follow the instructions marked WORDPRESS.
+* If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked WPMU.
 
-WORDPRESS: Installing for the FIRST TIME
-----------------------------------------
+**WORDPRESS: Installing for the FIRST TIME**
+--------------------------------------------
 
 1.Download the latest version of the plugin to your computer.
-2.Extract and upload the folder "dynamic-content-gallery-plugin" and its contents to your /wp-content/plugins/ directory.  Please ensure that you do not rename any folder or filenames in the process.
-3.Activate the plugin in your Dashboard via the “Plugins” menu item.
+1.Extract and upload the folder \"dynamic-content-gallery-plugin\" and its contents to your /wp-content/plugins/ directory.  Please ensure that you do not rename any folder or filenames in the process.
+1.Activate the plugin in your Dashboard via the \“Plugins\” menu item.
 
-WORDPRESS: Ugrading from an older version
------------------------------------------
+**WORDPRESS: Ugrading from an older version**
+---------------------------------------------
 
 If upgrading from version 1.0.0 it is recommended that you deactivate the old version, then delete the dynamic-gallery folder and its files from your /wp-content/plugins/ folder. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME". If you use the Wordpress Automatic Plugin upgrade this will be done automatically.
 
@@ -66,8 +67,8 @@ For those who have made extensive changes to the CSS contained in the file jd.ga
 
 For those who have customised the jd.gallery.js file in their existing installation, backup this file before following the above instructions. You can then upload your backed up copy of jd.gallery.js to the /dynamic-content-gallery-plugin/js/ folder, overwriting the newly installed version of this file. This will prevent you from losing any gallery script configurations that you made previously. 
 
-WPMU: Installing for the FIRST TIME
------------------------------------
+*WPMU: Installing for the FIRST TIME*
+-------------------------------------
 
 1.Download the latest version of the plugin to your computer.
 2.Extract and upload the folder “dynamic-gallery” and its contents to your /plugins/ directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
@@ -83,7 +84,7 @@ To display the dynamic gallery in your theme, add this code to your theme file w
 
 &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
-NOTE: The plugin folder name has changed to dynamic-content-gallery-plugin from dynamic-gallery in prior versions.
+NOTE: From version 2.0 onwards the plugin folder name has changed to dynamic-content-gallery-plugin (dynamic-gallery in prior versions).
 
 WORDPRESS ONLY:
 ---------------
