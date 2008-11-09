@@ -68,9 +68,11 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
 *AUTOMATIC UPGRADE*
+
 You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
 *MANUAL UPGRADE*
+
 1. Deactivate the old version of the plugin in Admin Plugins.
 2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
 3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
@@ -95,7 +97,7 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
+	* &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
 NOTE: From version 2.0 onwards the plugin folder name has changed to dynamic-content-gallery-plugin (dynamic-gallery in prior versions).
 
@@ -171,12 +173,11 @@ C. Create default descriptions (WORDPRESS and WPMU)
 
 == Frequently Asked Questions ==
 
-
 There are no known issues as such, but there are some behaviours which you should be aware of.  The tips and tricks mentioned below are a good place to start in the event that you experience a problem with the plugin.
 
 1. Javascript conflicts.  The plugin uses SmoothGallery which is built on the Mootools javascript framework.  This may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, try deactivating, one by one, any plugins which use javascript in order to identify the conflicting plugin.
 
-2. Known conflicts: Lightbox-2 and its derivatives.  A list of plugins which are known to conflict with teh Dynamic Content gallery can be found at http://www.studiograsshopper.ch/forum/
+2. Known conflicts: Lightbox-2 and its derivatives.  A list of plugins which are known to conflict with the Dynamic Content gallery can be found at http://www.studiograsshopper.ch/forum/
 
 3. The gallery script will not run properly if it cannot find the first of the 5 images.  The plugin has been designed to prevent this from happening by using default images in the event that a post custom field image has not been specified for a post.  If you experience problems with the gallery displaying a black screen with a loading bar, but no images load, check that you have uploaded correctly named default images to the folder specified in the Settings page.
 
@@ -216,7 +217,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 The plugin has been tested for compatibility with Wordpress 2.7 beta 2. 
 
-Language Support: This is not yet fully implemented in version 2.0 beta but will be completed before final release of Version 2.0  
+Language Support: This is not yet fully implemented in version 2.1 but is scheduled for a future release.  
 
 
 == Acknowledgements ==
