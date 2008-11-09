@@ -81,7 +81,7 @@ function dfcg_gallery_styles() {
 
     /* The XHTML code needed in the header for gallery to work: */
 	$dfcg_galleryscript = "
-	<!-- Dynamic Content Gallery plugin version 1.1 beta 7  www.studiograsshopper.ch  Begin scripts -->
+	<!-- Dynamic Content Gallery plugin version 2.1  www.studiograsshopper.ch  Begin scripts -->
     <link rel=\"stylesheet\" href=\"".$dfcg_gallery_path."css/jd.gallery.css\" type=\"text/css\" media=\"screen\" charset=\"utf-8\"/>
 	<script type=\"text/javascript\" src=\"".$dfcg_gallery_path."scripts/mootools.v1.11.js\"></script>
 	<script type=\"text/javascript\" src=\"".$dfcg_gallery_path."scripts/jd.gallery.js\"></script>
