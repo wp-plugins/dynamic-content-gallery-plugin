@@ -68,11 +68,11 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
-*AUTOMATIC UPGRADE*
+**AUTOMATIC UPGRADE**
 
 You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
-*MANUAL UPGRADE*
+**MANUAL UPGRADE**
 1. Deactivate the old version of the plugin in Admin Plugins.
 2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
 3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
@@ -98,9 +98,9 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-	* &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
+&lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
-NOTE: From version 2.0 onwards the plugin folder name has changed to dynamic-content-gallery-plugin (dynamic-gallery in prior versions).
+NOTE: From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in youtr theme template file.
 
 WORDPRESS ONLY:
 ---------------
@@ -128,9 +128,9 @@ Further information can be found at http://www.studiograsshopper.ch/dynamic-cont
 
 The plugin is now loaded and activated, but needs to have its configuration and set-up completed before it is fully ready to go. This takes a little work, but once done you can forget about it and get on with more important things!
 
-A.Configuring the Settings page
-B.Create and name the default images
-C.Create default descriptions
+A. Configuring the Settings page
+B. Create and name the default images (not applicable when used in WPMU)
+C. Create default descriptions
 
 
 A. Configuring the Options page
