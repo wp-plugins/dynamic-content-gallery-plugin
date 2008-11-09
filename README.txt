@@ -33,26 +33,6 @@ Compatible with Wordpress Mu but with some differences in features compared with
 Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch
 
 
-== Features ==
-
-So, what does it do?
---------------------
-The Dynamic Content Gallery plugin uses post custom fields to pull in images and titles from the latest posts in your chosen categories, and displays them on your web page using the SmoothGallery rotating gallery script.  Once you have set up a few basic options you can sit back and let the plugin automatically display your dynamic gallery with up to date content.
-
-How does it work?
------------------
-Very simply. For each of the gallery’s 5 image “slots” the plugin checks to see if, for the latest posts in your specified categories, post custom fields exist for an image filename and its description.  If so, these are displayed in the gallery.  If an image or its description has not been specified in the post custom fields, the plugin displays a default image or default description for the these posts.
-
-To get the best out of this plugin, it is necessary to create a default image for each of the categories that will be displayed in the gallery.  These are used as "fall-backs" in the event that a post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in Wordpress Mu).
-
-There are a number of configuration options for the plugin, readily available via a Settings Page in the Dashboard.  Normally you will set these options once, then forget about them. The underlying javascript file also gives a number of further configuration options relating to how the gallery displays images, arrows, an inbuilt menu carousel and other options - for those who are not afraid to make minor edits to a javascript file.  
-
-
-== Download ==
-
-Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
- 
-
 == Installation ==
 
 * If you are installing this plugin in a Wordpress installation, follow the instructions marked **WORDPRESS**.
@@ -64,7 +44,7 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 1. Download the latest version of the plugin to your computer.
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/wp-content/plugins/** directory.  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
-4. Configure the plugin in Admin **Settings**.
+4. Configure the plugin's Settings page in Admin **Settings**.
 
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
@@ -88,7 +68,7 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/plugins/** directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
 4. In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator.
-5. Each blog owner can then configure the plugin in their Admin **Settings**. 
+5. Each blog owner can then configure the plugin's Settings page in their Admin **Settings**. 
 
 
 == Instructions for use ==
@@ -100,10 +80,12 @@ To display the dynamic gallery in your theme, add this code to your theme file w
 
 &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
-NOTE: From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in youtr theme template file.
+**NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
 
-WORDPRESS ONLY:
----------------
+== Assigning Images to Posts ==
+
+**WORDPRESS ONLY:**
+-------------------
 In order to display a unique image and description for each post, create two Post Custom Fields when writing a post:
 
     * Key = dfcg-image with a Value = Image filename including extension eg. myImage.jpg
@@ -111,8 +93,8 @@ In order to display a unique image and description for each post, create two Pos
 
 You must upload all such custom field images to the folder you specify in the plugin's Settings page. 
 
-WPMU ONLY:
-----------
+**WPMU ONLY:**
+--------------
 In order to display a unique image and description for each post, create two Post Custom Fields when writing a post:
 
     * Key = dfcg-image with a Value = Full URL to the image including filename and extension eg. http://myblog.blogs.com/files/2008/11/myImage.jpg
@@ -132,9 +114,12 @@ A. Configuring the Settings page
 B. Create and name the default images (not applicable when used in WPMU)
 C. Create default descriptions
 
+* If you are installing this plugin in a Wordpress installation, follow the instructions marked **WORDPRESS**.
+* If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked **WPMU**.
 
-A. Configuring the Options page
-----------------------------
+
+**A. Configuring the Options page**
+-----------------------------------
  
 1. In the Dashboard, go to Settings and open the Dynamic Content Gallery Settings page.  This contains a number of options, some of which are required and some of which are optional and may be left blank.
 
@@ -158,21 +143,41 @@ Be aware that the gallery has relatively little space in which to display this t
 That’s it!  The Settings Page is now configured.  Time to create some default images (WORDPRESS only, not WPMU) and the default descriptions (WORDPRESS and WPMU).
 
 
-B. Create and name the default images (WORDPRESS ONLY, not applicable to WPMU)
---------------------------------------------------------------
+**B. Create and name the default images (WORDPRESS ONLY, not applicable to WPMU)**
+----------------------------------------------------------------------------------
 1. Find or create a default image for each category.  These should be the same size as the size of the gallery specified in jd.gallery.css in accordance with the layout requirements of your page.
 2. Each image should be named as follows: XX.jpg where XX is the ID of the Category that you wish this image to be associated with. The plugin only recognises jpeg format with a filename extension of .jpg.
 3. Upload these default images to the folder specified in the Settings page.
 
 
-C. Create default descriptions (WORDPRESS and WPMU)
----------------------------------------------------
+**C. Create default descriptions (WORDPRESS and WPMU)**
+-------------------------------------------------------
 1. Go to the Manage>Categories menu in the Dashboard.
 2. Enter a short Category Description for the categories whose posts will be featured in the dynamic gallery.  It is recommended that this be kept to under 20 words or so.
 3. If you do not wish to use the Category descriptions, for example, they are too long or are used in a different context elsewhere in your theme, you may create a “catch-all” default description in the Settings Page. If you do this please note that this default description is not Category specific and will be displayed whenever the post custom field does not exist. 
 
 
 == Frequently Asked Questions ==
+
+**So, what does it do?**
+------------------------
+The Dynamic Content Gallery plugin uses post custom fields to pull in images and titles from the latest posts in your chosen categories, and displays them on your web page using the SmoothGallery rotating gallery script.  Once you have set up a few basic options you can sit back and let the plugin automatically display your dynamic gallery with up to date content.
+
+**How does it work?**
+---------------------
+Very simply. For each of the gallery’s 5 image “slots” the plugin checks to see if, for the latest posts in your specified categories, post custom fields exist for an image filename and its description.  If so, these are displayed in the gallery.  If an image or its description has not been specified in the post custom fields, the plugin displays a default image or default description for the these posts.
+
+To get the best out of this plugin, it is necessary to create a default image for each of the categories that will be displayed in the gallery.  These are used as "fall-backs" in the event that a post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in Wordpress Mu).
+
+There are a number of configuration options for the plugin, readily available via a Settings Page in the Dashboard.  Normally you will set these options once, then forget about them. The underlying javascript file also gives a number of further configuration options relating to how the gallery displays images, arrows, an inbuilt menu carousel and other options - for those who are not afraid to make minor edits to a javascript file.  
+
+
+== Download ==
+
+Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
+
+
+== Troubleshooting ==
 
 There are no known issues as such, but there are some behaviours which you should be aware of.  The tips and tricks mentioned below are a good place to start in the event that you experience a problem with the plugin.
 
@@ -187,8 +192,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 5. Javascript Configuration options.  The SmoothGallery javascript file jd.gallery.js contains a number of configuration variables which may be changed according to your needs.  I do not provide a full list here, but users comfortable with editing javascript files will find a list of variables near the top of the file jd.gallery.js.
 
 
-
-== Troubleshooting & Support ==
+== Support ==
 
 This plugin is provided free of charge without warranty.  In the event you experience problems you should vists the dedicated plugin FAQ at http://www.studiograsshopper.ch/dynamic-content-gallery-faq/.
 
@@ -216,9 +220,9 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Technical Notes ==
 
-The plugin has been tested for compatibility with Wordpress 2.7 beta 2. 
-
-Language Support: This is not yet fully implemented in version 2.1 but is scheduled for a future release.  
+* The plugin has been tested for compatibility with Wordpress 2.7 beta 2.
+* The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
+* Language Support: This is not yet fully implemented in version 2.1 but is scheduled for a future release.  
 
 
 == Acknowledgements ==
