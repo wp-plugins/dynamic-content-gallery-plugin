@@ -64,6 +64,7 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 1. Download the latest version of the plugin to your computer.
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/wp-content/plugins/** directory.  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
+4. Configure the plugin in Admin **Settings**.
 
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
@@ -72,7 +73,6 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
 *MANUAL UPGRADE*
-
 1. Deactivate the old version of the plugin in Admin Plugins.
 2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
 3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
@@ -88,6 +88,7 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/plugins/** directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
 4. In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator.
+5. Each blog owner can then configure the plugin in their Admin **Settings**. 
 
 
 == Instructions for use ==
