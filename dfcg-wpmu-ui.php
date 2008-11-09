@@ -228,7 +228,7 @@ dfcg_load_textdomain();
 		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-mu-configuration/">Dynamic Content Gallery MU configuration</a> page.</p>
 		<p>The Dynamic Content Gallery plugin uses the SmoothGallery script developed by <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a>, and is inspired by Jason Schuller's Featured Content Gallery plugin. Grateful acknowledgements to Jonathan's wonderful script and Jason's popular Wordpress plugin implementation.</p> 
 		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a></p>
-		<p>You are using the Wordpress Mu version of the Dynamic Content Gallery <strong>Version: 2.0 beta</strong></p>      
+		<p>You are using the Wordpress Mu version of the Dynamic Content Gallery <strong>Version: 2.1</strong></p>      
 		<p>If you have found this plugin useful, please consider making a donation to help support future development. Your support will be much appreciated. Thank you!</p>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 			<input type="hidden" name="cmd" value="_s-xclick">
