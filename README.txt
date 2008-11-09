@@ -14,7 +14,7 @@ Creates a dynamic gallery of images for latest and/or featured posts.
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured posts using JonDesign\’s excellent SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
+This plugin creates a dynamic gallery of images for latest and/or featured posts using the excellent JonDesign SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
 
 Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version.
 
@@ -26,7 +26,11 @@ Compatible with Wordpress Mu but with some differences in features compared with
 * Highly configurable.
 * Valid xhtml ouput.
 * Tested to be compatible with Wordpress 2.5 to 2.7 beta 2
-* Compatible with Worpress Mu to 2.6.3 (note that some Settings are not available when used with Wordpress Mu) 
+* Compatible with Worpress Mu to 2.6.3 (note that some Settings are not available when used with Wordpress Mu)
+
+**Further information**
+-----------------------
+Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch
 
 
 == Features ==
@@ -61,22 +65,27 @@ Latest stable version is version 2.1 (131k, ZIP file) available from http://word
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/wp-content/plugins/** directory.  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
 
-**WORDPRESS: Ugrading from an older version**
----------------------------------------------
+**WORDPRESS: Upgrading from an older version**
+----------------------------------------------
+*AUTOMATIC UPGRADE*
+You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
-If upgrading from version 1.0.0 it is recommended that you deactivate the old version, then delete the existing **dynamic-gallery** folder and its files from your /wp-content/plugins/ folder. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME". If you use the Wordpress Automatic Plugin upgrade facility this will be done automatically.
+*MANUAL UPGRADE*
+1. Deactivate the old version of the plugin in Admin Plugins.
+2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
+3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
+4. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME" to install the new version on your server.
+5. Upload your backed up copy of jd.gallery.js from your local computer to the newly installed **/dynamic-content-gallery-plugin/scripts/** folder, overwriting the version of this file that you have just installed. This will ensure that any configuration changes you have made to jd.gallery.js will be preserved after the upgrade.
+6. For users of version 1.0.0 of the plugin, and who have made extensive changes to the CSS contained in the file jd.gallery.css, note that due to changes in the way the gallery CSS is handled in the new version of the plugin, you should not overwrite the newly installed jd.gallery.css file with your backed up copy of this file. Just use it as reference when configuring the gallery layout and CSS options in the Settings page.  
 
-For those who have made extensive changes to the CSS contained in the file jd.gallery.css, it is recommended that you backup this file before deleting the old version of the plugin, as you may wish to refer to this when configuring the settings for the upgraded version of the plugin. Due to changes in the way the gallery CSS is handled in the new version, you should not overwrite the newly installed jd.gallery.css file with your backed up version. Just use it as reference when configuring the gallery layout and CSS options in the Settings page.  
-
-For those who have customised the jd.gallery.js file in their existing installation, backup this file before following the above instructions. You can then upload your backed up copy of jd.gallery.js to the **/dynamic-content-gallery-plugin/js/** folder, overwriting the newly installed version of this file. This will prevent you from losing any gallery script configurations that you made previously. 
 
 **WPMU: Installing for the FIRST TIME**
 ---------------------------------------
 
 1. Download the latest version of the plugin to your computer.
-2. Extract and upload the folder “dynamic-gallery” and its contents to your /plugins/ directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
+2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/plugins/** directory (do not install in the mu-plugins directory).  Please ensure that you do not rename any folder or filenames in the process.
 3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
-4. In order for this plugin to be visible to blog ownwers, the plugin has to be activated for each blog by the Site Administrator.
+4. In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator.
 
 
 == Instructions for use ==
