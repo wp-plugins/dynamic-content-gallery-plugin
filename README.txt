@@ -48,11 +48,12 @@ Comprehensive information on installing, configuring and using the plugin can be
 
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
-**AUTOMATIC UPGRADE**
 
+**AUTOMATIC UPGRADE**
 You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
 **MANUAL UPGRADE**
+
 1. Deactivate the old version of the plugin in Admin Plugins.
 2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
 3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
@@ -110,16 +111,16 @@ Further information can be found at http://www.studiograsshopper.ch/dynamic-cont
 
 The plugin is now loaded and activated, but needs to have its configuration and set-up completed before it is fully ready to go. This takes a little work, but once done you can forget about it and get on with more important things!
 
-A. Configuring the Settings page
-B. Create and name the default images (not applicable when used in WPMU)
-C. Create default descriptions
+1. Configuring the Settings page
+2. Create and name the default images (not applicable when used in WPMU)
+3. Create default descriptions
 
 * If you are installing this plugin in a Wordpress installation, follow the instructions marked **WORDPRESS**.
 * If you are installing this plugin in a Wordpress Mu installation, follow the instructions marked **WPMU**.
 
 
-**A. Configuring the Options page**
------------------------------------
+**Configuring the Options page**
+--------------------------------
  
 1. In the Dashboard, go to Settings and open the Dynamic Content Gallery Settings page.  This contains a number of options, some of which are required and some of which are optional and may be left blank.
 
@@ -143,15 +144,15 @@ Be aware that the gallery has relatively little space in which to display this t
 That’s it!  The Settings Page is now configured.  Time to create some default images (WORDPRESS only, not WPMU) and the default descriptions (WORDPRESS and WPMU).
 
 
-**B. Create and name the default images (WORDPRESS ONLY, not applicable to WPMU)**
-----------------------------------------------------------------------------------
+**Create and name the default images (WORDPRESS ONLY, not applicable to WPMU)**
+-------------------------------------------------------------------------------
 1. Find or create a default image for each category.  These should be the same size as the size of the gallery specified in jd.gallery.css in accordance with the layout requirements of your page.
 2. Each image should be named as follows: XX.jpg where XX is the ID of the Category that you wish this image to be associated with. The plugin only recognises jpeg format with a filename extension of .jpg.
 3. Upload these default images to the folder specified in the Settings page.
 
 
-**C. Create default descriptions (WORDPRESS and WPMU)**
--------------------------------------------------------
+**Create default descriptions (WORDPRESS and WPMU)**
+----------------------------------------------------
 1. Go to the Manage>Categories menu in the Dashboard.
 2. Enter a short Category Description for the categories whose posts will be featured in the dynamic gallery.  It is recommended that this be kept to under 20 words or so.
 3. If you do not wish to use the Category descriptions, for example, they are too long or are used in a different context elsewhere in your theme, you may create a “catch-all” default description in the Settings Page. If you do this please note that this default description is not Category specific and will be displayed whenever the post custom field does not exist. 
@@ -172,12 +173,14 @@ To get the best out of this plugin, it is necessary to create a default image fo
 There are a number of configuration options for the plugin, readily available via a Settings Page in the Dashboard.  Normally you will set these options once, then forget about them. The underlying javascript file also gives a number of further configuration options relating to how the gallery displays images, arrows, an inbuilt menu carousel and other options - for those who are not afraid to make minor edits to a javascript file.  
 
 
-== Download ==
+**Download**
+------------
 
 Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
 
 
-== Troubleshooting ==
+**Troubleshooting**
+-------------------
 
 There are no known issues as such, but there are some behaviours which you should be aware of.  The tips and tricks mentioned below are a good place to start in the event that you experience a problem with the plugin.
 
@@ -192,7 +195,8 @@ There are no known issues as such, but there are some behaviours which you shoul
 5. Javascript Configuration options.  The SmoothGallery javascript file jd.gallery.js contains a number of configuration variables which may be changed according to your needs.  I do not provide a full list here, but users comfortable with editing javascript files will find a list of variables near the top of the file jd.gallery.js.
 
 
-== Support ==
+**Support**
+-----------
 
 This plugin is provided free of charge without warranty.  In the event you experience problems you should vists the dedicated plugin FAQ at http://www.studiograsshopper.ch/dynamic-content-gallery-faq/.
 
