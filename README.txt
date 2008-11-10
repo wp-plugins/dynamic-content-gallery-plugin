@@ -50,6 +50,7 @@ Comprehensive information on installing, configuring and using the plugin can be
 ----------------------------------------------
 
 **AUTOMATIC UPGRADE**
+
 You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
 
 **MANUAL UPGRADE**
@@ -124,10 +125,12 @@ The plugin is now loaded and activated, but needs to have its configuration and 
  
 1. In the Dashboard, go to Settings and open the Dynamic Content Gallery Settings page.  This contains a number of options, some of which are required and some of which are optional and may be left blank.
 
-2. WORDPRESS and WPMU: Assign Categories to each of the 5 image “slots” that will be shown in the gallery.  By using a combination of the Category ID and The Post Select field, you specify which post will be assigned to each of the 5 image “slots”. Post Select works like this: enter 1 to display the latest post, 2 to display the previous post, 3 to display the post before that, and so on.  For example, two possible schemes are:
-2a. Display latest post from 5 categories: Enter a different ID in each "Category ID" field and enter “1” in each Post Select box.
-2b. Display latest 5 posts from one category: Enter the same ID in each "Category ID" field and enter “1”, "2", "3", "4", "5" in the "Post Select" boxes.
-2c. Or you can specify any combination of Category ID and Post Select depending on your requirements and imagination.
+2. WORDPRESS and WPMU: Assign Categories to each of the 5 image "slots" that will be shown in the gallery.  By using a combination of the Category ID and The Post Select field, you specify which post will be assigned to each of the 5 image "slots". Post Select works like this: enter 1 to display the latest post, 2 to display the previous post, 3 to display the post before that, and so on.  For example, two possible schemes are:
+
+* Display latest post from 5 categories: Enter a different ID in each "Category ID" field and enter "1" in each Post Select box.
+* Display latest 5 posts from one category: Enter the same ID in each "Category ID" field and enter "1", "2", "3", "4", "5" in the "Post Select" boxes.
+* Display latest 5 posts regardless of category: Blank out the ID numbers in each "Category ID" field and enter "1", "2", "3", "4", "5" in the "Post Select" boxes. 
+* Or you can specify any combination of Category ID and Post Select depending on your requirements and imagination.
 
 3. WORDPRESS ONLY: Enter the relative path to the folder which contains the images that are referenced in the post custom field Key "dfcg-image". This path should be relative to the root of your Wordpress blog. For example, if your images are stored in your Uploads folder, the relative path will be: /wp-content/uploads/. This is a required field.
 
@@ -141,7 +144,7 @@ Be aware that the gallery has relatively little space in which to display this t
 
 6. WORDPRESS and WPMU: Gallery size and CSS options. You may configure various CSS options here including the width and height of the gallery, the size of the slider, font sizes etc.
 
-That’s it!  The Settings Page is now configured.  Time to create some default images (WORDPRESS only, not WPMU) and the default descriptions (WORDPRESS and WPMU).
+That's it!  The Settings Page is now configured.  Time to create some default images (WORDPRESS only, not WPMU) and the default descriptions (WORDPRESS and WPMU).
 
 
 **Create and name the default images (WORDPRESS ONLY, not applicable to WPMU)**
@@ -155,7 +158,7 @@ That’s it!  The Settings Page is now configured.  Time to create some default im
 ----------------------------------------------------
 1. Go to the Manage>Categories menu in the Dashboard.
 2. Enter a short Category Description for the categories whose posts will be featured in the dynamic gallery.  It is recommended that this be kept to under 20 words or so.
-3. If you do not wish to use the Category descriptions, for example, they are too long or are used in a different context elsewhere in your theme, you may create a “catch-all” default description in the Settings Page. If you do this please note that this default description is not Category specific and will be displayed whenever the post custom field does not exist. 
+3. If you do not wish to use the Category descriptions, for example, they are too long or are used in a different context elsewhere in your theme, you may create a "catch-all" default description in the Settings Page. If you do this please note that this default description is not Category specific and will be displayed whenever the post custom field does not exist. 
 
 
 == Frequently Asked Questions ==
@@ -166,7 +169,7 @@ The Dynamic Content Gallery plugin uses post custom fields to pull in images and
 
 **How does it work?**
 ---------------------
-Very simply. For each of the gallery’s 5 image “slots” the plugin checks to see if, for the latest posts in your specified categories, post custom fields exist for an image filename and its description.  If so, these are displayed in the gallery.  If an image or its description has not been specified in the post custom fields, the plugin displays a default image or default description for the these posts.
+Very simply. For each of the gallery’s 5 image "slots" the plugin checks to see if, for the latest posts in your specified categories, post custom fields exist for an image filename and its description.  If so, these are displayed in the gallery.  If an image or its description has not been specified in the post custom fields, the plugin displays a default image or default description for the these posts.
 
 To get the best out of this plugin, it is necessary to create a default image for each of the categories that will be displayed in the gallery.  These are used as "fall-backs" in the event that a post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in Wordpress Mu).
 
@@ -198,7 +201,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 **Support**
 -----------
 
-This plugin is provided free of charge without warranty.  In the event you experience problems you should vists the dedicated plugin FAQ at http://www.studiograsshopper.ch/dynamic-content-gallery-faq/.
+This plugin is provided free of charge without warranty.  In the event you experience problems you should visit the dedicated FAQ at http://www.studiograsshopper.ch/dynamic-content-gallery-faq/.
 
 If you cannot find a solution to a problem in the FAQ visit the support page at http://www.studiograsshopper.ch/forum/.  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible.
 
