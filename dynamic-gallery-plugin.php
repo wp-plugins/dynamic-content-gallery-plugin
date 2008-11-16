@@ -26,7 +26,7 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
-	2.0 beta 2	- Bug fix re path to scripts thanks to WP.org zip file naming
+	2.1			- Bug fix re path to scripts thanks to WP.org zip file naming
 				convention
 				
 	2.0 beta	- Major code rewrite and reorganisation of functions
