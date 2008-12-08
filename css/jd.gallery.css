@@ -1,6 +1,11 @@
-/* Dynamic Content Gallery plugin
-Version 2.1
-Modified CSS file from SmoothGallery */
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.2
+**********************************************************************
+
+Modified CSS file based on original jd.gallery.css from SmoothGallery */
+
+#myGallery {
+	z-index:5;
+	}
 
 #flickrGallery
 {
@@ -35,8 +40,29 @@ Modified CSS file from SmoothGallery */
 	background-image: url('img/loading-bar-black.gif');
 }
 
-.jdGallery .loadingElement
+.jdGallery .slideInfoZone
 {
+	position: absolute;
+	z-index: 10;
+	width: 100%;
+	margin: 0px;
+	left: 0;
+	bottom: 0;
+	background: #000;
+	color: #fff;
+	text-indent: 0;
+	overflow: hidden;
+}
+
+.jdGallery .slideInfoZone h2
+{
+	padding: 0;
+	border: 0 !important;
+	font-weight: bold !important;
+	background: none !important;
+}
+
+.jdGallery .loadingElement {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -328,9 +354,12 @@ Modified CSS file from SmoothGallery */
 	color: #aaa;
 }
 
-/* Dynamic Content Gallery Plugin versions 1.5+
-	Added CSS fix for display of arrows in IE7 */
+/* Dynamic Content Gallery Plugin versions 2.0+ */
+/************************************************/
+
+/* Added CSS fix for display of arrows in IE7   */
 /* Fix arrows in IE7 and problem with top margin */
+
 *:first-child+html .slideInfoZone {
     bottom: -1px;
    }
@@ -346,4 +375,4 @@ Modified CSS file from SmoothGallery */
    background: url('img/open.gif') no-repeat center center;
     filter:alpha(opacity=80);
    }
-/* End of arrows IE7 fix                          */
+/* End of arrows IE7 fix */

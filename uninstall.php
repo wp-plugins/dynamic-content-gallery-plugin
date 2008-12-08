@@ -1,5 +1,5 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.1
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.2
 **********************************************************************
 Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
 

@@ -1,5 +1,5 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.1
+/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.2
 **********************************************************************
 Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
 
@@ -26,6 +26,12 @@ dfcg_load_textdomain();
 			$updated_options[$key] = trim($value);
 		}
 		
+		// deal with the MOOTOOLS checkbox
+		$onoff_opts = array( 'mootools' );
+		foreach($onoff_opts as $key) {
+			$updated_options[$key] = $updated_options[$key] ? '1' : '0';
+		}
+		
 		// deal with the RESET checkbox
 		$bool_opts = array( 'reset' );
 		foreach($bool_opts as $key) {
@@ -45,12 +51,11 @@ dfcg_load_textdomain();
 	}
 	// Display the updated options
 	$options = get_option('dfcg_plugin_settings');
-	?>
+?>
 <style>
-#dfcgstyle {font-size:95%;}
-#dfcgstyle p{margin:6px 0px;}
-#dfcgstyle table{background:#F1F1F1;}
-.dfcginfo {background:#EAF3FA;margin:24px 0px 0px 0px;padding:10px 10px 10px 10px;}
+.form-table {margin-bottom:-6px;}
+.dfcginfo {border:1px solid #CCCCCC;margin:24px 0px 0px 0px;padding:10px 10px 10px 10px;}
+.dfcginfo ul {list-style-type:disc;margin-left:30px;font-size:11px;}
 .dfcgopts {background:#F1F1F1;padding:10px 10px 10px 10px;}
 .dfcgcredits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 0px 0px 0px;}
 </style>
@@ -64,22 +69,26 @@ dfcg_load_textdomain();
 		?>
 		
 		<div class="dfcginfo">
-			<p>You are using the version for Wordpress</p>
-			<p><?php _e('This is where you set up the selection of Categories and the paths to the locations of the gallery images. For further information, see the README document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
+			<p><em>You are using Dynamic Content Gallery version <?php echo DFCG_VER; ?> for Wordpress.</em></p>
+			<p><?php _e("This is where you set up the selection of Categories and Posts, the paths to the locations of the gallery images, and the styling options for the gallery.", DFCG_DOMAIN); ?></p>
+			<p><?php _e("For further information, see the README.txt document supplied with the plugin or visit the", DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
 			<p><strong><?php _e('IMPORTANT: You must follow the instructions in sections 1 and 2 below and configure this page before using the plugin.', DFCG_DOMAIN); ?></strong></p>
 		</div>
 		
 		<div class="dfcginfo">
 			<h3><?php _e('How to add the Dynamic Content Gallery to your Theme:', DFCG_DOMAIN); ?></h3>
-			<p><?php _e('To display the Dynamic Content Gallery in your theme, add this code to your theme file wherever you want to display the gallery:', DFCG_DOMAIN); ?><br /><br />
-			<code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;</code></p>
+			<p><?php _e('To display the Dynamic Content Gallery in your theme, add this code to your theme file wherever you want to display the gallery:', DFCG_DOMAIN); ?></p>
+			<p><code>&lt;?php dynamic_content_gallery(); ?&gt;</code></p>
+			<br />
+			<p><em><b>Note for those upgrading from a previous version:</b> You may continue to use the original method of displaying the gallery, using the code (shown below) in your theme file. However, it is recommended to use the new code (shown above) to ensure compatibility with future versions of the plugin.</em><br /><br />
+			<code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;</code>
 		</div>
 		
 		<fieldset name="dynamic_content_gallery" class="options">
 		
 			<div class="dfcginfo">
-				<h3><?php _e('1. Assigning an image and a description to each post:', DFCG_DOMAIN); ?></h3>
-				<p><?php _e('In order to display a unique image and description for each post, create two Post Custom Fields when writing a post:', DFCG_DOMAIN); ?></p> 
+				<h3><?php _e('1. Assigning an image and a description to each Post:', DFCG_DOMAIN); ?></h3>
+				<p><?php _e('To display a unique image and description for each Post, create two Custom Fields when writing a Post:', DFCG_DOMAIN); ?></p> 
 				<ul>
 					<li>Key = <strong>dfcg-image</strong> <?php _e('with a Value =', DFCG_DOMAIN); ?> <strong><?php _e('Image filename including extension', DFCG_DOMAIN); ?></strong> <?php _e('eg.', DFCG_DOMAIN); ?> <em>myImage.jpg</em></li>
 					<li>Key = <strong>dfcg-desc</strong> with a Value = <strong>Description text</strong> eg. <em>Here's our latest news!</em></li>
@@ -90,20 +99,22 @@ dfcg_load_textdomain();
 			<div class="dfcginfo">
 				<h3><?php _e('2. Creating and naming your default images:', DFCG_DOMAIN); ?></h3>
         	
-				<p>By default, the plugin assumes that your default images are named as follows: <em>XX.jpg</em> where XX is the category ID with which this image is associated. For example, the default image that will be displayed for a post in category ID=10 which does not have a Post Custom Field of <strong>dfcg-image</strong> must be named <em>10.jpg</em>.</p>
-				<p>Once you've created these default images, and named them as per these instructions, upload the default images to the folder specified in section 5 below.</p>
+				<p>If, when writing a Post, you do not create the Custom Field <strong>dfcg-image</strong>, the plugin will display a default image for that Post. The default image displayed by the gallery is determined by the Category ID for that Post. Therefore you should create a default image for each of the Categories specified in <strong>section 3</strong> (below). This ensures that the gallery will always be populated with images.</p>
+				<p>Default images must be named as follows: <em>XX.jpg</em>, where XX is the Category ID with which this image is associated. For example, the default image that will be displayed for a Post in Category ID=12 must be named <em>12.jpg</em>.</p>
+				<p>Once you've created these default images, and named them as per these instructions, upload the default images to the folder specified in <strong>section 5</strong> below.</p>
 			</div>
 					
 			<div class="dfcginfo">
-				<h3>3. Select the categories and posts (REQUIRED):</h3>
-				<p>The gallery is designed to display 5 images.  For each of the 5 gallery image "slots", the plugin will display the Post Custom Field image, Post Title and Post Custom Field image description determined by the combination of the Category ID and Post Select indicated below. For the Post Select: enter <strong>1</strong> for latest post, <strong>2</strong> for last but one post, <strong>3</strong> for post before that, and so on. Possible schemes are:</p>
+				<h3>3. Select the Categories and Posts (REQUIRED):</h3>
+				<p>The gallery is designed to display 5 images.  For each of the 5 gallery image "slots", the plugin will display the image specified in the Custom Field <strong>dfcg-image</strong>, the description specified in the Custom Field <strong>dfcg-desc</strong>, and the Post Title, in accordance with the combination of Category ID and Post Select that you enter in the boxes below.</p>
+				<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Possible schemes are:</p>
 				<ul>
-					<li>Pull latest post from 5 categories: Enter a different ID number in each <strong>Category ID</strong> and enter <strong>1</strong> in each <strong>Post Select</strong>.</li>
-					<li>Pull latest 5 posts from 1 category: Enter same ID number in each <strong>Category ID</strong> and enter <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, <strong>4</strong>, <strong>5</strong> in the <strong>Post Select</strong> boxes.</li>
-					<li>Pull latest 5 posts regardless of category: Blank out the ID numbers in each <strong>Category ID</strong> and enter <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, <strong>4</strong>, <strong>5</strong> in the <strong>Post Select</strong> boxes.</li>
-					<li>Any other combination of <strong>Category ID</strong> and <strong>Post Select</strong> as desired.</li>
+					<li>To display the latest Post from 5 Categories: Enter a different ID number in each <strong>Category ID</strong> and enter <strong>1</strong> in each <strong>Post Select</strong> box.</li>
+					<li>To display the latest 5 Posts from 1 Category: Enter the same ID number in each <strong>Category ID</strong> and enter <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, <strong>4</strong>, <strong>5</strong> in the <strong>Post Select</strong> boxes.</li>
+					<li>To display the latest 5 Posts regardless of Category: Blank out the ID numbers in each <strong>Category ID</strong> and enter <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, <strong>4</strong>, <strong>5</strong> in the <strong>Post Select</strong> boxes.</li>
+					<li>Or any other combination of <strong>Category ID</strong> and <strong>Post Select</strong> as desired.</li>
 				</ul>
-			</div>
+			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
@@ -132,31 +143,32 @@ dfcg_load_textdomain();
 					<tr valign="top">
 						<td>5th image</td>
 						<td><input name="dfcg[cat05]" id="cat05" size="5" value="<?php echo $options['cat05']; ?>" /></td>
-						<td><input name="dfcg[off05]" id="dfcg-off05" size="5" value="<?php echo $options['off05']; ?>" /></td>
+						<td><input name="dfcg[off05]" id="off05" size="5" value="<?php echo $options['off05']; ?>" /></td>
 					</tr>
 				</tbody>
 			</table>
-			
+			</div>
 		
 			<div class="dfcginfo">
-				<h3>4. Location of post custom images (REQUIRED):</h3>
-				<p>Enter the relative path to the folder which contains the images that are referenced in the Posts Custom Field <strong>dfcg-image</strong>.  This path should be relative to the root of your Wordpress blog which is <?php echo $options['homeurl']; ?>.  For example, if your images are stored in your Uploads folder, the relative path will be: <em>/wp-content/uploads/</em>.</p>
-			</div>
+				<h3>4. Location of Post Custom Field images (REQUIRED):</h3>
+				<p>Enter the relative path to the folder which contains the images that are referenced in the Post Custom Field <strong>dfcg-image</strong>.  This path should be relative to the root of your Wordpress blog, which is <?php echo $options['homeurl']; ?>.  For example, if your images are stored in your Uploads folder, the relative path will be: <em>/wp-content/uploads/</em>.</p>
+			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
-						<th scope="row">Path to custom images folder:</th>
+						<th scope="row">Path to Custom Field images folder:</th>
 						<td><input name="dfcg[imagepath]" id="dfcg-imagepath" size="50"value="<?php echo $options['imagepath']; ?>" />&nbsp;Important: include slashes at the beginning and end of the path.</td>
 					</tr>
 				</tbody>
 			</table>
+			</div>
 			       
 	   		<div class="dfcginfo">
 				<h3>5. Location of default images (REQUIRED):</h3>
 				<p>Enter the relative path to the folder which contains the default images which will be pulled into the gallery.  These default images
-		are only used by the plugin in the event that the post does not have an image specified in the post custom field Key <strong>dfcg-image</strong>.</p>
-				<p>This path should be relative to the root of your Wordpress blog which is <?php echo $options['homeurl']; ?>.  For example, if your default images are stored in your Uploads folder, the relative path will be: <em>/wp-content/uploads/</em>.</p>
-			</div>
+		are only used by the plugin in the event that the Post does not have an image specified in the Custom Field Key <strong>dfcg-image</strong>.</p>
+				<p>This path should be relative to the root of your Wordpress blog, which is <?php echo $options['homeurl']; ?>.  For example, if your default images are stored in your Uploads folder, the relative path will be: <em>/wp-content/uploads/</em>.</p>
+			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
@@ -165,30 +177,32 @@ dfcg_load_textdomain();
        				</tr>
 				</tbody>
 			</table>
+			</div>
        		        
 			<div class="dfcginfo">
 				<h3>6. Default image description (OPTIONAL):</h3>
 				<p>By default the Dynamic Content Gallery plugin displays a description for each image displayed. The plugin looks for the image description in this sequence:</p>
-				<ol>
-					<li>Checks the post for a custom field with the Key of <strong>dfcg-desc</strong> and if this doesn't exist =></li>
-					<li>Pulls in the Category Description set up in WP Admin>Manage>Categories and if this doesn't exist =></li>
+				<ul>
+					<li>First, it checks the Post for a Custom Field with the Key of <strong>dfcg-desc</strong>, or if this doesn't exist =></li>
+					<li>Pulls in the Category Description set up in WP Admin>Manage>Categories, or if this doesn't exist =></li>
 					<li>Shows the description below.</li>
-				</ol>
+				</ul>
 				<p>Be aware that the gallery has relatively little space in which to display this text and therefore it is recommended to keep this description short, probably less than 20 words.</p>
-			</div>
+			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
-						<th scope="row">Description:</th>
+						<th scope="row">Default Description:</th>
 						<td><textarea name="dfcg[defimagedesc]" cols="75" rows="2" id="dfcg-defimagedesc"><?php echo stripslashes( $options['defimagedesc'] ); ?></textarea></td>
 					</tr>
 				</tbody>
 			</table>
+			</div>
 						
 			<div class="dfcginfo">
 				<h3>7. Gallery size and CSS options (REQUIRED):</h3>
-				<p>This is where you set up various layout and CSS options for your gallery including the size of the gallery, the height of the "Slider", gallery border, and font sizes, colours and margins for the text displayed in the "Slider". The addition of these options in this Settings page saves you having to customise the plugin's CSS stylesheet. These are the items that users most often need to personalise to fit with their theme.</p>	
-			</div>
+				<p>This is where you set up various layout and CSS options for your gallery including the size of the gallery, the height of the "Slider", gallery border, and the font sizes, colours and margins for the text displayed in the "Slider". The addition of these options in this Settings page saves you having to customise the plugin's CSS stylesheet. These are the items that users most often need to personalise to fit with their theme.</p>	
+			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
@@ -245,11 +259,21 @@ dfcg_load_textdomain();
 					</tr>
 				</tbody>
 			</table>
-				
-			<br />
+			</div>
+			
 			<input name="dfcg[homeurl]" id="dfcg-homeurl" type="hidden" value="<?php echo $options['homeurl']; ?>" />
 			
-			<p class="submit"><input type="checkbox" name="dfcg[reset]" id="dfcg-reset" value="<?php echo $options['reset']; ?>" />&nbsp;<strong><?php _e('Reset all options to the Default settings')?></strong></p>
+			<div class="dfcginfo">
+			<label for="dfcg-mootools">
+				<input name="dfcg[mootools]" type="checkbox" id="dfcg-mootools" value="1" <?php checked('1', $options['mootools']); ?> />
+				<?php _e('Disable Mootools Javascript Library') ?></label>
+			<p><?php _e('Check the box ONLY in the event that another plugin is already loading the Mootools Javascript library files in your site.'); ?> <em><?php _e('Default is UNCHECKED.', DFCG_DOMAIN); ?></em></p>
+			</div>
+			
+			<div class="dfcginfo">
+			<label for="dfcg-reset">
+				<input type="checkbox" name="dfcg[reset]" id="dfcg-reset" value="<?php echo $options['reset']; ?>" />&nbsp;<strong><?php _e('Reset all options to the Default settings')?></strong></label>
+			</div>
         
 		</fieldset>
 		<p class="submit"><input type="submit" name="info_update" value="<?php _e('Update Options') ?>" /></p>
@@ -258,7 +282,7 @@ dfcg_load_textdomain();
 	<div class="dfcgcredits">
 		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
 		<p>The Dynamic Content Gallery plugin uses the SmoothGallery script developed by <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a>, and is inspired by the Featured Content Gallery developed by Jason Schuller. Grateful acknowledgements to Jonathan's wonderful script and Jason's popular Wordpress plugin implementation.</p> 
-		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong>Version: 2.1</strong></p>      
+		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong>Version: <?php echo DFCG_VER; ?></strong></p>      
 		<p>If you have found this plugin useful, please consider making a donation to help support future development. Your support will be much appreciated. Thank you!</p>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 			<input type="hidden" name="cmd" value="_s-xclick">

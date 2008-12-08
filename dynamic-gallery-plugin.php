@@ -2,10 +2,10 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 2.1
-Author: Ade Walker
+Version: 2.2
+Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">Smooth Gallery</a>. Inspired by the Featured Content Gallery developed by Jason Schuller. Set up the plugin options in Settings>Dynamic Content Gallery.
+Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">SmoothGallery</a>. Set up the plugin options in Settings>Dynamic Content Gallery.
 */
 
 /*  Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
@@ -26,7 +26,18 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
-	2.0 beta 2	- Bug fix re path to scripts thanks to WP.org zip file naming
+	2.2			- Added template tag function for theme files
+				- Added "disable mootools" checkbox in Settings to avoid js framework
+				being loaded twice if another plugin uses mootools.
+				- Changed handling of WP constants - now works as intended
+				- Removed activation_hook, not needed
+				- Changed options page CSS to better match with 2.7 look
+				- Fixed loading flicker with CSS change => dynamic-gallery.php
+				- Fixed error if selected post doesn't exist => dynamic-gallery.php
+				- Fixed XHTML validation error with user-defined styles/CSS moved to head
+				with new file dfcg-user-styles.php for the output of user definable CSS
+	
+	2.1			- Bug fix re path to scripts thanks to WP.org zip file naming
 				convention
 				
 	2.0 beta	- Major code rewrite and reorganisation of functions
@@ -46,6 +57,25 @@ if (!defined('ABSPATH')) {
 }
 
 
+/* Pre-2.6 compatibility to find directories */
+if ( ! defined( 'WP_CONTENT_URL' ) )
+	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
+if ( ! defined( 'WP_CONTENT_DIR' ) )
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( ! defined( 'WP_PLUGIN_URL' ) )
+	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( ! defined( 'WP_PLUGIN_DIR' ) )
+	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+
+
+/* Set constant for plugin directory */
+define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
+
+
+/* Set constant for plugin version number */
+define ( 'DFCG_VER', '2.2' );
+
+
 /* Internationalization functionality */
 define('DFCG_DOMAIN','Dynamic_Content_Gallery');
 $dfcg_text_loaded = false;
@@ -59,46 +89,37 @@ function dfcg_load_textdomain() {
 }
 
 
-/* Activate and do Registration hook */
-function dfcg_activate() {
-	/* Pre-2.6 compatibility to find directories */
-	if ( ! defined( 'WP_CONTENT_URL' ) )
-	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
-	if ( ! defined( 'WP_CONTENT_DIR' ) )
-	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	if ( ! defined( 'WP_PLUGIN_URL' ) )
-	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-	if ( ! defined( 'WP_PLUGIN_DIR' ) )
-	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-}
-register_activation_hook(__FILE__, 'dfcg_activate');
-
-
 /* This is where the plugin does its stuff */
-function dfcg_gallery_styles() {
-    /* Set the URL to plugin's directory: */
-    $dfcg_gallery_path =  WP_PLUGIN_URL."/dynamic-content-gallery-plugin/";
-
-    /* The XHTML code needed in the header for gallery to work: */
-	$dfcg_galleryscript = "
-	<!-- Dynamic Content Gallery plugin version 2.1  www.studiograsshopper.ch  Begin scripts -->
-    <link rel=\"stylesheet\" href=\"".$dfcg_gallery_path."css/jd.gallery.css\" type=\"text/css\" media=\"screen\" charset=\"utf-8\"/>
-	<script type=\"text/javascript\" src=\"".$dfcg_gallery_path."scripts/mootools.v1.11.js\"></script>
-	<script type=\"text/javascript\" src=\"".$dfcg_gallery_path."scripts/jd.gallery.js\"></script>
-	<!-- end dynamic content gallery scripts -->\n";
-	/* Output the XHTML code for the header: */
-	echo($dfcg_galleryscript);
+function dfcg_addheader_scripts() {
+    
+	$options = get_option('dfcg_plugin_settings');
+    /* Add javascript and CSS files */
+	echo '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts -->' ."\n";
+	echo '<link type="text/css" rel="stylesheet" href="' . DFCG_URL . '/css/jd.gallery.css" />' . "\n";
+	/* Should mootools framework be loaded? */
+	if ( $options['mootools'] !== '1' ) {
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/mootools.v1.11.js"></script>' ."\n";
+	}
+	/* Add gallery javascript file */
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.js"></script>' ."\n";
+	/* Add user defined CSS */
+	include_once('dfcg-user-styles.php');
+	echo '<!-- End of Dynamic Content Gallery scripts -->' ."\n";
 }
+add_action('wp_head', 'dfcg_addheader_scripts');
 
-/* Add the above XHTML to the header of web pages */
-add_action('wp_head', 'dfcg_gallery_styles');
+
+/* Template tag to display gallery in theme files */
+function dynamic_content_gallery() {
+	include_once('dynamic-gallery.php');
+}
 
 
 /* Setup the plugin and create Admin settings page */
 function dfcg_setup() {
 	dfcg_load_textdomain();
 	if ( current_user_can('manage_options') && function_exists('add_options_page') ) {
-		add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', 'dynamic-content-gallery.php', 'dfcg_options_page');
+		add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', 'dynamic-gallery-plugin.php', 'dfcg_options_page');
 		add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
 		dfcg_set_gallery_options();
 	}
@@ -113,7 +134,7 @@ function dfcg_filter_plugin_actions($links, $file){
 	if( !$this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
 	if( $file == $this_plugin ){
-		$settings_link = '<a href="admin.php?page=dynamic-content-gallery.php">' . __('Settings') . '</a>';
+		$settings_link = '<a href="admin.php?page=dynamic-gallery-plugin.php">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links); // before other links
 	}
 	return $links;
@@ -154,6 +175,7 @@ function dfcg_set_gallery_options() {
 			'slide-p-margtb' => '2',
 			'slide-p-colour' => '#FFFFFF',
 			'reset' => 'false',
+			'mootools' => '0',
 		);
 	} else {
 		// Add WP options
@@ -168,7 +190,7 @@ function dfcg_set_gallery_options() {
 			'off03' => '1',
 			'off04' => '1',
 			'off05' => '1',
-			'homeurl' => get_option('siteurl'),
+			'homeurl' => get_option('home'),
 			'imagepath' => '/wp-content/uploads/custom/',
 			'defimagepath' => '/wp-content/uploads/dfcgimages/',
 			'defimagedesc' => '',
@@ -186,6 +208,7 @@ function dfcg_set_gallery_options() {
 			'slide-p-margtb' => '2',
 			'slide-p-colour' => '#FFFFFF',
 			'reset' => 'false',
+			'mootools' => '0',
 		);
 	
 		// if old Version 1.0 options exist, which are prefixed "dfcg-", update to new system

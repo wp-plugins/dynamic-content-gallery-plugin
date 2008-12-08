@@ -1,13 +1,13 @@
 === Dynamic Content Gallery ===
 
-Version: 2.1
-Author: Ade Walker
+Version: 2.2
+Author: Ade Walker, Studiograsshopper
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery,images,posts
 Requires at least: 2.5
-Tested up to: 2.7 beta 3 (WP) and 2.6.3 (WPMU)
-Stable tag: 2.1
+Tested up to: 2.7 RC1 (WP) and 2.6.3 (WPMU)
+Stable tag: 2.2
 
 Creates a dynamic gallery of images for latest and/or featured posts.
 
@@ -24,9 +24,9 @@ Compatible with Wordpress Mu but with some differences in features compared with
 * SmoothGallery javascript driven image gallery using mootools framework.
 * Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
 * Highly configurable.
-* Valid xhtml ouput.
+* Valid xhtml output.
 * Tested to be compatible with Wordpress 2.5 to 2.7 beta 2
-* Compatible with Worpress Mu to 2.6.3 (note that some Settings are not available when used with Wordpress Mu)
+* Compatible with Wordpress Mu to 2.6.3 (note that some Settings are not available when used with Wordpress Mu)
 
 **Further information**
 -----------------------
@@ -80,9 +80,13 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
+&lt;?php dynamic_content_gallery(); ?&gt;
+
+**Note for those upgrading from a previous version:** You may continue to use the original method of displaying the gallery, using the code (shown below) in your theme file. However, it is recommended to use the new code (shown above) to ensure compatibility with future versions of the plugin.
+
 &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
-**NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
+**NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (it was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
 
 == Assigning Images to Posts ==
 
@@ -173,13 +177,13 @@ Very simply. For each of the gallery's 5 image "slots" the plugin checks to see 
 
 To get the best out of this plugin, it is necessary to create a default image for each of the categories that will be displayed in the gallery.  These are used as "fall-backs" in the event that a post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in Wordpress Mu).
 
-There are a number of configuration options for the plugin, readily available via a Settings Page in the Dashboard.  Normally you will set these options once, then forget about them. The underlying javascript file also gives a number of further configuration options relating to how the gallery displays images, arrows, an inbuilt menu carousel and other options - for those who are not afraid to make minor edits to a javascript file.  
+There are a number of configuration options for the plugin, readily available via a Settings Page in the Dashboard.  Normally you will set these options once, then forget about them. The underlying javascript file also gives a number of further configuration options relating to how the gallery displays images, arrows, an in-built menu carousel and other options - for those who are not afraid to make minor edits to a javascript file.  
 
 
 **Download**
 ------------
 
-Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
+Latest stable version is version 2.2 available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
 
 
 **Troubleshooting**
@@ -210,8 +214,16 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Release History ==
 
-2.1			07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming
-						convention.
+2.2			05/12/2008	- Added template tag function for theme files
+						- Added "disable mootools" checkbox in Settings to avoid js framework being loaded twice if another plugin uses mootools.
+						- Changed handling of WP constants - now works as intended
+						- Removed activation_hook, not needed
+						- Changed options page CSS to better match with 2.7 look
+						- Fixed loading flicker with CSS change => dynamic-gallery.php
+						- Fixed error if selected post doesn't exist => dynamic-gallery.php
+						- Fixed XHTML validation error. User-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS.
+
+2.1			07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming convention.
 						
 2.0 beta	05/11/2008	Major code overhaul
 						- Added WPMU support
@@ -227,9 +239,9 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Technical Notes ==
 
-* The plugin has been tested for compatibility with Wordpress 2.7 beta 2.
+* The plugin has been tested for compatibility with Wordpress 2.7 RC1.
 * The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
-* Language Support: This is not yet fully implemented in version 2.1 but is scheduled for a future release.  
+* Language Support: This is not yet fully implemented in version 2.2 but is scheduled for a future release. (Sorry, ran out of time for this release!)  
 
 
 == Acknowledgements ==
