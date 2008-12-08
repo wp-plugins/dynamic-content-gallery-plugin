@@ -78,10 +78,7 @@ dfcg_load_textdomain();
 		<div class="dfcginfo">
 			<h3><?php _e('How to add the Dynamic Content Gallery to your Theme:', DFCG_DOMAIN); ?></h3>
 			<p><?php _e('To display the Dynamic Content Gallery in your theme, add this code to your theme file wherever you want to display the gallery:', DFCG_DOMAIN); ?></p>
-			<p><code>&lt;?php dynamic_content_gallery(); ?&gt;</code></p>
-			<br />
-			<p><em><b>Note for those upgrading from a previous version:</b> You may continue to use the original method of displaying the gallery, using the code (shown below) in your theme file. However, it is recommended to use the new code (shown above) to ensure compatibility with future versions of the plugin.</em><br /><br />
-			<code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;</code>
+			<p><code>&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;</code></p>
 		</div>
 		
 		<fieldset name="dynamic_content_gallery" class="options">
