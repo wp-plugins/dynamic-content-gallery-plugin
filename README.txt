@@ -80,10 +80,6 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php dynamic_content_gallery(); ?&gt;
-
-**Note for those upgrading from a previous version:** You may continue to use the original method of displaying the gallery, using the code (shown below) in your theme file. However, it is recommended to use the new code (shown above) to ensure compatibility with future versions of the plugin.
-
 &lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
 **NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (it was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
