@@ -25,7 +25,7 @@ Compatible with Wordpress Mu but with some differences in features compared with
 * Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
 * Highly configurable.
 * Valid xhtml output.
-* Tested to be compatible with Wordpress 2.5 to 2.7.1
+* Tested to be compatible with Wordpress 2.5 to 2.8
 * Compatible with Wordpress Mu to 2.7 (note that some Settings are not available when used with Wordpress Mu)
 
 **Further information**
@@ -235,7 +235,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Technical Notes ==
 
-* The plugin has been tested for compatibility with Wordpress 2.8-bleeding edge and works so far!
+* The plugin has been tested for compatibility with Wordpress 2.8.
 * The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
 * Language Support: This is not yet fully implemented in version 2.2 but is scheduled for a future release. (Sorry, ran out of time for this release!)  
 
