@@ -32,6 +32,8 @@ Compatible with Wordpress Mu but with some differences in features compared with
 -----------------------
 Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch
 
+All support is handled at http://studiograsshopper.ch/forum. I do not have time to monitor the wordpress.org forums, therefore post any questions on my site's forum. 
+
 
 == Installation ==
 
