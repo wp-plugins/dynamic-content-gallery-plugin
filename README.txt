@@ -237,7 +237,7 @@ Thanks for downloading the plugin.  Enjoy!
 * Public release 01/09/2008
 
 = 0.9.1 =
-Released 26/08/2008
+* Released 26/08/2008
 * Activation and reactivation hooks added to code to setup some default Options on Activation and to remove Options from the WP database on deactivation. 
 
 = 0.9.0 =
