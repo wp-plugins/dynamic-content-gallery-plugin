@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery,images,posts
 Requires at least: 2.5
-Tested up to: 2.8.1 (WP) and 2.8.1 (WPMU)
+Tested up to: 2.8.2 (WP) and 2.8.1 (WPMU)
 Stable tag: 2.2
 
 Creates a dynamic gallery of images for latest and/or featured posts.
@@ -25,7 +25,7 @@ Compatible with Wordpress Mu but with some differences in features compared with
 * Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
 * Highly configurable.
 * Valid xhtml output.
-* Tested to be compatible with Wordpress 2.5 to 2.8.1
+* Tested to be compatible with Wordpress 2.5 to 2.8.2
 * Compatible with Wordpress Mu to 2.8.1 (note that some Settings are not available when used with Wordpress Mu)
 
 **Further information**
@@ -82,7 +82,7 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
+&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;
 
 **NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (it was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
 
@@ -246,7 +246,7 @@ Released 26/08/2008
 
 == Technical Notes ==
 
-* The plugin has been tested for compatibility with Wordpress 2.8.1.
+* The plugin has been tested for compatibility with Wordpress 2.8.2.
 * The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
 * Language Support: This is not yet fully implemented in version 2.2 but is scheduled for a future release. (Sorry, ran out of time for this release!)  
 
