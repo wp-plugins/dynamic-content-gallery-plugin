@@ -210,29 +210,38 @@ If you cannot find a solution to a problem in the FAQ visit the support page at 
 Thanks for downloading the plugin.  Enjoy!
 
 
-== Release History ==
+== Changelog ==
 
-2.2			05/12/2008	- Added template tag function for theme files
-						- Added "disable mootools" checkbox in Settings to avoid js framework being loaded twice if another plugin uses mootools.
-						- Changed handling of WP constants - now works as intended
-						- Removed activation_hook, not needed
-						- Changed options page CSS to better match with 2.7 look
-						- Fixed loading flicker with CSS change => dynamic-gallery.php
-						- Fixed error if selected post doesn't exist => dynamic-gallery.php
-						- Fixed XHTML validation error. User-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS.
+= 2.2 =
+* Released 05/12/2008
+* Added template tag function for theme files
+* Added "disable mootools" checkbox in Settings to avoid js framework being loaded twice if another plugin uses mootools.
+* Changed handling of WP constants - now works as intended
+* Removed activation_hook, not needed
+* Changed options page CSS to better match with 2.7 look
+* Fixed loading flicker with CSS change => dynamic-gallery.php
+* Fixed error if selected post doesn't exist => dynamic-gallery.php
+* Fixed XHTML validation error. User-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS.
 
-2.1			07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming convention.
+= 2.1 =
+* Released 07/11/2008
+* Bug fix re path to scripts thanks to WP.org zip file naming convention.
 						
-2.0 beta	05/11/2008	Major code overhaul
-						- Added WPMU support
-						- Renamed and reorganised various functions
-						- Added RESET checkbox to reset options to defaults
+= 2.0 beta =
+* Released 05/11/2008
+* Major code overhaul, renamed and reorganised various functions
+* Added WPMU support
+* Added RESET checkbox to reset options to defaults
 
-1.0.0		01/09/2008	Public release
+= 1.0.0 =
+* Public release 01/09/2008
 
-0.9.1		26/08/2008	Activation and reactivation hooks added to code to setup some default Options on Activation and to remove Options from the WP database on deactivation. 
+= 0.9.1 =
+Released 26/08/2008
+* Activation and reactivation hooks added to code to setup some default Options on Activation and to remove Options from the WP database on deactivation. 
 
-0.9.0		25/08/2008	Beta testing release
+= 0.9.0 =
+* Beta testing release 25/08/2008
 
 
 == Technical Notes ==
