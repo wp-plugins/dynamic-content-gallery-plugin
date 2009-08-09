@@ -245,7 +245,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Technical Notes ==
 
-* The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
+* The plugin automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
 * Language Support: This is not yet fully implemented in version 2.2 but is scheduled for a future release. (Sorry, ran out of time for this release!)  
 
 
