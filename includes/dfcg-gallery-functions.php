@@ -189,8 +189,10 @@ function dfcg_multioption_method_gallery() {
 	// If these values are not the same, WP_Query couldn't find a Post. 
 	if( $counter - $counter1 !== 0 ) {
 		$output .= $dfcg_errmsgs['12'] . "\n\n";
-		$output .= '<!-- Number of Posts to display as per DCG Settings = ' . $counter . ' -->' . "\n";
-		$output .= '<!-- Number of Posts found = ' . $counter1 . ' -->' . "\n\n"; 
+		if( $dfcg_options['errors'] == "true" ) {
+			$output .= '<!-- Number of Posts to display as per DCG Settings = ' . $counter . ' -->' . "\n";
+			$output .= '<!-- Number of Posts found = ' . $counter1 . ' -->' . "\n\n";
+		}
 	}
 	
 	// End of the gallery markup
@@ -315,8 +317,10 @@ function dfcg_onecategory_method_gallery() {
 
 		if( $counter - $dfcg_posts_number !== 0 ) {
 			$output .= "\n" . $dfcg_errmsgs['7'] . "\n";
-			$output .= '<!-- Number of Posts to display as per DCG Settings = ' . $dfcg_posts_number . ' -->' . "\n";
-			$output .= '<!-- Number of Posts found = ' . $counter . ' -->' . "\n\n";
+			if( $dfcg_options['errors'] == "true" ) {
+				$output .= '<!-- Number of Posts to display as per DCG Settings = ' . $dfcg_posts_number . ' -->' . "\n";
+				$output .= '<!-- Number of Posts found = ' . $counter . ' -->' . "\n\n";
+			}
 		}
 
 		// End of the gallery markup
@@ -410,8 +414,10 @@ function dfcg_pages_method_gallery() {
 		if( $dfcg_pages_found_count < 2 ) {
 			$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 			$output .= "\n" . $dfcg_errmsgs['9'] . "\n";
-			$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
-			$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n";
+			if( $dfcg_options['errors'] == "true" ) {
+				$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
+				$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n";
+			}
 			echo $output;
 			return;
 		}
@@ -478,8 +484,10 @@ function dfcg_pages_method_gallery() {
 
 		if( $dfcg_pages_found_count !== $dfcg_pages_selected_count) {
 			$output .= "\n" . $dfcg_errmsgs['5'] . "\n";
-			$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
-			$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n"; 
+			if( $dfcg_options['errors'] == "true" ) {
+				$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
+				$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n";
+			}
 		}
 
 		// End of the gallery markup

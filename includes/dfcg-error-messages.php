@@ -160,7 +160,8 @@ $dfcg_errmsg_8 = '<!-- DCG Error Message 8: The wp_query failed to find any Post
 $dfcg_errmsg_9 .= '<!-- DCG Error Message 9: Only one of the Page IDs specified in the DCG Settings page is a valid Page ID in the database. -->' . "\n";
 $dfcg_errmsg_9 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_9 .= '<!-- Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page. -->';
-		
+
+
 /**	Error Message 10	dynamic-gallery.php produces no output at all
 *	Populate-method: 	All
 *	Trigger:			dynamic-gallery.php produces no output at all, eg there is a missing included file.
@@ -173,7 +174,8 @@ $dfcg_errmsg_9 .= '<!-- Fix: Ensure that there are a minimum of 2 valid Page IDs
 $dfcg_errmsg_10 = '<!-- DCG Error Message 10: The plugin is unable to generate any output.
 				Fix: Check that the plugin has been installed properly and that all files
 				contained within the download ZIP file have been uploaded to your server. -->';
-				
+
+
 /**	Error Message 11	Insufficient Post Selects have been defined in Settings
 *	Populate-method: 	Multi Option
 *	Trigger:			$dfcg_selected_slots < 2 returns TRUE.
@@ -207,19 +209,43 @@ $dfcg_errmsg_12 = '<!-- DCG Error Message 12: The Post for at least one of your 
 
 // Set up our error message array of all error messages
 // This will be handier when using global scope declaration in gallery display functions
-$dfcg_errmsgs = array (
-	'1' => $dfcg_errmsg_1,
-	'2' => $dfcg_errmsg_2,
-	'3' => $dfcg_errmsg_3,
-	'4' => $dfcg_errmsg_4,
-	'5' => $dfcg_errmsg_5,
-	'6' => $dfcg_errmsg_6,
-	'7' => $dfcg_errmsg_7,
-	'8' => $dfcg_errmsg_8,
-	'9' => $dfcg_errmsg_9,
-	'public' => $dfcg_errmsg_public,
-	'10' => $dfcg_errmsg_10,
-	'11' => $dfcg_errmsg_11,
-	'12' => $dfcg_errmsg_12
-	);
+
+
+// If Error reporting is ON
+if( $dfcg_options['errors'] == "true" ) {
+	// Error messages are visible
+	$dfcg_errmsgs = array (
+		'1' => $dfcg_errmsg_1,
+		'2' => $dfcg_errmsg_2,
+		'3' => $dfcg_errmsg_3,
+		'4' => $dfcg_errmsg_4,
+		'5' => $dfcg_errmsg_5,
+		'6' => $dfcg_errmsg_6,
+		'7' => $dfcg_errmsg_7,
+		'8' => $dfcg_errmsg_8,
+		'9' => $dfcg_errmsg_9,
+		'public' => $dfcg_errmsg_public,
+		'10' => $dfcg_errmsg_10,
+		'11' => $dfcg_errmsg_11,
+		'12' => $dfcg_errmsg_12
+		);
+} else {
+	// Error messages not visible
+	$dfcg_errmsgs = array (
+		'1' => '',
+		'2' => '',
+		'3' => '',
+		'4' => '',
+		'5' => '',
+		'6' => '',
+		'7' => '',
+		'8' => '',
+		'9' => '',
+		'public' => '',
+		'10' => '',
+		'11' => '',
+		'12' => '',
+		);
+}
+
 ?>
