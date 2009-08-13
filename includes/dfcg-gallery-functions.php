@@ -116,69 +116,72 @@ function dfcg_multioption_method_gallery() {
 				$recent = new WP_Query("cat=$key&showposts=1&offset=$value1");
 				
 				
-				// Do we have any posts? TODO: This conditional will never return FALSE.
-				if( $recent ) : while($recent->have_posts()) : $recent->the_post();
+				// Do we have any posts? If this is the first loop and no post is found, we need to abort
+				// because the gallery won't display. Although this check is performed on every loop, we
+				// don't need to abort after Image slot #1 is tested.
+				if( !$recent->have_posts() && $counter < 2 ) :
+					$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
+					$output .= $dfcg_errmsgs['13'] . "\n\n";
+					$output .= '</div><!-- End of Dynamic Content Gallery output -->'."\n\n";
+					echo $output;
+					return;
 				
-					// Increment the second counter
-					$counter1++;
-					
-					// Open the imageElement div
-					$output .= '<div class="imageElement"><!-- DCG Image #' . $counter . ' -->' . "\n";
-
-					// Display the page title
-					$output .= "\t" . '<h3>' . get_the_title() . '</h3>' . "\n";
-
-					// Get the description
-					if( get_post_meta($post->ID, "dfcg-desc", true) ){
-						// We have a Custom field description
-						$output .= "\t" . '<p>' . get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
-
-					} elseif( category_description($key) !== '') {
-						// or Category has been selected and there is a category description
-						$output .= "\t" . category_description($key) . "\n";
-
-					} else {
-						// or show the default description
-						$output .= "\t" . '<p></p>' . "\n";
-						$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
-					}
-
-       				// Link
-					$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
-
-					// Get the images
-					if( get_post_meta($post->ID, "dfcg-image", true) ) {
-						$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="full" />' . "\n";
-        				$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
-						// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie 404
-					} else {
-						// Path to Default Category image
-						$filename1 = $filename . $key . '.jpg';
-						if( file_exists($filename1) ) {
-							$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="full" />' . "\n";
-        					$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
-						} else {
-							$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="full" />' . "\n";
-        					$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
-        					$output .= "\t" . $dfcg_errmsgs['4'] . "\n";
-						}
-					}
-
-					// Close ImageElement div
-					$output .= '</div>' . "\n";
-				
-					//clearstatcache(); Probably not needed as it is unlikely that filename will change during running of script.
-
-				endwhile; 
-
 				else :
-					// WP_Query couldn't find the post
-					// TODO: It appears that the ELSE will never fire, because an empty object
-					// is not NULL, therefore the conditional test on $recent will never
-					// return FALSE. The following message should never appear!
-					$output .= "wp_query couldn't find anything";
+					while($recent->have_posts()) : $recent->the_post();
+				
+						// Increment the second counter
+						$counter1++;
 					
-				endif; 	// End WP_Query
+						// Open the imageElement div
+						$output .= '<div class="imageElement"><!-- DCG Image #' . $counter . ' -->' . "\n";
+
+						// Display the page title
+						$output .= "\t" . '<h3>' . get_the_title() . '</h3>' . "\n";
+
+						// Get the description
+						if( get_post_meta($post->ID, "dfcg-desc", true) ){
+							// We have a Custom field description
+							$output .= "\t" . '<p>' . get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
+
+						} elseif( category_description($key) !== '') {
+							// or Category has been selected and there is a category description
+							$output .= "\t" . category_description($key) . "\n";
+
+						} else {
+							// or show the default description
+							$output .= "\t" . '<p></p>' . "\n";
+							$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+						}
+
+       					// Link
+						$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+
+						// Get the images
+						if( get_post_meta($post->ID, "dfcg-image", true) ) {
+							$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="full" />' . "\n";
+        					$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
+							// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie 404
+						} else {
+							// Path to Default Category image
+							$filename1 = $filename . $key . '.jpg';
+							if( file_exists($filename1) ) {
+								$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="full" />' . "\n";
+        						$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
+							} else {
+								$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="full" />' . "\n";
+        						$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
+        						$output .= "\t" . $dfcg_errmsgs['4'] . "\n";
+							}
+						}
+
+						// Close ImageElement div
+						$output .= '</div>' . "\n";
+				
+						//clearstatcache(); Probably not needed as it is unlikely that filename will change during running of script.
+
+					endwhile; 
+
+				endif; 	// End WP_Query if($recent... ) test
 			} 			// End inner foreach loop
 		} 				// End conditional check that $value is an array
 	} 					// End outer foreach loop
@@ -245,6 +248,7 @@ function dfcg_onecategory_method_gallery() {
 
 	/* Do the WP_Query */
 	$recent = new WP_Query("cat=$dfcg_cat&showposts=$dfcg_posts_number");
+	// TODO: This validation never returns false, so is useless. Needs to be replaced with multioption validation.
 	// Do we have any posts?
 	if ( $recent ) {
 
