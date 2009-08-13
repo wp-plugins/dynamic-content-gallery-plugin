@@ -86,7 +86,12 @@ if( isset($_POST['info_update']) ) {
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Dynamic Content Gallery Settings reset to defaults.') . '</strong></p></div>';
 	} else {
 		// Run validation checks on submit
-		dfcg_on_submit_validation($updated_options);
+		if ( function_exists('wpmu_create_blog') ) {
+			// We're in WPMU, so validation isn't needed
+		} else {
+			// We're in WP, so validate
+			dfcg_on_submit_validation($updated_options);
+		}
 		// Update the options
 		update_option( 'dfcg_plugin_settings', $updated_options);
 		// Display success message
@@ -98,8 +103,12 @@ if( isset($_POST['info_update']) ) {
 $dfcg_options = get_option('dfcg_plugin_settings');
 
 // Run validation checks on page load
-dfcg_on_load_validation($dfcg_options);
-	
+if ( function_exists('wpmu_create_blog') ) {
+	// We're in WPMU, so validation isn't needed
+} else {
+	// We're in WP, so validate
+	dfcg_on_load_validation($dfcg_options);
+}
 ?>
 
 

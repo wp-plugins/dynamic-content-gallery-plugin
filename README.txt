@@ -1,20 +1,20 @@
 === Dynamic Content Gallery ===
 
-Version: 2.2
-Author: Ade Walker, Studiograsshopper
+Version: 3.0 beta
+Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery,images,posts
 Requires at least: 2.5
-Tested up to: 2.8.3 (WP) and 2.8.3 (WPMU)
+Tested up to: 2.8.4 (WP) and 2.8.4 (WPMU)
 Stable tag: 2.2
 
-Creates a dynamic gallery of images for latest and/or featured posts.
+Creates a dynamic gallery of images for latest and/or featured posts or pages.
 
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured posts using the excellent JonDesign SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
+This plugin creates a dynamic gallery of images for latest and/or featured posts or pages using the excellent JonDesign SmoothGallery script.  By associating your gallery images with individual posts or pages, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured content. Additionally, default images can be assigned to categories in the event that the necessary custom fields have not been set up. A Dashboard Settings page gives access to a comprehensive range of options and settings for configuring the gallery. 
 
 Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version.
 
@@ -22,16 +22,18 @@ Compatible with Wordpress Mu but with some differences in features compared with
 ----------------
 
 * SmoothGallery javascript driven image gallery using mootools framework.
-* Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
-* Highly configurable.
+* A choice of 3 different methods of populating the gallery - Multi Option, One Category or Pages.
+* Up to 15 gallery images (One Category method) or unlimited for Pages!
+* Provides for a system of category default images which will be displayed in the event a custom filed image has not been defined.
+* Pulls in the Post/Page title and displays it in the gallery's Slide Pane. 
+* Highly configurable settings for image file management, CSS and javascript options - all set via the plugin's Settings page.
+* Extensive built-in validation checks and error message reporting. 
 * Valid xhtml output.
-* Compatible with Wordpress Mu (note that some Settings are not available when used with Wordpress Mu)
+* Works with WPMU (with some minor differences in the optiosn available to the user)
 
 **Further information**
 -----------------------
 Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch
-
-All support is handled at http://studiograsshopper.ch/forum. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum. 
 
 
 == Installation ==
@@ -44,24 +46,21 @@ All support is handled at http://studiograsshopper.ch/forum. I do not have time 
 
 1. Download the latest version of the plugin to your computer.
 2. Extract and upload the folder **dynamic-content-gallery-plugin** and its contents to your **/wp-content/plugins/** directory.  Please ensure that you do not rename any folder or filenames in the process.
-3. Activate the plugin in your Dashboard via the Admin **Plugins** menu.
-4. Configure the plugin's Settings page in Admin **Settings**.
+3. Activate the plugin in your Dashboard via the Dashboard **Plugins** menu.
+4. Configure the plugin's Settings page in Dashboard **Settings**.
 
 **WORDPRESS: Upgrading from an older version**
 ----------------------------------------------
 
 **AUTOMATIC UPGRADE**
 
-You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin. However, if you have made edits to your existing jd.gallery.css and jd.gallery.js files, and do not want to lose this edits during the automatic upgrade process, it is recommended that you follow the manual upgrade instructions below.
+You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins menu to automatically upgrade the plugin.
 
 **MANUAL UPGRADE**
 
-1. Deactivate the old version of the plugin in Admin Plugins.
-2. Make a copy of your existing jd.gallery.css and jd.gallery.js files and download these copies to your local computer.
-3. Delete the existing **dynamic-gallery** folder and its files from your **/wp-content/plugins/** folder.
-4. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME" to install the new version on your server.
-5. Upload your backed up copy of jd.gallery.js from your local computer to the newly installed **/dynamic-content-gallery-plugin/scripts/** folder, overwriting the version of this file that you have just installed. This will ensure that any configuration changes you have made to jd.gallery.js will be preserved after the upgrade.
-6. For users of version 1.0.0 of the plugin, and who have made extensive changes to the CSS contained in the file jd.gallery.css, note that due to changes in the way the gallery CSS is handled in the new version of the plugin, you should not overwrite the newly installed jd.gallery.css file with your backed up copy of this file. Just use it as reference when configuring the gallery layout and CSS options in the Settings page.  
+1. Deactivate then delete the old version of the plugin in Dashboard > Plugins.
+2. Then follow the above instructions "WORDPRESS: Installing for the FIRST TIME" to install the new version on your server.
+  
 
 
 **WPMU: Installing for the FIRST TIME**
@@ -81,9 +80,9 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;
+&lt;?php include (ABSPATH . ‘/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php’); ?&gt;
 
-**NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (it was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
+**NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
 
 == Assigning Images to Posts ==
 
@@ -180,7 +179,7 @@ There are a number of configuration options for the plugin, readily available vi
 **Download**
 ------------
 
-Latest stable version is version 2.2 available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
+Latest stable version is version 2.1 (131k, ZIP file) available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
 
 
 **Troubleshooting**
@@ -209,44 +208,28 @@ If you cannot find a solution to a problem in the FAQ visit the support page at 
 Thanks for downloading the plugin.  Enjoy!
 
 
-== Changelog ==
+== Release History ==
 
-= 2.2 =
-* Released 05/12/2008
-* Added template tag function for theme files
-* Added "disable mootools" checkbox in Settings to avoid js framework being loaded twice if another plugin uses mootools.
-* Changed handling of WP constants - now works as intended
-* Removed activation_hook, not needed
-* Changed options page CSS to better match with 2.7 look
-* Fixed loading flicker with CSS change => dynamic-gallery.php
-* Fixed error if selected post doesn't exist => dynamic-gallery.php
-* Fixed XHTML validation error. User-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS.
-
-= 2.1 =
-* Released 07/11/2008
-* Bug fix re path to scripts thanks to WP.org zip file naming convention.
+2.1			07/11/2008	- Bug fix re path to scripts thanks to WP.org zip file naming
+						convention.
 						
-= 2.0 beta =
-* Released 05/11/2008
-* Major code overhaul, renamed and reorganised various functions
-* Added WPMU support
-* Added RESET checkbox to reset options to defaults
+2.0 beta	05/11/2008	Major code overhaul
+						- Added WPMU support
+						- Renamed and reorganised various functions
+						- Added RESET checkbox to reset options to defaults
 
-= 1.0.0 =
-* Public release 01/09/2008
+1.0.0		01/09/2008	Public release
 
-= 0.9.1 =
-* Released 26/08/2008
-* Activation and reactivation hooks added to code to setup some default Options on Activation and to remove Options from the WP database on deactivation. 
+0.9.1		26/08/2008	Activation and reactivation hooks added to code to setup some default Options on Activation and to remove Options from the WP database on deactivation. 
 
-= 0.9.0 =
-* Beta testing release 25/08/2008
+0.9.0		25/08/2008	Beta testing release
 
 
 == Technical Notes ==
 
-* The plugin automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
-* Language Support: This is not yet fully implemented in version 2.2 but is scheduled for a future release. (Sorry, ran out of time for this release!)  
+* The plugin has been tested for compatibility with Wordpress 2.7 beta 2.
+* The plugin is coded so that it automatically detects whether it has been installed on a Wordpress or Wordpress Mu system.  
+* Language Support: This is not yet fully implemented in version 2.1 but is scheduled for a future release.  
 
 
 == Acknowledgements ==

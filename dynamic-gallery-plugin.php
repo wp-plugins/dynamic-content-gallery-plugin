@@ -550,7 +550,10 @@ function dfcg_on_load_validation($options_array) {
 	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
 		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "No URL" option in your <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
-	// If Multi Option, defimgmulti must be defined
+	if ( function_exists('wpmu_create_blog') ) {
+		// We're in WPMU, so ignore these messages
+	} else {
+		// If Multi Option, defimgmulti must be defined
 	if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) && !isset($_POST['info_update'])) {
 		echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 	}
@@ -561,6 +564,7 @@ function dfcg_on_load_validation($options_array) {
 	// If Pages, defimgpages must be defined
 	if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) && !isset($_POST['info_update']) ) {
 		echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
+	}
 	}
 }
 
