@@ -1,13 +1,20 @@
 <?php
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.3
-**********************************************************************
-Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
-
-Javascript file: jd.gallery.js
+/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
+*	*******************************************************
+*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*
+* 	@package	Dynamic Content Gallery
+*	@version	3.0 beta
+*
+*	jd.gallery.js converted to PHP file for easier option management
+*	
 */
 
-
-include("../../../../wp-load.php");// There must be a better way
+// Since this is a file not processed by WP, we have to run wp-load to get
+// access to WP functions.
+// This is an unsatisfactory way of doing it as wp-load may be elsewhere.
+// There must be a better way!
+include("../../../../wp-load.php");
 $dfcg_options = get_option('dfcg_plugin_settings');
 
 ?>
