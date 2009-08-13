@@ -73,7 +73,7 @@ if( isset($_POST['info_update']) ) {
 	}
 		
 	// deal with the RESET checkbox and other bool options
-	$bool_opts = array( 'reset', 'showArrows', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide' );
+	$bool_opts = array( 'reset', 'showArrows', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors' );
 	foreach($bool_opts as $key) {
 		$updated_options[$key] = $updated_options[$key] ? 'true' : 'false';
 	}
@@ -147,6 +147,7 @@ if ( function_exists('wpmu_create_blog') ) {
 							<li><a href="#4">4. Gallery size and CSS options (REQUIRED)</a></li>
 							<li><a href="#5">5. Javascript configuration options (OPTIONAL)</a></li>
 							<li><a href="#6">6. Restrict script loading (RECOMMENDED)</a></li>
+							<li><a href="#7">7. Error message options (OPTIONAL)</a></li>
 						</ul>
 					</p>
 					<p><?php _e('Please read through this page carefully and select your configuration preferences. Some settings are Required, others are Optional, depending on how you want to use the plugin.', DFCG_DOMAIN); ?></p>
@@ -565,10 +566,22 @@ if ( function_exists('wpmu_create_blog') ) {
 				</div>
 			</div>
 			
+			<a name="7"></a>
+			<div class="postbox">
+				<h3>7. Error Message options (OPTIONAL)</h3>
+				<div class="inside">
+					<p>The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly. These error messages are output to the Page Source of the gallery. You may choose whether to turn off the visibility of these error messages.</p>
+					<p><label for="dfcg-errors">
+						<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide error messages, uncheck the box then click the "Save Changes" button.')?></em></span>
+					</label></p>
+					<p class="submit"><input type="submit" name="info_update" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;">Back to top</a></p>
+				</div>
+			</div>
+			
 			<div class="postbox-dfcg" style="padding:0px 10px;margin:0px;">
-				<label for="dfcg-reset">
+				<p><label for="dfcg-reset">
 					<input type="checkbox" name="dfcg[reset]" id="dfcg-reset" value="<?php echo $dfcg_options['reset']; ?>" />&nbsp;<strong><?php _e('Reset all options to the Default settings')?></strong> <span style="font-size:11px;"><em><?php _e('Check the box, then click the "Save Changes" button.')?></em></span>
-				</label>
+				</label></p>
 			</div>
         
 		</fieldset>
