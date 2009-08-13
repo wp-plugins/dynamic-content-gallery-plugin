@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	2.3
+*	@version	3.0 beta
 *
 *	These are the key functions which produce the markup output
 *	for the gallery to run.
@@ -18,7 +18,7 @@
 function dfcg_multioption_method_gallery() {
 
 	// Need to declare these in each function
-	global $dfcg_errmsgs, $dfcg_options, $dfcg_baseimgurl;
+	global $dfcg_errmsgs, $dfcg_options, $dfcg_baseimgurl, $post;
 	
 	/* Get the plugin options */
 	//$dfcg_options = get_option('dfcg_plugin_settings');
@@ -38,7 +38,8 @@ function dfcg_multioption_method_gallery() {
 
 	$dfcg_query_list = array();
 
-	for( $i=1; $i <= 5; $i+=1 ) {
+	// Loop through the 9 possible cats/post selects
+	for( $i=1; $i < 10; $i+=1 ) {
 	
 		// Set temp variables for catXX and offXX
 		$tmpcat = 'cat0'.$i;
@@ -80,16 +81,26 @@ function dfcg_multioption_method_gallery() {
 	$output = "\n" . '<div id="myGallery"><!-- Start of Dynamic Content Gallery -->' . "\n\n";
 
 
+	// Validation of output - not much needs to be done. 
+	// Clicking Save in Settings will automatically assign a valid cat to each image slot.
+	// This is because wp_dropdown_categories is set to "hide empty".
+	// Any empty post selects will be ignored, as per for loop below,
+	// therefore the only risk is that a post select is entered for a post
+	// which doesn't exist. Eg, post #4, but there are only 3 in that cat.
+	// This situation is dealt with by the counters...
+	// We also validate that there are at least 2 post selects (see above)
+	 
 	// Set 2 counters to find out how many Posts are supposed to be output
 	// by WP_Query, and how many posts are actually found by WP_Query
 	// $counter:	Adds an image # in the markup page source
 	//				Counts how many times we go through $dfcg_query_list foreach loop
+	//				This is pre-WP_Query
 	// $counter1:	Counts how many times WP_Query outputs anything
 	//				We can then compare the two values to see if anything is missing
 	$counter = 0;
 	$counter1 = 0;
 
-	/* Now loop through our array and run the WP_Queries */
+	/* Now loop through our array of all the cat/post selects and run the WP_Queries */
 	foreach ($dfcg_query_list as $value) {
 	
 		// Go down into inner arrays which contain the cat/offset pairs
@@ -98,13 +109,14 @@ function dfcg_multioption_method_gallery() {
 			// Increment the counter
 			$counter++;
 		
-			// Loop through the inner array
+			// Loop through the inner array (this only happens once before passing back to the outer foreach loop
 			foreach ($value as $key => $value1) {
 					
 				// Now run the query using $key for cat and $value for offset
 				$recent = new WP_Query("cat=$key&showposts=1&offset=$value1");
-				// Do we have any posts?
 				
+				
+				// Do we have any posts? TODO: This conditional will never return FALSE.
 				if( $recent ) : while($recent->have_posts()) : $recent->the_post();
 				
 					// Increment the second counter
@@ -161,6 +173,10 @@ function dfcg_multioption_method_gallery() {
 
 				else :
 					// WP_Query couldn't find the post
+					// TODO: It appears that the ELSE will never fire, because an empty object
+					// is not NULL, therefore the conditional test on $recent will never
+					// return FALSE. The following message should never appear!
+					$output .= "wp_query couldn't find anything";
 					
 				endif; 	// End WP_Query
 			} 			// End inner foreach loop
@@ -173,6 +189,8 @@ function dfcg_multioption_method_gallery() {
 	// If these values are not the same, WP_Query couldn't find a Post. 
 	if( $counter - $counter1 !== 0 ) {
 		$output .= $dfcg_errmsgs['12'] . "\n\n";
+		$output .= '<!-- Number of Posts to display as per DCG Settings = ' . $counter . ' -->' . "\n";
+		$output .= '<!-- Number of Posts found = ' . $counter1 . ' -->' . "\n\n"; 
 	}
 	
 	// End of the gallery markup
@@ -391,7 +409,9 @@ function dfcg_pages_method_gallery() {
 		// If less than 2, print error messages and exit function
 		if( $dfcg_pages_found_count < 2 ) {
 			$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
-			$output .= $dfcg_errmsgs['9'] . "\n";
+			$output .= "\n" . $dfcg_errmsgs['9'] . "\n";
+			$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
+			$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n";
 			echo $output;
 			return;
 		}

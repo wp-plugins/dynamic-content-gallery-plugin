@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	2.3
+*	@version	3.0 beta
 *
 *	Error messages generated in the event that Settings are not correct.
 *	Messages are printed to the browser and/or Page Source.
@@ -19,47 +19,47 @@ $dfcg_errmsg_public = "Dynamic Content Gallery Error: View page source for detai
 
 /* Page Source error messages - these are shown as HTML comments in the Page Source */
 
-/* Error Message 1	Only one Page ID has been specified in Settings.
-Populate-method: 	Pages
-Trigger:			$dfcg_pages_selected_count < 2 returns TRUE.
-Rating:				Critical
-Reason:				Only one Page ID has been defined in Settings.
-Action:				Return, exit script.
-Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
-Notes:				See $dfcg_errmsg_2 for when no Page ID have been specified in DCG Settings
-*					See $dfcg_errmsg_9 for when SQL query only finds one valid Page ID
+/**	Error Message 1		Only one Page ID has been specified in Settings.
+*	Populate-method: 	Pages
+*	Trigger:			$dfcg_pages_selected_count < 2 returns TRUE.
+*	Rating:				Critical
+*	Reason:				Only one Page ID has been defined in Settings.
+*	Action:				Return, exit script.
+*	Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
+*	Notes:				See $dfcg_errmsg_2 for when no Page ID have been specified in DCG Settings
+*						See $dfcg_errmsg_9 for when SQL query only finds one valid Page ID
 */
 $dfcg_errmsg_1 .= '<!-- DCG Error Message 1: You have only specified one Page ID in the DCG Settings page. -->' . "\n";
 $dfcg_errmsg_1 .= '<!--	Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_1 .= '<!--	Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work. -->';
 
 
-/* Error Message 2	No Page Ids have been specified in Settings.
-Populate-method: 	Pages
-Trigger:			!empty($dfcg_pages) returns FALSE.
-Rating:				Critical
-Reason:				No Page IDs have been specified in Settings.
-Action:				Return, exit script.
-Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
-Notes:				Fix is same as $dfcg_errmsg_1 but Reason is different.
+/**	Error Message 2		No Page Ids have been specified in Settings.
+*	Populate-method: 	Pages
+*	Trigger:			!empty($dfcg_pages) returns FALSE.
+*	Rating:				Critical
+*	Reason:				No Page IDs have been specified in Settings.
+*	Action:				Return, exit script.
+*	Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
+*	Notes:				Fix is same as $dfcg_errmsg_1 but Reason is different.
 */
 $dfcg_errmsg_2 .= '<!-- DCG Error Message 2: You have not specified any Page IDs in the DCG Settings page. -->' . "\n";
 $dfcg_errmsg_2 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_2 .= '<!-- Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work. -->';
 
 
-/* Error Message 3	Missing Description
-Populate-method: 	Pages, One Category, Multi Option
-Trigger:			get_post_meta($dfcg_get_page->ID, "dfcg-desc", true) returns FALSE and
-					$dfcg_options['defimagedesc'] !== '' returns FALSE
-Rating:				Non-critical
-Reason:				Missing Description. The Post/Page does not have a custom field dfcg-desc defined and neither is a
-					Default Description defined in DCG Settings.
-Action:				DFCG_ERR_PUBLIC is displayed in <p>tags, therefore appears in slideInfoZone
-					$dfcg_errmsg_3 displayed as HTML comment underneath <p> tags in Source markup.
-Fix:				Either create a custom field dfcg-desc for the relevant Page/Post, or define a Default Description in the DCG Settings page.
-					Either of these fixes will clear both errmsg_public and this error message.
-Notes:				Informational only, this error does not prevent the gallery running.
+/**	Error Message 3		Missing Description
+*	Populate-method: 	Pages, One Category, Multi Option
+*	Trigger:			get_post_meta($dfcg_get_page->ID, "dfcg-desc", true) returns FALSE and
+*						$dfcg_options['defimagedesc'] !== '' returns FALSE
+*	Rating:				Non-critical
+*	Reason:				Missing Description. The Post/Page does not have a custom field dfcg-desc defined and neither is a
+*						Default Description defined in DCG Settings.
+*	Action:				DFCG_ERR_PUBLIC is displayed in <p>tags, therefore appears in slideInfoZone
+*						$dfcg_errmsg_3 displayed as HTML comment underneath <p> tags in Source markup.
+*	Fix:				Either create a custom field dfcg-desc for the relevant Page/Post, or define a Default Description in the DCG Settings page.
+*						Either of these fixes will clear both errmsg_public and this error message.
+*	Notes:				Informational only, this error does not prevent the gallery running.
 */
 $dfcg_errmsg_3 = '<!-- DCG Error Message 3: Custom Field dfcg-desc does nor exist and Default Description does not exist.
 			Fix: Create a dfcg-desc Custom Field for this Page/Post and/or define a Default Description in the DCG Settings page. -->';
@@ -126,7 +126,7 @@ $dfcg_errmsg_6 .= '<!-- Fix: If at least 2 of the selected Page IDs are valid, c
 *	Notes:				Informational only, this error does not prevent the gallery running.
 *						
 */
-$dfcg_errmsg_7 .= '<!-- DCG Error Message 7: You have less Posts in the selected Category than the number specified in the Settings Page. -->';
+$dfcg_errmsg_7 .= '<!-- DCG Error Message 7: You have less Posts in the selected Category than the number specified in the Settings Page. -->' . "\n";
 $dfcg_errmsg_7 .= '<!-- Rating: Non-critical. This error does not prevent the gallery from working properly. -->' . "\n";
 $dfcg_errmsg_7 .= '<!-- Fix: Reduce the "Number of Posts to display" in the DCG Settings page to match the Number of Posts found. -->';
 
@@ -157,9 +157,9 @@ $dfcg_errmsg_8 = '<!-- DCG Error Message 8: The wp_query failed to find any Post
 *	Notes:				This is similar to Error Message 1, but is triggered by a check on the SQL results.
 *
 */
-$dfcg_errmsg_9 = '<!-- DCG Error Message 9: ' . $dfcg_pages_selected_count . ' Page IDs have been specified in DCG Settings page, but only ' . $dfcg_pages_found_count . ' is a valid Page ID in the database.
-		The gallery requires a minimum of 2 valid Page IDs.
-		Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page. -->';
+$dfcg_errmsg_9 .= '<!-- DCG Error Message 9: Only one of the Page IDs specified in the DCG Settings page is a valid Page ID in the database. -->' . "\n";
+$dfcg_errmsg_9 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
+$dfcg_errmsg_9 .= '<!-- Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page. -->';
 		
 /**	Error Message 10	dynamic-gallery.php produces no output at all
 *	Populate-method: 	All
@@ -188,25 +188,25 @@ $dfcg_errmsg_11 = '<!-- DCG Error Message 1: You have defined less than 2 Post S
 			Fix: Enter a minimum of 2 valid Post Selects in the DCG Settings page for the gallery to work. -->' . "\n";
 
 
-/**	Error Message 12	WP_Query couldn't find a Post
+/**	Error Message 12	WP_Query couldn't find a specific Post
 *	Populate-method: 	Multi Option
-*	Trigger:			if( $recent ) returns FALSE.
-*	Rating:				Non Critical (but could be if it can't find any Posts!
-*	Reason:				A Post Select has beed defined but teh Post doesn't exist. EG, Post Select = 4, but there are only
+*	Trigger:			if( $post->ID ) returns FALSE.
+*	Rating:				Non Critical (but could be if it can't find any Posts! See Error message 13)
+*	Reason:				A Post Select has been defined but the Post doesn't exist. EG, Post Select = 4, but there are only
 *						3 posts in this category.
 *	Action:				Print error message in Page Source only, then continues with the foreach loop.
 *	Fix:				Check the Post Select for the Image Slot # in the DCG Settings page.
 *	Notes:				This is a post-WP_Query validation check, ie checks what if WP_Query finds anything.
 *						
 */
-$dfcg_errmsg_12 = '<!-- DCG Error Message 12: The Post for at least one Image Slot could not be found.
-			This could be caused by, for example, defining a Post Select of 4 but only 3 Posts exist in this Category.
+$dfcg_errmsg_12 = '<!-- DCG Error Message 12: The Post for at least one of your chosen Image Slots could not be found.
+			This could be caused by, for example, defining a Post Select of 4 but only 3 Posts exist in that Category.
 			Look at the XHTML comments to see which Image # is missing. 
 			Fix: Check the Post Select for this missing Image # in the DCG Settings page. -->' . "\n";
 
 
 // Set up our error message array of all error messages
-// This will be handier when using global in gallery display functions
+// This will be handier when using global scope declaration in gallery display functions
 $dfcg_errmsgs = array (
 	'1' => $dfcg_errmsg_1,
 	'2' => $dfcg_errmsg_2,
