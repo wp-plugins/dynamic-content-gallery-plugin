@@ -2,13 +2,13 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 2.2
+Version: 3.0 beta
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">SmoothGallery</a>. Set up the plugin options in Settings>Dynamic Content Gallery.
 */
 
-/*  Copyright 2008  Ade WALKER  (email : info@studiograsshopper.ch)
+/*  Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License 2 as published by
@@ -26,6 +26,25 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
+	2.3			- Feature: Added form validation to Settings page + reminders
+				- Feature: Javascript options added to Settings page and main js file now migrated
+				to PHP in order to allow better interaction with Settings for js options
+				(jQuery handles this SO much better than Mootools).
+				- Feature: Added "populate-method" Settings. User can now pick between old way,
+				one category only, or Pages.
+				- Complete re-write of dynamic-gallery.php, more efficient coding
+				- Added Error messages to help users troubleshoot setup problems
+				- Added Settings for limiting loading of scripts into head. New function to handle this. 
+				- Bug fix: Changed $options variable name to $dfcg_options to avoid conflicts
+				with other plugins.
+				- Re-designed layout of Settings page
+				- Added Full, Partial, No URL options to simplify location of images and be
+				more suitable for "unusual" WP setups.
+				- Full URLs used rather than 'homeurl' and 'siteurl'
+				- Added Padding settings for Info Pane Heading and Description
+				- Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
+				- Added dropdowns for Category selection in Settings page
+	
 	2.2			- Added template tag function for theme files
 				- Added "disable mootools" checkbox in Settings to avoid js framework
 				being loaded twice if another plugin uses mootools.
@@ -68,12 +87,10 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 
 
-/* Set constant for plugin directory */
+/* Set constants for plugin directory path and URL, and version number */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
-
-
-/* Set constant for plugin version number */
-define ( 'DFCG_VER', '2.2' );
+define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
+define ( 'DFCG_VER', '2.3' );
 
 
 /* Internationalization functionality */
@@ -82,52 +99,190 @@ $dfcg_text_loaded = false;
 
 function dfcg_load_textdomain() {
 	global $dfcg_text_loaded;
-   	if($dfcg_text_loaded) return;
+   	if( $dfcg_text_loaded ) {
+   		return;
+   	}
 
    	load_plugin_textdomain(DFCG_DOMAIN, WP_PLUGIN_DIR.'/'.dirname(plugin_basename(__FILE__)), dirname(plugin_basename(__FILE__)));
    	$dfcg_text_loaded = true;
 }
 
 
-/* This is where the plugin does its stuff */
-function dfcg_addheader_scripts() {
-    
-	$options = get_option('dfcg_plugin_settings');
-    /* Add javascript and CSS files */
-	echo '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts -->' ."\n";
-	echo '<link type="text/css" rel="stylesheet" href="' . DFCG_URL . '/css/jd.gallery.css" />' . "\n";
-	/* Should mootools framework be loaded? */
-	if ( $options['mootools'] !== '1' ) {
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/mootools.v1.11.js"></script>' ."\n";
-	}
-	/* Add gallery javascript file */
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.js"></script>' ."\n";
-	/* Add user defined CSS */
-	include_once('dfcg-user-styles.php');
-	echo '<!-- End of Dynamic Content Gallery scripts -->' ."\n";
-}
-add_action('wp_head', 'dfcg_addheader_scripts');
+/***** Files needed for plugin to run ********************/
+
+/* 	Load the files needed for Gallery output to be displayed
+*
+*	dfcg-key-variables		Declares global scope variables = Options array variable, $dfcg_baseimgurl 
+*	dfcg-error-messages		Browser and/or Page Source errors.
+*	dfcg-gallery-functions	Three gallery constructor functions
+*
+*	@since	2.3
+*/ 
+include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
+include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
+include_once( DFCG_DIR . '/includes/dfcg-gallery-functions.php');
 
 
-/* Template tag to display gallery in theme files */
+/**	Template tag to display gallery in theme files
+*
+*	Do not use in the Loop.
+*
+*	@uses	dynamic-gallery.php
+*	@since	2.1
+*/
 function dynamic_content_gallery() {
+	global $dfcg_options;
 	include_once('dynamic-gallery.php');
 }
 
 
-/* Setup the plugin and create Admin settings page */
+/***** Functions to display gallery ******************** */
+
+/* 	Function to determine whether to load scripts into head.
+*
+*	Called by wp_head action.
+*	Determines whether to load dfcg_addheader_scripts depending
+*	on Settings.
+*	Settings options are homepage, a page template or other.
+*	Settings "other" loads scripts into every page.
+*
+*	@uses	dfcg_addheader_scripts()
+*	@since 	2.3
+*/
+function dfcg_load_scripts() {
+	
+	global $dfcg_options;
+	
+	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
+    	
+    	if( is_home() ) {
+    		dfcg_addheader_scripts();
+    	} else {
+    		return;
+    	}
+    } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
+		
+		if( is_page_template($dfcg_options['page-filename']) ) {
+			dfcg_addheader_scripts();
+    	} else {
+    		return;
+    	}
+    } else {
+    	dfcg_addheader_scripts();
+    }
+}
+			
+/* 	Header scripts
+*
+*	Called by dfcg_load_scripts which is hooked to wp_head action.
+*	Loads scripts and CSS into head
+*
+*	@since	1.0
+*/
+function dfcg_addheader_scripts() {
+    
+	global $dfcg_options;
+    
+    /* Add CSS file */
+	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts -->' . "\n";
+	echo '<link type="text/css" rel="stylesheet" href="' . DFCG_URL . '/css/jd.gallery.css" />' . "\n";
+	
+	/* Should mootools framework be loaded? */
+	if ( $dfcg_options['mootools'] !== '1' ) {
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/mootools.v1.11.js"></script>' . "\n";
+	}
+	
+	/* Add gallery javascript files */
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.php"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.transitions.js"></script>' . "\n";
+	
+	/* Add JS function call to gallery */
+	echo "<script type=\"text/javascript\">
+   function startGallery() {
+      var myGallery = new gallery($('myGallery'), {
+      });
+   }
+   window.addEvent('domready',startGallery);
+</script>" . "\n";
+	
+	/* Add user defined CSS */
+	include_once('dfcg-user-styles.php');
+	
+	/* End of scripts */
+	echo '<!-- End of Dynamic Content Gallery scripts -->' . "\n\n";
+}
+add_action('wp_head', 'dfcg_load_scripts');
+
+
+
+
+
+/***** Admin and Settings Page ******************** */
+
+/**	Setup the plugin and create Admin settings page
+*
+*	@uses	dfcg_textdomain()
+*	@uses	dfcg_options_page()
+*	@uses	dfcg_filter_plugin_actions()
+*	@uses	dfcg_set_gallery_options()
+*
+*	@since	1.0
+*/	
 function dfcg_setup() {
 	dfcg_load_textdomain();
 	if ( current_user_can('manage_options') && function_exists('add_options_page') ) {
-		add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', 'dynamic-gallery-plugin.php', 'dfcg_options_page');
+		$dfcgpage = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', 'dynamic-gallery-plugin.php', 'dfcg_options_page');
 		add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
 		dfcg_set_gallery_options();
+		//add_action( 'admin_print_scripts-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head' );
+		//add_action( 'admin_print_styles-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head_css', 'all');
 	}
 }
 add_action('admin_menu', 'dfcg_setup');
 
 
-/* dfcg_filter_plugin_actions() - Adds a "Settings" action link to the plugins page */
+// Future feature for version 3+. Leave for now.
+
+/*function dfcg_admin_head() {
+	wp_enqueue_script('jquery');
+	//wp_enqueue_script('dfcg-slidebox', DFCG_URL . '/admin-assets/dfcg-slidepanel.js', 'jquery');
+}
+add_action( 'admin_print_scripts-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head' );
+*/
+/*      
+function dfcg_admin_head_css() {
+	wp_enqueue_style('dfcg-slidebox-css', DFCG_URL . '/admin-assets/dfcg-slidepanel.css'); 
+}
+add_action( 'admin_print_styles-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head_css','screen' );
+*/
+ 
+
+/**	Display the Settings page
+*
+*	Used by dfcg_setup()
+*	Selects between WP or WPMU pages
+*
+*	@since	1.0
+*/	
+function dfcg_options_page(){
+	global $dfcg_options;
+	// Are we in WPMU?
+	if ( function_exists('wpmu_create_blog') ) {
+		// Yes, load the WPMU options page
+		include_once('dfcg-wpmu-ui.php');
+		// No, load the WP options page
+	} else {
+		include_once('dfcg-wp-ui.php');
+	}
+}
+
+
+/**	Display a Settings link in main Plugin page in Dashboard
+*
+*	Used by dfcg_setup()
+*
+*	@since	1.0
+*/	
 function dfcg_filter_plugin_actions($links, $file){
 	static $this_plugin;
 
@@ -141,112 +296,315 @@ function dfcg_filter_plugin_actions($links, $file){
 }
 
 
-/* Create the options and provide some defaults */
-function dfcg_set_gallery_options() {
-	// Are we in WPMU?
-	if ( function_exists('wpmu_create_blog') ) {
-		// Add WPMU options
-		$dfcg_new_options = array(
-			'cat01' => '1',
-			'cat02' => '1',
-			'cat03' => '1',
-			'cat04' => '1',
-			'cat05' => '1',
-			'off01' => '1',
-			'off02' => '1',
-			'off03' => '1',
-			'off04' => '1',
-			'off05' => '1',
-			'homeurl' => '',
-			'imagepath' => '',
-			'defimagepath' => '',
-			'defimagedesc' => '',
-			'gallery-width' => '460',
-			'gallery-height' => '250',
-			'slide-height' => '50',
-			'gallery-border-thick' => '1',
-			'gallery-border-colour' => '#000000',
-			'slide-h2-size' => '12',
-			'slide-h2-marglr' => '5',
-			'slide-h2-margtb' => '2',
-			'slide-h2-colour' => '#FFFFFF',
-			'slide-p-size' => '11',
-			'slide-p-marglr' => '5',
-			'slide-p-margtb' => '2',
-			'slide-p-colour' => '#FFFFFF',
-			'reset' => 'false',
-			'mootools' => '0',
-		);
-	} else {
-		// Add WP options
-		$dfcg_new_options = array(
-			'cat01' => '1',
-			'cat02' => '1',
-			'cat03' => '1',
-			'cat04' => '1',
-			'cat05' => '1',
-			'off01' => '1',
-			'off02' => '1',
-			'off03' => '1',
-			'off04' => '1',
-			'off05' => '1',
-			'homeurl' => get_option('home'),
-			'imagepath' => '/wp-content/uploads/custom/',
-			'defimagepath' => '/wp-content/uploads/dfcgimages/',
-			'defimagedesc' => '',
-			'gallery-width' => '460',
-			'gallery-height' => '250',
-			'slide-height' => '50',
-			'gallery-border-thick' => '1',
-			'gallery-border-colour' => '#000000',
-			'slide-h2-size' => '12',
-			'slide-h2-marglr' => '5',
-			'slide-h2-margtb' => '2',
-			'slide-h2-colour' => '#FFFFFF',
-			'slide-p-size' => '11',
-			'slide-p-marglr' => '5',
-			'slide-p-margtb' => '2',
-			'slide-p-colour' => '#FFFFFF',
-			'reset' => 'false',
-			'mootools' => '0',
-		);
+/**	Function for adding default options
+*	
+*	Contains the latest version's default options.
+*	Used by the "upgrader" function dfcg_set_gallery_options.
+*	Used if Reset button is clicked.
+*
+*	@since	2.3	
+*/
+function dfcg_default_options() {
+	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
+	$dfcg_default_options = array(
+		'populate-method' => 'multi-option',					// Populate method for how the plugin works - since 2.3
+		'cat-display' => '1',									// one-category: the ID of the selected category - since 2.3
+		'posts-number' => '5',									// one-category: the number of posts to display - since 2.3
+		'cat01' => '1',											// multi-option: the category IDs
+		'cat02' => '1',											// multi-option: the category IDs
+		'cat03' => '1',											// multi-option: the category IDs
+		'cat04' => '1',											// multi-option: the category IDs
+		'cat05' => '1',											// multi-option: the category IDs
+		'cat06' => '1',											// multi-option: the category IDs
+		'cat07' => '1',											// multi-option: the category IDs
+		'cat08' => '1',											// multi-option: the category IDs
+		'cat09' => '1',											// multi-option: the category IDs
+		'off01' => '1',											// multi-option: the post select
+		'off02' => '1',											// multi-option: the post select
+		'off03' => '1',											// multi-option: the post select
+		'off04' => '1',											// multi-option: the post select
+		'off05' => '1',											// multi-option: the post select
+		'off06' => '1',											// multi-option: the post select
+		'off07' => '1',											// multi-option: the post select
+		'off08' => '1',											// multi-option: the post select
+		'off09' => '1',											// multi-option: the post select
+		'pages-selected' => '',									// pages: Page ID's in comma separated list - since 2.3
+		'homeurl' => get_option('home'),						// Stored, but not currently used...
+		'image-url-type' => 'full',								// WP only. All methods: URL type for dfcg-images - since 2.3
+		'imageurl' => '',										// WP only. All methods: URL for part or nourl custom images
+		'defimgmulti' => '',									// WP only. Multi-option: Path for default category image folder
+		'defimgonecat' => '',									// WP only. One-category: Path for default category image folder
+		'defimgpages' => '',									// WP only. Pages: URL for a default image
+		'defimagedesc' => '',									// all methods: default description
+		'gallery-width' => '460',								// all methods: CSS
+		'gallery-height' => '250',								// all methods: CSS
+		'slide-height' => '50',									// all methods: CSS
+		'gallery-border-thick' => '0',							// all methods: CSS
+		'gallery-border-colour' => '#000000',					// all methods: CSS
+		'slide-h2-size' => '12',								// all methods: CSS
+		'slide-h2-padtb' => '0',								// all methods: CSS
+		'slide-h2-padlr' => '0',								// all methods: CSS
+		'slide-h2-marglr' => '5',								// all methods: CSS
+		'slide-h2-margtb' => '2',								// all methods: CSS
+		'slide-h2-colour' => '#FFFFFF',							// all methods: CSS
+		'slide-p-size' => '11',									// all methods: CSS
+		'slide-p-padtb' => '0',									// all methods: CSS
+		'slide-p-padlr' => '0',									// all methods: CSS
+		'slide-p-marglr' => '5',								// all methods: CSS
+		'slide-p-margtb' => '2',								// all methods: CSS
+		'slide-p-colour' => '#FFFFFF',							// all methods: CSS
+		'reset' => 'false',										// Settings: Reset options state
+		'mootools' => '0',										// Settings: Toggle on/off Mootools loading
+		'limit-scripts' => 'homepage',							// Settings: Toggle on/off loading scripts on home page only
+		'page-filename' => '',									// Settings: Specify a Page Template filename, for loading scripts
+		'timed' => 'true',										// JS option
+		'delay' => '9000',										// JS option
+		'showCarousel' => 'true',								// JS option
+		'showInfopane' => 'true',								// JS option
+		'slideInfoZoneSlide' => 'true',							// JS option
+		'slideInfoZoneOpacity' => '0.7',						// JS option
+		'textShowCarousel' => 'Featured Articles',				// JS option
+		'defaultTransition' => 'fade',							// JS option
+	);
 	
-		// if old Version 1.0 options exist, which are prefixed "dfcg-", update to new system
-		foreach( $dfcg_new_options as $key => $value ) {
-			if( $existing = get_option( 'dfcg-' . $key ) ) {
-				$dfcg_new_options[$key] = $existing;
-				delete_option( 'dfcg-' . $key );
-			}
-		}
-	}
-	add_option('dfcg_plugin_settings', $dfcg_new_options );
+	// Add options
+	add_option('dfcg_plugin_settings', $dfcg_default_options );
 }
 
 
-/* Only for WP versions less than 2.7
-Delete the options when plugin is deactivated */
+/**	Function for upgrading options
+*	
+*	Loads options on admin_menu hook.
+*	Includes "upgrader" routine to update existing install.
+*	In 2.3 - "imagepath" in 2.2 is now "imageurl" in 2.3
+*	In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
+*	29 orig options + 29 new options added , total now is 58
+*
+*	Hooked to admin_menu
+*
+*	@uses 	dfcg_default_options()
+*	@since	2.3	
+*/
+function dfcg_set_gallery_options() {
+	
+	// Get current options
+	$dfcg_existing = get_option( 'dfcg_plugin_settings' );
+	// Get current version number
+	$dfcg_prev_version = get_option('dfcg_version');
+	
+	// Existing version is same as this version
+	if( $dfcg_prev_version == DFCG_VER ) {
+		// Nothing to do here...
+		return;
+	
+	// There are existing options and version is out of date	
+	} elseif( $dfcg_existing && $dfcg_prev_version < DFCG_VER ) {
+		
+		// We're upgrading from version 2.2 to 2.3
+		// Assign old imagepath to new imageurl
+		$dfcg_existing['imageurl'] = $dfcg_existing['imagepath'];
+		
+		// Assign old defimagepath to defimgmulti and defimgonecat
+		$dfcg_existing['defimgmulti'] = $dfcg_existing['defimagepath'];
+		$dfcg_existing['defimgonecat'] = $dfcg_existing['defimagepath'];
+		
+		// Remove old keys from db
+		unset($dfcg_existing['imagepath']);
+		unset($dfcg_existing['defimagepath']);
+		
+		// Now add new version 2.3 options
+		$dfcg_existing['populate-method'] = 'multi-option';						// Populate method for how the plugin works - since 2.3
+		$dfcg_existing['cat-display'] = '1';									// one-category: the ID of the selected category - since 2.3
+		$dfcg_existing['posts-number'] = '5';									// one-category: the number of posts to display - since 2.3
+		$dfcg_existing['pages-selected'] = '';									// pages: Page ID's in comma separated list - since 2.3
+		$dfcg_existing['image-url-type'] = 'full';								// WP only. All methods: URL type for dfcg-images - since 2.3
+		$dfcg_existing['defimgpages'] = '';										// WP only. Pages: URL for a default image
+		$dfcg_existing['slide-h2-padtb'] = '0';									// all methods: CSS
+		$dfcg_existing['slide-h2-padlr'] = '0';									// all methods: CSS
+		$dfcg_existing['slide-p-padtb'] = '0';									// all methods: CSS
+		$dfcg_existing['slide-p-padlr'] = '0';									// all methods: CSS
+		$dfcg_existing['limit-scripts'] = 'homepage';							// Settings: Toggle on/off loading scripts on home page only
+		$dfcg_existing['page-filename'] = '';									// Settings: Specify a Page Template filename, for loading scripts
+		$dfcg_existing['timed'] = 'true';										// JS option
+		$dfcg_existing['delay'] = '9000';										// JS option
+		$dfcg_existing['showCarousel'] = 'true';								// JS option
+		$dfcg_existing['showInfopane'] = 'true';								// JS option
+		$dfcg_existing['slideInfoZoneSlide'] = 'true';							// JS option
+		$dfcg_existing['slideInfoZoneOpacity'] = '0.7';						// JS option
+		$dfcg_existing['textShowCarousel'] = 'Featured Articles';				// JS option
+		$dfcg_existing['defaultTransition'] = 'fade';							// JS option
+		$dfcg_existing['cat06'] = '1';
+		$dfcg_existing['cat07'] = '1';
+		$dfcg_existing['cat08'] = '1';
+		$dfcg_existing['cat09'] = '1';
+		$dfcg_existing['off06'] = '1';
+		$dfcg_existing['off07'] = '1';
+		$dfcg_existing['off08'] = '1';
+		$dfcg_existing['off09'] = '1';
+				
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $dfcg_existing );
+		
+		// Add version to the options db
+		add_option('dfcg_version', DFCG_VER );
+		
+	} else {
+		// It's a clean install, so load everything
+		dfcg_default_options();
+			
+		// Add version to the options db
+		add_option('dfcg_version', DFCG_VER );
+	}
+}
+
+
+/**	Function to delete options
+*	
+*	Needed for pre 2.7 WP to delete options from database on deactivation.
+*	Used to clear options if Reset button is clicked.
+*
+*	@since	1.0
+*/
 function dfcg_unset_gallery_options() {
 	delete_option('dfcg_plugin_settings');
 }
 
-/* Determine whether to register deactivation hook
-if installed on pre 2.7 WP. */
-// Are we in WP 2.7+ ?
-if ( function_exists('register_uninstall_hook') ) {
-     // We are in 2.7+, so do nothing
-} else {
-	// we're in < 2.7 so register the deactivation hook
+
+/** Determine whether to register deactivation hook if installed on pre 2.7 WP.
+*
+*	This is not needed in WP 2.7+, as deletion of Options is 
+*	handled by uninstall.php.
+*	Check if "register_uninstall_hook" functions exists, which is post WP 2.7 only.
+*	If in WP < 2.7, we register_deactivation_hook()
+*
+*	@uses	dfcg_unset_gallery_options()
+*	@since	1.0
+*/
+if ( !function_exists('register_uninstall_hook') ) {
+     // we're in < 2.7 so register the deactivation hook
      register_deactivation_hook(__FILE__, 'dfcg_unset_gallery_options');
-}	
+}
 
 
-/* Display and handle the options page */
-function dfcg_options_page(){
-	// Are we in WPMU?
-	if ( function_exists('wpmu_create_blog') ) {
-		// Yes, load the WPMU options page
-		include_once('dfcg-wpmu-ui.php');
-		// No, load the WP options page
-		} else { include_once('dfcg-wp-ui.php');
+/**	Function for validating user input on submit of Settings page form
+*	
+*	Prints validation messages to the Settings Page.
+*
+*	@param	array	$options_array, the options from $_POST variable
+*
+*	@since	2.3	
+*/
+function dfcg_on_submit_validation($options_array) {
+			
+	// Validation checks when Options form is submitted.
+	
+	// $options_array is the array of options from the db
+	 
+	// If Partial URL is selected, imageurl must be defined
+	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected "Partial" URL option in your <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
+	
+	// If No URL is selected, imageurl must be defined
+	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected "No URL" option in your <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+	}
+		
+	// If Multi Option, defimgmulti must be defined
+	if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) ) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.2">Section 2.2</a>.') . '</strong></p></div>';
+	}
+		
+	// If One Category, defimgonecat must be defined
+	if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) ) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "One Category" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+	}
+		
+	// If Pages, defimgpages must be defined
+	if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) ) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined the URL to your default image.<br />Please enter the URL to your Pages default image in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
+	}
+	// End of validation checks
+}
+
+
+/**	Function for validation on fresh load of Settings Page (not after Submit)
+*	
+*	Prints validation messages to the Settings Page.
+*
+*	@param	array	$options_array, options from db
+*
+*	@since	2.3	
+*/
+function dfcg_on_load_validation($options_array) {
+	// On load validations - act as nagging reminders to users
+
+	// $options_array is the array of options from the db
+
+	// If Partial URL is selected, imageurl must be defined
+	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "Partial" URL option in your <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+	}
+	// If No URL is selected, imageurl must be defined
+	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "No URL" option in your <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+	}
+	// If Multi Option, defimgmulti must be defined
+	if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) && !isset($_POST['info_update'])) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
+	}
+	// If One Category, defimgonecat must be defined
+	if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "One Category" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.2">One Category</a> section to take advantage of the default image feature.') . '</strong></p></div>';
+	}
+	// If Pages, defimgpages must be defined
+	if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
+	}
+}
+
+
+/**	Function for loading JS and CSS for Settings Page
+*	
+*	Code from Nathan Rice, Theme Options plugin.
+*
+*	@since	2.3	
+*/
+function dfcg_options_css_js() {
+echo <<<CSS
+
+<style type="text/css">
+.form-table th {font-size:11px;}
+.metabox-holder {float:left;}
+.dfcgcredits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 0px 0px 0px;}
+.dfcgcredits p {font-size:11px;}
+/* Info box top-right */
+#dfcg-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;}
+#dfcg-info ul {list-style-type:none;margin-left:0px;}
+#dfcg-info img {float:left;margin:0px 10px 10px 0px;border:none;}
+#dfcg-info input {float:right;margin:0px 0px 10px 10px;}
+#dfcg-info h4 {font-size:12px;}
+/* Main settings boxes */
+div.inside {padding: 0px 10px 10px 10px;margin:0px;}
+.inside p {font-size:11px;padding:0px 0px 0px 0px;line-height:20px;}
+.inside ul {list-style-type:disc;margin-left:30px;font-size:11px;}
+.inside h4 {font-size:11px;margin:1em 0;}
+/* Error and updated messages */
+.error p, .updated p {font-size:11px;line-height:20px;}	
+</style>
+
+CSS;
+echo <<<JS
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$(".fade").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
+});
+
+
+</script>
+
+
+JS;
 }
