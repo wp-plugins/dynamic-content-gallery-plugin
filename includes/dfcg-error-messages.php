@@ -204,7 +204,25 @@ $dfcg_errmsg_11 = '<!-- DCG Error Message 1: You have defined less than 2 Post S
 $dfcg_errmsg_12 = '<!-- DCG Error Message 12: The Post for at least one of your chosen Image Slots could not be found.
 			This could be caused by, for example, defining a Post Select of 4 but only 3 Posts exist in that Category.
 			Look at the XHTML comments to see which Image # is missing. 
-			Fix: Check the Post Select for this missing Image # in the DCG Settings page. -->' . "\n";
+			Fix: Check the Post Select for this missing Image # in the DCG Settings page. -->';
+
+
+/**	Error Message 13	WP_Query couldn't find FIRST Post
+*	Populate-method: 	Multi Option
+*	Trigger:			if( !$recent->have_posts() && $counter < 2) returns TRUE
+*						This means that the first WP_Query doesn't have any posts
+*	Rating:				Critical
+*	Reason:				The Category in cat01 doesn't have any posts. This is likely caused by a new install, and the default is cat id=1
+*						which has no posts. Therefore teh gallery won't run if first image doesn't exist.
+*	Action:				Print Public error, error message in Page Source, then exist function.
+*	Fix:				Go to DCG Settings page and click Save Changes. This will clera the default cat01=1, and all can run normally.
+*	Notes:				This is a post-WP_Query validation check, only triggered by the first WP_Query.
+*						
+*/
+$dfcg_errmsg_13 = '<!-- DCG Error Message 13: The Post for Image Slot 1 could not be found. -->' . "\n";
+$dfcg_errmsg_13 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
+$dfcg_errmsg_13 .= '<!-- This is because the plugin has set a default category for this Image Slot, but there are no posts in this category. -->' . "\n";
+$dfcg_errmsg_13 .= '<!-- Fix: Go to the DCG Settings page and click Save Changes. The error should then clear itself. -->';
 
 
 // Set up our error message array of all error messages
@@ -227,7 +245,8 @@ if( $dfcg_options['errors'] == "true" ) {
 		'public' => $dfcg_errmsg_public,
 		'10' => $dfcg_errmsg_10,
 		'11' => $dfcg_errmsg_11,
-		'12' => $dfcg_errmsg_12
+		'12' => $dfcg_errmsg_12,
+		'13' => $dfcg_errmsg_13
 		);
 } else {
 	// Error messages not visible
@@ -245,6 +264,7 @@ if( $dfcg_options['errors'] == "true" ) {
 		'10' => '',
 		'11' => '',
 		'12' => '',
+		'13' => '',
 		);
 }
 
