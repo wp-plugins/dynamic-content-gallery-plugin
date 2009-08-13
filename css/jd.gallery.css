@@ -1,7 +1,15 @@
-/* This file is part of the DYNAMIC CONTENT GALLERY Plugin Version 2.2
-**********************************************************************
+/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
+*	*******************************************************
+*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*
+* 	@package	Dynamic Content Gallery
+*	@version	3.0 beta
+*
+*	Modified CSS file based on original jd.gallery.css from SmoothGallery
+*	See dfcg-user-styles.php for CSS elements set in Settings page.
+*	
+*/
 
-Modified CSS file based on original jd.gallery.css from SmoothGallery */
 
 #myGallery {
 	z-index:5;
@@ -56,7 +64,6 @@ Modified CSS file based on original jd.gallery.css from SmoothGallery */
 
 .jdGallery .slideInfoZone h2
 {
-	padding: 0;
 	border: 0 !important;
 	font-weight: bold !important;
 	background: none !important;
