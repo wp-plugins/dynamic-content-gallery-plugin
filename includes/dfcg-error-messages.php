@@ -10,6 +10,8 @@
 *	Messages are printed to the browser and/or Page Source.
 *	This should help users get the gallery working.
 *	Note: Admin related error messages are handled in dfcg-wp-ui.php and dfcg-wpmu-ui.php
+*
+*	@since	3.0
 */
 
 

@@ -14,6 +14,8 @@
 *		- One Category		dfcg_multioption_method_gallery()
 *		- Pages				dfcg_multioption_method_gallery()
 *
+*	@since	3.0
+*
 */
 function dfcg_multioption_method_gallery() {
 
