@@ -26,24 +26,23 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
-	2.3			- Feature: Added form validation to Settings page + reminders
-				- Feature: Javascript options added to Settings page and main js file now migrated
-				to PHP in order to allow better interaction with Settings for js options
+	3.0			- Feature: Added form validation to Settings page + reminders
+				- Feature: Javascript gallery options added to Settings page and main js file now migrated
+				to PHP in order to allow better interaction with Settings.
 				(jQuery handles this SO much better than Mootools).
 				- Feature: Added "populate-method" Settings. User can now pick between old way,
 				one category only, or Pages.
-				- Complete re-write of dynamic-gallery.php, more efficient coding
-				- Added Error messages to help users troubleshoot setup problems
-				- Added Settings for limiting loading of scripts into head. New function to handle this. 
+				- Bug fix: Complete re-write of dynamic-gallery.php, more efficient coding
+				- Feature: Added Error messages to help users troubleshoot setup problems
+				- Feature: Added Settings for limiting loading of scripts into head. New function to handle this. 
 				- Bug fix: Changed $options variable name to $dfcg_options to avoid conflicts
 				with other plugins.
-				- Re-designed layout of Settings page
-				- Added Full, Partial, No URL options to simplify location of images and be
+				- Feature: Re-designed layout of Settings page
+				- Feature: Added Full, Partial, No URL options to simplify location of images and be
 				more suitable for "unusual" WP setups.
-				- Full URLs used rather than 'homeurl' and 'siteurl'
 				- Added Padding settings for Info Pane Heading and Description
-				- Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
-				- Added dropdowns for Category selection in Settings page
+				- Bug fix: Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
+				- Feature: Added dropdowns for Category selection in Settings page
 	
 	2.2			- Added template tag function for theme files
 				- Added "disable mootools" checkbox in Settings to avoid js framework
@@ -116,7 +115,7 @@ function dfcg_load_textdomain() {
 *	dfcg-error-messages		Browser and/or Page Source errors.
 *	dfcg-gallery-functions	Three gallery constructor functions
 *
-*	@since	2.3
+*	@since	3.0
 */ 
 include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
 include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
@@ -147,7 +146,7 @@ function dynamic_content_gallery() {
 *	Settings "other" loads scripts into every page.
 *
 *	@uses	dfcg_addheader_scripts()
-*	@since 	2.3
+*	@since 	3.0
 */
 function dfcg_load_scripts() {
 	
@@ -194,8 +193,8 @@ function dfcg_addheader_scripts() {
 	}
 	
 	/* Add gallery javascript files */
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.php"></script>' . "\n";
 	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.transitions.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.php"></script>' . "\n";
 	
 	/* Add JS function call to gallery */
 	echo "<script type=\"text/javascript\">
@@ -303,7 +302,7 @@ function dfcg_filter_plugin_actions($links, $file){
 *	Used by the "upgrader" function dfcg_set_gallery_options.
 *	Used if Reset button is clicked.
 *
-*	@since	2.3	
+*	@since	3.0	
 */
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
@@ -385,7 +384,7 @@ function dfcg_default_options() {
 *	Hooked to admin_menu
 *
 *	@uses 	dfcg_default_options()
-*	@since	2.3	
+*	@since	3.0	
 */
 function dfcg_set_gallery_options() {
 	
@@ -496,7 +495,7 @@ if ( !function_exists('register_uninstall_hook') ) {
 *
 *	@param	array	$options_array, the options from $_POST variable
 *
-*	@since	2.3	
+*	@since	3.0	
 */
 function dfcg_on_submit_validation($options_array) {
 
@@ -540,7 +539,7 @@ function dfcg_on_submit_validation($options_array) {
 *
 *	@param	array	$options_array, options from db
 *
-*	@since	2.3	
+*	@since	3.0	
 */
 function dfcg_on_load_validation($options_array) {
 
@@ -581,7 +580,7 @@ function dfcg_on_load_validation($options_array) {
 *	
 *	Code from Nathan Rice, Theme Options plugin.
 *
-*	@since	2.3	
+*	@since	3.0	
 */
 function dfcg_options_css_js() {
 echo <<<CSS

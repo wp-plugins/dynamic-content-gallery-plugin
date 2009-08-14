@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	2.3
+*	@version	3.0
 *
 *	This is the file that displays the gallery.
 *	3 methods of populating the gallery as per Settings:
