@@ -193,8 +193,8 @@ function dfcg_addheader_scripts() {
 	}
 	
 	/* Add gallery javascript files */
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.transitions.js"></script>' . "\n";
 	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.php"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.transitions.js"></script>' . "\n";
 	
 	/* Add JS function call to gallery */
 	echo "<script type=\"text/javascript\">
