@@ -29,7 +29,7 @@ Compatible with Wordpress Mu but with some differences in features compared with
 * Highly configurable settings for image file management, CSS and javascript options - all set via the plugin's Settings page.
 * Extensive built-in validation checks and error message reporting. 
 * Valid xhtml output.
-* Works with WPMU (with some minor differences in the optiosn available to the user)
+* Works with WPMU (with some minor differences in the options available to the user)
 
 **Further information**
 -----------------------
