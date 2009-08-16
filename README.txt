@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v2/
 Tags: gallery,images,posts
 Requires at least: 2.5
-Tested up to: 2.8.3 (WP) and 2.8.3 (WPMU)
+Tested up to: 2.8.4 (WP) and 2.8.4 (WPMU)
 Stable tag: 2.2
 
 Creates a dynamic gallery of images for latest and/or featured posts.
