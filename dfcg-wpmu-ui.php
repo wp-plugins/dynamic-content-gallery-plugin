@@ -161,6 +161,7 @@ if ( function_exists('wpmu_create_blog') ) {
 						<p>For further information, or in case of configuration problems, please consult these comprehensive resources:</p>
 						<ul>
 								<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Configuration page</a></li>
+								<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-documentation/">Documentation</a></li>
 								<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a></li>
 								<li><a href="http://www.studiograsshopper.ch/forum/">Support Forum</a></li>
 							</ul>
@@ -591,7 +592,7 @@ if ( function_exists('wpmu_create_blog') ) {
 	</form>
 	
 	<div class="dfcgcredits">
-		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
+		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Configuration page</a>,  <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-documentation/">Documentation page</a>page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 		<p>The Dynamic Content Gallery plugin uses the SmoothGallery script developed by <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a>, and is inspired by the Featured Content Gallery originally developed by Jason Schuller. Grateful acknowledgements to Jonathan's wonderful script and Jason's popular Wordpress plugin implementation.</p> 
 		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong>Version: <?php echo DFCG_VER; ?></strong> for WPMU</p>      
 	</div>
