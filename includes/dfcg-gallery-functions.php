@@ -22,9 +22,6 @@ function dfcg_multioption_method_gallery() {
 	// Need to declare these in each function
 	global $dfcg_errmsgs, $dfcg_options, $dfcg_baseimgurl, $post;
 	
-	/* Get the plugin options */
-	//$dfcg_options = get_option('dfcg_plugin_settings');
-	
 	/* Set up some variables to use in WP_Query */
 	$dfcg_offset = 1;
 
@@ -250,9 +247,8 @@ function dfcg_onecategory_method_gallery() {
 
 	/* Do the WP_Query */
 	$recent = new WP_Query("cat=$dfcg_cat&showposts=$dfcg_posts_number");
-	// TODO: This validation never returns false, so is useless. Needs to be replaced with multioption validation.
 	// Do we have any posts?
-	if ( $recent ) {
+	if ( $recent->have_posts() ) {
 
 		// Set a counter to find out how many Posts are found in the WP_Query
 		// Also used to add an image # in the markup page source
