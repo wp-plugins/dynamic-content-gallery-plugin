@@ -26,24 +26,23 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 
 /* Version History
 
-	3.0			- Feature: Added form validation to Settings page + reminders
-				- Feature: Javascript gallery options added to Settings page and main js file now migrated
-				to PHP in order to allow better interaction with Settings.
-				(jQuery handles this SO much better than Mootools).
-				- Feature: Added "populate-method" Settings. User can now pick between old way,
-				one category only, or Pages.
-				- Bug fix: Complete re-write of dynamic-gallery.php, more efficient coding
-				- Feature: Added Error messages to help users troubleshoot setup problems
-				- Feature: Added Settings for limiting loading of scripts into head. New function to handle this. 
-				- Bug fix: Changed $options variable name to $dfcg_options to avoid conflicts
-				with other plugins.
-				- Feature: Re-designed layout of Settings page
-				- Feature: Added Full, Partial, No URL options to simplify location of images and be
-				more suitable for "unusual" WP setups.
-				- Added Padding settings for Info Pane Heading and Description
-				- Bug fix: Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
-				- Feature: Added dropdowns for Category selection in Settings page
-	
+	3.0			- Feature:	Added form validation + reminder messages to Settings page
+				- Feature: 	New Javascript gallery options added to Settings page and main js file now migrated
+							to PHP in order to allow better interaction with Settings.
+							(jQuery handles this SO much better than Mootools).
+				- Feature: 	Added "populate-method" Settings. User can now pick between old way,
+							one category only, or Pages.
+				- Bug fix: 	Complete re-write of dynamic-gallery.php, more efficient coding
+				- Feature: 	Added Error messages to help users troubleshoot setup problems
+				- Feature: 	Added Settings for limiting loading of scripts into head. New function to handle this. 
+				- Bug fix: 	Changed $options variable name to $dfcg_options to avoid conflicts
+							with other plugins.
+				- Feature: 	Re-designed layout of Settings page, added Category selection dropdowns etc
+				- Feature: 	Added Full, Partial, No URL options to simplify location of images and be
+							more suitable for "unusual" WP setups.
+				- Feature: 	Added Padding settings for Info Pane Heading and Description
+				- Bug fix: 	Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
+					
 	2.2			- Added template tag function for theme files
 				- Added "disable mootools" checkbox in Settings to avoid js framework
 				being loaded twice if another plugin uses mootools.
@@ -154,7 +153,7 @@ function dfcg_load_scripts() {
 	
 	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
     	
-    	if( is_home() ) {
+    	if( is_home() || is_front_page() ) {
     		dfcg_addheader_scripts();
     	} else {
     		return;
@@ -377,7 +376,7 @@ function dfcg_default_options() {
 *	
 *	Loads options on admin_menu hook.
 *	Includes "upgrader" routine to update existing install.
-*	In 2.3 - "imagepath" in 2.2 is now "imageurl" in 2.3
+*	In 2.3 - "imagepath" is deprecated, replaced by "imageurl" in 2.3
 *	In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
 *	29 orig options + 30 new options added , total now is 59
 *
@@ -431,17 +430,17 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['showCarousel'] = 'true';								// JS option
 		$dfcg_existing['showInfopane'] = 'true';								// JS option
 		$dfcg_existing['slideInfoZoneSlide'] = 'true';							// JS option
-		$dfcg_existing['slideInfoZoneOpacity'] = '0.7';						// JS option
+		$dfcg_existing['slideInfoZoneOpacity'] = '0.7';							// JS option
 		$dfcg_existing['textShowCarousel'] = 'Featured Articles';				// JS option
 		$dfcg_existing['defaultTransition'] = 'fade';							// JS option
 		$dfcg_existing['cat06'] = '1';
 		$dfcg_existing['cat07'] = '1';
 		$dfcg_existing['cat08'] = '1';
 		$dfcg_existing['cat09'] = '1';
-		$dfcg_existing['off06'] = '1';
-		$dfcg_existing['off07'] = '1';
-		$dfcg_existing['off08'] = '1';
-		$dfcg_existing['off09'] = '1';
+		$dfcg_existing['off06'] = '';
+		$dfcg_existing['off07'] = '';
+		$dfcg_existing['off08'] = '';
+		$dfcg_existing['off09'] = '';
 		$dfcg_existing['errors'] = 'true';
 				
 		// Delete the old and add the upgraded options
@@ -529,6 +528,35 @@ function dfcg_on_submit_validation($options_array) {
 			echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined the URL to your default image.<br />Please enter the URL to your Pages default image in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
 		}
 	}
+	
+	// deal with multioption Post Selects
+	$multioption_raw_offsets = array (
+		$options_array['off01'],
+		$options_array['off02'],
+		$options_array['off03'],
+		$options_array['off04'],
+		$options_array['off05'],
+		$options_array['off06'],
+		$options_array['off07'],
+		$options_array['off08'],
+		$options_array['off09'],
+		);
+		
+	$multioption_offsets = array();
+		
+	foreach( $multioption_raw_offsets as $key => $value ) {
+		$raw_offset = $multioption_raw_offsets[$key];
+		if( !empty($raw_offset) ) {
+			$temp_array = $multioption_raw_offsets[$key];
+			array_push($multioption_offsets, $temp_array);
+			unset($temp_array);
+		}
+	}
+		
+	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined a minimum of 2 Post Selects.<br />Please enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+	}
+
 	// End of validation checks
 }
 
@@ -572,6 +600,34 @@ function dfcg_on_load_validation($options_array) {
 		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) && !isset($_POST['info_update']) ) {
 			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
+	}
+	
+	// deal with multioption Post Selects
+	$multioption_raw_offsets = array (
+		$options_array['off01'],
+		$options_array['off02'],
+		$options_array['off03'],
+		$options_array['off04'],
+		$options_array['off05'],
+		$options_array['off06'],
+		$options_array['off07'],
+		$options_array['off08'],
+		$options_array['off09'],
+		);
+		
+	$multioption_offsets = array();
+		
+	foreach( $multioption_raw_offsets as $key => $value ) {
+		$raw_offset = $multioption_raw_offsets[$key];
+		if( !empty($raw_offset) ) {
+			$temp_array = $multioption_raw_offsets[$key];
+			array_push($multioption_offsets, $temp_array);
+			unset($temp_array);
+		}
+	}
+		
+	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>. Please enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
 	}
 }
 
