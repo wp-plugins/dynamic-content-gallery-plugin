@@ -156,7 +156,7 @@ if ( function_exists('wpmu_create_blog') ) {
 					</p>
 					<p><?php _e('Please read through this page carefully and select your configuration preferences. Some settings are Required, others are Optional, depending on how you want to use the plugin.', DFCG_DOMAIN); ?></p>
 					<p><strong><em><?php _e('Error messages: ', DFCG__DOMAIN); ?></strong><?php _e('In the event of configuration errors, the plugin generates informative error messages in the HTML Source of the page where your gallery is loaded. Please refer to these to assist you with troubleshooting any issues.', DFCG_DOMAIN); ?></em></p>
-					<p><?php _e('For further information, see the README.txt document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>..</p>
+					<p><?php _e('For further information, see the README.txt document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 					</div>
 					<div class="postbox" id="dfcg-info">
 						<h4>Resources & Information</h4>
