@@ -236,7 +236,7 @@ if ( function_exists('wpmu_create_blog') ) {
 								<th scope="row"><input name="dfcg[image-url-type]" style="margin-right:5px;" type="radio" id="dfcg-parturl" value="part" <?php checked('part', $dfcg_options['image-url-type']); ?> />
 									<label for=id="dfcg-parturl">Partial URL</label></th>
 								<td>Enter Custom Field <strong>dfcg-image</strong> in this format: <b><em>subfoldername/myimage.jpg</em></b><br />
-								Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in teh field below.<br />
+								Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.<br />
 								<em><b>Tip</b>: This is a good option if your images are stored in a folder structure outside of the Wordpress uploads folders.</em></td>
 							</tr>
 						
