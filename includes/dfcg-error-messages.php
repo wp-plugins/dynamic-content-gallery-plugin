@@ -188,7 +188,7 @@ $dfcg_errmsg_10 = '<!-- DCG Error Message 10: The plugin is unable to generate a
 *	Notes:				This is a pre-WP_Query validation check, ie checks what is in Settings only
 *						
 */
-$dfcg_errmsg_11 = '<!-- DCG Error Message 1: You have defined less than 2 Post Selects in the DCG Settings page.
+$dfcg_errmsg_11 = '<!-- DCG Error Message 11: You have defined less than 2 Post Selects in the DCG Settings page.
 			Fix: Enter a minimum of 2 valid Post Selects in the DCG Settings page for the gallery to work. -->' . "\n";
 
 
