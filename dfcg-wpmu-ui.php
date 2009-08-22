@@ -542,7 +542,9 @@ if ( function_exists('wpmu_create_blog') ) {
 								<th scope="row"><input name="dfcg[limit-scripts]" style="margin-right:5px;" type="radio" id="limit-scripts-home" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 									<label for="limit-scripts-home">Home page only</label></th>
 								<td>Select this option to load the plugin's scripts ONLY on the homepage.<br />
-								<em><b>Tip</b>: Best option if the gallery will only be used on the home page of your site. This is the default.</em></td>
+								<em><b>Tip</b>: Best option if the gallery will only be used on the home page of your site. This is the default.</em>
+								<br />
+								<em><b>Tip</b>: Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading.</em></td>
 							</tr>
 							<tr valign="top">
 								<th scope="row"><input name="dfcg[limit-scripts]" style="margin-right:5px;" type="radio" id="limit-scripts-page" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
