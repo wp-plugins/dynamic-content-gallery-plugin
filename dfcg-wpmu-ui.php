@@ -246,7 +246,7 @@ if ( function_exists('wpmu_create_blog') ) {
 				<h3>2.1 MULTI OPTION Settings</h3>
 				<div class="inside">
 					<p>Configure this section if you chose Multi Option in the <a href="#1">Image file management</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select".</p>
-					<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Further information on the possible schemes can be found on <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
+					<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Further information on the possible schemes can be found on the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
 					<p><em><b>Tip</b>: If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href="#2">Gallery Method</a> instead. It's much more efficient in terms of database queries.</em><br />
 					<em><b>Tip</b>: Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.</em></p>
 			
@@ -592,7 +592,7 @@ if ( function_exists('wpmu_create_blog') ) {
 	</form>
 	
 	<div class="dfcgcredits">
-		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Configuration page</a>,  <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-documentation/">Documentation page</a>page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
+		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Configuration page</a>,  <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-documentation/">Documentation page</a> and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 		<p>The Dynamic Content Gallery plugin uses the SmoothGallery script developed by <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a>, and is inspired by the Featured Content Gallery originally developed by Jason Schuller. Grateful acknowledgements to Jonathan's wonderful script and Jason's popular Wordpress plugin implementation.</p> 
 		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong>Version: <?php echo DFCG_VER; ?></strong> for WPMU</p>      
 	</div>
