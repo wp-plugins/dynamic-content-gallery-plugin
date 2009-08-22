@@ -40,7 +40,7 @@ if( isset($_POST['info_update']) ) {
 	if( $updated_options['cat-display'] == 0 ) {
 		$updated_options['cat-display'] = 'All';
 	}
-		
+	
 	// deal with absolute URLS and Paths: add trailing slash
 	$abs_url_opts = array( 'imageurl' );
 	foreach( $abs_url_opts as $key ) {
@@ -56,7 +56,7 @@ if( isset($_POST['info_update']) ) {
 	foreach( $rel_url_opts as $key ) {
 		// Only do something if there is something to do it to
 		if( !empty($updated_options[$key]) ) {
-			// Is there isn't leading slash?
+			// Is there a leading slash?
 			if( substr($updated_options[$key], 0, 1 ) !== '/' ) {
 				// Insert leading slash
 				$updated_options[$key] = substr_replace($updated_options[$key], '/', 0, 0);
@@ -97,7 +97,9 @@ if( isset($_POST['info_update']) ) {
 		// Display success message
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Dynamic Content Gallery Settings updated and saved.') . '</strong></p></div>';
 	}
-}
+	
+} 
+	
 
 // Options
 $dfcg_options = get_option('dfcg_plugin_settings');
@@ -109,6 +111,7 @@ if ( function_exists('wpmu_create_blog') ) {
 	// We're in WP, so validate
 	dfcg_on_load_validation($dfcg_options);
 }
+
 ?>
 
 
@@ -621,7 +624,9 @@ if ( function_exists('wpmu_create_blog') ) {
 								<th scope="row"><input name="dfcg[limit-scripts]" style="margin-right:5px;" type="radio" id="limit-scripts-home" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 									<label for="limit-scripts-home">Home page only</label></th>
 								<td>Select this option to load the plugin's scripts ONLY on the homepage.<br />
-								<em><b>Tip</b>: Best option if the gallery will only be used on the home page of your site. This is the default.</em></td>
+								<em><b>Tip</b>: Best option if the gallery will only be used on the home page of your site. This is the default.</em><br />
+								<em><b>Tip</b>: Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading.</em>
+								</td>
 							</tr>
 							<tr valign="top">
 								<th scope="row"><input name="dfcg[limit-scripts]" style="margin-right:5px;" type="radio" id="limit-scripts-page" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
