@@ -289,7 +289,7 @@ if ( function_exists('wpmu_create_blog') ) {
 							</tr>
 							<tr valign="top">
 								<th scope="row"><input name="dfcg[populate-method]" style="margin-right:5px;" type="radio" id="dfcg-populate-pages" value="pages" <?php checked('pages', $dfcg_options['populate-method']); ?> />
-									<label for=id="dfcg-populate-pages">PAGES Settings</label></th>
+									<label for=id="dfcg-populate-pages">Pages</label></th>
 								<td>Images are pulled from Pages, rather than Posts. Set up the relevant options in <a href="#2.3">2.3 PAGES</a><br />
 								<em><b>Tip</b>: This could be a good option if your site is more CMS than Blog.</em></td>
 							</tr>
@@ -303,7 +303,7 @@ if ( function_exists('wpmu_create_blog') ) {
 			<div class="postbox">
 				<h3>2.1 MULTI OPTION Settings</h3>
 				<div class="inside">
-					<p>Configure this section if you chose Multi Option in the <a href="#1">Image file management</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select".</p>
+					<p>Configure this section if you chose Multi Option in the <a href="#2">Gallery Method</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select".</p>
 					<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Further information on the possible schemes can be found on the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
 					<p><em><b>Tip</b>: If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href="#2">Gallery Method</a> instead. It's much more efficient in terms of database queries.</em><br />
 					<em><b>Tip</b>: Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.</em></p>
@@ -383,7 +383,7 @@ if ( function_exists('wpmu_create_blog') ) {
 			<div class="postbox">
 				<h3>2.2 ONE CATEGORY Settings</h3>
 				<div class="inside">
-					<p>Configure this section if you chose One Category in the <a href="#1">Image file management</a> Settings.</p>
+					<p>Configure this section if you chose One Category in the <a href="#2">Gallery Method</a> Settings.</p>
 					<table class="optiontable form-table">
 						<tbody>
 							<tr valign="top">
@@ -430,7 +430,7 @@ if ( function_exists('wpmu_create_blog') ) {
 			<div class="postbox">
 				<h3>2.3 PAGES Settings</h3>
 				<div class="inside">
-					<p>Configure this section if you chose Pages in the <a href="#1">Image file management</a> Settings.</p>
+					<p>Configure this section if you chose Pages in the <a href="#2">Gallery Method</a> Settings.</p>
 					<table class="optiontable form-table">
 						<tbody>
 							<tr>
@@ -478,7 +478,7 @@ if ( function_exists('wpmu_create_blog') ) {
 			<div class="postbox">
 				<h3>4. Gallery size and CSS options (REQUIRED):</h3>
 				<div class="inside">
-					<p>Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the "Slider". The addition of these options in this Settings page saves you having to customise the plugin's CSS stylesheet.</p>	
+					<p>Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the Slide Pane. The addition of these options in this Settings page saves you having to customise the plugin's CSS stylesheet.</p>	
 			
 					<table class="optiontable form-table">
 						<tbody>
@@ -657,7 +657,7 @@ if ( function_exists('wpmu_create_blog') ) {
 				<div class="inside">
 					<p>The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly. These error messages are output to the Page Source of the gallery. You may choose whether to turn off the visibility of these error messages.</p>
 					<p><label for="dfcg-errors">
-						<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide error messages, uncheck the box then click the "Save Changes" button.')?></em></span>
+						<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide error messages, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span>
 					</label></p>
 					<p class="submit"><input type="submit" name="info_update" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;">Back to top</a></p>
 				</div>
