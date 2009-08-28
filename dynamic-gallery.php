@@ -33,7 +33,7 @@ if($dfcg_options['populate-method'] == 'multi-option' && function_exists('dfcg_m
 /*	Something has gone horribly wrong! */
 } else {
 	$output = $dfcg_errmsgs['public'];
-	$output .= $dfcg_errmsgs['10'];
+	$output .= $dfcg_errmsgs['10'] . "\n";
 	echo $output;
 }
 ?>
