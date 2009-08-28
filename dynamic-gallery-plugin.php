@@ -5,7 +5,7 @@ Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-ga
 Version: 3.0 beta
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic content gallery anywhere within your wordpress theme using <a href="http://smoothgallery.jondesign.net/">SmoothGallery</a>. Set up the plugin options in Settings>Dynamic Content Gallery.
+Description: Creates a dynamic gallery of images for latest and/or featured posts or pages. Set up the plugin options in Settings>Dynamic Content Gallery.
 */
 
 /*  Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
@@ -27,42 +27,41 @@ Description: Creates a dynamic content gallery anywhere within your wordpress th
 /* Version History
 
 	3.0			- Feature:	Added form validation + reminder messages to Settings page
+				- Feature: 	Added Error messages to help users troubleshoot setup problems
+				- Feature: 	Re-designed layout of Settings page, added Category selection dropdowns etc
 				- Feature: 	New Javascript gallery options added to Settings page and main js file now migrated
 							to PHP in order to allow better interaction with Settings.
 							(jQuery handles this SO much better than Mootools).
 				- Feature: 	Added "populate-method" Settings. User can now pick between old way,
 							one category only, or Pages.
+				- Feature: 	Added Settings for limiting loading of scripts into head. New function to handle this.
+				- Feature: 	Added Full, Partial, No URL Settings to simplify location of images and be
+							more suitable for "unusual" WP setups.
+				- Feature: 	Added Padding Settings for Info Pane Heading and Description
 				- Bug fix: 	Complete re-write of dynamic-gallery.php, more efficient coding
-				- Feature: 	Added Error messages to help users troubleshoot setup problems
-				- Feature: 	Added Settings for limiting loading of scripts into head. New function to handle this. 
 				- Bug fix: 	Changed $options variable name to $dfcg_options to avoid conflicts
 							with other plugins.
-				- Feature: 	Re-designed layout of Settings page, added Category selection dropdowns etc
-				- Feature: 	Added Full, Partial, No URL options to simplify location of images and be
-							more suitable for "unusual" WP setups.
-				- Feature: 	Added Padding settings for Info Pane Heading and Description
-				- Bug fix: 	Moved galleryStart() js function to HEAD within dfcg_addheader_scripts()
+				- Bug fix: 	Moved galleryStart() js function to HEAD within dfcg_header_scripts()
 					
-	2.2			- Added template tag function for theme files
-				- Added "disable mootools" checkbox in Settings to avoid js framework
-				being loaded twice if another plugin uses mootools.
-				- Changed handling of WP constants - now works as intended
-				- Removed activation_hook, not needed
-				- Changed options page CSS to better match with 2.7 look
-				- Fixed loading flicker with CSS change => dynamic-gallery.php
-				- Fixed error if selected post doesn't exist => dynamic-gallery.php
-				- Fixed XHTML validation error with user-defined styles/CSS moved to head
-				with new file dfcg-user-styles.php for the output of user definable CSS
+	2.2			- Feature:	Added template tag function for theme files
+				- Feature:	Added "disable mootools" checkbox in Settings to avoid js framework
+							being loaded twice if another plugin uses mootools.
+				- Bug fix:	Changed handling of WP constants - now works as intended
+				- Bug fix:	Removed activation_hook, not needed
+				- Feature:	Changed options page CSS to better match with 2.7 look
+				- Bug fix:	Fixed loading flicker with CSS change => dynamic-gallery.php
+				- Bug fix:	Fixed error if selected post doesn't exist => dynamic-gallery.php
+				- Bug fix:	Fixed XHTML validation error with user-defined styles/CSS moved to head
+							with new file dfcg-user-styles.php for the output of user definable CSS
 	
-	2.1			- Bug fix re path to scripts thanks to WP.org zip file naming
-				convention
+	2.1			- Bug fix:	Issue with path to scripts thanks to WP.org zip file naming convention
 				
-	2.0 beta	- Major code rewrite and reorganisation of functions
-				- Added WPMU support
-				- Added RESET checkbox to reset options to defaults
-				- Added Gallery CSS options in the Settings page
+	2.0 beta	- Feature:	Major code rewrite and reorganisation of functions
+				- Feature:	Added WPMU support
+				- Feature:	Added RESET checkbox to reset options to defaults
+				- Feature:	Added Gallery CSS options in the Settings page
 			
-	1.0			Public Release
+	1.0			- Public Release
 	
 */
 
@@ -85,14 +84,14 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 
 
-/* Set constants for plugin directory path and URL, and version number */
+/* Set constants for plugin directory path and URL, version number, textdomain */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define ( 'DFCG_VER', '2.3' );
+define( 'DFCG_VER', '2.3' );
+define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 
 
 /* Internationalization functionality */
-define('DFCG_DOMAIN','Dynamic_Content_Gallery');
 $dfcg_text_loaded = false;
 
 function dfcg_load_textdomain() {
@@ -139,12 +138,12 @@ function dynamic_content_gallery() {
 /* 	Function to determine whether to load scripts into head.
 *
 *	Called by wp_head action.
-*	Determines whether to load dfcg_addheader_scripts depending
+*	Determines whether to load dfcg_header_scripts depending
 *	on Settings.
 *	Settings options are homepage, a page template or other.
 *	Settings "other" loads scripts into every page.
 *
-*	@uses	dfcg_addheader_scripts()
+*	@uses	dfcg_header_scripts()
 *	@since 	3.0
 */
 function dfcg_load_scripts() {
@@ -154,19 +153,19 @@ function dfcg_load_scripts() {
 	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
     	
     	if( is_home() || is_front_page() ) {
-    		dfcg_addheader_scripts();
+    		dfcg_header_scripts();
     	} else {
     		return;
     	}
     } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 		
 		if( is_page_template($dfcg_options['page-filename']) ) {
-			dfcg_addheader_scripts();
+			dfcg_header_scripts();
     	} else {
     		return;
     	}
     } else {
-    	dfcg_addheader_scripts();
+    	dfcg_header_scripts();
     }
 }
 
@@ -178,7 +177,7 @@ function dfcg_load_scripts() {
 *
 *	@since	1.0
 */
-function dfcg_addheader_scripts() {
+function dfcg_header_scripts() {
     
 	global $dfcg_options;
     
@@ -265,11 +264,10 @@ add_action( 'admin_print_styles-settings_page_dynamic-gallery-plugin', 'dfcg_adm
 */	
 function dfcg_options_page(){
 	global $dfcg_options;
-	// Are we in WPMU?
 	if ( function_exists('wpmu_create_blog') ) {
-		// Yes, load the WPMU options page
+		// Load the WPMU options page
 		include_once('dfcg-wpmu-ui.php');
-		// No, load the WP options page
+		// Load the WP options page
 	} else {
 		include_once('dfcg-wp-ui.php');
 	}
