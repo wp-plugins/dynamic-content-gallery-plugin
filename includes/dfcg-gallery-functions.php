@@ -152,8 +152,14 @@ function dfcg_multioption_method_gallery() {
 							$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
 						}
 
-       					// Link
-						$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+       					// Link - additional code courtesy of Martin Downer
+						if( get_post_meta($post->ID, "dfcg-link", true) ){
+							// We have an external/manual link
+							$output .= "\t" . '<a href="'. get_post_meta($post->ID, "dfcg-link", true) .'" title="Read More" class="open"></a>' . "\n";
+							
+						} else {
+							$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+						}
 
 						// Get the images
 						if( get_post_meta($post->ID, "dfcg-image", true) ) {
@@ -289,8 +295,14 @@ function dfcg_onecategory_method_gallery() {
 				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
 			}
 
-			// Link
-			$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+			// Link - additional code courtesy of Martin Downer
+			if( get_post_meta($post->ID, "dfcg-link", true) ){
+				// We have an external/manual link
+				$output .= "\t" . '<a href="'. get_post_meta($post->ID, "dfcg-link", true) .'" title="Read More" class="open"></a>' . "\n";
+							
+			} else {
+				$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+			}
 
 			// Get the dfcg-image
 			if( get_post_meta($post->ID, "dfcg-image", true) ) {
@@ -455,8 +467,14 @@ function dfcg_pages_method_gallery() {
 				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
 			}
 
-			// Link
-			$output .= "\t" . '<a href="'. get_permalink( $dfcg_page_found->ID ) .'" title="Read More" class="open"></a>' . "\n";
+			// Link - additional code courtesy of Martin Downer
+			if( get_post_meta($post->ID, "dfcg-link", true) ){
+				// We have an external/manual link
+				$output .= "\t" . '<a href="'. get_post_meta($post->ID, "dfcg-link", true) .'" title="Read More" class="open"></a>' . "\n";
+							
+			} else {
+				$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+			}
 
 			// Get the dfcg-image
 			if( get_post_meta($dfcg_page_found->ID, "dfcg-image", true) ) {
