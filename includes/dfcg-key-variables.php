@@ -17,6 +17,10 @@
 $dfcg_options = get_option('dfcg_plugin_settings');
 
 
+/* Error image */
+$dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
+
+
 /* Variables that are needed for all populate-method settings */
 
 // Do we have a base URL for Custom field images? Set base URL variable

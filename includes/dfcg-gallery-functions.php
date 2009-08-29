@@ -20,13 +20,10 @@
 function dfcg_multioption_method_gallery() {
 
 	// Need to declare these in each function
-	global $dfcg_errmsgs, $dfcg_options, $dfcg_baseimgurl, $post;
+	global $dfcg_errmsgs, $dfcg_options, $dfcg_baseimgurl, $dfcg_errorimgurl, $post;
 	
 	/* Set up some variables to use in WP_Query */
 	$dfcg_offset = 1;
-
-	// Error image
-	$dfcg_errorimgurl = DFCG_URL . '/error-img/error-multioption.jpg';
 
 	/* Get the partial Path to the default "Category" images folder */
 	// This path is relative to get_settings('siteurl')
@@ -69,7 +66,6 @@ function dfcg_multioption_method_gallery() {
 	
 	/* Validate that $dfcg_query_list has at least 2 items for gallery to work */
 	if( $dfcg_selected_slots < 2 ) {
-		$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 		$output .= $dfcg_errmsgs['11'] . "\n";
 		echo $output;
 		return;
@@ -119,9 +115,8 @@ function dfcg_multioption_method_gallery() {
 				// because the gallery won't display. Although this check is performed on every loop, we
 				// don't need to abort after Image slot #1 is tested.
 				if( !$recent->have_posts() && $counter < 2 ) :
-					$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
-					$output .= $dfcg_errmsgs['13'] . "\n\n";
-					$output .= '</div><!-- End of Dynamic Content Gallery output -->'."\n\n";
+					$output .= $dfcg_errmsgs['13'] . "\n";
+					$output .= "\n" . '</div><!-- End of Dynamic Content Gallery output -->' . "\n\n";
 					echo $output;
 					return;
 				
@@ -228,11 +223,7 @@ function dfcg_multioption_method_gallery() {
 */
 function dfcg_onecategory_method_gallery() {
 
-	global $post, $dfcg_options, $dfcg_errmsgs, $dfcg_baseimgurl;
-
-	/* Get the URL to One Category Error image. */
-	// This is an absolute URL
-	$dfcg_errorimgurl = DFCG_URL . '/error-img/error-onecategory.jpg';
+	global $post, $dfcg_options, $dfcg_errmsgs, $dfcg_baseimgurl, $dfcg_errorimgurl;
 
 	/* Get the number of Posts to display */
 	// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
@@ -343,7 +334,6 @@ function dfcg_onecategory_method_gallery() {
 	} else {
 		/* Oops! The WP_Query couldn't find any Posts */
 		// Theoretically this can never happen unless there is a WP problem
-		$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 		$output .= $dfcg_errmsgs['8'] . "\n";
 	}
 	
@@ -369,11 +359,7 @@ function dfcg_onecategory_method_gallery() {
 */
 function dfcg_pages_method_gallery() {
 
-	global $dfcg_options, $dfcg_errmsgs, $dfcg_baseimgurl;
-
-	/* Set the URL to Pages Error image. */
-	// This is an absolute URL
-	$dfcg_errorimgurl = DFCG_URL . '/error-img/error-pages.jpg';
+	global $dfcg_options, $dfcg_errmsgs, $dfcg_baseimgurl, $dfcg_errorimgurl;
 
 	/* Get the comma separated list of Page ID's */
 	$dfcg_pages_selected = trim($dfcg_options['pages-selected']);
@@ -394,7 +380,6 @@ function dfcg_pages_method_gallery() {
 
 		/* If only one Page ID has been specified in Settings: print error messages and exit */
 		if( $dfcg_pages_selected_count < 2 ) {
-			$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 			$output .= $dfcg_errmsgs['1'] . "\n";
 			echo $output;
 			return;
@@ -402,7 +387,6 @@ function dfcg_pages_method_gallery() {
 
 	} else {
 		/* There are no Page IDs in Settings: print error messages and exit */
-		$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 		$output .= $dfcg_errmsgs['2'] . "\n";
 		echo $output;
 		return;
@@ -426,8 +410,7 @@ function dfcg_pages_method_gallery() {
 	
 		// If less than 2, print error messages and exit function
 		if( $dfcg_pages_found_count < 2 ) {
-			$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
-			$output .= "\n" . $dfcg_errmsgs['9'] . "\n";
+			$output .= $dfcg_errmsgs['9'] . "\n";
 			if( $dfcg_options['errors'] == "true" ) {
 				$output .= '<!-- Number of Pages selected in DCG Settings = ' . $dfcg_pages_selected_count . ' -->' . "\n";
 				$output .= '<!-- Number of Pages found = ' . $dfcg_pages_found_count . ' -->' . "\n\n";
@@ -515,7 +498,6 @@ function dfcg_pages_method_gallery() {
 		
 	} else {
 		/* Oops! Either none of the Page IDs are valid or the db query failed in some way */
-		$output .= "\n" . $dfcg_errmsgs['public'] . "\n";
 		$output .= $dfcg_errmsgs['6'] . "\n";
 	}
 	

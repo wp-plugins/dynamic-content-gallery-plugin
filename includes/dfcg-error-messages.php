@@ -31,6 +31,7 @@ $dfcg_errmsg_public = "Dynamic Content Gallery Error: View page source for detai
 *	Notes:				See $dfcg_errmsg_2 for when no Page ID have been specified in DCG Settings
 *						See $dfcg_errmsg_9 for when SQL query only finds one valid Page ID
 */
+$dfcg_errmsg_1 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_1 .= '<!-- DCG Error Message 1: You have only specified one Page ID in the DCG Settings page. -->' . "\n";
 $dfcg_errmsg_1 .= '<!--	Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_1 .= '<!--	Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work. -->';
@@ -45,6 +46,7 @@ $dfcg_errmsg_1 .= '<!--	Fix: Enter a minimum of 2 valid Page IDs in the DCG Sett
 *	Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
 *	Notes:				Fix is same as $dfcg_errmsg_1 but Reason is different.
 */
+$dfcg_errmsg_2 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_2 .= '<!-- DCG Error Message 2: You have not specified any Page IDs in the DCG Settings page. -->' . "\n";
 $dfcg_errmsg_2 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_2 .= '<!-- Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work. -->';
@@ -108,6 +110,7 @@ $dfcg_errmsg_5 .= '<!-- Fix: Check the Page IDs entered in the DCG Settings page
 *	Action:				Print public error message, return, exit script.
 *	Notes:
 */
+$dfcg_errmsg_6 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_6 .= '<!-- DCG Error Message 6: None of the selected Page IDs are valid Pages or the database query has failed. -->' . "\n";
 $dfcg_errmsg_6 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_6 .= '<!-- Fix: Check the validity of the Page IDs entered in the DCG Settings page. At least 2 Page IDs must be valid.' . "\n";
@@ -143,6 +146,7 @@ $dfcg_errmsg_7 .= '<!-- Fix: Reduce the "Number of Posts to display" in the DCG 
 *	Notes:				This error message should never occur on a properly installed
 *						and working WP install.
 */
+$dfcg_errmsg_8 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_8 .= '<!-- DCG Error Message 8: The wp_query failed to find any Posts. -->' . "\n";
 $dfcg_errmsg_8 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_8 .= '<!-- Fix: Deactivate and reactivate the plugin and try again. -->';
@@ -157,6 +161,7 @@ $dfcg_errmsg_8 .= '<!-- Fix: Deactivate and reactivate the plugin and try again.
 *	Notes:				This is similar to Error Message 1, but is triggered by a check on the SQL results,
 *						not on the number of selected Pages.
 */
+$dfcg_errmsg_9 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_9 .= '<!-- DCG Error Message 9: Only one of the Page IDs specified in the DCG Settings page is a valid Page ID in the database. -->' . "\n";
 $dfcg_errmsg_9 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_9 .= '<!-- Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page. -->';
@@ -187,6 +192,7 @@ $dfcg_errmsg_10 .= '<!-- contained within the download ZIP file have been upload
 *	Notes:				This is a pre-WP_Query validation check, ie checks what is in Settings only
 *						
 */
+$dfcg_errmsg_11 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_11 .= '<!-- DCG Error Message 11: You have defined less than 2 Post Selects in the DCG Settings page. -->' . "\n";
 $dfcg_errmsg_11 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_11 .= '<!-- Fix: Enter a minimum of 2 valid Post Selects in the DCG Settings page for the gallery to work. -->';
@@ -223,6 +229,7 @@ $dfcg_errmsg_12 .= '<!-- Fix: Check the Post Select for this missing Image # in 
 *	Notes:				This is a post-WP_Query validation check, only triggered by the first WP_Query.
 *						
 */
+$dfcg_errmsg_13 .= "\n" . $dfcg_errmsg_public . "\n";
 $dfcg_errmsg_13 .= '<!-- DCG Error Message 13: The Post for Image Slot 1 could not be found. -->' . "\n";
 $dfcg_errmsg_13 .= '<!-- Rating: Critical. Fix error in order to display gallery. -->' . "\n";
 $dfcg_errmsg_13 .= '<!-- This is because the plugin has set a default category for this Image Slot, but there are no posts in this category. -->' . "\n";
@@ -246,7 +253,6 @@ if( $dfcg_options['errors'] == "true" ) {
 		'7' => $dfcg_errmsg_7,
 		'8' => $dfcg_errmsg_8,
 		'9' => $dfcg_errmsg_9,
-		'public' => $dfcg_errmsg_public,
 		'10' => $dfcg_errmsg_10,
 		'11' => $dfcg_errmsg_11,
 		'12' => $dfcg_errmsg_12,
@@ -264,7 +270,6 @@ if( $dfcg_options['errors'] == "true" ) {
 		'7' => '',
 		'8' => '',
 		'9' => '',
-		'public' => '',
 		'10' => '',
 		'11' => '',
 		'12' => '',
