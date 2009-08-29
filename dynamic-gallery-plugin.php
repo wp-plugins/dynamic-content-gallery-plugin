@@ -26,7 +26,8 @@ Description: Creates a dynamic gallery of images for latest and/or featured post
 
 /* Version History
 
-	3.0			- Feature:	Added form validation + reminder messages to Settings page
+	3.0			- Feature: 	Added external link capability using dfcg-link custom field
+				- Feature:	Added form validation + reminder messages to Settings page
 				- Feature: 	Added Error messages to help users troubleshoot setup problems
 				- Feature: 	Re-designed layout of Settings page, added Category selection dropdowns etc
 				- Feature: 	New Javascript gallery options added to Settings page and main js file now migrated
