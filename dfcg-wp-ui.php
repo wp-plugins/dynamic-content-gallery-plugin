@@ -214,6 +214,7 @@ if ( function_exists('wpmu_create_blog') ) {
 					<ul>
 						<li>Custom field <strong>dfcg-link</strong> <?php _e("with the full URL for the link. For example: ", DFCG_DOMAIN); ?> <em><?php _e("http://www.anothersite.com", DFCG_DOMAIN); ?></em></li>
 					</ul>
+					<p>This is optional and you only need this custom field if you require images to link somewhere other than the image's Post/Page.</p>
 				</div>
 			</div>
 			
