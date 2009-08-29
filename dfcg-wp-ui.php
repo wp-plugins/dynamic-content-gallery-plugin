@@ -141,6 +141,7 @@ if ( function_exists('wpmu_create_blog') ) {
 						<ul>
 							<li><a href="#how to">How to add the Dynamic Content Gallery to your Theme</a></li>
 							<li><a href="#assign">How to assign an image and a description to each Post/Page</a></li>
+							<li><a href="#link">How to assign an external link to a gallery image</a></li>
 							<li><a href="#create">How to name and organise your default images</a></li>
 							<li><a href="#1">1. Image file management (REQUIRED)</a></li>
 							<li><a href="#2">2. Gallery Method (REQUIRED)</a></li>
@@ -201,6 +202,17 @@ if ( function_exists('wpmu_create_blog') ) {
 					<ul>
 						<li>Custom field <strong>dfcg-desc</strong> <?php _e("for the Description which will appear in the gallery Slide Pane. For example: ", DFCG_DOMAIN); ?> <em><?php _e("Here's our latest news!", DFCG_DOMAIN); ?></em></li>
 						<li>Custom field <strong>dfcg-image</strong> <?php _e("for the image filename, including extension, with EITHER the full, partial URL, or no URL, depending on your ", DFCG_DOMAIN); ?><a href="#1">Image file management</a> Settings.</li>
+					</ul>
+				</div>
+			</div>
+			
+			<a name="link"></a>
+			<div class="postbox">
+				<h3><?php _e("How to assign an external link to a gallery image:", DFCG_DOMAIN); ?></h3>
+				<div class="inside">
+					<p><?php _e("By default, clicking on an image in the gallery takes the user to the image's Post or Page. If you wish to link a gallery image to a different resource, eg another page on your site or an external site, create the following custom field for the relevant Post/Page:", DFCG_DOMAIN); ?></p> 
+					<ul>
+						<li>Custom field <strong>dfcg-link</strong> <?php _e("with the full URL for the link. For example: ", DFCG_DOMAIN); ?> <em><?php _e("http://www.anothersite.com", DFCG_DOMAIN); ?></em></li>
 					</ul>
 				</div>
 			</div>
