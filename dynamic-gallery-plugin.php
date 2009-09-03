@@ -643,20 +643,18 @@ echo <<<CSS
 <style type="text/css">
 .form-table th {font-size:11px;}
 .metabox-holder {float:left;}
-.dfcgcredits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 0px 0px 0px;}
-.dfcgcredits p {font-size:11px;}
-/* Info box top-right */
-#dfcg-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;}
-#dfcg-info ul {list-style-type:none;margin-left:0px;}
-#dfcg-info img {float:left;margin:0px 10px 10px 0px;border:none;}
-#dfcg-info input {float:right;margin:0px 0px 10px 10px;}
-#dfcg-info h4 {font-size:12px;}
-/* Main settings boxes */
+.sgr-credits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 0px 0px 0px;}
+.sgr-credits p {font-size:11px;}
+#sgr-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;}
+#sgr-info ul {list-style-type:none;margin-left:0px;}
+#sgr-info img {float:left;margin:0px 10px 10px 0px;border:none;}
+#sgr-info input {float:right;margin:0px 0px 10px 10px;}
+#sgr-info h4 {font-size:12px;}
 div.inside {padding: 0px 10px 10px 10px;margin:0px;}
 .inside p {font-size:11px;padding:0px 0px 0px 0px;line-height:20px;}
 .inside ul {list-style-type:disc;margin-left:30px;font-size:11px;}
 .inside h4 {font-size:11px;margin:1em 0;}
-/* Error and updated messages */
+.postbox-sgr {padding:0px 10px;margin:0px;}
 .error p, .updated p {font-size:11px;line-height:20px;}	
 </style>
 
@@ -667,10 +665,7 @@ echo <<<JS
 jQuery(document).ready(function($) {
 	$(".fade").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
 });
-
-
 </script>
-
 
 JS;
 }
