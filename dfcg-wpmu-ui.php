@@ -112,7 +112,7 @@ if ( function_exists('wpmu_create_blog') ) {
 ?>
 
 
-<div class="wrap" id="dfcgstyle"><a name="top"></a>
+<div class="wrap" id="sgr-style"><a name="top"></a>
 
 	<?php screen_icon('options-general');// Display icon next to title ?>
 	
@@ -152,11 +152,11 @@ if ( function_exists('wpmu_create_blog') ) {
 						</ul>
 					</p>
 					<p><?php _e('Please read through this page carefully and select your configuration preferences. Some settings are Required, others are Optional, depending on how you want to use the plugin.', DFCG_DOMAIN); ?></p>
-					<p><strong><em><?php _e('Error messages: ', DFCG__DOMAIN); ?></strong><?php _e('In the event of configuration errors, the plugin generates informative error messages in the HTML Source of the page where your gallery is loaded. Please refer to these to assist you with troubleshooting any issues.', DFCG_DOMAIN); ?></em></p>
+					<p><strong><em><?php _e('Error messages: ', DFCG_DOMAIN); ?></strong><?php _e('In the event of configuration errors, the plugin generates informative error messages in the HTML Source of the page where your gallery is loaded. Please refer to these to assist you with troubleshooting any issues.', DFCG_DOMAIN); ?></em></p>
 					<p><?php _e('For further information, see the README.txt document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 					</div>
 					
-					<div class="postbox" id="dfcg-info">
+					<div class="postbox" id="sgr-info">
 						<h4>Resources & Information</h4>
 					<p><a href="http://www.studiograsshopper.ch"><img src="<?php echo DFCG_URL . '/admin-assets/sgr_icon_75.jpg'; ?>" alt="studiograsshopper" /></a><strong>Dynamic Content Gallery for WP and WPMU</strong>.<br />Version <?php echo DFCG_VER; ?><br />Author: <a href="http://www.studiograsshopper.ch/">Ade Walker</a></p>
 						<p>For further information, or in case of configuration problems, please consult these comprehensive resources:</p>
@@ -594,7 +594,7 @@ if ( function_exists('wpmu_create_blog') ) {
 				</div>
 			</div>
 			
-			<div class="postbox-dfcg" style="padding:0px 10px;margin:0px;">
+			<div class="postbox-sgr">
 				<p><label for="dfcg-reset">
 					<input type="checkbox" name="dfcg[reset]" id="dfcg-reset" value="<?php echo $dfcg_options['reset']; ?>" />&nbsp;<strong><?php _e('Reset all options to the Default settings')?></strong> <span style="font-size:11px;"><em><?php _e('Check the box, then click the "Save Changes" button.')?></em></span>
 				</label></p>
@@ -604,7 +604,7 @@ if ( function_exists('wpmu_create_blog') ) {
 		<p class="submit"><input type="submit" name="info_update" class="button-primary" value="<?php _e('Save Changes') ?>" /></p>
 	</form>
 	
-	<div class="dfcgcredits">
+	<div class="sgr-credits">
 		<p>For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Configuration page</a>,  <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-documentation/">Documentation page</a> and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 		<p>The Dynamic Content Gallery plugin uses the SmoothGallery script developed by <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a>, and is inspired by the Featured Content Gallery originally developed by Jason Schuller. Grateful acknowledgements to Jonathan's wonderful script and Jason's popular Wordpress plugin implementation.</p> 
 		<p>Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong>Version: <?php echo DFCG_VER; ?></strong> for WPMU</p>      
