@@ -501,12 +501,17 @@ function dfcg_on_submit_validation($options_array) {
 	 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected "Partial" URL option in your <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
 	// If No URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected "No URL" option in your <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "No URL" option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+	}
+	
+	// If Pages, Page ID's must be defined
+	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined any Page ID\'s.<br />Please enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
 	}
 	
 	if ( function_exists('wpmu_create_blog') ) {
@@ -514,17 +519,17 @@ function dfcg_on_submit_validation($options_array) {
 	} else {
 		// If Multi Option, defimgmulti must be defined
 		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.2">Section 2.2</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.2">Section 2.2</a>.') . '</strong></p></div>';
 		}
 		
 		// If One Category, defimgonecat must be defined
 		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "One Category" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "One Category" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
 		}
 		
 		// If Pages, defimgpages must be defined
 		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined the URL to your default image.<br />Please enter the URL to your Pages default image in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined the URL to your default image.<br />Please enter the URL to your Pages default image in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
 		}
 	}
 	
@@ -574,12 +579,17 @@ function dfcg_on_load_validation($options_array) {
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "Partial" URL option in your <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
 	// If No URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "No URL" option in your <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "No URL" option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+	}
+	
+	// If Pages, Page ID's must be defined
+	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) && !isset($_POST['info_update']) ) {
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder!: You are using the "Pages" <a href="#2">Gallery Method</a> but you have not yet defined any Page ID\'s.<br />Please enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
 	}
 	
 	if ( function_exists('wpmu_create_blog') ) {
