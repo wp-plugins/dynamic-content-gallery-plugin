@@ -517,19 +517,19 @@ function dfcg_on_submit_validation($options_array) {
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU, so ignore these messages
 	} else {
-		// If Multi Option, defimgmulti must be defined
+		// If Multi Option, defimgmulti should be defined
 		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.2">Section 2.2</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
 		
-		// If One Category, defimgonecat must be defined
+		// If One Category, defimgonecat should be defined
 		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "One Category" method in <a href="#2">Section 2</a>, but you have not defined the Path to your default images.<br />Please enter the Path to your Category default images folder in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "One Category" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.2">One Category</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
 		
-		// If Pages, defimgpages must be defined
+		// If Pages, defimgpages should be defined
 		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined the URL to your default image.<br />Please enter the URL to your Pages default image in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
+			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
 	}
 	
@@ -595,17 +595,17 @@ function dfcg_on_load_validation($options_array) {
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU, so ignore these messages
 	} else {
-		// If Multi Option, defimgmulti must be defined
+		// If Multi Option, defimgmulti should be defined
 		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) && !isset($_POST['info_update'])) {
 			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
 		
-		// If One Category, defimgonecat must be defined
+		// If One Category, defimgonecat should be defined
 		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) && !isset($_POST['info_update']) ) {
 			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "One Category" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.2">One Category</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
 	
-		// If Pages, defimgpages must be defined
+		// If Pages, defimgpages should be defined
 		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) && !isset($_POST['info_update']) ) {
 			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
 		}
