@@ -558,7 +558,7 @@ function dfcg_on_submit_validation($options_array) {
 	}
 		
 	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Validation check: You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>, but you have not defined a minimum of 2 Post Selects.<br />Please enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected the "Multi Option" <a href="#2">Gallery Method</a>. You must enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
 	}
 
 	// End of validation checks
@@ -579,17 +579,17 @@ function dfcg_on_load_validation($options_array) {
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "Partial" URL option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
 	// If No URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You have selected "No URL" option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "No URL" option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
 	// If Pages, Page ID's must be defined
 	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder!: You are using the "Pages" <a href="#2">Gallery Method</a> but you have not yet defined any Page ID\'s.<br />Please enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder!: You are using the "Pages" <a href="#2">Gallery Method</a>. You must enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
 	}
 	
 	if ( function_exists('wpmu_create_blog') ) {
@@ -636,7 +636,7 @@ function dfcg_on_load_validation($options_array) {
 	}
 		
 	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! You have selected to display the gallery using the "Multi Option" method in <a href="#2">Section 2</a>. Please enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. You must enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>..') . '</strong></p></div>';
 	}
 }
 
