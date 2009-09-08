@@ -220,7 +220,7 @@ add_action('wp_head', 'dfcg_load_scripts');
 
 /**	Setup the plugin and create Admin settings page
 *
-*	@uses	dfcg_textdomain()
+*	@uses	dfcg_load_textdomain()
 *	@uses	dfcg_options_page()
 *	@uses	dfcg_filter_plugin_actions()
 *	@uses	dfcg_set_gallery_options()
@@ -297,7 +297,7 @@ function dfcg_filter_plugin_actions($links, $file){
 /**	Function for adding default options
 *	
 *	Contains the latest version's default options.
-*	Used by the "upgrader" function dfcg_set_gallery_options.
+*	Used by the "upgrader" function dfcg_set_gallery_options().
 *	Used if Reset button is clicked.
 *
 *	@since	3.0	
@@ -396,7 +396,7 @@ function dfcg_set_gallery_options() {
 		// Nothing to do here...
 		return;
 	
-	// There are existing options and version is out of date	
+	// We're upgrading, there are existing options and version is out of date	
 	} elseif( $dfcg_existing && $dfcg_prev_version < DFCG_VER ) {
 		
 		// We're upgrading from version 2.2 to 2.3
@@ -432,15 +432,15 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['slideInfoZoneOpacity'] = '0.7';							// JS option
 		$dfcg_existing['textShowCarousel'] = 'Featured Articles';				// JS option
 		$dfcg_existing['defaultTransition'] = 'fade';							// JS option
-		$dfcg_existing['cat06'] = '1';
-		$dfcg_existing['cat07'] = '1';
-		$dfcg_existing['cat08'] = '1';
-		$dfcg_existing['cat09'] = '1';
-		$dfcg_existing['off06'] = '';
-		$dfcg_existing['off07'] = '';
-		$dfcg_existing['off08'] = '';
-		$dfcg_existing['off09'] = '';
-		$dfcg_existing['errors'] = 'true';
+		$dfcg_existing['cat06'] = '1';											// multi-option: the category IDs
+		$dfcg_existing['cat07'] = '1';											// multi-option: the category IDs
+		$dfcg_existing['cat08'] = '1';											// multi-option: the category IDs
+		$dfcg_existing['cat09'] = '1';											// multi-option: the category IDs
+		$dfcg_existing['off06'] = '';											// multi-option: the post select
+		$dfcg_existing['off07'] = '';											// multi-option: the post select
+		$dfcg_existing['off08'] = '';											// multi-option: the post select
+		$dfcg_existing['off09'] = '';											// multi-option: the post select
+		$dfcg_existing['errors'] = 'true';										// all methods: Error reporting on/off
 				
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
@@ -497,8 +497,6 @@ if ( !function_exists('register_uninstall_hook') ) {
 */
 function dfcg_on_submit_validation($options_array) {
 
-	// $options_array is the array of options from the db
-	 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) ) {
 		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
@@ -574,8 +572,6 @@ function dfcg_on_submit_validation($options_array) {
 *	@since	3.0	
 */
 function dfcg_on_load_validation($options_array) {
-
-	// $options_array is the array of options from the db
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
