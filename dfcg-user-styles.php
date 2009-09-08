@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 beta
+*	@version	3.0
 *
 *	Load user defined styles into the header.
 *	This should ensure XHTML validation.
