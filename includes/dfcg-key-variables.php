@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 beta
+*	@version	3.0
 *
 *	Key variables required for the plugin to run.
 *	These are used by the functions which output the markup

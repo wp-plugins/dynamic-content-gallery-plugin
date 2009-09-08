@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 beta
+*	@version	3.0
 *
 *	These are the key functions which produce the markup output
 *	for the gallery to run.
@@ -69,7 +69,7 @@ function dfcg_multioption_method_gallery() {
 		$output .= $dfcg_errmsgs['11'] . "\n";
 		echo $output;
 		return;
-	}	
+	}
 
 
 	// Start the Gallery Markup

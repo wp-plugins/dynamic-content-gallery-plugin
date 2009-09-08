@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 beta
+*	@version	3.0
 *
 *	Error messages generated in the event that Settings are not correct.
 *	Messages are printed to the browser and/or Page Source.
