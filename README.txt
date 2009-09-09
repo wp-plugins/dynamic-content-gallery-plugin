@@ -211,6 +211,7 @@ Thanks for downloading the plugin.  Enjoy!
 
 == Screenshots ==
 1. Dynamic Content Gallery
+2. Settings Page (part only)
 
 
 == Changelog ==
