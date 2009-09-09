@@ -1,10 +1,10 @@
 === Dynamic Content Gallery ===
 
 Version: 3.0 beta
-Author: Ade Walker
+Author: Ade Walker, Studiograsshopper
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/
-Tags: gallery,images,posts
+Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 2.5
 Tested up to: 2.8.4 (WP) and 2.8.4 (WPMU)
 Stable tag: 2.2
