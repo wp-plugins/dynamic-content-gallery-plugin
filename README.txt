@@ -209,6 +209,10 @@ If you cannot find a solution to a problem in the FAQ visit the support page at 
 Thanks for downloading the plugin.  Enjoy!
 
 
+== Screenshots ==
+1. Dynamic Content Gallery
+
+
 == Changelog ==
 
 = 2.2 =
