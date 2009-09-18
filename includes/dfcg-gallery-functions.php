@@ -451,12 +451,12 @@ function dfcg_pages_method_gallery() {
 			}
 
 			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($post->ID, "dfcg-link", true) ){
+			if( get_post_meta($dfcg_page_found->ID, "dfcg-link", true) ){
 				// We have an external/manual link
-				$output .= "\t" . '<a href="'. get_post_meta($post->ID, "dfcg-link", true) .'" title="Read More" class="open"></a>' . "\n";
+				$output .= "\t" . '<a href="'. get_post_meta($dfcg_page_found->ID, "dfcg-link", true) .'" title="Read More" class="open"></a>' . "\n";
 							
 			} else {
-				$output .= "\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>' . "\n";
+				$output .= "\t" . '<a href="'. get_permalink($dfcg_page_found->ID) .'" title="Read More" class="open"></a>' . "\n";
 			}
 
 			// Get the dfcg-image
