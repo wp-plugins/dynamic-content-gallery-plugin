@@ -416,7 +416,7 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['cat-display'] = '1';									// one-category: the ID of the selected category - since 2.3
 		$dfcg_existing['posts-number'] = '5';									// one-category: the number of posts to display - since 2.3
 		$dfcg_existing['pages-selected'] = '';									// pages: Page ID's in comma separated list - since 2.3
-		$dfcg_existing['image-url-type'] = 'full';								// WP only. All methods: URL type for dfcg-images - since 2.3
+		$dfcg_existing['image-url-type'] = 'part';								// WP only. All methods: URL type for dfcg-images - since 2.3
 		$dfcg_existing['defimgpages'] = '';										// WP only. Pages: URL for a default image
 		$dfcg_existing['slide-h2-padtb'] = '0';									// all methods: CSS
 		$dfcg_existing['slide-h2-padlr'] = '0';									// all methods: CSS
