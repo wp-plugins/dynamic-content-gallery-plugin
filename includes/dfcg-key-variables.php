@@ -29,7 +29,7 @@ if ( $dfcg_options['image-url-type'] == "full" ) {
 	$dfcg_baseimgurl = '';
 } else {
 	// Partial or No URL, therefore there is a base URL, so get it
-	$dfcg_baseimgurl = $dfcg_options['imageurl'];
+	$dfcg_baseimgurl = $dfcg_options['homeurl'] . $dfcg_options['imageurl'];
 }
 
 ?>
