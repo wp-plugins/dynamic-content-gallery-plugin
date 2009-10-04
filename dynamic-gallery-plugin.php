@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 3.0 beta
+Version: 3.0 RC2
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest and/or featured posts or pages. Set up the plugin options in Settings>Dynamic Content Gallery.
@@ -26,15 +26,16 @@ Description: Creates a dynamic gallery of images for latest and/or featured post
 
 /* Version History
 
-	3.0			- Feature: 	Added external link capability using dfcg-link custom field
+	3.0			- Feature:	Added plugin meta links to Plugins main admin page
+				- Feature: 	Added external link capability using dfcg-link custom field
 				- Feature:	Added form validation + reminder messages to Settings page
 				- Feature: 	Added Error messages to help users troubleshoot setup problems
 				- Feature: 	Re-designed layout of Settings page, added Category selection dropdowns etc
 				- Feature: 	New Javascript gallery options added to Settings page and main js file now migrated
 							to PHP in order to allow better interaction with Settings.
 							(jQuery handles this SO much better than Mootools).
-				- Feature: 	Added "populate-method" Settings. User can now pick between old way,
-							one category only, or Pages.
+				- Feature: 	Added "populate-method" Settings. User can now pick between 3: old way (called Multi Option),
+							One category, or Pages.
 				- Feature: 	Added Settings for limiting loading of scripts into head. New function to handle this.
 				- Feature: 	Added Full, Partial, No URL Settings to simplify location of images and be
 							more suitable for "unusual" WP setups.
@@ -88,7 +89,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin directory path and URL, version number, textdomain */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '2.3' );
+define( 'DFCG_VER', '3.0 RC2' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 
 
@@ -113,12 +114,14 @@ function dfcg_load_textdomain() {
 *	dfcg-key-variables		Declares global scope variables = Options array variable, $dfcg_baseimgurl 
 *	dfcg-error-messages		Browser and/or Page Source errors.
 *	dfcg-gallery-functions	Three gallery constructor functions
+*	dfcg-admin-functions	Functions for outputting Setting Page elements
 *
 *	@since	3.0
 */ 
 include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
 include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
 include_once( DFCG_DIR . '/includes/dfcg-gallery-functions.php');
+include_once( DFCG_DIR . '/includes/dfcg-admin-functions.php');
 
 
 /**	Template tag to display gallery in theme files
@@ -180,7 +183,8 @@ function dfcg_load_scripts() {
 */
 function dfcg_header_scripts() {
     
-	global $dfcg_options;
+	//global $dfcg_options;
+	$dfcg_options = get_option('dfcg_plugin_settings');
     
     /* Add CSS file */
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts -->' . "\n";
@@ -188,21 +192,29 @@ function dfcg_header_scripts() {
 	
 	/* Should mootools framework be loaded? */
 	if ( $dfcg_options['mootools'] !== '1' ) {
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/mootools.v1.11.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/mootools.v1.11.js"></script>' . "\n";
 	}
 	
 	/* Add gallery javascript files */
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.php"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.js"></script>' . "\n";
 	echo '<script type="text/javascript" src="' . DFCG_URL . '/scripts/jd.gallery.transitions.js"></script>' . "\n";
 	
 	/* Add JS function call to gallery */
-	echo "<script type=\"text/javascript\">
+	echo '<script type="text/javascript">
    function startGallery() {
-      var myGallery = new gallery($('myGallery'), {
+      var myGallery = new gallery($("myGallery"), {
+	  showCarousel: '. $dfcg_options['showCarousel'] .',
+	  showInfopane: '. $dfcg_options['showInfopane'] .',
+	  timed: '. $dfcg_options['timed'] .',
+	  delay: '. $dfcg_options['delay'] .',
+	  defaultTransition: "'. $dfcg_options['defaultTransition'] .'",
+	  slideInfoZoneOpacity: '. $dfcg_options['slideInfoZoneOpacity'] .',
+	  slideInfoZoneSlide: '. $dfcg_options['slideInfoZoneSlide'] .',
+	  textShowCarousel: "'. $dfcg_options['textShowCarousel'] .'"
       });
    }
-   window.addEvent('domready',startGallery);
-</script>" . "\n";
+   window.addEvent("domready",startGallery);
+</script>' . "\n";
 	
 	/* Add user defined CSS */
 	include_once('dfcg-user-styles.php');
@@ -229,32 +241,27 @@ add_action('wp_head', 'dfcg_load_scripts');
 */	
 function dfcg_setup() {
 	dfcg_load_textdomain();
+	// check user credentials
 	if ( current_user_can('manage_options') && function_exists('add_options_page') ) {
+		
+		// Add Settings Page
 		$dfcgpage = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', 'dynamic-gallery-plugin.php', 'dfcg_options_page');
-		add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+		
+		// Add Settings Link - will only show in WP 2.7+
+		if( function_exists( 'post_class' ) ) {
+			add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+		}
+		// Add Plugin meta links - will only show in WP 2.8+
+		if( function_exists( 'body_class' ) ) {
+			add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
+		}
+		
+		// Populate plugin's options
 		dfcg_set_gallery_options();
-		//add_action( 'admin_print_scripts-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head' );
-		//add_action( 'admin_print_styles-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head_css', 'all');
 	}
 }
 add_action('admin_menu', 'dfcg_setup');
 
-
-// Future feature for version 3+. Leave for now.
-
-/*function dfcg_admin_head() {
-	wp_enqueue_script('jquery');
-	//wp_enqueue_script('dfcg-slidebox', DFCG_URL . '/admin-assets/dfcg-slidepanel.js', 'jquery');
-}
-add_action( 'admin_print_scripts-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head' );
-*/
-/*      
-function dfcg_admin_head_css() {
-	wp_enqueue_style('dfcg-slidebox-css', DFCG_URL . '/admin-assets/dfcg-slidepanel.css'); 
-}
-add_action( 'admin_print_styles-settings_page_dynamic-gallery-plugin', 'dfcg_admin_head_css','screen' );
-*/
- 
 
 /**	Display the Settings page
 *
@@ -277,6 +284,8 @@ function dfcg_options_page(){
 
 /**	Display a Settings link in main Plugin page in Dashboard
 *
+*	Puts the Settings link in with Deactivate/Activate links in Plugins Settings page
+*	Hooked to plugin_action_links
 *	Used by dfcg_setup()
 *
 *	@since	1.0
@@ -290,6 +299,34 @@ function dfcg_filter_plugin_actions($links, $file){
 		$settings_link = '<a href="admin.php?page=dynamic-gallery-plugin.php">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links); // before other links
 	}
+	return $links;
+}
+
+
+/**	Display plugin meta links in main Plugin page in Dashboard
+*
+*	Adds additional meta links in the plugin's info section in main Plugins Settings page
+*	Hooked to plugin_row_meta, so only works for WP 2.8+
+*	Used by dfcg_setup()
+*
+*	@since	3.0
+*/	
+function dfcg_plugin_meta($links, $file) {
+ 
+	$plugin = plugin_basename(__FILE__);
+ 
+	// create links
+	if ($file == $plugin) {
+		$settings_link = '<a href="admin.php?page=dynamic-gallery-plugin.php">' . __('Settings') . '</a>';
+		$faq_link = '<a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/" target="_blank">' . __('FAQ') . '</a>';
+		$docs_link = '<a href="http://www.studiograsshopper.ch/dynamic-content-gallery-documentation/" target="_blank">' . __('Documentation') . '</a>';
+		return array_merge(
+			$links,
+			array( $settings_link, $faq_link, $docs_link )
+			
+		);
+	}
+ 
 	return $links;
 }
 
@@ -396,16 +433,26 @@ function dfcg_set_gallery_options() {
 		// Nothing to do here...
 		return;
 	
-	// We're upgrading, there are existing options and version is out of date	
-	} elseif( $dfcg_existing && $dfcg_prev_version < DFCG_VER ) {
+	// We're upgrading from a previous v3 beta (which used version number 2.3)
+	} elseif( $dfcg_existing && $dfcg_prev_version == '2.3' ) {
+	
+		// If NO URL exists, change it to Partial URL
+		// NO URL is deprecated
+		if( $dfcg_existing['image-url-type'] == 'nourl' ) {
+			$dfcg_existing['image-url-type'] = 'part';
+		}
 		
-		// We're upgrading from version 2.2 to 2.3
+	// We're upgrading, there are existing options and version is out of date	
+	} elseif( $dfcg_existing && $dfcg_prev_version !== DFCG_VER ) {
+		
+		// We're upgrading from version 2.2 to 3.0
 		// Assign old imagepath to new imageurl
-		$dfcg_existing['imageurl'] = $dfcg_existing['imagepath'];
+		// imagepath was the URL excluding "Home" and the custom field entry
+		$dfcg_existing['imageurl'] = $dfcg_existing['homeurl'] . $dfcg_existing['imagepath'];
 		
 		// Assign old defimagepath to defimgmulti and defimgonecat
-		$dfcg_existing['defimgmulti'] = $dfcg_existing['defimagepath'];
-		$dfcg_existing['defimgonecat'] = $dfcg_existing['defimagepath'];
+		$dfcg_existing['defimgmulti'] = $dfcg_existing['homeurl'] . $dfcg_existing['defimagepath'];
+		$dfcg_existing['defimgonecat'] = $dfcg_existing['homeurl'] . $dfcg_existing['defimagepath'];
 		
 		// Remove old keys from db
 		unset($dfcg_existing['imagepath']);
@@ -502,11 +549,6 @@ function dfcg_on_submit_validation($options_array) {
 		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
-	// If No URL is selected, imageurl must be defined
-	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "No URL" option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
-	}
-	
 	// If Pages, Page ID's must be defined
 	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) ) {
 		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined any Page ID\'s.<br />Please enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
@@ -576,11 +618,6 @@ function dfcg_on_load_validation($options_array) {
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
 		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "Partial" URL option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
-	}
-	
-	// If No URL is selected, imageurl must be defined
-	if( $options_array['image-url-type'] == 'nourl' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "No URL" option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
 	}
 	
 	// If Pages, Page ID's must be defined
