@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
-Version: 3.0 RC2
+Version: 3.0 RC3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest and/or featured posts or pages. Set up the plugin options in Settings>Dynamic Content Gallery.
@@ -89,7 +89,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin directory path and URL, version number, textdomain */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.0 RC2' );
+define( 'DFCG_VER', '3.0 RC3' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 
 
@@ -163,11 +163,16 @@ function dfcg_load_scripts() {
     	}
     } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 		
-		if( is_page_template($dfcg_options['page-filename']) ) {
-			dfcg_header_scripts();
-    	} else {
-    		return;
+		$dfcg_page_filenames = $dfcg_options['page-filename'];
+		/* Turn list into an array */
+		$dfcg_page_filenames = explode(",", $dfcg_page_filenames);
+		
+		foreach ( $dfcg_page_filenames as $key) {
+			if( is_page_template($key) ) {
+				dfcg_header_scripts();
+    		}
     	}
+		
     } else {
     	dfcg_header_scripts();
     }
@@ -266,19 +271,12 @@ add_action('admin_menu', 'dfcg_setup');
 /**	Display the Settings page
 *
 *	Used by dfcg_setup()
-*	Selects between WP or WPMU pages
 *
 *	@since	1.0
 */	
 function dfcg_options_page(){
 	global $dfcg_options;
-	if ( function_exists('wpmu_create_blog') ) {
-		// Load the WPMU options page
-		include_once('dfcg-wpmu-ui.php');
-		// Load the WP options page
-	} else {
-		include_once('dfcg-wp-ui.php');
-	}
+	include_once('dfcg-wp-ui.php');
 }
 
 
@@ -401,6 +399,8 @@ function dfcg_default_options() {
 		'textShowCarousel' => 'Featured Articles',				// JS option
 		'defaultTransition' => 'fade',							// JS option
 		'errors' => 'true',										// all methods: Error reporting on/off
+		'posts-column' => 'true',								// all methods: Show edit posts column
+		'pages-column' => 'true',								// all methods: Show edit pages column
 	);
 	
 	// Add options
@@ -414,7 +414,11 @@ function dfcg_default_options() {
 *	Includes "upgrader" routine to update existing install.
 *	In 2.3 - "imagepath" is deprecated, replaced by "imageurl" in 2.3
 *	In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
-*	29 orig options + 30 new options added , total now is 59
+*	In 2.3 - 29 orig options + 30 new options added , total now is 59
+*	In RC2 - "nourl" value of "image-url-type" is deprecated
+*	In RC3 - "posts_column" added
+*	In RC3 - "pages_column" added
+*	In RC3 - Total options is 59 + 2 = 61
 *
 *	Hooked to admin_menu
 *
@@ -433,19 +437,41 @@ function dfcg_set_gallery_options() {
 		// Nothing to do here...
 		return;
 	
-	// We're upgrading from a previous v3 beta (which used version number 2.3)
+	// We're upgrading from pre-RC2 v3 version (which used version number 2.3)
 	} elseif( $dfcg_existing && $dfcg_prev_version == '2.3' ) {
-	
+		
 		// If NO URL exists, change it to Partial URL
 		// NO URL is deprecated
 		if( $dfcg_existing['image-url-type'] == 'nourl' ) {
 			$dfcg_existing['image-url-type'] = 'part';
 		}
 		
-	// We're upgrading, there are existing options and version is out of date	
+		$dfcg_existing['posts-column'] = 'true';
+		$dfcg_existing['pages-column'] = 'true';
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $dfcg_existing );
+		
+		// Add version to the options db
+		update_option('dfcg_version', DFCG_VER );
+	
+	//We're upgrading from 3.0 RC2
+	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0 RC2' ) {
+		
+		$dfcg_existing['posts-column'] = 'true';
+		$dfcg_existing['pages-column'] = 'true';
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $dfcg_existing );
+		
+		// Add version to the options db
+		update_option('dfcg_version', DFCG_VER );
+		
+	// We're upgrading from version 2.2, there are existing options and version is out of date	
 	} elseif( $dfcg_existing && $dfcg_prev_version !== DFCG_VER ) {
 		
-		// We're upgrading from version 2.2 to 3.0
 		// Assign old imagepath to new imageurl
 		// imagepath was the URL excluding "Home" and the custom field entry
 		$dfcg_existing['imageurl'] = $dfcg_existing['homeurl'] . $dfcg_existing['imagepath'];
@@ -488,6 +514,9 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['off08'] = '';											// multi-option: the post select
 		$dfcg_existing['off09'] = '';											// multi-option: the post select
 		$dfcg_existing['errors'] = 'true';										// all methods: Error reporting on/off
+		$dfcg_existing['posts-column'] = 'true';								// all methods: Show edit posts column
+		$dfcg_existing['pages-column'] = 'true';								// all methods: Show edit pages column
+		
 				
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
@@ -531,6 +560,50 @@ function dfcg_unset_gallery_options() {
 if ( !function_exists('register_uninstall_hook') ) {
      // we're in < 2.7 so register the deactivation hook
      register_deactivation_hook(__FILE__, 'dfcg_unset_gallery_options');
+}
+
+
+/** Add columns to Posts and Pages Edit screen to display dfcg-image custom field contents.
+*
+*	This can be turned off in the DCG Settings Page. 
+*
+*	@uses	manage_posts_column filter
+*	@uses	manage_posts_custom_column action
+*	@since	3.0
+*/
+// Filters and Actions to add the columns
+if( $dfcg_options['posts-column'] == 'true' ) {
+	add_filter('manage_posts_columns', 'dfcg_posts_columns');
+	add_action('manage_posts_custom_column', 'dfcg_custom_posts_column', 10, 2);
+}
+if( $dfcg_options['pages-column'] == 'true' ) {
+	add_filter('manage_pages_columns', 'dfcg_posts_columns');
+	add_action('manage_pages_custom_column', 'dfcg_custom_posts_column', 10, 2);
+}
+
+// Add columns
+function dfcg_posts_columns($defaults) {
+    $defaults['custom_fields'] = __('Custom Field dfcg-image');
+    return $defaults;
+}
+
+// Populate new columns
+function dfcg_custom_posts_column($column_name, $post_id) {
+    global $wpdb;
+    if( $column_name == 'custom_fields' ) {
+        $query = "SELECT *
+FROM $wpdb->postmeta
+WHERE $wpdb->postmeta.post_id = $post_id
+AND $wpdb->postmeta.meta_key = 'dfcg-image'";
+        $dfcg_images = $wpdb->get_results($query);
+        if( $dfcg_images ) {
+            $my_func = create_function('$att', 'return $att->meta_value;');
+            $text = array_map($my_func, $dfcg_images);
+            echo implode(', ',$text);
+        } else {
+            echo '<i>'.__('None').'</i>';
+        }
+    }
 }
 
 
