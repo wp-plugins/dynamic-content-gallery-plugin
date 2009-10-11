@@ -4,15 +4,15 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0
+*	@version	3.0 RC3
 *
 *	These are the key functions which produce the markup output
 *	for the gallery to run.
 *
 *	One function for each of the 3 populate-methods.
 *		- Multi Option		dfcg_multioption_method_gallery()
-*		- One Category		dfcg_multioption_method_gallery()
-*		- Pages				dfcg_multioption_method_gallery()
+*		- One Category		dfcg_onecategory_method_gallery()
+*		- Pages				dfcg_pages_method_gallery()
 *
 *	@since	3.0
 *
@@ -25,12 +25,12 @@ function dfcg_multioption_method_gallery() {
 	/* Set up some variables to use in WP_Query */
 	$dfcg_offset = 1;
 
-	/* Get the partial Path to the default "Category" images folder */
-	// This path is relative to get_settings('siteurl')
+	/* Get the URL to the default "Category" images folder from Settings */
+	// This URL is absolute
 	$dfcg_defimgmulti = $dfcg_options['defimgmulti'];
 
-	// Set a variable for the full path to the category images folder
-	$filename = ABSPATH . $dfcg_defimgmulti;
+	// Convert category images absolute URL to Path (with thanks to Charles Clarkson)
+	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $dfcg_defimgmulti ); 
 
 	$dfcg_query_list = array();
 
@@ -163,10 +163,10 @@ function dfcg_multioption_method_gallery() {
 							// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie 404
 						} else {
 							// Path to Default Category image
-							$filename1 = $filename . $key . '.jpg';
-							if( file_exists($filename1) ) {
-								$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="full" />' . "\n";
-        						$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
+							$filename = $filepath . $key . '.jpg';
+							if( file_exists($filename) ) {
+								$output .= "\t" . '<img src="'. $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="full" />' . "\n";
+        						$output .= "\t" . '<img src="'. $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
 							} else {
 								$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="full" />' . "\n";
         						$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
@@ -176,8 +176,6 @@ function dfcg_multioption_method_gallery() {
 
 						// Close ImageElement div
 						$output .= '</div>' . "\n";
-				
-						//clearstatcache(); Probably not needed as it is unlikely that filename will change during running of script.
 
 					endwhile; 
 
@@ -234,14 +232,24 @@ function dfcg_onecategory_method_gallery() {
 	// thanks to use of dropdown in Settings
 	$dfcg_cat = $dfcg_options['cat-display'];
 
-	/* Get the path to the default "Category" images folder */
-	// This path is relative to get_settings('siteurl')
+	/* Get the URL to the default "Category" images folder from Settings */
+	// This is an absolute URL
 	$dfcg_defimgonecat = $dfcg_options['defimgonecat'];
 
+	// Convert category images folder absolute URL to Path (with thanks to Charles Clarkson)
+	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $dfcg_defimgonecat );
+	
 	// Set a variable for the category default image using the cat ID number for the image name
+	if( $dfcg_cat !== '' ) {
+		$dfcg_defimgonecat_image = $dfcg_cat .'.jpg';
+	} else {
+		$dfcg_defimgonecat_image = 'all.jpg';
+	}
+	
+	// Absolute path to default image
 	// This needed for the file_exists() check.
-	$filename = ABSPATH . $dfcg_defimgonecat . $dfcg_cat .'.jpg';
-
+	$filename1 = $filepath . $dfcg_defonecat_image;
+	
 	/* Do the WP_Query */
 	$recent = new WP_Query("cat=$dfcg_cat&showposts=$dfcg_posts_number");
 	// Do we have any posts?
@@ -268,19 +276,21 @@ function dfcg_onecategory_method_gallery() {
 			// Do we have a dfcg-desc?
 			if( get_post_meta($post->ID, "dfcg-desc", true) ) {
 				$output .= "\t" . '<p>'. get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
-
-			} elseif( $dfcg_cat !== 0 ) {
+			
+			// check if All cats has been selected
+			} elseif( $dfcg_cat !== '' ) {
 				
 				if( category_description($dfcg_cat) !== '') {
 					// a category description exists
 					$output .= "\t" . category_description($dfcg_cat) . "\n";
 				}
-
+			
 			} elseif( $dfcg_options['defimagedesc'] !== '' ) {
 				// Show the default description
 				$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
 
 			} else {
+			$output .= 'we have an error';
 				// Show the error message
 				$output .= "\t" . '<p></p>' . "\n";
 				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
@@ -300,10 +310,10 @@ function dfcg_onecategory_method_gallery() {
 				$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="full" />' . "\n";
         		$output .= "\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
 				// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie 404.
-			} elseif( file_exists($filename) ) {
+			} elseif( file_exists($filename1) ) {
 				// Display the "Category" default image
-				$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgonecat . $dfcg_cat .'.jpg" alt="'. get_the_title() .'" class="full" />' . "\n";
-        		$output .= "\t" . '<img src="'. get_settings('siteurl') . $dfcg_defimgonecat . $dfcg_cat .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
+				$output .= "\t" . '<img src="'. $dfcg_defimgonecat . $dfcg_defimgonecat_image .'" alt="'. get_the_title() .'" class="full" />' . "\n";
+        		$output .= "\t" . '<img src="'. $dfcg_defimgonecat . $dfcg_defimgonecat_image .'" alt="'. get_the_title() .'" class="thumbnail" />' . "\n";
 			} else {
 				// Display One Category Error image
 				$output .= "\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" class="full" />' . "\n";

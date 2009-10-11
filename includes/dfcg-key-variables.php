@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0
+*	@version	3.0 RC3
 *
 *	Key variables required for the plugin to run.
 *	These are used by the functions which output the markup
@@ -29,7 +29,7 @@ if ( $dfcg_options['image-url-type'] == "full" ) {
 	$dfcg_baseimgurl = '';
 } else {
 	// Partial or No URL, therefore there is a base URL, so get it
-	$dfcg_baseimgurl = $dfcg_options['homeurl'] . $dfcg_options['imageurl'];
+	$dfcg_baseimgurl = $dfcg_options['imageurl'];
 }
 
 ?>

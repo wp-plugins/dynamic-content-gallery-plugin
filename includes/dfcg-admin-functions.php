@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 RC2
+*	@version	3.0 RC3
 *
 *	These are the functions which produce the UI postboxes
 *	for the Settings page.
@@ -663,8 +663,34 @@ function dfcg_ui_errors() {
 		<div class="inside">
 			<p>The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly. These error messages are output to the Page Source of the gallery. You may choose whether to turn off the visibility of these error messages.</p>
 			<p><label for="dfcg-errors">
-			<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide error messages, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span>
+			<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide Page Source error messages, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span>
 			</label></p>
+			<p class="submit"><input type="submit" name="info_update" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;">Back to top</a></p>
+		</div>
+	</div>
+<?php }
+
+// Posts/Pages edit columns: box and content
+function dfcg_ui_columns() {
+	global $dfcg_options;
+	?>
+	<a name="8"></a>
+	<div class="postbox">
+		<h3>8. Add Custom Field column to Posts and Pages Edit screen (OPTIONAL)</h3>
+		<div class="inside">
+			<p>These settings let you add a column to the Edit Posts and Edit Pages columns to display the value of the <strong>dfcg-image</strong> Custom Field. This can be useful to help keep track of the contents of the <strong>dfcg-image</strong> Custom Field without having to open each individual Post or Page.</p>
+			<table class="optiontable form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row">Add column to Edit Posts:</th>
+						<td><input type="checkbox" name="dfcg[posts-column]" id="dfcg-posts-column" value="1" <?php checked('true', $dfcg_options['posts-column']); ?>" /><span style="padding-left:50px"><em><?php _e('To remove the additional column in the Edit Posts screen, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">Add column to Edit Pages:</th>
+						<td><input type="checkbox" name="dfcg[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?>" /><span style="padding-left:50px"><em><?php _e('To remove the additional column in the Edit Pages screen, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span></td>
+					</tr>
+				</tbody>
+			</table>
 			<p class="submit"><input type="submit" name="info_update" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;">Back to top</a></p>
 		</div>
 	</div>
