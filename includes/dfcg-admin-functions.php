@@ -20,7 +20,7 @@
 function dfcg_ui_intro_text() {
 ?>
 	<p><?php _e('Please read through this page carefully and select your configuration preferences. Some settings are Required, others are Optional, depending on how you want to use the plugin.', DFCG_DOMAIN); ?></p>
-	<p><strong><em><?php _e('Validation checks: ', DFCG_DOMAIN); ?></strong><?php _e('In the event of configuration errors, the plugin generates validation check messages at the top of this page. Messages in red must be fixed, otherwise the gallery won\'t display. Messages in yellow mean that the gallery will display, but you are not taking full advantage of all the built-in features.', DFCG_DOMAIN); ?></em></p>
+	<p><strong><em><?php _e('Validation checks: ', DFCG_DOMAIN); ?></strong><?php _e('When saving Settings, the plugin generates validation check messages at the top of this page. Messages in red must be fixed, otherwise the gallery won\'t display. Messages in yellow mean that the gallery will display, but you are not taking full advantage of all the built-in features.', DFCG_DOMAIN); ?></em></p>
 	<p><strong><em><?php _e('Source Code Error messages: ', DFCG_DOMAIN); ?></strong><?php _e('Additionally, in the event of configuration errors, the plugin generates informative error messages in the HTML Source of the page where your gallery is loaded. Please refer to these to assist you with troubleshooting any issues.', DFCG_DOMAIN); ?></em></p>
 	<p><?php _e('For further information, see the README.txt document supplied with the plugin or visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration-guide/">Dynamic Content Gallery configuration guide</a>, <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-documentation/">Documentation</a> page and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a>.</p>
 <?php }
@@ -106,8 +106,8 @@ function dfcg_ui_create_wp() {
 		<div class="inside">
     		<p>A key feature of this plugin is its automatic use of default images in the event a Custom Field <strong>dfcg-image</strong> has not been created for a Post/Page. This is a useful fallback because missing images can prevent the gallery from loading properly. Therefore, it is recommended, though not complulsory, that you set up default images as described below.</p>
 			<h4>Gallery Method: Multi Option and One Category</h4>
-			<p>These methods use Posts and Categories to populate the gallery. In the event that a Custom Field is missing from a Post, the plugin will display a default image determined by the Category ID for that Post. Create a default image for each of the Categories specified in <a href="#2.1">Multi Option</a>, or the Category specified in <a href="#2.2">One Category</a>, depending on which Gallery Method you have selected.</p>
-			<p>In either case, default images must be named as follows: <em>XX.jpg</em>, where XX is the Category ID. For example, the default image that will be displayed for a Post in Category ID=8 must be named <em>8.jpg</em>. Once you have created your default images, and named them as per these instructions, upload them to the folder specified in the <a href="#2.1">Multi Option</a> or <a href="#2.2">One Category</a> as appropriate.</p>
+			<p>These methods use Posts and Categories to populate the gallery. In the event that a Custom Field is missing from a Post, the plugin will display a default image determined by the Category ID for that Post. Create a default image for each of the Categories specified in the <a href="#2.1">Multi Option</a> Settings, or the Category specified in the <a href="#2.2">One Category</a> Settings, depending on which Gallery Method you have selected.</p>
+			<p>In either case, default images must be named as follows: <em>XX.jpg</em>, where XX is the Category ID. For example, the default image that will be displayed for a Post in Category ID=8 must be named <em>8.jpg</em>. Once you have created your default images, and named them as per these instructions, upload them to the folder specified in the <a href="#2.1">Multi Option</a> or <a href="#2.2">One Category</a> Settings as appropriate.</p>
 			<h4>Gallery Method: Pages</h4>
 			<p>In this case, only one default image is required, and you have complete freedom to name the image as you wish (any valid image extension is permitted). Upload the image to somewhere on your site and enter the full URL to the image in the <a href="#2.3">Pages</a> Settings.</p>
 		</div>
@@ -155,7 +155,7 @@ function dfcg_ui_1_image_wp() {
 					</tr>
 						
 					<tr valign="top">
-						<th scope="row">URL to images folder:</th>
+						<th scope="row">URL to Custom Field images folder:</th>
 						<td>If you selected <strong>Partial URL</strong> you must also specify the URL to the top-level folder which contains the relevant sub-folders and images. Include <em>http://www.yourdomain.com/</em> in this URL, for example: <b><em>http://www.yourdomain.com/myspecial_image_folder/</em></b></td>
 					</tr>
 						
@@ -285,8 +285,8 @@ function dfcg_ui_multi_wp() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row">Path to default "Category" images folder:</th>
-				<td>Enter the path to the folder which contains the <a href="#create">default images</a> which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
-				This should be the <b>absolute</b> path from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the path entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
+				<td>Enter the URL to the folder which contains the <a href="#create">default images</a> which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
+				This should be the <b>absolute</b> URL from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the URL entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"></th>
@@ -350,8 +350,8 @@ function dfcg_ui_onecat_wp() {
 	?>
  	<tr valign="top">
 		<th scope="row">Path to default "Category" images folder:</th>
-		<td>Enter the path to the folder which contains the default images which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
-		This should be the <b>absolute</b> path from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the path entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
+		<td>Enter the URL to the folder which contains the default images which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
+		This should be the <b>absolute</b> URL from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the URL entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
 	</tr>
 	<tr valign="top">
 		<th scope="row"></th>
@@ -450,7 +450,7 @@ function dfcg_ui_css() {
 	<div class="postbox">
 		<h3>4. Gallery size and CSS options (REQUIRED):</h3>
 		<div class="inside">
-			<p>Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the Slide Pane. The addition of these options in this Settings page saves you having to customise the plugin's CSS stylesheet.</p>	
+			<p>Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the Slide Pane. The inclusion of these options in this Settings page saves you having to customise the plugin's CSS stylesheet.</p>	
 			
 			<table class="optiontable form-table">
 				<tbody>
@@ -537,7 +537,7 @@ function dfcg_ui_javascript() {
 	<div class="postbox">
 		<h3>5. Javascript configuration options (OPTIONAL):</h3>
 		<div class="inside">
-			<p>Configure various default javascript settings for your gallery. The addition of these options in this Settings page saves you having to customise the plugin's javascript files.</p>
+			<p>Configure various default javascript settings for your gallery. The inclusion of these options in this Settings page saves you having to customise the plugin's javascript files.</p>
 
 			<table class="optiontable form-table">
 				<tbody>
@@ -662,9 +662,14 @@ function dfcg_ui_errors() {
 		<h3>7. Error Message options (OPTIONAL)</h3>
 		<div class="inside">
 			<p>The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly. These error messages are output to the Page Source of the gallery. You may choose whether to turn off the visibility of these error messages.</p>
-			<p><label for="dfcg-errors">
-			<input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" />&nbsp;<strong><?php _e('Error messages visible')?></strong> <span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide Page Source error messages, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span>
-			</label></p>
+			<table class="optiontable form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row">Show Error Messages:</th>
+						<td><input type="checkbox" name="dfcg[errors]" id="dfcg-errors" value="1" <?php checked('true', $dfcg_options['errors']); ?>" /><span style="font-size:11px;margin-left:20px;"><em><?php _e('To hide Page Source error messages, uncheck the box then click the "Save Changes" button. Default is CHECKED.')?></em></span></td>
+					</tr>
+				</tbody>
+			</table>
 			<p class="submit"><input type="submit" name="info_update" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;">Back to top</a></p>
 		</div>
 	</div>
@@ -678,7 +683,7 @@ function dfcg_ui_columns() {
 	<div class="postbox">
 		<h3>8. Add Custom Field column to Posts and Pages Edit screen (OPTIONAL)</h3>
 		<div class="inside">
-			<p>These settings let you add a column to the Edit Posts and Edit Pages columns to display the value of the <strong>dfcg-image</strong> Custom Field. This can be useful to help keep track of the contents of the <strong>dfcg-image</strong> Custom Field without having to open each individual Post or Page.</p>
+			<p>These settings let you add a column to the Edit Posts and Edit Pages screens to display the value of the <strong>dfcg-image</strong> Custom Field. This can be useful to help keep track of the contents of the <strong>dfcg-image</strong> Custom Field without having to open each individual Post or Page.</p>
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
