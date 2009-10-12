@@ -125,11 +125,7 @@ if ( function_exists('wpmu_create_blog') ) {
 				<div class="inside">
 					<div style="float:left;width:700px;">
 						<p><em><?php _e('You are using Dynamic Content Gallery version ', DFCG_DOMAIN); echo DFCG_VER;
-						if ( function_exists('wpmu_create_blog') ) {
-							_e(' for Wordpress Mu.', DFCG_DOMAIN);
-						} else {
-							_e(' for Wordpress.', DFCG_DOMAIN);
-						} ?></em></p>
+						_e(' for Wordpress and Wordpress Mu.', DFCG_DOMAIN); ?></em></p>
 						<p>
 						<ul>
 							<li><a href="#how to">How to add the Dynamic Content Gallery to your Theme</a></li>
