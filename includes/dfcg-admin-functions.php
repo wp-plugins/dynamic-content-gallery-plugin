@@ -284,7 +284,7 @@ function dfcg_ui_multi_wp() {
 	<table class="optiontable form-table">
 		<tbody>
 			<tr valign="top">
-				<th scope="row">Path to default "Category" images folder:</th>
+				<th scope="row">URL to default "Category" images folder:</th>
 				<td>Enter the URL to the folder which contains the <a href="#create">default images</a> which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
 				This should be the <b>absolute</b> URL from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the URL entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
 			</tr>
@@ -349,7 +349,7 @@ function dfcg_ui_onecat_wp() {
 	global $dfcg_options;
 	?>
  	<tr valign="top">
-		<th scope="row">Path to default "Category" images folder:</th>
+		<th scope="row">URL to default "Category" images folder:</th>
 		<td>Enter the URL to the folder which contains the default images which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
 		This should be the <b>absolute</b> URL from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the URL entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
 	</tr>
