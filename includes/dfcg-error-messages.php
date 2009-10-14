@@ -64,7 +64,7 @@ $dfcg_errmsg_2 .= '<!-- Fix: Enter a minimum of 2 valid Page IDs in the DCG Sett
 *						Either of these fixes will clear both errmsg_public and this error message.
 *	Notes:				Informational only, this error does not prevent the gallery running.
 */
-$dfcg_errmsg_3 = '<!-- DCG Error Message 3: Custom Field dfcg-desc does nor exist and Default Description does not exist.
+$dfcg_errmsg_3 = '<!-- DCG Error Message 3: Custom Field dfcg-desc does not exist and Default Description does not exist.
 			Fix: Create a dfcg-desc Custom Field for this Page/Post and/or define a Default Description in the DCG Settings page. -->';
 
 
