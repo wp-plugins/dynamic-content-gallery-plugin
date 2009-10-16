@@ -22,9 +22,9 @@ This plugin for WP and WPMU creates a **dynamic gallery** of images for latest a
 
 * SmoothGallery javascript driven image gallery using mootools framework.
 * Displays 5 custom images, titles and descriptions for the 5 latest posts from your choice of categories. For example, the last 5 posts from one category or the latest post from 5 categories or any other combination in-between.
-* Highly configurable.
+* Highly configurable options.
 * Valid xhtml output.
-* Compatible with Wordpress Mu (note that some Settings are not available when used with Wordpress Mu)
+* Compatible with Wordpress Mu (note that some options are not available in Wordpress Mu)
 
 **Further information**
 -----------------------
