@@ -14,9 +14,8 @@ Creates a dynamic gallery of images for latest and/or featured posts.
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured posts using the excellent JonDesign SmoothGallery script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
+This plugin for WP and WPMU creates a **dynamic gallery** of images for latest and/or featured posts using the excellent JonDesign **SmoothGallery** script.  By associating your gallery images with individual posts, using Post Custom Fields, the plugin dynamically creates the gallery from your latest and/or featured posts. Additionally, default images can be assigned to categories in the event that the necessary Post Custom Fields have not been set up. An Admin Settings page enables you to select which categories and posts are linked to the gallery images. 
 
-Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version.
 
 **Key Features**
 ----------------
@@ -29,9 +28,9 @@ Compatible with Wordpress Mu but with some differences in features compared with
 
 **Further information**
 -----------------------
-Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch
+Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/
 
-All support is handled at http://studiograsshopper.ch/forum. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum. 
+All support is handled at http://www.studiograsshopper.ch/forum. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum. 
 
 
 == Installation ==
@@ -81,7 +80,7 @@ You can use the Wordpress Automatic Plugin upgrade link in the Admin Plugins men
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?&gt;
+`<?php include (ABSPATH . '/wp-content/plugins/dynamic-content-gallery-plugin/dynamic-gallery.php'); ?>`
 
 **NOTE:** From version 2.0 onwards the plugin folder name has changed to **dynamic-content-gallery-plugin** (it was **dynamic-gallery** in prior versions). If you get PHP errors after upgrading from version 1.0.0 check this path in your theme template file.
 
