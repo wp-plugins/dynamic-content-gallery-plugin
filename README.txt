@@ -30,7 +30,11 @@ This plugin for WP and WPMU creates a **dynamic gallery** of images for latest a
 -----------------------
 Comprehensive information on installing, configuring and using the plugin can be found at the [Dynamic Content Gallery Configuration](http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/) page.
 
-All support is handled at http://www.studiograsshopper.ch/forum. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum. 
+In the event you experience problems you should visit the dedicated [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery-faq/) for troubleshooting and configuration tips.
+
+If you are upgrading an existing installation of the plugin, please upgrade as per the instructions provided on the [Dynamic Content Gallery upgrade instructions](http://www.studiograsshopper.ch/dynamic-content-gallery-upgrade-instructions/) page. 
+
+All support is handled at the [Studiograsshopper Forum](http://www.studiograsshopper.ch/forum). I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum. 
 
 
 == Installation ==
