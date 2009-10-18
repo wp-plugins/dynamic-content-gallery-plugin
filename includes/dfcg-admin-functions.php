@@ -51,8 +51,7 @@ function dfcg_ui_sgr_info() {
 // How To: box and content
 function dfcg_ui_howto() {
 ?>
-	<a name="how to"></a>
-	<div class="postbox">
+	<div id="how-to" class="postbox">
 		<h3><?php _e('How to add the Dynamic Content Gallery to your Theme:', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
 			<p><?php _e('Add this code to the relevant theme template file depending on where you want to display the Dynamic Content Gallery:', DFCG_DOMAIN); ?></p>
@@ -67,14 +66,13 @@ function dfcg_ui_howto() {
 // How to assign posts/pages: box and content
 function dfcg_ui_assign() {
 ?>
-	<a name="assign"></a>
-	<div class="postbox">
+	<div id="assign" class="postbox">
 		<h3><?php _e("How to assign an image and a description to each Post/Page:", DFCG_DOMAIN); ?></h3>
 		<div class="inside">
 			<p><?php _e("Images are pulled into the gallery from custom fields created in the relevant Posts/Pages:", DFCG_DOMAIN); ?></p> 
 			<ul>
 				<li>Custom field <strong>dfcg-desc</strong> <?php _e("for the Description which will appear in the gallery Slide Pane. For example: ", DFCG_DOMAIN); ?> <em><?php _e("Here's our latest news!", DFCG_DOMAIN); ?></em></li>
-				<li>Custom field <strong>dfcg-image</strong> <?php _e("for the image filename, including extension, with EITHER the full, partial URL, or no URL, depending on your ", DFCG_DOMAIN); ?><a href="#1">Image file management</a> Settings.</li>
+				<li>Custom field <strong>dfcg-image</strong> <?php _e("for the image filename, including extension, with EITHER the full, partial URL, or no URL, depending on your ", DFCG_DOMAIN); ?><a href="#image-file">Image file management</a> Settings.</li>
 			</ul>
 		</div>
 	</div>
@@ -83,8 +81,7 @@ function dfcg_ui_assign() {
 // External link: box and content
 function dfcg_ui_link() {
 ?>
-	<a name="link"></a>
-	<div class="postbox">
+	<div id="external-link" class="postbox">
 		<h3><?php _e("How to assign an external link to a gallery image:", DFCG_DOMAIN); ?></h3>
 		<div class="inside">
 			<p><?php _e("By default, clicking on an image in the gallery takes the user to the image's Post or Page. If you wish to link a gallery image to a different resource, eg another page on your site or an external site, create the following custom field for the relevant Post/Page:", DFCG_DOMAIN); ?></p> 
@@ -100,16 +97,15 @@ function dfcg_ui_link() {
 // WP ONLY
 function dfcg_ui_create_wp() {
 ?>
-	<a name="create"></a>
-	<div class="postbox">
+	<div id="default-images" class="postbox">
 		<h3><?php _e('How to name and organise your default images:', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
     		<p>A key feature of this plugin is its automatic use of default images in the event a Custom Field <strong>dfcg-image</strong> has not been created for a Post/Page. This is a useful fallback because missing images can prevent the gallery from loading properly. Therefore, it is recommended, though not complulsory, that you set up default images as described below.</p>
 			<h4>Gallery Method: Multi Option and One Category</h4>
-			<p>These methods use Posts and Categories to populate the gallery. In the event that a Custom Field is missing from a Post, the plugin will display a default image determined by the Category ID for that Post. Create a default image for each of the Categories specified in the <a href="#2.1">Multi Option</a> Settings, or the Category specified in the <a href="#2.2">One Category</a> Settings, depending on which Gallery Method you have selected.</p>
-			<p>In either case, default images must be named as follows: <em>XX.jpg</em>, where XX is the Category ID. For example, the default image that will be displayed for a Post in Category ID=8 must be named <em>8.jpg</em>. Once you have created your default images, and named them as per these instructions, upload them to the folder specified in the <a href="#2.1">Multi Option</a> or <a href="#2.2">One Category</a> Settings as appropriate.</p>
+			<p>These methods use Posts and Categories to populate the gallery. In the event that a Custom Field is missing from a Post, the plugin will display a default image determined by the Category ID for that Post. Create a default image for each of the Categories specified in the <a href="#multi-option">Multi Option</a> Settings, or the Category specified in the <a href="#one-category">One Category</a> Settings, depending on which Gallery Method you have selected.</p>
+			<p>In either case, default images must be named as follows: <em>XX.jpg</em>, where XX is the Category ID. For example, the default image that will be displayed for a Post in Category ID=8 must be named <em>8.jpg</em>. Once you have created your default images, and named them as per these instructions, upload them to the folder specified in the <a href="#multi-option">Multi Option</a> or <a href="#one-category">One Category</a> Settings as appropriate.</p>
 			<h4>Gallery Method: Pages</h4>
-			<p>In this case, only one default image is required, and you have complete freedom to name the image as you wish (any valid image extension is permitted). Upload the image to somewhere on your site and enter the full URL to the image in the <a href="#2.3">Pages</a> Settings.</p>
+			<p>In this case, only one default image is required, and you have complete freedom to name the image as you wish (any valid image extension is permitted). Upload the image to somewhere on your site and enter the full URL to the image in the <a href="#pages-method">Pages</a> Settings.</p>
 		</div>
 	</div>
 <?php }
@@ -118,8 +114,7 @@ function dfcg_ui_create_wp() {
 // WPMU ONLY
 function dfcg_ui_create_wpmu() {
 ?>
-	<a name="create"></a>
-	<div class="postbox">
+	<div id="upload-images" class="postbox">
 		<h3><?php _e('1. Uploading your images', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
     		<p>Use the Media Uploader in Write Posts / Write Pages to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finsihed "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>dfcg-image</strong> custom field in the Write Post screen.</p>
@@ -131,8 +126,7 @@ function dfcg_ui_create_wpmu() {
 function dfcg_ui_1_image_wp() {
 	global $dfcg_options;
 	?>
-	<a name="1"></a>
-	<div class="postbox">
+	<div id="image-file" class="postbox">
 		<h3>1. Image file management (REQUIRED)</h3>
 		<div class="inside">
 			<p>Complete the following settings to indicate your Dynamic Content Gallery image file management preferences. Your selection determines what should be entered in the <strong>dfcg-image</strong> custom field when assigning an image to a Post or Page.</p>
@@ -175,8 +169,7 @@ function dfcg_ui_1_image_wp() {
 function dfcg_ui_2_method() {
 	global $dfcg_options;
 	?>
-	<a name="2"></a>
-	<div class="postbox">
+	<div id="gallery-method" class="postbox">
 		<h3>2. Gallery Method (REQUIRED):</h3>
 		<div class="inside">
 			<p>The Dynamic Content Gallery offers three different methods for populating the gallery with images. Select the option most appropriate for your needs.</p>
@@ -185,19 +178,19 @@ function dfcg_ui_2_method() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg[populate-method]" style="margin-right:5px;" type="radio" id="dfcg-populate-multi" value="multi-option" <?php checked('multi-option', $dfcg_options['populate-method']); ?> />
 						<label for=id="dfcg-populate-multi">Multi Option</label></th>
-						<td>Complete freedom to select up to 9 images from a mix of categories. Set up the relevant options in <a href="#2.1">2.1 MULTI OPTION Settings</a><br />
+						<td>Complete freedom to select up to 9 images from a mix of categories. Set up the relevant options in <a href="#multi-option">2.1 MULTI OPTION Settings</a><br />
 						<em><b>Tip</b>: This is a the original method used in previous versions of the plugin, and the option to choose if you want to mix posts from different categories.</em></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg[populate-method]" style="margin-right:5px;" type="radio" id="dfcg-populate-one" value="one-category" <?php checked('one-category', $dfcg_options['populate-method']); ?> />
 						<label for=id="dfcg-populate-one">One Category</label></th>
-						<td>Images are pulled from a user-definable number of Posts assigned to one selected Category. Set up the relevant options in <a href="#2.2">2.2 ONE CATEGORY Settings</a><br />
+						<td>Images are pulled from a user-definable number of Posts assigned to one selected Category. Set up the relevant options in <a href="#one-category">2.2 ONE CATEGORY Settings</a><br />
 						<em><b>Tip</b>: This is a good option if you use a Featured or News category for highlighting certain posts.</em></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg[populate-method]" style="margin-right:5px;" type="radio" id="dfcg-populate-pages" value="pages" <?php checked('pages', $dfcg_options['populate-method']); ?> />
 						<label for=id="dfcg-populate-pages">Pages</label></th>
-						<td>Images are pulled from Pages, rather than Posts. Set up the relevant options in <a href="#2.3">2.3 PAGES</a><br />
+						<td>Images are pulled from Pages, rather than Posts. Set up the relevant options in <a href="#pages-method">2.3 PAGES</a><br />
 						<em><b>Tip</b>: This could be a good option if your site is more CMS than Blog.</em></td>
 					</tr>
 				</tbody>
@@ -211,69 +204,68 @@ function dfcg_ui_2_method() {
 function dfcg_ui_multi() {
 	global $dfcg_options;
 	?>
-	<a name="2.1"></a>
-		<div class="postbox">
-			<h3>2.1 MULTI OPTION Settings</h3>
-			<div class="inside">
-				<p>Configure this section if you chose Multi Option in the <a href="#2">Gallery Method</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select".</p>
-				<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Further information on the possible schemes can be found on the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
-				<p><em><b>Tip</b>: If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href="#2">Gallery Method</a> instead. It's much more efficient in terms of database queries.</em><br />
-				<em><b>Tip</b>: Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.</em></p>
+	<div id="multi-option" class="postbox">
+		<h3>2.1 MULTI OPTION Settings</h3>
+		<div class="inside">
+			<p>Configure this section if you chose Multi Option in the <a href="#gallery-method">Gallery Method</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select".</p>
+			<p>For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on. Further information on the possible schemes can be found on the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration/">Dynamic Content Gallery configuration</a> page.</p>
+			<p><em><b>Tip</b>: If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href="#gallery-method">Gallery Method</a> instead. It's much more efficient in terms of database queries.</em><br />
+			<em><b>Tip</b>: Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.</em></p>
 			
-				<table class="optiontable form-table">
-					<tbody>
-						<tr valign="top">
-							<th scope="row"><strong>Image "Slots"</strong></th>
-							<td><strong>Category Select</strong></td>
-							<td><strong>Post Select</strong></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">1st image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat01'], 'name' => 'dfcg[cat01]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off01]" id="off01" size="5" value="<?php echo $dfcg_options['off01']; ?>" />&nbsp;<em>Ex. Enter <strong>1</strong> for latest post.</em></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">2nd image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat02'], 'name' => 'dfcg[cat02]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off02]" id="off02" size="5" value="<?php echo $dfcg_options['off02']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">3rd image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat03'], 'name' => 'dfcg[cat03]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off03]" id="off03" size="5" value="<?php echo $dfcg_options['off03']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">4th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat04'], 'name' => 'dfcg[cat04]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off04]" id="off04" size="5" value="<?php echo $dfcg_options['off04']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">5th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat05'], 'name' => 'dfcg[cat05]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off05]" id="off05" size="5" value="<?php echo $dfcg_options['off05']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">6th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat06'], 'name' => 'dfcg[cat06]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off06]" id="off06" size="5" value="<?php echo $dfcg_options['off06']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">7th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat07'], 'name' => 'dfcg[cat07]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off07]" id="off07" size="5" value="<?php echo $dfcg_options['off07']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">8th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat08'], 'name' => 'dfcg[cat08]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off08]" id="off08" size="5" value="<?php echo $dfcg_options['off08']; ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">9th image</th>
-							<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat09'], 'name' => 'dfcg[cat09]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
-							<td><input name="dfcg[off09]" id="off09" size="5" value="<?php echo $dfcg_options['off09']; ?>" /></td>
-						</tr>
-					</tbody>
-				</table>
+			<table class="optiontable form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row"><strong>Image "Slots"</strong></th>
+						<td><strong>Category Select</strong></td>
+						<td><strong>Post Select</strong></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">1st image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat01'], 'name' => 'dfcg[cat01]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off01]" id="off01" size="5" value="<?php echo $dfcg_options['off01']; ?>" />&nbsp;<em>Ex. Enter <strong>1</strong> for latest post.</em></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">2nd image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat02'], 'name' => 'dfcg[cat02]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off02]" id="off02" size="5" value="<?php echo $dfcg_options['off02']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">3rd image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat03'], 'name' => 'dfcg[cat03]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off03]" id="off03" size="5" value="<?php echo $dfcg_options['off03']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">4th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat04'], 'name' => 'dfcg[cat04]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off04]" id="off04" size="5" value="<?php echo $dfcg_options['off04']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">5th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat05'], 'name' => 'dfcg[cat05]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off05]" id="off05" size="5" value="<?php echo $dfcg_options['off05']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">6th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat06'], 'name' => 'dfcg[cat06]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off06]" id="off06" size="5" value="<?php echo $dfcg_options['off06']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">7th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat07'], 'name' => 'dfcg[cat07]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off07]" id="off07" size="5" value="<?php echo $dfcg_options['off07']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">8th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat08'], 'name' => 'dfcg[cat08]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off08]" id="off08" size="5" value="<?php echo $dfcg_options['off08']; ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">9th image</th>
+						<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat09'], 'name' => 'dfcg[cat09]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1 )); ?></td>
+						<td><input name="dfcg[off09]" id="off09" size="5" value="<?php echo $dfcg_options['off09']; ?>" /></td>
+					</tr>
+				</tbody>
+			</table>
 <?php }
 
 // Multi-Option default image folder: content
@@ -285,7 +277,7 @@ function dfcg_ui_multi_wp() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row">URL to default "Category" images folder:</th>
-				<td>Enter the URL to the folder which contains the <a href="#create">default images</a> which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
+				<td>Enter the URL to the folder which contains the <a href="#default-images">default images</a> which will be pulled into the gallery.  These default images are only used by the plugin in the event that the Post does not have an image specified in the Custom Field <strong>dfcg-image</strong>.<br />
 				This should be the <b>absolute</b> URL from your site root.  For example, if your default images are stored in a folder named "default" in your http://www.yourdomain.com/wp-content/uploads folder, the URL entered here will be: <b><em>http://www.yourdomain.com/wp-content/uploads/default/</em></b></td>
 			</tr>
 			<tr valign="top">
@@ -310,11 +302,10 @@ function dfcg_ui_multi_end() {
 function dfcg_ui_onecat() {
 	global $dfcg_options;
 	?>
-	<a name="2.2"></a>
-	<div class="postbox">
+	<div id="one-category" class="postbox">
 		<h3>2.2 ONE CATEGORY Settings</h3>
 		<div class="inside">
-			<p>Configure this section if you chose One Category in the <a href="#2">Gallery Method</a> Settings.</p>
+			<p>Configure this section if you chose One Category in the <a href="#gallery-method">Gallery Method</a> Settings.</p>
 				<table class="optiontable form-table">
 					<tbody>
 						<tr valign="top">
@@ -375,11 +366,10 @@ function dfcg_ui_onecat_end() {
 function dfcg_ui_pages() {
 	global $dfcg_options;
 	?>
-	<a name="2.3"></a>
-	<div class="postbox">
+	<div id="pages-method" class="postbox">
 		<h3>2.3 PAGES Settings</h3>
 		<div class="inside">
-			<p>Configure this section if you chose Pages in the <a href="#2">Gallery</a> Settings.</p>
+			<p>Configure this section if you chose Pages in the <a href="#gallery-method">Gallery Method</a> Settings.</p>
 				<table class="optiontable form-table">
 					<tbody>
 						<tr>
@@ -420,11 +410,10 @@ function dfcg_ui_pages_end() {
 function dfcg_ui_defdesc() {
 	global $dfcg_options;
 	?>
-	<a name="3"></a>
-	<div class="postbox">
+	<div id="default-desc" class="postbox">
 		<h3>3. Default description (OPTIONAL):</h3>
 		<div class="inside">
-			<p>This option is applicable to all <a href="#2">Gallery Method</a> Settings.</p>
+			<p>This option is applicable to all <a href="#gallery-method">Gallery Method</a> Settings.</p>
 			<p>The Dynamic Content Gallery displays a description for each image in the gallery Slide Pane. The plugin looks for the image description in this sequence: firstly, a custom field <strong>dfcg-desc</strong> if that exists, secondly a Category Description if that exists (not applicable to the Pages Gallery Method), and finally the default description created here.</p>
 			<p><em><b>Tip</b>: Create the Category Descriptions in Dashboard>Posts>Categories.<br />
 			<b>Tip</b>: The Slide Pane has relatively little space in which to display this text, and therefore it is recommended to keep the description short, probably less than 25 words.</em></p>
@@ -446,8 +435,7 @@ function dfcg_ui_defdesc() {
 function dfcg_ui_css() {
 	global $dfcg_options;
 	?>
-	<a name="4"></a>
-	<div class="postbox">
+	<div id="gallery-css" class="postbox">
 		<h3>4. Gallery size and CSS options (REQUIRED):</h3>
 		<div class="inside">
 			<p>Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the Slide Pane. The inclusion of these options in this Settings page saves you having to customise the plugin's CSS stylesheet.</p>	
@@ -533,8 +521,7 @@ function dfcg_ui_css() {
 function dfcg_ui_javascript() {
 	global $dfcg_options;
 	?>
-	<a name="5"></a>
-	<div class="postbox">
+	<div id="gallery-js" class="postbox">
 		<h3>5. Javascript configuration options (OPTIONAL):</h3>
 		<div class="inside">
 			<p>Configure various default javascript settings for your gallery. The inclusion of these options in this Settings page saves you having to customise the plugin's javascript files.</p>
@@ -614,8 +601,7 @@ function dfcg_ui_hidden_wpmu() {
 function dfcg_ui_restrict_scripts() {
 	global $dfcg_options;
 	?>
-	<a name="6"></a>
-	<div class="postbox">
+	<div id="restrict-script" class="postbox">
 		<h3>6. Restrict script loading (RECOMMENDED):</h3>
 		<div class="inside">
 			<p>This option lets you restrict the loading of the plugin's javascript to the page that will actually display the gallery. This prevents the scripts being loaded on all pages unnecessarily, which will help to minimise the impact of the plugin on page loading times.</p>
@@ -657,8 +643,7 @@ function dfcg_ui_restrict_scripts() {
 function dfcg_ui_errors() {
 	global $dfcg_options;
 	?>
-	<a name="7"></a>
-	<div class="postbox">
+	<div id="error-messages" class="postbox">
 		<h3>7. Error Message options (OPTIONAL)</h3>
 		<div class="inside">
 			<p>The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly. These error messages are output to the Page Source of the gallery. You may choose whether to turn off the visibility of these error messages.</p>
@@ -679,8 +664,7 @@ function dfcg_ui_errors() {
 function dfcg_ui_columns() {
 	global $dfcg_options;
 	?>
-	<a name="8"></a>
-	<div class="postbox">
+	<div id="custom-columns" class="postbox">
 		<h3>8. Add Custom Field column to Posts and Pages Edit screen (OPTIONAL)</h3>
 		<div class="inside">
 			<p>These settings let you add a column to the Edit Posts and Edit Pages screens to display the value of the <strong>dfcg-image</strong> Custom Field. This can be useful to help keep track of the contents of the <strong>dfcg-image</strong> Custom Field without having to open each individual Post or Page.</p>
