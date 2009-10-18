@@ -128,25 +128,25 @@ if ( function_exists('wpmu_create_blog') ) {
 						_e(' for Wordpress and Wordpress Mu.', DFCG_DOMAIN); ?></em></p>
 						<p>
 						<ul>
-							<li><a href="#how to">How to add the Dynamic Content Gallery to your Theme</a></li>
+							<li><a href="#how-to">How to add the Dynamic Content Gallery to your Theme</a></li>
 							<li><a href="#assign">How to assign an image and a description to each Post/Page</a></li>
-							<li><a href="#link">How to assign an external link to a gallery image</a></li>
+							<li><a href="#external-link">How to assign an external link to a gallery image</a></li>
 							<?php if ( function_exists('wpmu_create_blog') ) { ?>
-								<li><a href="#create">1. Uploading your images</a></li>
+								<li><a href="#upload-images">1. Uploading your images</a></li>
 							<?php } else { ?>
-								<li><a href="#create">How to name and organise your default images</a></li>
-								<li><a href="#1">1. Image file management (REQUIRED)</a></li>
+								<li><a href="#default-images">How to name and organise your default images</a></li>
+								<li><a href="#image-file">1. Image file management (REQUIRED)</a></li>
 							<?php } ?>
-							<li><a href="#2">2. Gallery Method (REQUIRED)</a></li>
-							<li><a href="#2.1">2.1 MULTI OPTION Settings</a> (<em>Required if you selected Multi Option in <a href="#2">Gallery Method</a></em>)</li>
-							<li><a href="#2.2">2.2 ONE CATEGORY Settings</a> (<em>Required if you selected One Category in <a href="#2">Gallery Method</a></em>)</li>
-							<li><a href="#2.3">2.3 PAGES Settings</a> (<em>Required if you selected Pages in <a href="#2">Gallery Method</a></em>)</li>
-							<li><a href="#3">3. Default description (OPTIONAL)</a></li>
-							<li><a href="#4">4. Gallery size and CSS options (REQUIRED)</a></li>
-							<li><a href="#5">5. Javascript configuration options (OPTIONAL)</a></li>
-							<li><a href="#6">6. Restrict script loading (RECOMMENDED)</a></li>
-							<li><a href="#7">7. Error message options (OPTIONAL)</a></li>
-							<li><a href="#8">8. Add Custom Field column to Posts and Pages Edit screen (OPTIONAL)</a></li>
+							<li><a href="#gallery-method">2. Gallery Method (REQUIRED)</a></li>
+							<li><a href="#multi-option">2.1 MULTI OPTION Settings</a> (<em>Required if you selected Multi Option in <a href="#gallery-method">Gallery Method</a></em>)</li>
+							<li><a href="#one-category">2.2 ONE CATEGORY Settings</a> (<em>Required if you selected One Category in <a href="#gallery-method">Gallery Method</a></em>)</li>
+							<li><a href="#pages-method">2.3 PAGES Settings</a> (<em>Required if you selected Pages in <a href="#gallery-method">Gallery Method</a></em>)</li>
+							<li><a href="#default-desc">3. Default description (OPTIONAL)</a></li>
+							<li><a href="#gallery-css">4. Gallery size and CSS options (REQUIRED)</a></li>
+							<li><a href="#gallery-js">5. Javascript configuration options (OPTIONAL)</a></li>
+							<li><a href="#restrict-script">6. Restrict script loading (RECOMMENDED)</a></li>
+							<li><a href="#error-messages">7. Error message options (OPTIONAL)</a></li>
+							<li><a href="#custom-columns">8. Add Custom Field column to Posts and Pages Edit screen (OPTIONAL)</a></li>
 						</ul>
 						</p>
 					
