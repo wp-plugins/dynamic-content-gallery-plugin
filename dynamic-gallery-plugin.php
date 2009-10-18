@@ -111,17 +111,27 @@ function dfcg_load_textdomain() {
 
 /* 	Load the files needed for Gallery output to be displayed
 *
-*	dfcg-key-variables		Declares global scope variables = Options array variable, $dfcg_baseimgurl 
-*	dfcg-error-messages		Browser and/or Page Source errors.
-*	dfcg-gallery-functions	Three gallery constructor functions
-*	dfcg-admin-functions	Functions for outputting Setting Page elements
+*	dfcg-key-variables			Declares global scope variables = Options array variable, $dfcg_baseimgurl 
+*	dfcg-error-messages			Browser and/or Page Source errors.
+*	dfcg-gallery-functions		Three gallery constructor functions
+*	dfcg-admin-functions		Functions for outputting Setting Page elements
+*	dfcg-admin-validation		Functions for validating Settings
+*	dfcg-admin-custom-columns	Adds custom columns to Edit Posts & Edit Pages screens
+*	dfcg-admin-css-js			Settings page CSS and JS
 *
 *	@since	3.0
 */ 
 include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
 include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
 include_once( DFCG_DIR . '/includes/dfcg-gallery-functions.php');
-include_once( DFCG_DIR . '/includes/dfcg-admin-functions.php');
+
+// Files required when in Admin
+if( is_admin() ) {
+	include_once( DFCG_DIR . '/includes/dfcg-admin-functions.php');
+	include_once( DFCG_DIR . '/includes/dfcg-admin-validation.php');
+	include_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
+	include_once( DFCG_DIR . '/includes/dfcg-admin-css-js.php');
+}
 
 
 /**	Template tag to display gallery in theme files
@@ -560,228 +570,4 @@ function dfcg_unset_gallery_options() {
 if ( !function_exists('register_uninstall_hook') ) {
      // we're in < 2.7 so register the deactivation hook
      register_deactivation_hook(__FILE__, 'dfcg_unset_gallery_options');
-}
-
-
-/** Add columns to Posts and Pages Edit screen to display dfcg-image custom field contents.
-*
-*	This can be turned off in the DCG Settings Page. 
-*
-*	@uses	manage_posts_column filter
-*	@uses	manage_posts_custom_column action
-*	@since	3.0
-*/
-// Filters and Actions to add the columns
-if( $dfcg_options['posts-column'] == 'true' ) {
-	add_filter('manage_posts_columns', 'dfcg_posts_columns');
-	add_action('manage_posts_custom_column', 'dfcg_custom_posts_column', 10, 2);
-}
-if( $dfcg_options['pages-column'] == 'true' ) {
-	add_filter('manage_pages_columns', 'dfcg_posts_columns');
-	add_action('manage_pages_custom_column', 'dfcg_custom_posts_column', 10, 2);
-}
-
-// Add columns
-function dfcg_posts_columns($defaults) {
-    $defaults['custom_fields'] = __('Custom Field dfcg-image');
-    return $defaults;
-}
-
-// Populate new columns
-function dfcg_custom_posts_column($column_name, $post_id) {
-    global $wpdb;
-    if( $column_name == 'custom_fields' ) {
-        $query = "SELECT *
-FROM $wpdb->postmeta
-WHERE $wpdb->postmeta.post_id = $post_id
-AND $wpdb->postmeta.meta_key = 'dfcg-image'";
-        $dfcg_images = $wpdb->get_results($query);
-        if( $dfcg_images ) {
-            $my_func = create_function('$att', 'return $att->meta_value;');
-            $text = array_map($my_func, $dfcg_images);
-            echo implode(', ',$text);
-        } else {
-            echo '<i>'.__('None').'</i>';
-        }
-    }
-}
-
-
-/**	Function for validating user input on submit of Settings page form
-*	
-*	Prints validation messages to the Settings Page.
-*
-*	@param	array	$options_array, the options from $_POST variable
-*
-*	@since	3.0	
-*/
-function dfcg_on_submit_validation($options_array) {
-
-	// If Partial URL is selected, imageurl must be defined
-	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "Partial" URL option in the <a href="#1">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
-	}
-	
-	// If Pages, Page ID's must be defined
-	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected to display the gallery using the "Pages" method in <a href="#2">Section 2</a>, but you have not defined any Page ID\'s.<br />Please enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
-	}
-	
-	if ( function_exists('wpmu_create_blog') ) {
-		// We're in WPMU, so ignore these messages
-	} else {
-		// If Multi Option, defimgmulti should be defined
-		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-		
-		// If One Category, defimgonecat should be defined
-		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "One Category" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.2">One Category</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-		
-		// If Pages, defimgpages should be defined
-		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Warning: You have selected the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-	}
-	
-	// deal with multioption Post Selects
-	$multioption_raw_offsets = array (
-		$options_array['off01'],
-		$options_array['off02'],
-		$options_array['off03'],
-		$options_array['off04'],
-		$options_array['off05'],
-		$options_array['off06'],
-		$options_array['off07'],
-		$options_array['off08'],
-		$options_array['off09'],
-		);
-		
-	$multioption_offsets = array();
-		
-	foreach( $multioption_raw_offsets as $key => $value ) {
-		$raw_offset = $multioption_raw_offsets[$key];
-		if( !empty($raw_offset) ) {
-			$temp_array = $multioption_raw_offsets[$key];
-			array_push($multioption_offsets, $temp_array);
-			unset($temp_array);
-		}
-	}
-		
-	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected the "Multi Option" <a href="#2">Gallery Method</a>. You must enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>.') . '</strong></p></div>';
-	}
-
-	// End of validation checks
-}
-
-
-/**	Function for validation on fresh load of Settings Page (not after Submit)
-*	
-*	Prints validation messages to the Settings Page.
-*
-*	@param	array	$options_array, options from db
-*
-*	@since	3.0	
-*/
-function dfcg_on_load_validation($options_array) {
-
-	// If Partial URL is selected, imageurl must be defined
-	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "Partial" URL option in the <a href="#1">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#1">Section 1</a>.') . '</strong></p></div>';
-	}
-	
-	// If Pages, Page ID's must be defined
-	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder!: You are using the "Pages" <a href="#2">Gallery Method</a>. You must enter at least two valid Page ID\'s in <a href="#2.3">Section 2.3</a>.') . '</strong></p></div>';
-	}
-	
-	if ( function_exists('wpmu_create_blog') ) {
-		// We're in WPMU, so ignore these messages
-	} else {
-		// If Multi Option, defimgmulti should be defined
-		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) && !isset($_POST['info_update'])) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.1">Multi Option</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-		
-		// If One Category, defimgonecat should be defined
-		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) && !isset($_POST['info_update']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "One Category" <a href="#2">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#2.2">One Category</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-	
-		// If Pages, defimgpages should be defined
-		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) && !isset($_POST['info_update']) ) {
-			echo '<div id="message" class="updated"><p><strong>' . __('Reminder! You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#2.3">Pages</a> section to take advantage of the default image feature.') . '</strong></p></div>';
-		}
-	}
-	
-	// deal with multioption Post Selects
-	$multioption_raw_offsets = array (
-		$options_array['off01'],
-		$options_array['off02'],
-		$options_array['off03'],
-		$options_array['off04'],
-		$options_array['off05'],
-		$options_array['off06'],
-		$options_array['off07'],
-		$options_array['off08'],
-		$options_array['off09'],
-		);
-		
-	$multioption_offsets = array();
-		
-	foreach( $multioption_raw_offsets as $key => $value ) {
-		$raw_offset = $multioption_raw_offsets[$key];
-		if( !empty($raw_offset) ) {
-			$temp_array = $multioption_raw_offsets[$key];
-			array_push($multioption_offsets, $temp_array);
-			unset($temp_array);
-		}
-	}
-		
-	if( $options_array['populate-method'] == 'multi-option' && count($multioption_offsets) < 2 && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! You are using the "Multi Option" <a href="#2">Gallery Method</a>. You must enter at least 2 Posts Selects in <a href="#2.1">Section 2.1</a>..') . '</strong></p></div>';
-	}
-}
-
-
-/**	Function for loading JS and CSS for Settings Page
-*	
-*	Code from Nathan Rice, Theme Options plugin.
-*
-*	@since	3.0	
-*/
-function dfcg_options_css_js() {
-echo <<<CSS
-
-<style type="text/css">
-.form-table th {font-size:11px;}
-.metabox-holder {float:left;}
-.sgr-credits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 0px 0px 0px;}
-.sgr-credits p {font-size:11px;}
-#sgr-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;}
-#sgr-info ul {list-style-type:none;margin-left:0px;}
-#sgr-info img {float:left;margin:0px 10px 10px 0px;border:none;}
-#sgr-info input {float:right;margin:0px 0px 10px 10px;}
-#sgr-info h4 {font-size:12px;}
-div.inside {padding: 0px 10px 10px 10px;margin:0px;}
-.inside p {font-size:11px;padding:0px 0px 0px 0px;line-height:20px;}
-.inside ul {list-style-type:disc;margin-left:30px;font-size:11px;}
-.inside h4 {font-size:11px;margin:1em 0;}
-.postbox-sgr {padding:0px 10px;margin:0px;}
-.error p, .updated p {font-size:11px;line-height:20px;}	
-</style>
-
-CSS;
-echo <<<JS
-
-<script type="text/javascript">
-jQuery(document).ready(function($) {
-	$(".fade").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
-});
-</script>
-
-JS;
 }
