@@ -22,11 +22,11 @@
 *	@since	3.0
 */
 // Filters and Actions to add the columns
-if( $dfcg_options['posts-column'] == 'true' ) {
+if( $dfcg_options['posts-column'] == "true" ) {
 	add_filter('manage_posts_columns', 'dfcg_posts_columns');
 	add_action('manage_posts_custom_column', 'dfcg_custom_posts_column', 10, 2);
 }
-if( $dfcg_options['pages-column'] == 'true' ) {
+if( $dfcg_options['pages-column'] == "true" ) {
 	add_filter('manage_pages_columns', 'dfcg_posts_columns');
 	add_action('manage_pages_custom_column', 'dfcg_custom_posts_column', 10, 2);
 }

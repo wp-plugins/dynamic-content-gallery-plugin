@@ -32,6 +32,7 @@ function dfcg_ui_sgr_info() {
 	<p><a href="http://www.studiograsshopper.ch"><img src="<?php echo DFCG_URL . '/admin-assets/sgr_icon_75.jpg'; ?>" alt="studiograsshopper" /></a><strong>Dynamic Content Gallery for WP and WPMU</strong>.<br />Version <?php echo DFCG_VER; ?><br />Author: <a href="http://www.studiograsshopper.ch/">Ade Walker</a></p>
 	<p>For further information, or in case of configuration problems, please consult these comprehensive resources:</p>
 	<ul>
+		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/">Plugin Home page</a></li>
 		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-configuration-guide/">Configuration guide</a></li>
 		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-documentation/">Documentation</a></li>
 		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery-v3-faq/">FAQ</a></li>
