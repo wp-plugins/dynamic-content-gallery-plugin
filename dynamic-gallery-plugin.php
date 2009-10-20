@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Dynamic Content Gallery
-Plugin URI: http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-plugin-v2/
+Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery-plugin/
 Version: 3.0 RC3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
@@ -121,15 +121,21 @@ function dfcg_load_textdomain() {
 *
 *	@since	3.0
 */ 
-include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
-include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
-include_once( DFCG_DIR . '/includes/dfcg-gallery-functions.php');
+// Load plugin options
+$dfcg_options = get_option('dfcg_plugin_settings');
 
-// Files required when in Admin
+// Public files
+if( !is_admin() ) {
+	include_once( DFCG_DIR . '/includes/dfcg-key-variables.php');
+	include_once( DFCG_DIR . '/includes/dfcg-error-messages.php');
+	include_once( DFCG_DIR . '/includes/dfcg-gallery-functions.php');
+}
+
+// Admin-only files
 if( is_admin() ) {
 	include_once( DFCG_DIR . '/includes/dfcg-admin-functions.php');
-	include_once( DFCG_DIR . '/includes/dfcg-admin-validation.php');
-	include_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
+	require_once( DFCG_DIR . '/includes/dfcg-admin-validation.php');
+	require_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
 	include_once( DFCG_DIR . '/includes/dfcg-admin-css-js.php');
 }
 
@@ -344,6 +350,7 @@ function dfcg_plugin_meta($links, $file) {
 *	Contains the latest version's default options.
 *	Used by the "upgrader" function dfcg_set_gallery_options().
 *	Used if Reset button is clicked.
+*	61 options (5 are WP only)
 *
 *	@since	3.0	
 */
@@ -439,6 +446,7 @@ function dfcg_set_gallery_options() {
 	
 	// Get current options
 	$dfcg_existing = get_option( 'dfcg_plugin_settings' );
+	
 	// Get current version number
 	$dfcg_prev_version = get_option('dfcg_version');
 	
@@ -450,12 +458,12 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from pre-RC2 v3 version (which used version number 2.3)
 	} elseif( $dfcg_existing && $dfcg_prev_version == '2.3' ) {
 		
-		// If NO URL exists, change it to Partial URL
-		// NO URL is deprecated
+		// If NO URL exists, change it to Partial URL (NO URL is deprecated)
 		if( $dfcg_existing['image-url-type'] == 'nourl' ) {
 			$dfcg_existing['image-url-type'] = 'part';
 		}
 		
+		// Add new options since 2.3
 		$dfcg_existing['posts-column'] = 'true';
 		$dfcg_existing['pages-column'] = 'true';
 		
@@ -463,12 +471,13 @@ function dfcg_set_gallery_options() {
 		delete_option('dfcg_plugin_settings');
 		add_option( 'dfcg_plugin_settings', $dfcg_existing );
 		
-		// Add version to the options db
+		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );
 	
 	//We're upgrading from 3.0 RC2
 	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0 RC2' ) {
 		
+		// Add new options since 3.0 RC2
 		$dfcg_existing['posts-column'] = 'true';
 		$dfcg_existing['pages-column'] = 'true';
 		
@@ -476,7 +485,7 @@ function dfcg_set_gallery_options() {
 		delete_option('dfcg_plugin_settings');
 		add_option( 'dfcg_plugin_settings', $dfcg_existing );
 		
-		// Add version to the options db
+		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );
 		
 	// We're upgrading from version 2.2, there are existing options and version is out of date	
@@ -494,7 +503,7 @@ function dfcg_set_gallery_options() {
 		unset($dfcg_existing['imagepath']);
 		unset($dfcg_existing['defimagepath']);
 		
-		// Now add new version 2.3 options
+		// Add new options since 2.2
 		$dfcg_existing['populate-method'] = 'multi-option';						// Populate method for how the plugin works - since 2.3
 		$dfcg_existing['cat-display'] = '1';									// one-category: the ID of the selected category - since 2.3
 		$dfcg_existing['posts-number'] = '5';									// one-category: the number of posts to display - since 2.3
@@ -527,18 +536,29 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['posts-column'] = 'true';								// all methods: Show edit posts column
 		$dfcg_existing['pages-column'] = 'true';								// all methods: Show edit pages column
 		
-				
+		
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
 		add_option( 'dfcg_plugin_settings', $dfcg_existing );
 		
-		// Add version to the options db
+		// Add version no. in the db
 		add_option('dfcg_version', DFCG_VER );
-		
-	} else {
-		// It's a clean install, so load everything
+	
+	// We're upgrading from some unknown earlier version, and settinsg exist
+	} elseif( $dfcg_existing ) {
+		// Delete the old options
+		delete_option('dfcg_plugin_settings');
+		// Add the new
 		dfcg_default_options();
-			
+		
+		// Add version no. in the db
+		add_option('dfcg_version', DFCG_VER );
+	
+	// It's a clean install
+	} else {
+		// Add the new options
+		dfcg_default_options();
+		
 		// Add version to the options db
 		add_option('dfcg_version', DFCG_VER );
 	}
