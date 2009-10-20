@@ -28,7 +28,7 @@ if( isset($_POST['info_update']) ) {
 		
 	// build the array from input
 	$updated_options = $_POST['dfcg'];
-		
+	
 	// trim whitespace within the array values
 	foreach( $updated_options as $key => $value ) {
 		$updated_options[$key] = trim($value);
@@ -63,7 +63,7 @@ if( isset($_POST['info_update']) ) {
 	}
 	
 	// deal with the RESET checkbox and other bool options
-	$bool_opts = array( 'reset', 'showArrows', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column' );
 	foreach($bool_opts as $key) {
 		$updated_options[$key] = $updated_options[$key] ? 'true' : 'false';
 	}
@@ -190,8 +190,9 @@ if ( function_exists('wpmu_create_blog') ) {
 			
 			// Multi-Option
 			dfcg_ui_multi();
-				if ( !function_exists('wpmu_create_blog') ) {
-					// Default images - WP ONLY
+				if ( function_exists('wpmu_create_blog') ) {
+					// No nothing - WPMU ONLY
+				} else {
 					dfcg_ui_multi_wp();
 				}
 				// Multi-Option end box
@@ -226,10 +227,10 @@ if ( function_exists('wpmu_create_blog') ) {
 			
 			if ( function_exists('wpmu_create_blog') ) {
 				// Hidden fields - WP ONLY
-				dfcg_ui_hidden_wp();
+				dfcg_ui_hidden_wpmu();
 			} else {
 				// Hidden fields - WPMU ONLY
-				dfcg_ui_hidden_wpmu();
+				dfcg_ui_hidden_wp();
 			}
 			
 			// Restrict Scripts
