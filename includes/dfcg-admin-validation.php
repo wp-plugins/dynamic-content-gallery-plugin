@@ -25,7 +25,7 @@ function dfcg_on_submit_validation($options_array) {
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected "Partial" URL option in the <a href="#image-file">Image File Management settings</a>, but you have not defined the URL to your images folder.<br />Please enter the URL to your images folder in the <a href="#image-file">Image File Management settings</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Error: You have selected the "Partial" URL option but you have not defined the URL to your images folder in the <a href="#image-file">Image File Management settings</a>.') . '</strong></p></div>';
 	}
 	
 	// If Pages, Page ID's must be defined
@@ -96,7 +96,7 @@ function dfcg_on_load_validation($options_array) {
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'part' && empty($options_array['imageurl']) && !isset($_POST['info_update']) ) {
-		echo '<div id="message" class="error"><p><strong>' . __('Reminder! <a name=""></a>You are using the "Partial" URL option in the <a href="#image-file">Image File Management settings</a>. You must enter the URL to your images folder in <a href="#image-file">Section 1</a>.') . '</strong></p></div>';
+		echo '<div id="message" class="error"><p><strong>' . __('Reminder! You have selected the "Partial" URL option but you have not defined the URL to your images folder in the <a href="#image-file">Image File Management settings</a>.') . '</strong></p></div>';
 	}
 	
 	// If Pages, Page ID's must be defined
