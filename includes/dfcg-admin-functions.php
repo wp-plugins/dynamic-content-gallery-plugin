@@ -284,7 +284,7 @@ function dfcg_ui_multi_wp() {
 			<tr valign="top">
 				<th scope="row"></th>
 				<td><input name="dfcg[defimgmulti]" id="dfcg-defimgmulti" size="75" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
-				<br /><em>Note: include a slash at the beginning and end of the path.</em></td> 
+				<br /><em>Note: include a slash at the end of the path.</em></td> 
     		</tr>
 		</tbody>
 	</table>
@@ -348,7 +348,7 @@ function dfcg_ui_onecat_wp() {
 	<tr valign="top">
 		<th scope="row"></th>
 		<td><input name="dfcg[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" />
-		<br /><em>Note: include a slash at the beginning and end of the path.</em></td> 
+		<br /><em>Note: include a slash at the end of the path.</em></td> 
     </tr>
 <?php }
 
