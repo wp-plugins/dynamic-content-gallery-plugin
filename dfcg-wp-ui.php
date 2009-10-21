@@ -17,85 +17,119 @@ dfcg_options_css_js();
 
 // Handle the updating of options
 if( isset($_POST['info_update']) ) {
-		
+	
 	// Is the user allowed to do this?
 	if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
 		die(__('Sorry. You do not have permission to do this.'));
 	}
-			
+	
 	// check the nonce
 	check_admin_referer( 'dfcg-update' );
-		
+	
 	// build the array from input
 	$updated_options = $_POST['dfcg'];
+	
+	
+	// organise the options ready for sanitisation / validation / format correction
+	// Whitelist options
+	$whitelist_opts = array( 'populate-method', 'image-url-type', 'defaultTransition' );
+	// Path and URL options
+	if ( function_exists('wpmu_create_blog') ) {
+		// We're in WPMU
+		$abs_url_opts = array( 'imageurl', 'homeurl' );
+	} else {
+		// We're in WP
+		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'homeurl' );
+	}
+	// On-off options
+	$onoff_opts = array( 'mootools' );
+	// Bool options
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column' );
+	// String options - no XHTML allowed
+	$str_opts_no_html = array( );
+	// String options - XHTML allowed
+	$str_opts_html = array( );
+	
 	
 	// trim whitespace within the array values
 	foreach( $updated_options as $key => $value ) {
 		$updated_options[$key] = trim($value);
 	}
 	
-	// deal with One Category "All" option
+	// Define Whitelist for known values
+	$dfcg_whitelist = array( 'full', 'part', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal' );
+	
+	$dfcg_whitelist_error = esc_attr__( "Dynamic Content Gallery message: An error has occurred. Please try again." );
+	
+	// deal with options to be whitelisted
+	foreach( $whitelist_opts as $key) {
+		if( !in_array( $updated_options[$key], $dfcg_whitelist ) ) {
+			wp_die( $dfcg_whitelist_error );
+		}
+	}
+
+	// deal with One Category Method "All" option
 	// This is to suppress WP_Class Error if category_description() is passed a '0'.
 	// WP_Query fails gracefully, and cat='' is ignored
 	if( $updated_options['cat-display'] == 0 ) {
 		$updated_options['cat-display'] = '';
 	}
 	
-	// deal with absolute URLS and Paths: add trailing slash
-	if ( function_exists('wpmu_create_blog') ) {
-		// We're in WPMU
-		$abs_url_opts = array( 'imageurl' );
-	} else {
-		// We're in WP
-		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat' );
-	}
+	// deal with absolute URLS and Paths: Sanitise and add trailing slash
 	foreach( $abs_url_opts as $key ) {
-		// Trailingslashit if there is something to do it to
 		if( !empty($updated_options[$key]) ) {
-			$updated_options[$key] = trailingslashit($updated_options[$key]);
+			// Sanitise for db
+			$updated_options[$key] = esc_url_raw( $updated_options[$key] );
+			// Trailingslashit if there is something to do it to
+			$updated_options[$key] = trailingslashit( $updated_options[$key] );
 		}
 	}
 	
 	// deal with the MOOTOOLS checkbox
-	$onoff_opts = array( 'mootools' );
 	foreach($onoff_opts as $key) {
 		$updated_options[$key] = $updated_options[$key] ? '1' : '0';
 	}
 	
 	// deal with the RESET checkbox and other bool options
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column' );
 	foreach($bool_opts as $key) {
 		$updated_options[$key] = $updated_options[$key] ? 'true' : 'false';
 	}
 	
+	// OK! We're sanitised, formatted and input validated
 	
 	// If RESET is checked, reset the options
 	if ( $updated_options['reset'] == "true" ) {
-		dfcg_unset_gallery_options();	// clear out the old ones 
-		dfcg_default_options();		// put back the defaults
+		// clear out the old ones
+		dfcg_unset_gallery_options();
+		
+		// put back the defaults
+		dfcg_default_options();
+		
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Dynamic Content Gallery Settings reset to defaults.') . '</strong></p></div>';
+		
 	} else {
-		// Run validation checks on submit
+		// Run Settings validation checks on submit
 		if ( function_exists('wpmu_create_blog') ) {
-			// We're in WPMU, so validation isn't needed
+			// We're in WPMU, nothing to validate
 		} else {
 			// We're in WP, so validate
 			dfcg_on_submit_validation($updated_options);
 		}
 		// Update the options
 		update_option( 'dfcg_plugin_settings', $updated_options);
+		
 		// Display success message
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Dynamic Content Gallery Settings updated and saved.') . '</strong></p></div>';
 	}
 }
 
 
-// Options
+// Load Options
 $dfcg_options = get_option('dfcg_plugin_settings');
 
-// Run validation checks on page load
+// Run Settings validation checks on page load
 if ( function_exists('wpmu_create_blog') ) {
-	// We're in WPMU, so validation isn't needed
+	// We're in WPMU, nothing to validate
 } else {
 	// We're in WP, so validate
 	dfcg_on_load_validation($dfcg_options);
