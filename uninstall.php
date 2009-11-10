@@ -3,12 +3,18 @@
 *	*******************************************************
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
-* 	@package	Dynamic Content Gallery
-*	@version	3.0 RC3
+* 	@package	dynamic_content_gallery
+*	@version	3.0 RC4
 *
 *	Uninstall file for WP 2.7+
 *	
 */
+
+/* Prevent direct access to this file */
+if (!defined('ABSPATH')) {
+	exit("Sorry, you are not allowed to access this file directly.");
+}
+
 if ( !defined('WP_UNINSTALL_PLUGIN') ) {
     exit();
 }
