@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
 */
 function dynamic_content_gallery() {
 	global $dfcg_options;
-	include_once( DFCG_DIR . '/includes/dynamic-gallery.php' );
+	include_once( DFCG_DIR . '/dynamic-gallery.php' );
 }
 
 
