@@ -97,11 +97,28 @@ function dfcg_custom_posts_desc_column($column_name, $post_id) {
 			);
         
         if( $dfcg_query ) {
-            $my_func = create_function('$att', 'return $att->meta_value;');
-            $text = array_map( $my_func, $dfcg_query );
-            echo implode(', ',$text);
+            // Anonymous function to get meta_value
+			$my_func = create_function('$att', 'return $att->meta_value;');
+			// Run function on each element of $dfcg_query array
+			$text = array_map( $my_func, $dfcg_query );
+            // Shorten description with helper function
+			$text = array_map( "dfcg_shorten_desc", $text);
+			echo implode(', ',$text);
         } else {
             echo '<i>'.__('None').'</i>';
         }
     }
+}
+
+/* Helper function to shorten the length of dfcg-desc */
+/* Based on my Limit Title plugin */
+function dfcg_shorten_desc($string) {
+
+$length = '30';
+$replacer = ' [...]';
+   
+if(strlen($string) > $length)
+$string = (preg_match('/^(.*)\W.*$/', substr($string, 0, $length+1), $matches) ? $matches[1] : substr($string, 0, $length)) . $replacer;
+
+return $string;
 }
