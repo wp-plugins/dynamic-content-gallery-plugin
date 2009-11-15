@@ -47,7 +47,7 @@ dfcg_options_css_js();
 			<div class="postbox">
 				<h3>General Information:</h3>
 				<div class="inside">
-					<div style="float:left;width:760px;">
+					<div style="float:left;width:690px;">
 						<p><?php _e("Please read through this page and configure the plugin. Some Settings are Required, others are Optional, depending on how you want to configure the gallery.", DFCG_DOMAIN); ?> <em><?php _e("Use the links below to jump to the relevant section on this page:", DFCG_DOMAIN); ?></em></p>
 						<p>
 						<ul>
