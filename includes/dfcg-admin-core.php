@@ -310,7 +310,7 @@ function dfcg_default_options() {
 		'posts-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
 		'pages-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
 		'just-reset' => 'false',								// all methods: Used for controlling admin_notices messages
-		'script' => 'mootools',									// all methods: Selects js framework
+		'scripts' => 'mootools',								// all methods: Selects js framework
 		'slide-h2-weight' => 'bold',							// JS jquery only
 		'slide-p-line-height' => '14',							// JS jquery only
 		'slide-overlay-color' => '#000000',						// JS jquery only
