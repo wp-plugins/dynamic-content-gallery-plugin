@@ -368,6 +368,13 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.0 RC4
+	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0 RC4' ) {
+	
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.0 RC3
 	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0 RC3' ) {
 		
