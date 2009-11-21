@@ -44,6 +44,7 @@ div.inside {padding: 0px 10px 10px 10px;margin:0px;}
 .postbox-sgr {padding:0px 10px;margin:0px;}
 .error p, .updated p {font-size:11px;line-height:20px;}
 .dfcg-tip {margin:0px;padding:10px 0px 0px 0px;}
+.key_settings {color:#D53131;}
 .help-outer p, .help-outer ul, .help-outer li {font-size:11px;padding:0px 0px 0px 0px;line-height:15px;}
 .help-outer h4 {margin:0px 0px 10px 0px;}
 </style>
