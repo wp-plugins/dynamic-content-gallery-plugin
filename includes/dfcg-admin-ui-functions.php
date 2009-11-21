@@ -36,28 +36,28 @@ function dfcg_ui_intro_text() {
 		<p><strong><em><?php _e('Your current key Settings: ', DFCG_DOMAIN); ?></em></strong><br />
 	
 		<?php if( !function_exists('wpmu_create_blog') ) { ?>
-		<a href="#image-file"><?php _e('Image File Management', DFCG_DOMAIN); ?></a>: <?php echo $dfcg_options['image-url-type']; ?> URL
+		<a href="#image-file"><?php _e('Image File Management', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['image-url-type']; ?> URL</span>&nbsp;|&nbsp;
 		<?php
 		if( $dfcg_options['image-url-type'] == 'partial' ) {
 			if( !empty( $dfcg_options['imageurl'] ) ) {
-				echo __(" | Images folder is: ", DFCG_DOMAIN) . $dfcg_options['imageurl'];
+				echo __("Images folder is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['imageurl']."</span>";
 			} else {
-				echo __(" | Images folder is: not defined", DFCG_DOMAIN);
+				echo __("Images folder is: not defined", DFCG_DOMAIN);
 			}
 		} ?><br />
 		<?php } ?>
 	
-		<a href="#gallery-method"><?php _e('Gallery Method', DFCG_DOMAIN); ?></a>: <?php echo $dfcg_options['populate-method']; ?>
+		<a href="#gallery-method"><?php _e('Gallery Method', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['populate-method']; ?></span>
 		<?php if( !function_exists('wpmu_create_blog') ) { ?>
 		&nbsp;|&nbsp;
 		<?php
-		$text = __("Default Images folder is: ", DFCG_DOMAIN);
+		$text = __("Default Images folder is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">";
 		if( $dfcg_options['populate-method'] == 'multi-option' ) {
-			echo $text . $dfcg_options['defimgmulti'];
+			echo $text . $dfcg_options['defimgmulti']."</span>";
 		} elseif( $dfcg_options['populate-method'] == 'one-category' ) {
-			echo $text . $dfcg_options['defimgonecat'];
+			echo $text . $dfcg_options['defimgonecat']."</span>";
 		} elseif( $dfcg_options['populate-method'] == 'pages' ) {
-			echo __("Default image is: ", DFCG_DOMAIN) . $dfcg_options['pages'];
+			echo __("Default image is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['pages']."</span>";
 		} else {
 			echo __("Default image is: not defined", DFCG_DOMAIN);
 		} ?><br />
@@ -67,21 +67,21 @@ function dfcg_ui_intro_text() {
 		<a href="#error-messages"><?php _e('Page Source Error messages', DFCG_DOMAIN); ?></a>: 
 		<?php
 		if( $dfcg_options['errors'] ) {
-			echo __("on", DFCG_DOMAIN);
+			echo "<span class=\"key_settings\">".__("on", DFCG_DOMAIN)."</span>";
 		} else {
-			echo __("off", DFCG_DOMAIN);
+			echo "<span class=\"key_settings\">".__("off", DFCG_DOMAIN)."</span>";
 		} ?>&nbsp;|&nbsp;
 		
-		<a href="#gallery-js-scripts"><?php _e('Javascript Framework used', DFCG_DOMAIN); ?></a>: <?php echo $dfcg_options['scripts']; ?><br />
+		<a href="#gallery-js-scripts"><?php _e('Javascript Framework used', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['scripts']; ?></span><br />
 	
 		<a href="#restrict-scripts"><?php _e('Scripts restricted to', DFCG_DOMAIN); ?></a>: 
 		<?php
 		if( $dfcg_options['limit-scripts'] == 'home' ) {
-			echo __("Home Page", DFCG_DOMAIN);
+			echo "<span class=\"key_settings\">".__("Home Page", DFCG_DOMAIN)."</span>";
 		} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
-			echo __("Page Template = ", DFCG_DOMAIN) . $dfcg_options['page-filename'];
+			echo "<span class=\"key_settings\">".__("Page Template = ", DFCG_DOMAIN) . $dfcg_options['page-filename']."</span>";
 		} else {
-			echo __("All pages", DFCG_DOMAIN);
+			echo "<span class=\"key_settings\">".__("All pages", DFCG_DOMAIN)."</span>";
 		} ?>
 		</p>
 	</div>
