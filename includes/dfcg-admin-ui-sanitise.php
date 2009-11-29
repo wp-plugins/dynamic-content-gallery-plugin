@@ -122,10 +122,15 @@ function dfcg_sanitise($input) {
 	// sanitise and add trailing slash
 	foreach( $abs_url_opts as $key ) {
 		if( !empty($input[$key]) ) {
-			// Trailingslashit if there is something to do it to
-			$input[$key] = trailingslashit( $input[$key] );
-			// Sanitise for db
-			$input[$key] = esc_url_raw( $input[$key] );
+			if( $key == 'defimgpages' ) {
+				// Sanitise for db only
+				$input[$key] = esc_url_raw( $input[$key] );
+			} else {
+				// Trailingslashit if there is something to do it to
+				$input[$key] = trailingslashit( $input[$key] );
+				// Sanitise for db
+				$input[$key] = esc_url_raw( $input[$key] );
+			}
 		}
 	}
 	
