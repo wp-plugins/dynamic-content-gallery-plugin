@@ -28,14 +28,16 @@ if (!defined('ABSPATH')) {
 *
 *	@uses	dfcg_baseimgurl()			Determines whether Full or Partial URL applies
 *
-*	@param	$dfcg_options				Array of DCG options from wp_postmeta
-*	@param	$dfcg_errorimgurl			Absolute URL to DCG Error image
+*	@param	$dfcg_options				Global: Array of DCG options from wp_postmeta
+*	@param	$dfcg_errorimgurl			Global: Absolute URL to DCG Error image
+*	@param	$dfcg_errmsgs				Global: Array of error messages
+*	@param	$baseimgurl					Base URL for custom images. Empty if FULL
 *	@param	$dfcg_offset				Turns Post Select (offxx) option to real wp_query offset
-*	@param	$dfcg_defimgmulti			Holds DCG Option: defimgmulti
+*	@param	$defimgmulti				Holds DCG Option: defimgmulti
 *	@param	$filepath					Absolute path to default images directory
-*	@param	$dfcg_query_list			Array of cat/off pairs
-*	@param	$dfcg_selected_slots		Number of pairs in $dfcg_query_list array
-*	@param	$counter					Stores how many times $dfcg_query_list is run through foreach loop
+*	@param	$query_list					Array of cat/off pairs
+*	@param	$selected_slots				Number of pairs in $query_list array
+*	@param	$counter					Stores how many times $query_list is run through foreach loop
 *	@param	$counter1					Stores how many times WP_Query is run (to do comparison for missing posts)
 *
 *	@since	3.0
@@ -45,20 +47,20 @@ function dfcg_jq_multioption_method_gallery() {
 	// Need to declare these in each function
 	global $dfcg_errmsgs, $dfcg_options, $dfcg_errorimgurl, $post;
 	
-	// Set $dfcg_baseimgurl variable for image URL
-	$dfcg_baseimgurl = dfcg_baseimgurl();
+	// Set $baseimgurl variable for image URL
+	$baseimgurl = dfcg_baseimgurl();
 	
 	/* Set up some variables to use in WP_Query */
 	$dfcg_offset = 1;
 
 	/* Get the URL to the default "Category" images folder from Settings */
 	// This URL is absolute
-	$dfcg_defimgmulti = $dfcg_options['defimgmulti'];
+	$defimgmulti = $dfcg_options['defimgmulti'];
 
 	// Convert category images absolute URL to Path (with thanks to Charles Clarkson)
-	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $dfcg_defimgmulti ); 
+	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgmulti ); 
 
-	$dfcg_query_list = array();
+	$query_list = array();
 
 	// Loop through the 9 possible cats/post selects
 	for( $i=1; $i < 10; $i+=1 ) {
@@ -81,17 +83,17 @@ function dfcg_jq_multioption_method_gallery() {
 		$tmp_query_list[$tmpcats] = $tmpoffs;
 	
 		// Add this array to final array
-		array_push($dfcg_query_list, $tmp_query_list);
+		array_push($query_list, $tmp_query_list);
 	
 		// Empty temp array ready for next loop
 		unset($tmp_query_list);
 	}
 
 	/* Collect some info about our array, for later */
-	$dfcg_selected_slots = count($dfcg_query_list);
+	$selected_slots = count($query_list);
 	
-	/* Validate that $dfcg_query_list has at least 2 items for gallery to work */
-	if( $dfcg_selected_slots < 2 ) {
+	/* Validate that $query_list has at least 2 items for gallery to work */
+	if( $selected_slots < 2 ) {
 		$output .= $dfcg_errmsgs['11'] . "\n";
 		echo $output;
 		return;
@@ -114,7 +116,7 @@ function dfcg_jq_multioption_method_gallery() {
 	// Set 2 counters to find out how many Posts are supposed to be output
 	// by WP_Query, and how many posts are actually found by WP_Query
 	// $counter:	Adds an image # in the markup page source
-	//				Counts how many times we go through $dfcg_query_list foreach loop
+	//				Counts how many times we go through $query_list foreach loop
 	//				This is pre-WP_Query
 	// $counter1:	Counts how many times WP_Query outputs anything
 	//				We can then compare the two values to see if anything is missing
@@ -122,7 +124,7 @@ function dfcg_jq_multioption_method_gallery() {
 	$counter1 = 0;
 
 	/* Now loop through our array of all the cat/post selects and run the WP_Queries */
-	foreach ($dfcg_query_list as $value) {
+	foreach ($query_list as $value) {
 	
 		// Go down into inner arrays which contain the cat/offset pairs
 		if( is_array($value) ) {
@@ -166,13 +168,13 @@ function dfcg_jq_multioption_method_gallery() {
 						
 						// Get the images
 						if( get_post_meta($post->ID, "dfcg-image", true) ) {
-							$output .= "\t\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" />' . "\n";
+							$output .= "\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" />' . "\n";
         					// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie image gives 404
 						} else {
 							// Path to Default Category image
 							$filename = $filepath . $key . '.jpg';
 							if( file_exists($filename) ) {
-								$output .= "\t\t" . '<img src="'. $dfcg_defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" />' . "\n";
+								$output .= "\t\t" . '<img src="'. $defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" />' . "\n";
         					} else {
 								$output .= "\t\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. get_the_title() .'" />' . "\n";
         						$output .= "\t\t" . $dfcg_errmsgs['4'] . "\n";
@@ -244,14 +246,16 @@ function dfcg_jq_multioption_method_gallery() {
 *
 *	@uses	dfcg_baseimgurl()
 *
-*	@param	$dfcg_options		Array of DCG options from wp_postmeta
-*	@param	$dfcg_errorimgurl	Absolute URL to DCG Error image
-*	@param	$dfcg_posts_number	DCG option: number of posts to display
-*	@param	$dfcg_cat			DCG option: selected category
-*	@param	$dfcg_defimagepath	DCG option: relative path from siteurl to default images folder
-*	@param	$filename			Absolute path from server root to the default image for the selected category
-*	@param	$recent				WP_Query object
-*	@param	$counter			Incremented variable to find number of posts output by wp_query
+*	@param	$dfcg_options				Global: Array of DCG options from wp_postmeta
+*	@param	$dfcg_errorimgurl			Global: Absolute URL to DCG Error image
+*	@param	$dfcg_errmsgs				Global: Array of error messages
+*	@param	$posts_number				DCG option: number of posts to display
+*	@param	$dfcg_cat					DCG option: selected category
+*	@param	$defimgonecat				DCG option: url to category image folder
+*	@param	$default_image				default category image filename
+*	@param	$filename1					Absolute path from server root to the default image for the selected category
+*	@param	$recent						WP_Query object
+*	@param	$counter					Incremented variable to find number of posts output by wp_query
 *
 *	@since	3.0
 */
@@ -259,12 +263,12 @@ function dfcg_jq_onecategory_method_gallery() {
 
 	global $post, $dfcg_options, $dfcg_errmsgs, $dfcg_errorimgurl;
 
-	// Set $dfcg_baseimgurl variable for image URL
-	$dfcg_baseimgurl = dfcg_baseimgurl();
+	// Set $baseimgurl variable for image URL
+	$baseimgurl = dfcg_baseimgurl();
 	
 	/* Get the number of Posts to display */
 	// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
-	$dfcg_posts_number = $dfcg_options['posts-number'];
+	$posts_number = $dfcg_options['posts-number'];
 
 	/* Get the Selected Category */
 	// No need to check Category existence, or whether it has Posts,
@@ -273,24 +277,24 @@ function dfcg_jq_onecategory_method_gallery() {
 
 	/* Get the URL to the default "Category" images folder from Settings */
 	// This is an absolute URL
-	$dfcg_defimgonecat = $dfcg_options['defimgonecat'];
+	$defimgonecat = $dfcg_options['defimgonecat'];
 
 	// Convert category images folder absolute URL to Path (with thanks to Charles Clarkson)
-	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $dfcg_defimgonecat );
+	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgonecat );
 	
 	// Set a variable for the category default image using the cat ID number for the image name
 	if( $dfcg_cat !== '' ) {
-		$dfcg_defimgonecat_image = $dfcg_cat .'.jpg';
+		$default_image = $dfcg_cat .'.jpg';
 	} else {
-		$dfcg_defimgonecat_image = 'all.jpg';
+		$default_image = 'all.jpg';
 	}
 	
 	// Absolute path to default image
 	// This needed for the file_exists() check.
-	$filename1 = $filepath . $dfcg_defonecat_image;
+	$filename1 = $filepath . $default_image;
 	
 	/* Do the WP_Query */
-	$recent = new WP_Query("cat=$dfcg_cat&showposts=$dfcg_posts_number");
+	$recent = new WP_Query("cat=$dfcg_cat&showposts=$posts_number");
 	// Do we have any posts?
 	if ( $recent->have_posts() ) {
 
@@ -320,12 +324,12 @@ function dfcg_jq_onecategory_method_gallery() {
 
 			// Get the dfcg-image
 			if( get_post_meta($post->ID, "dfcg-image", true) ) {
-				$output .= "\t\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" />' . "\n";
+				$output .= "\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, "dfcg-image", true) .'" alt="'. get_the_title() .'" />' . "\n";
         		
 				// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie image gives 404.
 			} elseif( file_exists($filename1) ) {
 				// Display the "Category" default image
-				$output .= "\t\t" . '<img src="'. $dfcg_defimgonecat . $dfcg_defimgonecat_image .'" alt="'. get_the_title() .'" />' . "\n";
+				$output .= "\t\t" . '<img src="'. $defimgonecat . $default_image .'" alt="'. get_the_title() .'" />' . "\n";
         		
 			} else {
 				// Display One Category Error image
@@ -391,10 +395,10 @@ function dfcg_jq_onecategory_method_gallery() {
 			to check that the number of gallery images is the same.	If it's not the
 			same, then there are less Posts in this Category than the posts-number Setting */
 
-		if( $counter - $dfcg_posts_number !== 0 ) {
+		if( $counter - $posts_number !== 0 ) {
 			$output .= "\n" . $dfcg_errmsgs['7'] . "\n";
 			if( $dfcg_options['errors'] == "true" ) {
-				$output .= '<!-- ' . __('Number of Posts to display as per DCG Settings = ', DFCG_DOMAIN) . $dfcg_posts_number . ' -->' . "\n";
+				$output .= '<!-- ' . __('Number of Posts to display as per DCG Settings = ', DFCG_DOMAIN) . $posts_number . ' -->' . "\n";
 				$output .= '<!-- ' . __('Number of Posts found = ', DFCG_DOMAIN) . $counter . ' -->' . "\n\n";
 			}
 		}
@@ -417,13 +421,14 @@ function dfcg_jq_onecategory_method_gallery() {
 *
 *	@uses	dfcg_baseimgurl()
 *
-*	@param	$dfcg_options				Array of DCG options from wp_postmeta
-*	@param	$dfcg_errorimgurl			Absolute URL to DCG Error image
-*	@param	$dfcg_pages_selected		DCG option: comma separated list of Page IDs
-*	@param	$dfcg_pages_selected_count	No. of pages specified in DCG options
+*	@param	$dfcg_options				Global: Array of DCG options from wp_postmeta
+*	@param	$dfcg_errorimgurl			Global: Absolute URL to DCG Error image
+*	@param	$dfcg_errmsgs				Global: Array of error messages
+*	@param	$pages_selected				DCG option: comma separated list of Page IDs
+*	@param	$pages_selected_count		No. of pages specified in DCG options
 *	@param	$dfcg_temp					Array of Page IDs from comma separated list. Only used in order to run count() function
-*	@param	$dfcg_pages_found			$wpdb query object
-*	@param	$dfcg_pages_found_count		Number of Pages in $wpdb query object
+*	@param	$pages_found				$wpdb query object
+*	@param	$pages_found_count			Number of Pages in $wpdb query object
 *	@param	$counter					Incremented variable to add image # in HTML comments markup
 *
 *	@since	3.0
@@ -432,28 +437,28 @@ function dfcg_jq_pages_method_gallery() {
 
 	global $dfcg_options, $dfcg_errmsgs, $dfcg_errorimgurl;
 
-	// Set $dfcg_baseimgurl variable for image URL
-	$dfcg_baseimgurl = dfcg_baseimgurl();
+	// Set $baseimgurl variable for image URL
+	$baseimgurl = dfcg_baseimgurl();
 	
 	/* Get the comma separated list of Page ID's */
-	$dfcg_pages_selected = trim($dfcg_options['pages-selected']);
+	$pages_selected = trim($dfcg_options['pages-selected']);
 
-	if( !empty($dfcg_pages_selected) ) {
+	if( !empty($pages_selected) ) {
 
 		/* Get rid of the final comma so that the variable is ready for use in SQL query */
 		// If last character in string is a comma
-		if( substr( $dfcg_pages_selected, -1) == ',' ) {
+		if( substr( $pages_selected, -1) == ',' ) {
 			// Remove the final comma in the list
-			$dfcg_pages_selected = substr( $dfcg_pages_selected, 0, substr( $dfcg_pages_selected, -1)-1 );
+			$pages_selected = substr( $pages_selected, 0, substr( $pages_selected, -1)-1 );
 		}
 
 		/* Turn the list into an array */
-		$dfcg_pages_selected = explode(",", $dfcg_pages_selected);
+		$pages_selected = explode(",", $pages_selected);
 		/* Store how many IDs were in list */
-		$dfcg_pages_selected_count = count($dfcg_pages_selected);
+		$pages_selected_count = count($pages_selected);
 
 		/* If only one Page ID has been specified in Settings: print error messages and exit */
-		if( $dfcg_pages_selected_count < 2 ) {
+		if( $pages_selected_count < 2 ) {
 			$output .= $dfcg_errmsgs['1'] . "\n";
 			echo $output;
 			return;
@@ -471,23 +476,23 @@ function dfcg_jq_pages_method_gallery() {
 	global $wpdb;
 	
 	/* Do the query - with thanks to Austin Matzko for sprintf help */
-	$dfcg_pages_found = $wpdb->get_results(
-  		sprintf("SELECT ID,post_title FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $dfcg_pages_selected ) ) )
+	$pages_found = $wpdb->get_results(
+  		sprintf("SELECT ID,post_title FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $pages_selected ) ) )
 		);
 											
 	/* If we have results from the query */
-	if( $dfcg_pages_found ) {
+	if( $pages_found ) {
 
 		// Validation: Check how many Pages the query found
 		// The results if this are printed to Page Source further down
-		$dfcg_pages_found_count = count($dfcg_pages_found);
+		$pages_found_count = count($pages_found);
 	
 		// If less than 2, print error messages and exit function
-		if( $dfcg_pages_found_count < 2 ) {
+		if( $pages_found_count < 2 ) {
 			$output .= $dfcg_errmsgs['9'] . "\n";
 			if( $dfcg_options['errors'] == "true" ) {
-				$output .= '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $dfcg_pages_selected_count . ' -->' . "\n";
-				$output .= '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $dfcg_pages_found_count . ' -->' . "\n\n";
+				$output .= '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $pages_selected_count . ' -->' . "\n";
+				$output .= '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $pages_found_count . ' -->' . "\n\n";
 			}
 			echo $output;
 			return;
@@ -499,7 +504,7 @@ function dfcg_jq_pages_method_gallery() {
 		// Start the gallery markup
 		$output .= "\n" . '<div id="dfcg_images" class="galleryview"><!-- Start of Dynamic Content Gallery output -->'."\n\n";
 
-		foreach( $dfcg_pages_found as $dfcg_page_found ) :
+		foreach( $pages_found as $page_found ) :
 
 			// Increment the counter
 			$counter++;
@@ -508,27 +513,27 @@ function dfcg_jq_pages_method_gallery() {
 			$output .= '<div class="panel"><!-- DCG Image #' . $counter . '-->' . "\n";
 
 			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($dfcg_page_found->ID, "dfcg-link", true) ){
+			if( get_post_meta($page_found->ID, "dfcg-link", true) ){
 				// We have an external/manual link
-				$output .= "\t" . '<a href="'. get_post_meta($dfcg_page_found->ID, "dfcg-link", true) .'" rel="bookmark">' . "\n";
+				$output .= "\t" . '<a href="'. get_post_meta($page_found->ID, "dfcg-link", true) .'" rel="bookmark">' . "\n";
 			
 			} else {
-				$output .= "\t" . '<a href="'. get_permalink($dfcg_page_found->ID) .'" rel="bookmark">' . "\n";
+				$output .= "\t" . '<a href="'. get_permalink($page_found->ID) .'" rel="bookmark">' . "\n";
 			}
 			
 			// Get the dfcg-image
-			if( get_post_meta($dfcg_page_found->ID, "dfcg-image", true) ) {
-				$output .= "\t\t" . '<img src="'. $dfcg_baseimgurl . get_post_meta($dfcg_page_found->ID, "dfcg-image", true) .'" alt="'. $dfcg_page_found->post_title .'" />' . "\n";
+			if( get_post_meta($page_found->ID, "dfcg-image", true) ) {
+				$output .= "\t\t" . '<img src="'. $baseimgurl . get_post_meta($page_found->ID, "dfcg-image", true) .'" alt="'. $page_found->post_title .'" />' . "\n";
         		
 				// Note: No Error message will be triggered if dfcg-image is set but URL is wrong, ie image gives 404.
 			} elseif( !empty($dfcg_options['defimgpages']) ) {
 				// Display the "Pages" default image
-				$output .= "\t\t" . '<img src="'. $dfcg_options['defimgpages'] .'" alt="'. $dfcg_page_found->post_title .'" />' . "\n";
+				$output .= "\t\t" . '<img src="'. $dfcg_options['defimgpages'] .'" alt="'. $page_found->post_title .'" />' . "\n";
         		
         		// Note: No Error message will be triggered if defimgpages is set but URL is wrong, ie 404.
 			} else {
 				// Display Pages Error image
-				$output .= "\t\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. $dfcg_page_found->post_title .'" />' . "\n";
+				$output .= "\t\t" . '<img src="'. $dfcg_errorimgurl .'" alt="'. $page_found->post_title .'" />' . "\n";
         		$output .= "\t" . $dfcg_errmsgs['4'] . "\n";
 			}
 			
@@ -539,11 +544,11 @@ function dfcg_jq_pages_method_gallery() {
 			$output .= "\t" .'<div class="panel-overlay">' . "\n";
 			
 			// Display the page title
-			$output .= "\t\t" . '<h3>'. $dfcg_page_found->post_title .'</h3>' . "\n";
+			$output .= "\t\t" . '<h3>'. $page_found->post_title .'</h3>' . "\n";
 
 			// Do we have a dfcg-desc?
-			if( get_post_meta($dfcg_page_found->ID, "dfcg-desc", true) ) {
-				$output .= "\t\t" . '<p>' . get_post_meta($dfcg_page_found->ID, "dfcg-desc", true) . '</p>' . "\n";
+			if( get_post_meta($page_found->ID, "dfcg-desc", true) ) {
+				$output .= "\t\t" . '<p>' . get_post_meta($page_found->ID, "dfcg-desc", true) . '</p>' . "\n";
 
 			} elseif( $dfcg_options['defimagedesc'] !== '' ) {
 				// Show the default description
@@ -555,20 +560,23 @@ function dfcg_jq_pages_method_gallery() {
 				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
 			}
 
+			// Close the panel-overlay div
+			$output .= "\t" . '</div>'."\n";
+			
 			// Close the panel div
 			$output .= '</div>'."\n\n";
 
 		endforeach;
 
-		/*	Compare $dfcg_pages_selected_count with the db query object $dfcg_pages_found_count
+		/*	Compare $pages_selected_count with the db query object $pages_found_count
 			to check that the number of gallery images is the same.	If it's not the
 			same, then one or more of the selected Page IDs are not valid Pages */
 
-		if( $dfcg_pages_found_count !== $dfcg_pages_selected_count) {
+		if( $pages_found_count !== $pages_selected_count) {
 			$output .= "\n" . $dfcg_errmsgs['5'] . "\n";
 			if( $dfcg_options['errors'] == "true" ) {
-				$output .= '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $dfcg_pages_selected_count . ' -->' . "\n";
-				$output .= '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $dfcg_pages_found_count . ' -->' . "\n\n";
+				$output .= '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $pages_selected_count . ' -->' . "\n";
+				$output .= '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $pages_found_count . ' -->' . "\n\n";
 			}
 		}
 
