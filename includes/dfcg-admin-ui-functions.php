@@ -51,13 +51,14 @@ function dfcg_ui_intro_text() {
 		<?php if( !function_exists('wpmu_create_blog') ) { ?>
 		&nbsp;|&nbsp;
 		<?php
+		// TODO: Sort out a message if default image URL has not been defined
 		$text = __("Default Images folder is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">";
 		if( $dfcg_options['populate-method'] == 'multi-option' ) {
 			echo $text . $dfcg_options['defimgmulti']."</span>";
 		} elseif( $dfcg_options['populate-method'] == 'one-category' ) {
 			echo $text . $dfcg_options['defimgonecat']."</span>";
 		} elseif( $dfcg_options['populate-method'] == 'pages' ) {
-			echo __("Default image is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['pages']."</span>";
+			echo __("Default image is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['defimgpages']."</span>";
 		} else {
 			echo __("Default image is: not defined", DFCG_DOMAIN);
 		} ?><br />
@@ -376,7 +377,7 @@ function dfcg_ui_pages_wp() {
 	</tr>
 	<tr valign="top">
 		<th scope="row"></th>
-		<td><input name="dfcg_plugin_settings[defimgpages]" id="dfcg-defimgpages" size="75" value="<?php echo $dfcg_options['defimgpages']; ?>" /></td>
+		<td><input name="dfcg_plugin_settings[defimgpages]" id="dfcg-defimgpages" size="100" value="<?php echo $dfcg_options['defimgpages']; ?>" /></td>
 	</tr>
 <?php }
 
