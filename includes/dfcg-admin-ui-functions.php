@@ -23,68 +23,116 @@ if (!defined('ABSPATH')) {
 }
 
 
+// Metabox Save buttons
+function dfcg_ui_buttons() { ?>
+	<div style="float:left;width:400px"><p class="submit"><input type="submit" value="<?php _e('Save Changes'); ?>" /></p></div>
+	<div style="float:right"><p class="submit"><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
+	<div style="clear:both;"></div>
+</div><!-- End inside -->
+</div><!-- End postbox -->
+<?php }
+
+
+// Active Settings display
+function dfcg_ui_active() {
+
+	global $dfcg_options;
+	
+	$sep = ' | ';
+	
+	$output = '<p><strong><em>' . __('Your active key Settings: ', DFCG_DOMAIN) . '</em></strong><br />';
+	
+	if( !function_exists('wpmu_create_blog') ) {
+		
+		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span>';
+		
+		if( $dfcg_options['image-url-type'] == 'partial' ) {
+			
+			$output .= $sep . __('Images folder is: ', DFCG_DOMAIN);
+			
+			if( !empty( $dfcg_options['imageurl'] ) ) {
+				$output .= '<span class="key_settings">' . $dfcg_options['imageurl'];
+			} else {
+				$output .= '<span class="key_settings">' . __('not defined', DFCG_DOMAIN);
+			}
+		}
+		
+		$output .= '</span><br />';
+	}
+	
+	$output .= '<a href="#gallery-method">' . __('Gallery Method', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['populate-method'] . '</span>';
+	
+	if( !function_exists('wpmu_create_blog') ) {
+	
+		$subhead = $sep . __('Default Images folder is: ', DFCG_DOMAIN) . '<span class="key_settings">';
+		
+		// TODO: Sort out a message if default image URL has not been defined
+		
+		if( $dfcg_options['populate-method'] == 'multi-option' ) {
+			$output .= $subhead . $dfcg_options['defimgmulti'];
+		
+		} elseif( $dfcg_options['populate-method'] == 'one-category' ) {
+			$output .= $subhead . $dfcg_options['defimgonecat'];
+			
+		} elseif( $dfcg_options['populate-method'] == 'pages' ) {
+			$output .= $sep . __('Default image is: ', DFCG_DOMAIN) . '<span class="key_settings">' . $dfcg_options['defimgpages'];
+		
+		} else {
+			$output .= $sep . __('Default image is:', DFCG_DOMAIN) . '<span class="key_settings">' . __('not defined', DFCG_DOMAIN);
+		}
+		
+		$output .= '</span><br />';
+	
+	} else {
+	
+		$output .= '<br />';
+	
+	}
+	
+	$output .= '<a href="#error-messages">' . __('Page Source Error messages', DFCG_DOMAIN) . '</a>: <span class="key_settings">';
+		
+	if( $dfcg_options['errors'] ) {
+		$output .= __('on', DFCG_DOMAIN);
+	
+	} else {
+		$output .= __('off', DFCG_DOMAIN);
+		
+	}
+	
+	$output .= '</span>' . $sep;
+		
+	$output .= '<a href="#gallery-js-scripts">' . __('Javascript Framework used', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['scripts'] . '</span><br />';
+	
+	$output .= '<a href="#restrict-scripts">' . __('Scripts restricted to', DFCG_DOMAIN) . '</a>: <span class="key_settings">';
+	
+	if( $dfcg_options['limit-scripts'] == 'home' ) {
+		$output .= __('Home Page', DFCG_DOMAIN);
+		
+	} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
+		$output .= __('Page Template => ', DFCG_DOMAIN) . $dfcg_options['page-filename'];
+		
+	} else {
+		$output .= __('All pages', DFCG_DOMAIN);
+		
+	}
+	
+	$output .= '</span>';
+	
+	$output .= '</p>';
+	
+	echo $output;
+}
+
 
 // Intro box: content
 function dfcg_ui_intro_text() {
 	global $dfcg_options;
-	// TODO: Clean this up - it works but it's a mess!
 	?>
 	<div class="dfcg-tip">
-		<p><strong><em><?php _e('Validation messages: ', DFCG_DOMAIN); ?></strong><?php _e('After saving Settings, the plugin generates validation messages at the top of this page. Messages in red must be fixed, otherwise the gallery will not display. Messages in yellow mean that the gallery will display, but you are not taking advantage of all the built-in features.', DFCG_DOMAIN); ?></em></p>
+		<p><strong><em><?php _e('Validation messages: ', DFCG_DOMAIN); ?></strong><?php _e('After saving Settings, the plugin generates validation messages at the top of this page. Messages in red must be fixed, otherwise the gallery will not display. Messages in yellow mean that the gallery will display, but you are not taking advantage of the default images feature.', DFCG_DOMAIN); ?></em></p>
 		<p><strong><em><?php _e('Quick Help: ', DFCG_DOMAIN); ?></strong><?php _e('Click the <strong>Help</strong> tab at the top of the screen for more information on setting up the plugin.', DFCG_DOMAIN); ?></em></p>
 	
-		<p><strong><em><?php _e('Your current key Settings: ', DFCG_DOMAIN); ?></em></strong><br />
-	
-		<?php if( !function_exists('wpmu_create_blog') ) { ?>
-		<a href="#image-file"><?php _e('Image File Management', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['image-url-type']; ?> URL</span>&nbsp;|&nbsp;
-		<?php
-		if( $dfcg_options['image-url-type'] == 'partial' ) {
-			if( !empty( $dfcg_options['imageurl'] ) ) {
-				echo __("Images folder is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['imageurl']."</span>";
-			} else {
-				echo __("Images folder is: not defined", DFCG_DOMAIN);
-			}
-		} ?><br />
-		<?php } ?>
-	
-		<a href="#gallery-method"><?php _e('Gallery Method', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['populate-method']; ?></span>
-		<?php if( !function_exists('wpmu_create_blog') ) { ?>
-		&nbsp;|&nbsp;
-		<?php
-		// TODO: Sort out a message if default image URL has not been defined
-		$text = __("Default Images folder is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">";
-		if( $dfcg_options['populate-method'] == 'multi-option' ) {
-			echo $text . $dfcg_options['defimgmulti']."</span>";
-		} elseif( $dfcg_options['populate-method'] == 'one-category' ) {
-			echo $text . $dfcg_options['defimgonecat']."</span>";
-		} elseif( $dfcg_options['populate-method'] == 'pages' ) {
-			echo __("Default image is: ", DFCG_DOMAIN) . "<span class=\"key_settings\">" . $dfcg_options['defimgpages']."</span>";
-		} else {
-			echo __("Default image is: not defined", DFCG_DOMAIN);
-		} ?><br />
-		<?php } else {?><br />
-		<?php } ?>
-	
-		<a href="#error-messages"><?php _e('Page Source Error messages', DFCG_DOMAIN); ?></a>: 
-		<?php
-		if( $dfcg_options['errors'] ) {
-			echo "<span class=\"key_settings\">".__("on", DFCG_DOMAIN)."</span>";
-		} else {
-			echo "<span class=\"key_settings\">".__("off", DFCG_DOMAIN)."</span>";
-		} ?>&nbsp;|&nbsp;
-		
-		<a href="#gallery-js-scripts"><?php _e('Javascript Framework used', DFCG_DOMAIN); ?></a>: <span class="key_settings"><?php echo $dfcg_options['scripts']; ?></span><br />
-	
-		<a href="#restrict-scripts"><?php _e('Scripts restricted to', DFCG_DOMAIN); ?></a>: 
-		<?php
-		if( $dfcg_options['limit-scripts'] == 'home' ) {
-			echo "<span class=\"key_settings\">".__("Home Page", DFCG_DOMAIN)."</span>";
-		} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
-			echo "<span class=\"key_settings\">".__("Page Template = ", DFCG_DOMAIN) . $dfcg_options['page-filename']."</span>";
-		} else {
-			echo "<span class=\"key_settings\">".__("All pages", DFCG_DOMAIN)."</span>";
-		} ?>
-		</p>
+		<?php dfcg_ui_active(); ?>
 	</div>
 <?php }
 
@@ -120,7 +168,7 @@ function dfcg_ui_1_image_wp() {
 	<div id="image-file" class="postbox">
 		<h3><?php _e('1. Image file management (REQUIRED)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>dfcg-image</strong> Custom Field added to the Posts or Pages featured in the gallery. <em>Further information regarding this setting can be found in the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/">Dynamic Content Gallery Configuration Guide</a>.</em>', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>dfcg-image</strong> Custom Field added to the Posts or Pages featured in the gallery. <em>Further information about this setting can be found in the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/">Dynamic Content Gallery Configuration Guide</a>.</em>', DFCG_DOMAIN); ?></p>
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
@@ -150,9 +198,7 @@ function dfcg_ui_1_image_wp() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Gallery Method: box and content
@@ -185,9 +231,7 @@ function dfcg_ui_2_method() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Mult-Option: box and content
@@ -277,14 +321,6 @@ function dfcg_ui_multi_wp() {
 	</table>
 <?php }
 
-// Multi-Option: Save button and closing XHTML
-function dfcg_ui_multi_end() {
-	global $dfcg_options;
-	?>
-	<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-	</div>
-	</div>
-<?php }
 
 // One Category: box and contents
 function dfcg_ui_onecat() {
@@ -320,6 +356,8 @@ function dfcg_ui_onecat() {
 								</select>
 								<span style="padding-left:70px"><em><?php _e('The minimum number of Posts is 2, the maximum is 15 (for performance reasons).', DFCG_DOMAIN); ?></em></span></td>
 						</tr>
+					</tbody>
+				</table>
 <?php }
 
 // One Category default image folder: content
@@ -327,26 +365,20 @@ function dfcg_ui_onecat() {
 function dfcg_ui_onecat_wp() {
 	global $dfcg_options;
 	?>
- 	<tr valign="top">
-		<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
-		<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Custom Field <strong>dfcg-image</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
-	</tr>
-	<tr valign="top">
-		<th scope="row"></th>
-		<td><input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" /></td> 
-    </tr>
+ 	<table class="optiontable form-table">
+		<tbody>
+			<tr valign="top">
+				<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
+				<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Custom Field <strong>dfcg-image</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"></th>
+				<td><input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" /></td> 
+    		</tr>
+		</tbody>
+	</table>
 <?php }
 
-// One Category: Save button and closing XHTML
-function dfcg_ui_onecat_end() {
-	global $dfcg_options;
-	?>
-	</tbody>
-	</table>
-	<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-	</div>
-	</div>
-<?php }
 
 // Pages: box and content
 function dfcg_ui_pages() {
@@ -363,6 +395,8 @@ function dfcg_ui_pages() {
 							<td><input name="dfcg_plugin_settings[pages-selected]" id="dfcg-pages-selected" size="75" value="<?php echo $dfcg_options['pages-selected']; ?>" /><br />
 							<em><?php _e("Enter ID's in a comma separated list with no spaces, eg: 2,7,8,19,21", DFCG_DOMAIN); ?></em></td>
 						</tr>
+					</tbody>
+				</table>
 <?php }
 
 // Pages default image: content
@@ -370,27 +404,20 @@ function dfcg_ui_pages() {
 function dfcg_ui_pages_wp() {
 	global $dfcg_options;
 	?>
-	<tr>
-		<th scope="row"><?php _e('Specify a default image:', DFCG_DOMAIN); ?></th>
-		<td><?php _e("This image will be displayed in the event you haven't assigned a Custom Field <strong>dfcg-image</strong> to one of your selected Pages.", DFCG_DOMAIN); ?><br /><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?><br /><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em>
-		</td>
-	</tr>
-	<tr valign="top">
-		<th scope="row"></th>
-		<td><input name="dfcg_plugin_settings[defimgpages]" id="dfcg-defimgpages" size="100" value="<?php echo $dfcg_options['defimgpages']; ?>" /></td>
-	</tr>
+	<table class="optiontable form-table">
+		<tbody>
+			<tr>
+				<th scope="row"><?php _e('Specify a default image:', DFCG_DOMAIN); ?></th>
+				<td><?php _e("This image will be displayed in the event you haven't assigned a Custom Field <strong>dfcg-image</strong> to one of your selected Pages.", DFCG_DOMAIN); ?><br /><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?><br /><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"></th>
+				<td><input name="dfcg_plugin_settings[defimgpages]" id="dfcg-defimgpages" size="100" value="<?php echo $dfcg_options['defimgpages']; ?>" /></td>
+			</tr>
+		</tbody>
+	</table>
 <?php }
 
-// Pages: Save button and closing XHTML
-function dfcg_ui_pages_end() {
-	global $dfcg_options;
-	?>
-	</tbody>
-	</table>
-	<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-	</div>
-	</div>
-<?php }
 
 // Default Desc: box and content
 function dfcg_ui_defdesc() {
@@ -413,9 +440,7 @@ function dfcg_ui_defdesc() {
 					</tr>	
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Gallery CSS: box and content
@@ -536,9 +561,7 @@ function dfcg_ui_css() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Select Javascript Framework
@@ -565,9 +588,7 @@ function dfcg_ui_js_framework() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Javascript options: box and content
@@ -651,9 +672,7 @@ function dfcg_ui_javascript() {
 				<?php endif; ?>					
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit"  value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Restrict Scripts loading: box and content
@@ -693,9 +712,7 @@ function dfcg_ui_restrict_scripts() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit"  value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Error Messages: box and content
@@ -714,9 +731,7 @@ function dfcg_ui_errors() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Posts/Pages edit columns: box and content
@@ -742,9 +757,7 @@ function dfcg_ui_columns() {
 					</tr>
 				</tbody>
 			</table>
-			<p class="submit"><input type="submit" value="<?php _e('Save Changes') ?>" /><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p>
-		</div>
-	</div>
+			<?php dfcg_ui_buttons(); ?>
 <?php }
 
 // Form hidden fields
@@ -818,13 +831,15 @@ function dfcg_ui_reset_end() {
 	global $dfcg_options;
 	?>
 	<div class="postbox-sgr">
-		<p><label for="dfcg-reset">
-		<input type="checkbox" name="dfcg_plugin_settings[reset]" id="dfcg-reset" value="1" <?php checked('true', $dfcg_options['reset']); ?>" />&nbsp;<strong><?php _e('Reset all options to the Default settings', DFCG_DOMAIN)?></strong> <span style="font-size:11px;"><em><?php _e('Check the box, then click the "Save Changes" button.', DFCG_DOMAIN)?></em></span>
-		</label></p>
+		<p>
+		<input type="checkbox" name="dfcg_plugin_settings[reset]" id="dfcg-reset" value="1" <?php checked('true', $dfcg_options['reset']); ?>" />
+		<span style="font-weight:bold;padding-left:10px;"><?php _e('Reset all options to the Default settings', DFCG_DOMAIN); ?></span>
+		<span style="font-size:11px;padding-left:10px;"><em><?php _e('Check the box, then click the "Save Changes" button.', DFCG_DOMAIN)?></em></span>
+		</p>
 	</div>
         
 	</fieldset>
-	<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" /></p>
+	<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></p>
 </form>
 <?php }
 
