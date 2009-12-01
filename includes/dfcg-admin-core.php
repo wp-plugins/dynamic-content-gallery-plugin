@@ -149,7 +149,7 @@ function dfcg_plugin_meta($links, $file) {
 */	
 function dfcg_wp_version_check() {
 	
-	$dfcg_wp_valid = version_compare(get_bloginfo("version"), DFCG_WP_VERSION_REQ, '>');
+	$dfcg_wp_valid = version_compare(get_bloginfo("version"), DFCG_WP_VERSION_REQ, '>=');
 	
 	$current_page = basename($_SERVER['PHP_SELF']);
 	
@@ -164,7 +164,7 @@ function dfcg_wp_version_check() {
 			// We're in WP
 			$version_message = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
 			$version_message .= '<div class="update-message" style="background:#FFEBE8;border-color:#BB0000;">';
-			$version_message .= __('<strong>Warning!</strong> Dynamic Content Gallery v3.0 requires Wordpress <strong>2.8+</strong>. Please upgrade Wordpress to run this plugin.', DFCG_DOMAIN);
+			$version_message .= __('<strong>Warning!</strong> This version of Dynamic Content Gallery requires Wordpress', DFCG_DOMAIN) . ' <strong>' . DFCG_WP_VERSION_REQ . '</strong>+ ' . __('Please upgrade Wordpress to run this plugin.', DFCG_DOMAIN);
 			$version_message .= '</div></td></tr>';
 			echo $version_message;
 			
@@ -172,17 +172,17 @@ function dfcg_wp_version_check() {
 			// We're in WPMU
 			$version_message = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
 			$version_message .= '<div class="update-message" style="background:#FFEBE8;border-color:#BB0000;">';
-			$version_message .= __('<strong>Warning!</strong> Dynamic Content Gallery v3.0 requires WPMU <strong>2.8+</strong>. Please contact your Site Administrator.', DFCG_DOMAIN);
+			$version_message .= __('<strong>Warning!</strong> This version of Dynamic Content Gallery requires WPMU', DFCG_DOMAIN) . ' <strong>' . DFCG_WP_VERSION_REQ . '</strong>+ ' . __('Please contact your Site Administrator.', DFCG_DOMAIN);
 			$version_message .= '</div></td></tr>';
 			echo $version_message;
 		}
 	}
 	
-	// This will also show the version warning message on the DCG Settings page.
+	// This will also show the version warning message on the DCG Settings page and at the top of the Plugins page
 	// We only need to check against options-general.php because this part of the function
 	// will only be run by the calling function dfcg_on_load_validation() which is only run when we're on the DCG page.
 	// TODO: Would be better to match against DCG page hook though...
-	if( $current_page == "options-general.php" ) {
+	if( $current_page == "options-general.php" || $current_page == "plugins.php" ) {
 		
 		$version_msg_start = '<div class="error"><p>';
 		$version_msg_end = '</p></div>';
@@ -193,13 +193,13 @@ function dfcg_wp_version_check() {
 			
 		} elseif( !function_exists('wpmu_create_blog') ) {
 			// We're in WP
-			$version_message .= __('<strong>Warning! Dynamic Content Gallery v3.0 requires Wordpress 2.8+. Please upgrade Wordpress to run this plugin.</strong>', DFCG_DOMAIN);
-			echo $version_msg_start . $version_message . $version_msg_end;
+			$version_msg .= '<strong>' . __('Warning! This version of Dynamic Content Gallery requires Wordpress', DFCG_DOMAIN) . ' ' . DFCG_WP_VERSION_REQ . '+ ' . __('Please upgrade Wordpress to run this plugin.', DFCG_DOMAIN) . '</strong>';
+			echo $version_msg_start . $version_msg . $version_msg_end;
 			
 		} else {
 			// We're in WPMU
-			$version_message .= __('<strong>Warning! Dynamic Content Gallery v3.0 requires WPMU 2.8+. Please contact your Site Administrator.</strong>', DFCG_DOMAIN);
-			echo $version_msg_start . $version_message . $version_msg_end;
+			$version_msg .= '<strong>' . __('Warning! This version of Dynamic Content Gallery requires WPMU', DFCG_DOMAIN) . ' ' . DFCG_WP_VERSION_REQ . '+ ' . __('Please contact your Site Administrator.', DFCG_DOMAIN) . '</strong>';
+			echo $version_msg_start . $version_msg . $version_msg_end;
 		}
 	}
 }
