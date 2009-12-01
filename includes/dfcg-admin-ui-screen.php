@@ -84,9 +84,6 @@ dfcg_options_css_js();
 				// Uploading images - WPMU ONLY
 				dfcg_ui_create_wpmu();
 			} else {
-				// Create default images - WP ONLY
-				//dfcg_ui_create_wp();
-			
 				// Image File Management - WP ONLY
 				dfcg_ui_1_image_wp();
 			}
@@ -96,30 +93,30 @@ dfcg_options_css_js();
 			
 			// Multi-Option
 			dfcg_ui_multi();
-				if ( !function_exists('wpmu_create_blog') ) {
-					// Default images - WP ONLY
-					dfcg_ui_multi_wp();
-				}
-				// Multi-Option end box
-				dfcg_ui_multi_end();
+			if ( !function_exists('wpmu_create_blog') ) {
+				// Default images - WP ONLY
+				dfcg_ui_multi_wp();
+			}
+			// Multi-Option end box
+			dfcg_ui_buttons();
 			
 			// One Category
 			dfcg_ui_onecat();
-				if ( !function_exists('wpmu_create_blog') ) {
-					// Default images - WP ONLY
-					dfcg_ui_onecat_wp();
-				}
-				// One Category end box
-				dfcg_ui_onecat_end();
+			if ( !function_exists('wpmu_create_blog') ) {
+				// Default images - WP ONLY
+				dfcg_ui_onecat_wp();
+			}
+			// One Category end box
+			dfcg_ui_buttons();
 			
 			// Pages
 			dfcg_ui_pages();
-				if ( !function_exists('wpmu_create_blog') ) {
-					// Default image - WP ONLY
-					dfcg_ui_pages_wp();
-				}
-				// Pages box end
-				dfcg_ui_pages_end();
+			if ( !function_exists('wpmu_create_blog') ) {
+				// Default image - WP ONLY
+				dfcg_ui_pages_wp();
+			}
+			// Pages box end
+			dfcg_ui_buttons();
 			
 			// Default Desc
 			dfcg_ui_defdesc();
