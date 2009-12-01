@@ -191,7 +191,7 @@ function dfcg_sanitise($input) {
 	foreach( $str_opts_hexcode as $key ) {
 		
 		// Strip out any whitespace within list
-		$input[$key] = str_replace ( " ", "", $input[$key] );
+		$input[$key] = str_replace( " ", "", $input[$key] );
 		
 		// If first character in string is not a #
 		if( !substr( $input[$key], 0, 1 ) == '#' ) {
@@ -218,7 +218,7 @@ function dfcg_sanitise($input) {
 		
 		if( !empty( $input[$key] ) ) {
 			// Strip out any whitespace within list
-			$input[$key] = str_replace ( " ", "", $input[$key] );
+			$input[$key] = str_replace( " ", "", $input[$key] );
 			
 			// If first character in string is a comma
 			if( substr( $input[$key], 0, 1 ) == ',' ) {
@@ -253,7 +253,7 @@ function dfcg_sanitise($input) {
 		if( !empty( $input[$key] ) ) {
 		
 			// Strip out any whitespace within list
-			$input[$key] = str_replace ( " ", "", $input[$key] );
+			$input[$key] = str_replace( " ", "", $input[$key] );
 			
 			// Make sure filename is alpha-num plus hypens and underscores with .php extension
 			if( !preg_match_all('/^([A-Za-z0-9_-]+(?=\.(php))\.\2)$/i', $input[$key], $result) ) {
@@ -277,7 +277,7 @@ function dfcg_sanitise($input) {
 			$input[$key] = '';
 		} else {
 			// Strip out any whitespace within
-			$input[$key] = str_replace ( " ", "", $input[$key] );
+			$input[$key] = str_replace( " ", "", $input[$key] );
 			// Extract first 2 characters
 			$input[$key] = substr( $input[$key], 0, 2 );
 			// Cast as integer
@@ -313,7 +313,7 @@ function dfcg_sanitise($input) {
 	// sanitise, limit to 4 chars, convert blanks to 0
 	foreach( $int_opts_nonblank as $key ) {
 		// Strip out any whitespace within
-		$input[$key] = str_replace ( " ", "", $input[$key] );
+		$input[$key] = str_replace( " ", "", $input[$key] );
 		// Extract first 4 characters
 		$input[$key] = substr( $input[$key], 0, 4 );
 		// Cast as integer
@@ -328,7 +328,7 @@ function dfcg_sanitise($input) {
 	// sanitise, limit to 5 chars, can't be blank, minimum value = 1000
 	foreach( $int_opts_large as $key ) {
 		// Strip out any whitespace within
-		$input[$key] = str_replace ( " ", "", $input[$key] );
+		$input[$key] = str_replace( " ", "", $input[$key] );
 		// Extract first 5 characters
 		$input[$key] = substr( $input[$key], 0, 5 );
 		// Cast as integer
