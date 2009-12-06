@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0 RC4
+*	@version	3.0
 *
 *	These are the 'public' functions which produce the gallery in the browser
 *	Loads header scripts
