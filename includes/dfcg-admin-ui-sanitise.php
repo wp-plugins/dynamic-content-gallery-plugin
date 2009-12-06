@@ -245,21 +245,28 @@ function dfcg_sanitise($input) {
 	
 	$str_opts_filename = array( 'page-filename' );
 	
-	// TODO: Deal with comma separated list of valid filenames
+	// This can be a comma separated list of page template filenames
 	
 	// sanitise
 	foreach( $str_opts_filename as $key ) {
 		
 		if( !empty( $input[$key] ) ) {
 		
-			// Strip out any whitespace within list
-			$input[$key] = str_replace( " ", "", $input[$key] );
+			// Convert filename list to array
+			$filenames = explode(',', $input[$key]);
 			
-			// Make sure filename is alpha-num plus hypens and underscores with .php extension
-			if( !preg_match_all('/^([A-Za-z0-9_-]+(?=\.(php))\.\2)$/i', $input[$key], $result) ) {
-				// Resets the dodgy $input to the existing value. Better user-experience in case of failure.
-				$input[$key] = $dfcg_options[$key];
+			foreach( $filenames as $filename ) {
+				// Strip out any whitespace within list
+				$filename = str_replace( " ", "", $filename );
+			
+				// Make sure filename is alpha-num plus hypens and underscores with .php extension
+				if( preg_match_all('/^([A-Za-z0-9_-]+(?=\.(php))\.\2)$/i', $filename, $result) ) {
+					// Add ok filename to temp array
+					$temp_array[] = $filename;
+				} 
 			}
+			// Convert array back to comma separated list
+			$input[$key] = implode(',', $temp_array);
 		}
 	}
 	
