@@ -37,10 +37,10 @@ Version 3.0 introduces many new features: streamlined code, expanded Settings pa
 -----------------------
 Comprehensive information on installing, configuring and using the plugin can be found [here](http://www.studiograsshopper.ch/dynamic-content-gallery/)
 
-[Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
-[Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
-[FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
-[Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
+* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
+* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
+* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
+* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
 All support is handled at the [Studiograsshopper Forum](http://www.studiograsshopper.ch/forum/). I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
 
