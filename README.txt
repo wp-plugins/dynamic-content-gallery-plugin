@@ -131,11 +131,11 @@ Latest stable version is version 3.0 available from http://wordpress.org/extend/
 
 This plugin is provided free of charge without warranty.  In the event you experience problems you should visit these resources:
 
-Dynamic Content Gallery home page - http://www.studiograsshopper.ch/dynamic-content-gallery/
-Configuration Guide - http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/
-Documentation - http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/
-FAQ - http://www.studiograsshopper.ch/dynamic-content-gallery/faq/
-Error messages info - http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/
+* [Dynamic Content Gallery home page](http://www.studiograsshopper.ch/dynamic-content-gallery/)
+* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
+* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
+* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
+* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
 If, having referred to the above resources, you still need assistance, visit the support page at http://www.studiograsshopper.ch/forum/.  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
 
