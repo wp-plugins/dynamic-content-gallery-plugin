@@ -75,7 +75,7 @@ Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-c
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php dynamic_content_gallery(); ?&gt;
+`<?php dynamic_content_gallery(); ?>`
 
 **Note:** Do not use in the Loop.
 
