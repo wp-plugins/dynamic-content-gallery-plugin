@@ -188,7 +188,7 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 == Changelog ==
 
 = 3.0 =
-* Released
+* Released	7 December 2009
 * Feature:	Added alternative jQuery gallery script and new associated options
 * Bug fix:	Improved data sanitisation
 * Feature: 	Added WP version check to Plugins screen. DCG now requires WP 2.8+
