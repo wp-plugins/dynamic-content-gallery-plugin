@@ -106,6 +106,7 @@ The Dynamic Content Gallery plugin uses custom fields to pull in images and titl
 **How does it work?**
 ---------------------
 The plugin provides three ways to populate the gallery:
+
 * Multi Option: user-definable combination of categories and Posts to display up to 9 images
 * One Category: display up to 15 images from one selected category
 * Pages: features Pages rather than Posts in the gallery
