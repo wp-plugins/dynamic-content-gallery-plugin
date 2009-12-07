@@ -21,6 +21,7 @@ Compatible with Wordpress Mu but with some differences in features compared with
 **Key Features**
 ----------------
 Version 3.0 introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
+
 * SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
 * A choice of 3 different methods for populating the gallery -  Multi Option, One Category or Pages.
 * Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages.
