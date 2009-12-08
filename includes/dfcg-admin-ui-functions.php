@@ -853,4 +853,16 @@ function dfcg_ui_credits() {
 		<p><?php _e('Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
 		
 	</div>
-<?php } ?>
+<?php }
+
+// Uploading images: box and content
+// WPMU ONLY
+function dfcg_ui_create_wpmu() {
+	?>
+	<div id="upload-images" class="postbox">
+		<h3><?php _e('1. Uploading your images', DFCG_DOMAIN); ?></h3>
+		<div class="inside">
+			<p>Use the Media Uploader in Write Posts / Write Pages to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>dfcg-image</strong> custom field in the Write Post screen.</p>
+		</div>
+	</div>
+<?php }
