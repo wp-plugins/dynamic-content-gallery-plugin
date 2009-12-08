@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Dynamic Content Gallery
-Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery-plugin/
+Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Version: 3.0
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
