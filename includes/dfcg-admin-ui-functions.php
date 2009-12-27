@@ -26,8 +26,8 @@ if (!defined('ABSPATH')) {
 
 // Metabox Save buttons
 function dfcg_ui_buttons() { ?>
-	<div style="float:left;width:400px"><p class="submit"><input type="submit" value="<?php _e('Save Changes'); ?>" /></p></div>
-	<div style="float:right"><p class="submit"><a class="button-secondary" href="#sgr-style" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
+	<div style="float:left;width:400px;margin:0;padding:0;"><p class="submit"><input type="submit" value="<?php _e('Save Changes'); ?>" /></p></div>
+	<div style="float:right;margin:0;padding:0;width:300px;"><p class="submit"><a class="button-secondary" href="#sgr-style" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
 	<div style="clear:both;"></div>
 </div><!-- end inside -->
 </div><!-- end Postbox -->
@@ -226,7 +226,7 @@ function dfcg_ui_1_image_wp() {
 						<label for="dfcg-fullurl"><?php _e('Full URL (Default)', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/folder/anotherfolder/myimage.jpg</span><br />
 						<?php _e('Select this option if you want complete freedom to reference images anywhere in your site and in multiple locations.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the custom field.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the custom field.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 						
 					<tr valign="top">
@@ -234,7 +234,7 @@ function dfcg_ui_1_image_wp() {
 						<label for="dfcg-parturl"><?php _e('Partial URL', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format: ', DFCG_DOMAIN); ?><span class="bold-italic">subfoldername/myimage.jpg</span><br />
 						<?php _e('Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the "default" option if you have upgraded from an earlier version of the Dynamic Content Gallery.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the "default" option if you have upgraded from an earlier version of the Dynamic Content Gallery.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 						
 					<tr valign="top">
@@ -265,14 +265,14 @@ function dfcg_ui_2_method() {
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-multi" type="radio" style="margin-right:5px;" value="multi-option" <?php checked('multi-option', $dfcg_options['populate-method']); ?> />
 						<label for="dfcg-populate-multi"><?php _e('Multi Option', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e('Complete freedom to select up to 9 images from a mix of categories. Set up the relevant options in', DFCG_DOMAIN); ?> <a href="#multi-option">2.1 MULTI OPTION <?php _e('Settings', DFCG_DOMAIN); ?></a></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the original method used in previous versions of the plugin, and the option to choose if you want to mix posts from different categories.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the original method used in previous versions of the plugin, and the option to choose if you want to mix posts from different categories.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-one" type="radio" style="margin-right:5px;"  value="one-category" <?php checked('one-category', $dfcg_options['populate-method']); ?> />
 						<label for="dfcg-populate-one"><?php _e('One Category', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e('Images are pulled from a user-definable number of Posts from one selected Category. Set up the relevant options in', DFCG_DOMAIN); ?> <a href="#one-category">2.2 ONE CATEGORY <?php _e('Settings', DFCG_DOMAIN); ?></a></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you use a Featured or News category for highlighting certain posts.', DFCG_DOMAIN); ?><br />
-						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('You can also use this option to display the latest Posts from all categories.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you use a Featured or News category for highlighting certain posts.', DFCG_DOMAIN); ?><br />
+						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('You can also use this option to display the latest Posts from all categories.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-pages" type="radio" style="margin-right:5px;" value="pages" <?php checked('pages', $dfcg_options['populate-method']); ?> />
@@ -293,8 +293,8 @@ function dfcg_ui_multi() {
 		<div class="inside">
 			<p><?php _e('Configure this section if you chose Multi Option in the', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>. <?php _e('The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select". For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on.', DFCG_DOMAIN); ?></p>
 			<p><em><?php _e('Further information on the possible schemes can be found in the ', DFCG_DOMAIN); ?><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a>.</em></p>
-			<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href=\"#gallery-method\">Gallery Method</a> instead. It's much more efficient in terms of database queries.", DFCG_DOMAIN); ?><br />
-			<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.", DFCG_DOMAIN); ?></div>
+			<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href=\"#gallery-method\">Gallery Method</a> instead. It's much more efficient in terms of database queries.", DFCG_DOMAIN); ?><br />
+			<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.", DFCG_DOMAIN); ?></p></div>
 			
 			<table class="optiontable form-table">
 				<tbody>
@@ -484,7 +484,7 @@ function dfcg_ui_defdesc() {
 						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-manual" type="radio" style="margin-right:5px;" value="manual" <?php checked('manual', $dfcg_options['desc-method']); ?> />
 						<label for="desc-method-manual"><?php _e('Manual', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), or finally (3) the default description created here.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
@@ -780,15 +780,15 @@ function dfcg_ui_restrict_scripts() {
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-home" type="radio" style="margin-right:5px;" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-home"><?php _e('Home page only', DFCG_DOMAIN); ?></label></th>
 						<td><p><?php _e("Select this option to load the plugin's scripts ONLY on the homepage.", DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery will only be used on the home page of your site. This is the default.', DFCG_DOMAIN); ?><br />
-						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading and the gallery will only be shown on the home page.', DFCG_DOMAIN); ?></div>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery will only be used on the home page of your site. This is the default.', DFCG_DOMAIN); ?><br />
+						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading and the gallery will only be shown on the home page.', DFCG_DOMAIN); ?></p></div>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-page" type="radio" style="margin-right:5px;" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-page"><?php _e('Specific Page Template', DFCG_DOMAIN); ?></label></th>
 						<td><?php _e("Select this option to load the plugin's scripts ONLY when a specific Page Template is being used to display the gallery.", DFCG_DOMAIN); ?><br />
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery is displayed using a Page Template. Enter the Page Template <strong>filename</strong> below.', DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery is displayed using a Page Template. Enter the Page Template <strong>filename</strong> below.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
@@ -798,7 +798,7 @@ function dfcg_ui_restrict_scripts() {
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-other" style="margin-right:5px;" type="radio" value="other" <?php checked('other', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-other"><?php _e('Other', DFCG_DOMAIN); ?></label></th>
 						<td><?php _e('Check this option if none of the above apply to your setup.', DFCG_DOMAIN); ?><br />
-						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("The plugin's scripts will be loaded in every page. Not recommended.", DFCG_DOMAIN); ?></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("The plugin's scripts will be loaded in every page. Not recommended.", DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 				</tbody>
 			</table>
