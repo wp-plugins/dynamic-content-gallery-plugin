@@ -31,7 +31,7 @@ Description: Creates a dynamic gallery of images for latest or featured posts se
 				- Bug fix:	Tidied up Settings page CSS
 				- Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
 				- Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
-				- Bug fix:	TODO Deal with default images outside wp-content folder
+				- Bug fix:	Category default images folder can now be outside wp-content folder
 				- Feature:	Added auto Description using custom $content excerpt + 7 options
 	
 	3.0			- Feature:	Added alternative jQuery gallery script and new associated options
