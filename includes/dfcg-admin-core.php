@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	Core Admin Functions called by various add_filters and add_actions:
 *		- Register Settings
@@ -319,7 +319,14 @@ function dfcg_default_options() {
 		'nav-theme' => 'light',									// JS jquery only
 		'pause-on-hover' => 'true',								// JS jquery only
 		'fade-panels' => 'true',								// JS jquery only
-		'gallery-background' => '#000000'						// JS jquery only
+		'gallery-background' => '#000000',						// JS jquery only
+		'desc-method' => 'manual',								// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		'max-char' => '100',									// all methods: No. of characters for custom excerpt
+		'more-text' => '[more]',								// all methods: More text for custom excerpt
+		'slide-p-a-color' => '#FFFFFF',							// all methods: More text CSS
+		'slide-p-ahover-color' => '#FFFFFF',					// all methods: More text CSS
+		'slide-p-a-weight' => 'normal',							// all methods: More text CSS
+		'slide-p-ahover-weight' => 'bold'						// all methods: More text CSS
 	);
 	
 	// Return options array for use elsewhere
@@ -348,6 +355,11 @@ function dfcg_default_options() {
 *	In RC4 - 9 jQuery options added
 *	In RC4 - Total options is 61 + 13 = 74
 *	In RC4 - "part" value of "image-url-type" is changed to "partial"
+*	In 3.1 - "desc-method" added
+*	In 3.1 - "max-char" added
+*	In 3.1 - "more-text" added
+*	In 3.1 - "slide-p-a-color", "slide-p-ahover-color", "slide-p-a-weight", "slide-p-ahover-weight" added
+*	In 3.1 - Total options = 74 + 7 = 81
 *
 *
 *	@uses 	dfcg_default_options()
@@ -368,9 +380,42 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.0
+	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0' ) {
+		
+		// Add new options added since 3.0 RC3
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $dfcg_existing );
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.0 RC4
 	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0 RC4' ) {
-	
+		
+		// Add new options added since 3.0 RC3
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $dfcg_existing );
+		
 		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );
 	
@@ -397,6 +442,13 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['pause-on-hover'] = 'true';							// JS jquery only
 		$dfcg_existing['fade-panels'] = 'true';								// JS jquery only
 		$dfcg_existing['gallery-background'] = '#000000';					// JS jquery only
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
 		
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
@@ -430,6 +482,13 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['pause-on-hover'] = 'true';							// JS jquery only
 		$dfcg_existing['fade-panels'] = 'true';								// JS jquery only
 		$dfcg_existing['gallery-background'] = '#000000';					// JS jquery only
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
 		
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
@@ -467,6 +526,13 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['pause-on-hover'] = 'true';							// JS jquery only
 		$dfcg_existing['fade-panels'] = 'true';								// JS jquery only
 		$dfcg_existing['gallery-background'] = '#000000';					// JS jquery only
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
 		
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
@@ -536,6 +602,13 @@ function dfcg_set_gallery_options() {
 		$dfcg_existing['pause-on-hover'] = 'true';							// JS jquery only
 		$dfcg_existing['fade-panels'] = 'true';								// JS jquery only
 		$dfcg_existing['gallery-background'] = '#000000';					// JS jquery only
+		$dfcg_existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		$dfcg_existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
+		$dfcg_existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
+		$dfcg_existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
+		$dfcg_existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
+		$dfcg_existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
 		
 		// Delete the old and add the upgraded options
 		delete_option('dfcg_plugin_settings');
