@@ -47,7 +47,7 @@ function dfcg_ui_active() {
 	// Image File Management
 	if( !function_exists('wpmu_create_blog') ) {
 		
-		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span>';
+		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span><br />';
 		
 		if( $dfcg_options['image-url-type'] == 'partial' ) {
 			
@@ -58,9 +58,10 @@ function dfcg_ui_active() {
 			} else {
 				$output .= '<span class="key_settings">' . __('not defined', DFCG_DOMAIN);
 			}
-		}
 		
 		$output .= '</span><br />';
+		
+		}
 	}
 	
 	// Gallery Method
@@ -143,23 +144,21 @@ function dfcg_ui_intro_menu() {
 	<div class="inside">
 		<div style="float:left;width:690px;">
 			<p><?php _e("Please read through this page and configure the plugin. Some Settings are Required, others are Optional, depending on how you want to configure the gallery.", DFCG_DOMAIN); ?> <em><?php _e("Use the links below to jump to the relevant section on this page:", DFCG_DOMAIN); ?></em></p>
-			<p>
-				<ul>
-					<li><a href="#image-file">1. <?php _e("Image file management (REQUIRED)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#gallery-method">2. <?php _e("Gallery Method (REQUIRED)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#multi-option">2.1 <?php _e("MULTI OPTION Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Multi Option in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
-					<li><a href="#one-category">2.2 <?php _e("ONE CATEGORY Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected One Category in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
-					<li><a href="#pages-method">2.3 <?php _e("PAGES Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Pages in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
-					<li><a href="#default-desc">3. <?php _e("Slide Pane Descriptions (REQUIRED)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#gallery-css">4. <?php _e("Gallery size and CSS options (REQUIRED)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#gallery-js-scripts">5. <?php _e("Javascript framework selection (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#gallery-js">6. <?php _e("Javascript configuration options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#restrict-scripts">7. <?php _e("Restrict script loading (RECOMMENDED)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#error-messages">8. <?php _e("Error message options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
-					<li><a href="#custom-columns">9. <?php _e("Add Custom Field columns to Posts and Pages Edit screen (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
-				</ul>
-			</p>
-					
+			<ul>
+				<li><a href="#image-file">1. <?php _e("Image file management (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#gallery-method">2. <?php _e("Gallery Method (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#multi-option">2.1 <?php _e("MULTI OPTION Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Multi Option in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+				<li><a href="#one-category">2.2 <?php _e("ONE CATEGORY Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected One Category in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+				<li><a href="#pages-method">2.3 <?php _e("PAGES Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Pages in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+				<li><a href="#default-desc">3. <?php _e("Slide Pane Descriptions (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#gallery-css">4. <?php _e("Gallery size and CSS options (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#gallery-js-scripts">5. <?php _e("Javascript framework selection (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#gallery-js">6. <?php _e("Javascript configuration options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#restrict-scripts">7. <?php _e("Restrict script loading (RECOMMENDED)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#error-messages">8. <?php _e("Error message options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+				<li><a href="#custom-columns">9. <?php _e("Add Custom Field columns to Posts and Pages Edit screen (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+			</ul>
+								
 			<?php dfcg_ui_intro_text(); ?>
 					
 		</div>
@@ -201,10 +200,10 @@ function dfcg_ui_sgr_info() {
 	</ul>
 	<p><?php _e('If you have found this plugin useful, please consider making a donation to help support future development. Your support will be much appreciated. Thank you!', DFCG_DOMAIN); ?> 
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-			<input type="hidden" name="cmd" value="_s-xclick">
-			<input type="hidden" name="hosted_button_id" value="7415216">
-			<input type="image" src="https://www.paypal.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			<input type="hidden" name="cmd" value="_s-xclick" />
+			<input type="hidden" name="hosted_button_id" value="7415216" />
+			<input type="image" src="https://www.paypal.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 		</form>
 	</p>
 </div><!-- end sgr-info -->
@@ -488,7 +487,7 @@ function dfcg_ui_defdesc() {
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
-						<td><label for="dfcg-defimagedesc"><b><?php _e('Manual default Description:', DFCG_DOMAIN); ?></b> <?php _e('Allowed XHTML tags are:', DFCG_DOMAIN); ?></em> &lt;a href=" " title=" "&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br /&gt;</label><br />
+						<td><label for="dfcg-defimagedesc"><b><?php _e('Manual default Description:', DFCG_DOMAIN); ?></b> <em><?php _e('Allowed XHTML tags are:', DFCG_DOMAIN); ?></em> &lt;a href=" " title=" "&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br /&gt;</label><br />
 						<textarea name="dfcg_plugin_settings[defimagedesc]" id="dfcg-defimagedesc" cols="85" rows="2"><?php echo stripslashes( $dfcg_options['defimagedesc'] ); ?></textarea></td>
 					</tr>
 					<tr valign="top">
@@ -592,7 +591,7 @@ function dfcg_ui_css() {
 					</tr>
 					<tr valign="top">
 						<th scope="row"><?php _e('Heading Margin left and right:', DFCG_DOMAIN); ?></th>
-						<td><input name="dfcg_plugin_settings[slide-h2-marglr]" id="dfcg-slide-h2-marglr" size="3" value="<?php echo $dfcg_options['slide-h2-marglr']; ?>" />&nbsp;px <span style="padding-left:20px;"><em><?php _e('Default is 5px.', DFCG_DOMAIN); ?></em></td>
+						<td><input name="dfcg_plugin_settings[slide-h2-marglr]" id="dfcg-slide-h2-marglr" size="3" value="<?php echo $dfcg_options['slide-h2-marglr']; ?>" />&nbsp;px <span style="padding-left:20px;"><em><?php _e('Default is 5px.', DFCG_DOMAIN); ?></em></span></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><?php _e('Description font size:', DFCG_DOMAIN); ?></th>
@@ -624,7 +623,6 @@ function dfcg_ui_css() {
 					<tr valign="top">
 						<th scope="row"><?php _e('Description Margin left and right:', DFCG_DOMAIN); ?></th>
 						<td><input name="dfcg_plugin_settings[slide-p-marglr]" id="dfcg-slide-p-marglr" size="3" value="<?php echo $dfcg_options['slide-p-marglr']; ?>" />&nbsp;px <span style="padding-left:20px;"><em><?php _e('Default is 5px.', DFCG_DOMAIN); ?></em></span></td>
-					</tr>
 					</tr>
 					<?php // More link CSS added for Auto description option ?>
 					<tr valign="top">
@@ -673,7 +671,7 @@ function dfcg_ui_js_framework() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[scripts]" id="dfcg-scripts-jquery" type="radio" style="margin-right:5px;" value="jquery" <?php checked('jquery', $dfcg_options['scripts']); ?> />
 						<label for="dfcg-scripts-jquery">jQuery</label></th>
-						<td><?php _e('Use alternative jQuery script. Select this option in case of javascript conflicts with other plugins.', DFCG_DOMAIN); ?></em><br />
+						<td><?php _e('Use alternative jQuery script. Select this option in case of javascript conflicts with other plugins.', DFCG_DOMAIN); ?><br />
 						<em><b><?php _e('Note', DFCG_DOMAIN); ?></b>: <?php _e('This script does not currently feature a Carousel (in development).', DFCG_DOMAIN); ?></em></td>
 					</tr>
 				</tbody>
@@ -837,13 +835,13 @@ function dfcg_ui_columns() {
 				<tbody>
 					<tr valign="top">
 						<th scope="row"><?php _e('Show columns in Edit Posts:', DFCG_DOMAIN); ?></th>
-						<td>dfcg-image URL: <input type="checkbox" name="dfcg_plugin_settings[posts-column]" id="dfcg-posts-column" value="1" <?php checked('true', $dfcg_options['posts-column']); ?>" />
-						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[posts-desc-column]" id="dfcg-posts-desc-column" value="1" <?php checked('true', $dfcg_options['posts-desc-column']); ?>" /></td>
+						<td>dfcg-image URL: <input type="checkbox" name="dfcg_plugin_settings[posts-column]" id="dfcg-posts-column" value="1" <?php checked('true', $dfcg_options['posts-column']); ?> />
+						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[posts-desc-column]" id="dfcg-posts-desc-column" value="1" <?php checked('true', $dfcg_options['posts-desc-column']); ?> /></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><?php _e('Show columns in Edit Pages:', DFCG_DOMAIN); ?></th>
-						<td>dfcg-image URL: <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?>" />
-						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?>" /></td>
+						<td>dfcg-image URL: <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?> />
+						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?> /></td>
 					</tr>
 				</tbody>
 			</table>
@@ -922,7 +920,7 @@ function dfcg_ui_reset_end() {
 	?>
 	<div class="postbox-sgr">
 		<p>
-		<input type="checkbox" name="dfcg_plugin_settings[reset]" id="dfcg-reset" value="1" <?php checked('true', $dfcg_options['reset']); ?>" />
+		<input type="checkbox" name="dfcg_plugin_settings[reset]" id="dfcg-reset" value="1" <?php checked('true', $dfcg_options['reset']); ?> />
 		<span style="font-weight:bold;padding-left:10px;"><?php _e('Reset all options to the Default settings', DFCG_DOMAIN); ?></span>
 		<span style="font-size:11px;padding-left:10px;"><em><?php _e('Check the box, then click the "Save Changes" button.', DFCG_DOMAIN)?></em></span>
 		</p>
