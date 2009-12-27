@@ -29,10 +29,10 @@ echo <<<CSS
 
 <style type="text/css">
 .form-table th {font-size:11px;}
-.metabox-holder {float:left;margin:0;padding:0;}
+.metabox-holder {margin:0;padding:0;}
 .sgr-credits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left;}
 .sgr-credits p {font-size:11px;}
-#sgr-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;}
+#sgr-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;display:inline;}
 #sgr-info ul {list-style-type:none;margin-left:0px;}
 #sgr-info img {float:left;margin:0px 10px 10px 0px;border:none;}
 #sgr-info input {float:right;margin:0px 0px 10px 10px;}
@@ -45,7 +45,7 @@ div.inside {padding: 0px 10px 10px 10px;margin:0px;}
 .postbox-sgr {padding:0px 10px;margin:0px;}
 .error p, .updated p {font-size:11px;line-height:20px;}
 .dfcg-tip {margin:0px;padding:10px 0px 0px 0px;}
-.dfcg-tip-box {font-size:11px;line-height:20px;font-style:italic;margin:0 80px 0 0;
+.dfcg-tip-box {font-size:11px;line-height:20px;font-style:italic;margin:0 0px 0 0;
 -moz-border-radius-topleft: 5px;
 -moz-border-radius-topright: 5px;
 -moz-border-radius-bottomleft: 5px;
@@ -55,7 +55,8 @@ div.inside {padding: 0px 10px 10px 10px;margin:0px;}
 -webkit-border-top-right-radius: 5px;
 -webkit-border-bottom-left-radius: 5px;
 -webkit-border-bottom-right-radius: 5px;
-padding:1px 0 1px 5px;border:1px solid #e9e9e9;background:#eeffff;}
+padding:0;border:1px solid #e9e9e9;background:#eeffff;}
+.inside table .dfcg-tip-box p {padding: 1px 5px 1px 5px;margin:0;}
 .key_settings {color:#D53131;}
 .help-outer p, .help-outer ul, .help-outer li {font-size:11px;padding:0px 0px 0px 0px;line-height:15px;}
 .help-outer h4 {margin:0px 0px 10px 0px;}
