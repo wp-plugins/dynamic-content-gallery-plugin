@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	Load user defined styles into the header.
 *	This should ensure XHTML validation.
@@ -40,6 +40,16 @@ if (!defined('ABSPATH')) {
 
 #dfcg_images img {
 	border: 0;
+	}
+	
+#dfcg_images p a, #dfcg_images p a:link, #dfcg_images p a:visited {
+	color: <?php echo $dfcg_options['slide-p-a-color']; ?> !important;
+	font-weight:<?php echo $dfcg_options['slide-p-a-weight']; ?> !important;
+	}
+	
+#dfcg_images p a:hover {
+	color: <?php echo $dfcg_options['slide-p-ahover-color']; ?> !important;
+	font-weight:<?php echo $dfcg_options['slide-p-ahover-weight']; ?> !important;
 	}
 </style>
 

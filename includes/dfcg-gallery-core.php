@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	These are the 'public' functions which produce the gallery in the browser
 *	Loads header scripts
@@ -231,13 +231,19 @@ function dfcg_jquery_scripts() {
 	echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
 }
 
-/* 8 Items used in mootools version
-$dfcg_options['defaultTransition']
-$dfcg_options['slideInfoZoneSlide']
-$dfcg_options['textShowCarousel']
-$dfcg_options['showCarousel']
-$dfcg_options['showInfopane']
-$dfcg_options['timed']
-$dfcg_options['delay']
-$dfcg_options['slideInfoZoneOpacity']
-*/
+
+/* Variables that are needed for all populate-method settings */
+function dfcg_baseimgurl() {
+
+	global $dfcg_options;
+	
+	// Do we have a base URL for Custom field images? Set base URL variable
+	if ( $dfcg_options['image-url-type'] == "full" ) {
+		// There is no base URL, so make it empty
+		$output = '';
+	} else {
+		// Partial or No URL, therefore there is a base URL, so get it
+		$output = $dfcg_options['imageurl'];
+	}
+	return $output;
+}
