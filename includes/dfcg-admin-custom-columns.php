@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	Functions and filters for adding custom columns to Edit Posts & Edit Pages screens
 *
