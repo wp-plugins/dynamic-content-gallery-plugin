@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	Sanitise Settings screen Options input.
 *	register_settings() callback function.
@@ -71,45 +71,46 @@ function dfcg_sanitise($input) {
 	
 	/***** Organise the options by type etc, into arrays, then sanitise / validate / format correct *****/
 	
-	//	Whitelist options													(8)
-	//	Path and URL options												(5)
+	//	Whitelist options													(11)	(10)
+	//	Path and URL options												(5)		(1)
 	//	On-off options														(1)
 	//	Bool options														(13)
-	//	String options - no XHTML allowed									(2)
+	//	String options - no XHTML allowed									(3)
 	//	String options - some XHTML allowed									(1)
-	//	String options - CSS hexcodes										(5)
+	//	String options - CSS hexcodes										(7)
 	//	String options - numeric comma separated only 						(1)
 	//	String options - filenames											(1)
 	//	Integer options - positive - can be blank, can't be zero 			(10)
-	//	Integer options - positive - can't be blank, can't be zero 			(9)
+	//	Integer options - positive - can't be blank, can't be zero 			(10)
 	//	Integer options - positive integer - can't be blank, can be zero 	(16)
 	//	Integer options - positive - large									(2)
-	//	Total 																74
+	//	Total 																81
 	
 	
-	/***** Whitelist options (8) *****/
+	/***** Whitelist options (11/10) *****/
 	
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU
-		$whitelist_opts = array( 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts' );
+		$whitelist_opts = array( 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'slide-overlay-position', 'nav-theme', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
 	} else {
 		// We're in WP
-		$whitelist_opts = array( 'populate-method', 'image-url-type', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'slide-overlay-position', 'nav-theme' );
+		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'slide-overlay-position', 'nav-theme', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
 	}
 	
 	// Define whitelist of known values
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto' );
 	
 	// sanitise
 	foreach( $whitelist_opts as $key ) {
 		// If option value is not in whitelist
 		if( !in_array( $input[$key], $dfcg_whitelist ) ) {
+			//Used for testing: $input[$key] = 'dodgy';
 			wp_die( "Dynamic Content Gallery Message #20: " .$dfcg_sanitise_error );
 		}
 	}
 	
 	
-	/***** Path and URL options (5) *****/
+	/***** Path and URL options (5/1) *****/
 	
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU
@@ -155,12 +156,16 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** String options - no XHTML allowed (2) *****/
+	/***** String options - no XHTML allowed (3) *****/
 	
-	$str_opts_no_html = array( 'textShowCarousel', 'slideInfoZoneOpacity' );
+	$str_opts_no_html = array( 'textShowCarousel', 'slideInfoZoneOpacity', 'more-text' );
 	
 	// sanitise
 	foreach( $str_opts_no_html as $key ) {
+		
+		// Extract first 25 characters
+		$input[$key] = substr( $input[$key], 0, 25 );
+		
 		$input[$key] = wp_filter_nohtml_kses( $input[$key] );
 	}
 	
@@ -181,9 +186,9 @@ function dfcg_sanitise($input) {
 	} 
 	
 	
-	/***** String options - CSS hexcodes (5) *****/
+	/***** String options - CSS hexcodes (7) *****/
 	
-	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'gallery-background' );
+	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'gallery-background', 'slide-p-a-color', 'slide-p-ahover-color' );
 	
 	// TODO: This could be improved - regex doesn't validate whether a valid hex code.
 	
@@ -293,11 +298,11 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive - can't be blank, can't be zero (9) *****/
+	/***** Integer options - positive - can't be blank, can't be zero (10) *****/
 	
 	// Theoretically, this isn't needed, unless user turns off Select boxes in browser
 	
-	$int_opts_nonblank_nonzero = array( 'cat01', 'cat02', 'cat03', 'cat04', 'cat05', 'cat06', 'cat07', 'cat08', 'cat09' );
+	$int_opts_nonblank_nonzero = array( 'cat01', 'cat02', 'cat03', 'cat04', 'cat05', 'cat06', 'cat07', 'cat08', 'cat09', 'max-char' );
 	
 	// sanitise, but leave blank and zero as 1
 	foreach( $int_opts_nonblank_nonzero as $key ) {

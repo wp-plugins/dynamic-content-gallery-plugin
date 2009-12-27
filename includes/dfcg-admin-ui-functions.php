@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	These are the functions which produce the UI postboxes
 *	for the Settings page.
@@ -23,13 +23,14 @@ if (!defined('ABSPATH')) {
 }
 
 
+
 // Metabox Save buttons
 function dfcg_ui_buttons() { ?>
 	<div style="float:left;width:400px"><p class="submit"><input type="submit" value="<?php _e('Save Changes'); ?>" /></p></div>
-	<div style="float:right"><p class="submit"><a class="button-secondary" href="#top" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
+	<div style="float:right"><p class="submit"><a class="button-secondary" href="#sgr-style" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
 	<div style="clear:both;"></div>
-</div><!-- End inside -->
-</div><!-- End postbox -->
+</div><!-- end inside -->
+</div><!-- end Postbox -->
 <?php }
 
 
@@ -40,8 +41,10 @@ function dfcg_ui_active() {
 	
 	$sep = ' | ';
 	
-	$output = '<p><strong><em>' . __('Your active key Settings: ', DFCG_DOMAIN) . '</em></strong><br />';
+	// Heading
+	$output = '<p><span class="bold-italic">' . __('Your active key Settings: ', DFCG_DOMAIN) . '</span><br />';
 	
+	// Image File Management
 	if( !function_exists('wpmu_create_blog') ) {
 		
 		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span>';
@@ -60,6 +63,7 @@ function dfcg_ui_active() {
 		$output .= '</span><br />';
 	}
 	
+	// Gallery Method
 	$output .= '<a href="#gallery-method">' . __('Gallery Method', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['populate-method'] . '</span>';
 	
 	if( !function_exists('wpmu_create_blog') ) {
@@ -89,6 +93,10 @@ function dfcg_ui_active() {
 	
 	}
 	
+	// Slide Pane Descriptions
+	$output .= '<a href="#default-desc">' . __('Slide Pane Description', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['desc-method'] . '</span><br />';
+	
+	// Error Messages
 	$output .= '<a href="#error-messages">' . __('Page Source Error messages', DFCG_DOMAIN) . '</a>: <span class="key_settings">';
 		
 	if( $dfcg_options['errors'] ) {
@@ -100,12 +108,14 @@ function dfcg_ui_active() {
 	}
 	
 	$output .= '</span>' . $sep;
-		
+	
+	// Script framework
 	$output .= '<a href="#gallery-js-scripts">' . __('Javascript Framework used', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['scripts'] . '</span><br />';
 	
+	// Restrict Scripts
 	$output .= '<a href="#restrict-scripts">' . __('Scripts restricted to', DFCG_DOMAIN) . '</a>: <span class="key_settings">';
 	
-	if( $dfcg_options['limit-scripts'] == 'home' ) {
+	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
 		$output .= __('Home Page', DFCG_DOMAIN);
 		
 	} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
@@ -124,13 +134,51 @@ function dfcg_ui_active() {
 }
 
 
+// Intro box: menu and holder
+function dfcg_ui_intro_menu() {
+	global $dfcg_options;
+	?>
+<div class="postbox">
+	<h3><?php _e("General Information:", DFCG_DOMAIN); ?></h3>
+	<div class="inside">
+		<div style="float:left;width:690px;">
+			<p><?php _e("Please read through this page and configure the plugin. Some Settings are Required, others are Optional, depending on how you want to configure the gallery.", DFCG_DOMAIN); ?> <em><?php _e("Use the links below to jump to the relevant section on this page:", DFCG_DOMAIN); ?></em></p>
+			<p>
+				<ul>
+					<li><a href="#image-file">1. <?php _e("Image file management (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#gallery-method">2. <?php _e("Gallery Method (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#multi-option">2.1 <?php _e("MULTI OPTION Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Multi Option in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+					<li><a href="#one-category">2.2 <?php _e("ONE CATEGORY Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected One Category in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+					<li><a href="#pages-method">2.3 <?php _e("PAGES Settings", DFCG_DOMAIN); ?></a> (<em><?php _e('Required if you selected Pages in <a href="#gallery-method">Gallery Method</a>', DFCG_DOMAIN); ?></em>)</li>
+					<li><a href="#default-desc">3. <?php _e("Slide Pane Descriptions (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#gallery-css">4. <?php _e("Gallery size and CSS options (REQUIRED)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#gallery-js-scripts">5. <?php _e("Javascript framework selection (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#gallery-js">6. <?php _e("Javascript configuration options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#restrict-scripts">7. <?php _e("Restrict script loading (RECOMMENDED)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#error-messages">8. <?php _e("Error message options (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+					<li><a href="#custom-columns">9. <?php _e("Add Custom Field columns to Posts and Pages Edit screen (OPTIONAL)", DFCG_DOMAIN); ?></a></li>
+				</ul>
+			</p>
+					
+			<?php dfcg_ui_intro_text(); ?>
+					
+		</div>
+					
+		<?php dfcg_ui_sgr_info(); ?>
+										
+		<div style="clear:both;"></div>
+	</div><!-- end Postbox inside -->
+</div><!-- end Postbox -->
+<?php }
+
+
 // Intro box: content
 function dfcg_ui_intro_text() {
 	global $dfcg_options;
 	?>
 	<div class="dfcg-tip">
-		<p><strong><em><?php _e('Validation messages: ', DFCG_DOMAIN); ?></strong><?php _e('After saving Settings, the plugin generates validation messages at the top of this page. Messages in red must be fixed, otherwise the gallery will not display. Messages in yellow mean that the gallery will display, but you are not taking advantage of the default images feature.', DFCG_DOMAIN); ?></em></p>
-		<p><strong><em><?php _e('Quick Help: ', DFCG_DOMAIN); ?></strong><?php _e('Click the <strong>Help</strong> tab at the top of the screen for more information on setting up the plugin.', DFCG_DOMAIN); ?></em></p>
+		<p><span class="bold-italic"><?php _e('Validation messages: ', DFCG_DOMAIN); ?></span><em><?php _e('After saving Settings, the plugin generates validation messages at the top of this page. Messages in red must be fixed, otherwise the gallery will not display. Messages in yellow mean that the gallery will display, but you are not taking advantage of the default images feature.', DFCG_DOMAIN); ?></em></p>
+		<p><span class="bold-italic"><?php _e('Quick Help: ', DFCG_DOMAIN); ?></span><em><?php _e('Click the <strong>Help</strong> tab at the top of the screen for more information on setting up the plugin.', DFCG_DOMAIN); ?></em></p>
 	
 		<?php dfcg_ui_active(); ?>
 	</div>
@@ -139,8 +187,9 @@ function dfcg_ui_intro_text() {
 // Resources inner box: content
 function dfcg_ui_sgr_info() {
 ?>
+<div class="postbox" id="sgr-info">	
 	<h4><?php _e('Resources & Support', DFCG_DOMAIN); ?></h4>
-	<p><a href="http://www.studiograsshopper.ch"><img src="<?php echo DFCG_URL . '/admin-assets/sgr_icon_75.jpg'; ?>" alt="studiograsshopper" /></a><strong><?php _e('Dynamic Content Gallery for WP and WPMU', DFCG_DOMAIN); ?></strong>.<br /><?php _e('Version ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?><br /><?php _e('Author: ', DFCG_DOMAIN); ?><a href="http://www.studiograsshopper.ch/">Ade Walker</a></p>
+	<p><a href="http://www.studiograsshopper.ch"><img src="<?php echo DFCG_URL . '/admin-assets/sgr_icon_75.jpg'; ?>" alt="studiograsshopper" /></a><strong><?php _e('Dynamic Content Gallery for WP and WPMU', DFCG_DOMAIN); ?></strong>.<br /><?php _e('Version', DFCG_DOMAIN); ?> <?php echo DFCG_VER; ?><br /><?php _e('Author', DFCG_DOMAIN); ?>: <a href="http://www.studiograsshopper.ch/">Ade Walker</a></p>
 	<p><?php _e('For further information, or in case of configuration problems, please consult these comprehensive resources:', DFCG_DOMAIN); ?></p>
 	<ul>
 		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/"><?php _e('Plugin Home page', DFCG_DOMAIN); ?></a></li>
@@ -158,6 +207,7 @@ function dfcg_ui_sgr_info() {
 			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 	</p>
+</div><!-- end sgr-info -->
 <?php }
 
 
@@ -166,30 +216,30 @@ function dfcg_ui_1_image_wp() {
 	global $dfcg_options;
 	?>
 	<div id="image-file" class="postbox">
-		<h3><?php _e('1. Image file management (REQUIRED)', DFCG_DOMAIN); ?></h3>
+		<h3>1. <?php _e('Image file management (REQUIRED)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>dfcg-image</strong> Custom Field added to the Posts or Pages featured in the gallery. <em>Further information about this setting can be found in the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/">Dynamic Content Gallery Configuration Guide</a>.</em>', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>dfcg-image</strong> Custom Field added to the Posts or Pages featured in the gallery.', DFCG_DOMAIN); ?> <em><?php _e('Further information about this setting can be found in the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a>.</em></p>
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[image-url-type]" id="dfcg-fullurl" type="radio" style="margin-right:5px;" value="full" <?php checked('full', $dfcg_options['image-url-type']); ?> />
 						<label for="dfcg-fullurl"><?php _e('Full URL (Default)', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format:', DFCG_DOMAIN); ?> <b><em>http://www.yourdomain.com/folder/anotherfolder/myimage.jpg</em></b><br />
-						<?php _e('Select this option if you want complete freedom to reference images anywhere in your site and in multiple locations.', DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the custom field.', DFCG_DOMAIN); ?></em></td>
+						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/folder/anotherfolder/myimage.jpg</span><br />
+						<?php _e('Select this option if you want complete freedom to reference images anywhere in your site and in multiple locations.', DFCG_DOMAIN); ?></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the custom field.', DFCG_DOMAIN); ?></div></td>
 					</tr>
 						
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[image-url-type]" id="dfcg-parturl" type="radio" style="margin-right:5px;" value="partial" <?php checked('partial', $dfcg_options['image-url-type']); ?> />
 						<label for="dfcg-parturl"><?php _e('Partial URL', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format: ', DFCG_DOMAIN); ?><b><em>subfoldername/myimage.jpg</em></b><br />
-						<?php _e('Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.', DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the "default" option if you have upgraded from an earlier version of the Dynamic Content Gallery.', DFCG_DOMAIN); ?></em></td>
+						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format: ', DFCG_DOMAIN); ?><span class="bold-italic">subfoldername/myimage.jpg</span><br />
+						<?php _e('Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.', DFCG_DOMAIN); ?></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the "default" option if you have upgraded from an earlier version of the Dynamic Content Gallery.', DFCG_DOMAIN); ?></div></td>
 					</tr>
 						
 					<tr valign="top">
 						<th scope="row"><?php _e('URL to Custom Field images folder:', DFCG_DOMAIN); ?></th>
-						<td><?php _e('If you selected <strong>Partial URL</strong> you must also specify the URL to the top-level folder which contains the relevant sub-folders and images. Include <em>http://www.yourdomain.com/</em> in this URL, for example: <b><em>http://www.yourdomain.com/myspecial_image_folder/</em></b>', DFCG_DOMAIN); ?></td>
+						<td><?php _e('If you selected <strong>Partial URL</strong> you must also specify the URL to the top-level folder which contains the relevant sub-folders and images. Include your domain name in this URL, for example:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/myspecial_image_folder/</span></td>
 					</tr>
 						
 					<tr valign="top">
@@ -206,7 +256,7 @@ function dfcg_ui_2_method() {
 	global $dfcg_options;
 	?>
 	<div id="gallery-method" class="postbox">
-		<h3><?php _e('2. Gallery Method (REQUIRED):', DFCG_DOMAIN); ?></h3>
+		<h3>2. <?php _e('Gallery Method (REQUIRED)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
 			<p><?php _e('The Dynamic Content Gallery offers three different methods for populating the gallery with images. Select the option most appropriate for your needs.', DFCG_DOMAIN); ?></p>
 			<table class="optiontable form-table">
@@ -214,20 +264,20 @@ function dfcg_ui_2_method() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-multi" type="radio" style="margin-right:5px;" value="multi-option" <?php checked('multi-option', $dfcg_options['populate-method']); ?> />
 						<label for="dfcg-populate-multi"><?php _e('Multi Option', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e('Complete freedom to select up to 9 images from a mix of categories. Set up the relevant options in <a href="#multi-option">2.1 MULTI OPTION Settings</a>', DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the original method used in previous versions of the plugin, and the option to choose if you want to mix posts from different categories.', DFCG_DOMAIN); ?></em></td>
+						<td><p><?php _e('Complete freedom to select up to 9 images from a mix of categories. Set up the relevant options in', DFCG_DOMAIN); ?> <a href="#multi-option">2.1 MULTI OPTION <?php _e('Settings', DFCG_DOMAIN); ?></a></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the original method used in previous versions of the plugin, and the option to choose if you want to mix posts from different categories.', DFCG_DOMAIN); ?></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-one" type="radio" style="margin-right:5px;"  value="one-category" <?php checked('one-category', $dfcg_options['populate-method']); ?> />
 						<label for="dfcg-populate-one"><?php _e('One Category', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e('Images are pulled from a user-definable number of Posts from one selected Category. Set up the relevant options in <a href="#one-category">2.2 ONE CATEGORY Settings</a>', DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you use a Featured or News category for highlighting certain posts.', DFCG_DOMAIN); ?></em><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('You can also use this option to display the latest Posts from all categories.', DFCG_DOMAIN); ?></em></td>
+						<td><p><?php _e('Images are pulled from a user-definable number of Posts from one selected Category. Set up the relevant options in', DFCG_DOMAIN); ?> <a href="#one-category">2.2 ONE CATEGORY <?php _e('Settings', DFCG_DOMAIN); ?></a></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you use a Featured or News category for highlighting certain posts.', DFCG_DOMAIN); ?><br />
+						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('You can also use this option to display the latest Posts from all categories.', DFCG_DOMAIN); ?></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[populate-method]" id="dfcg-populate-pages" type="radio" style="margin-right:5px;" value="pages" <?php checked('pages', $dfcg_options['populate-method']); ?> />
 						<label for="dfcg-populate-pages"><?php _e('Pages', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e('Images are pulled from Pages, rather than Posts. Set up the relevant options in <a href="#pages-method">2.3 PAGES</a>', DFCG_DOMAIN); ?></td>
+						<td><?php _e('Images are pulled from Pages, rather than Posts. Set up the relevant options in', DFCG_DOMAIN); ?> <a href="#pages-method">2.3 PAGES <?php _e('Settings', DFCG_DOMAIN); ?></a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -239,12 +289,12 @@ function dfcg_ui_multi() {
 	global $dfcg_options;
 	?>
 	<div id="multi-option" class="postbox">
-		<h3><?php _e('2.1 MULTI OPTION Settings', DFCG_DOMAIN); ?></h3>
+		<h3>2.1 MULTI OPTION <?php _e('Settings', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Configure this section if you chose Multi Option in the <a href="#gallery-method">Gallery Method</a> Settings. The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select". For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on.', DFCG_DOMAIN); ?></p>
-			<p><em><?php _e('Further information on the possible schemes can be found in the ', DFCG_DOMAIN); ?><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Dynamic Content Gallery Configuration Guide', DFCG_DOMAIN); ?></a>.</em></p>
-			<p><em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href=\"#gallery-method\">Gallery Method</a> instead. It's much more efficient in terms of database queries.", DFCG_DOMAIN); ?></em><br />
-			<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.", DFCG_DOMAIN); ?></em></p>
+			<p><?php _e('Configure this section if you chose Multi Option in the', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>. <?php _e('The Multi Option method of populating the gallery provides up to 9 image "slots", each of which can be configured with its own Category and "Post Select". For the Post Select: enter <strong>1</strong> for the latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so on.', DFCG_DOMAIN); ?></p>
+			<p><em><?php _e('Further information on the possible schemes can be found in the ', DFCG_DOMAIN); ?><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a>.</em></p>
+			<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("If you want to pull in the latest posts from one category, don't use Multi Option, use the One Category <a href=\"#gallery-method\">Gallery Method</a> instead. It's much more efficient in terms of database queries.", DFCG_DOMAIN); ?><br />
+			<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.", DFCG_DOMAIN); ?></div>
 			
 			<table class="optiontable form-table">
 				<tbody>
@@ -327,9 +377,9 @@ function dfcg_ui_onecat() {
 	global $dfcg_options;
 	?>
 	<div id="one-category" class="postbox">
-		<h3><?php _e('2.2 ONE CATEGORY Settings', DFCG_DOMAIN); ?></h3>
+		<h3>2.2 ONE CATEGORY <?php _e('Settings', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Configure this section if you chose One Category in the <a href="#gallery-method">Gallery Method</a> Settings.', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Configure this section if you chose One Category in the', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>.</p>
 				<table class="optiontable form-table">
 					<tbody>
 						<tr valign="top">
@@ -385,9 +435,9 @@ function dfcg_ui_pages() {
 	global $dfcg_options;
 	?>
 	<div id="pages-method" class="postbox">
-		<h3><?php _e('2.3 PAGES Settings', DFCG_DOMAIN); ?></h3>
+		<h3>2.3 PAGES <?php _e('Settings', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Configure this section if you chose Pages in the <a href="#gallery-method">Gallery Method</a> Settings.', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Configure this section if you chose Pages in the', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>.</p>
 				<table class="optiontable form-table">
 					<tbody>
 						<tr>
@@ -424,20 +474,36 @@ function dfcg_ui_defdesc() {
 	global $dfcg_options;
 	?>
 	<div id="default-desc" class="postbox">
-		<h3><?php _e('3. Default description (OPTIONAL):', DFCG_DOMAIN); ?></h3>
+		<h3><?php _e('3. Slide Pane Descriptions:', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('This option is applicable to all <a href="#gallery-method">Gallery Method</a> Settings.', DFCG_DOMAIN); ?></p>
-			<p><?php _e('The Dynamic Content Gallery displays a description for each image in the gallery Slide Pane. The plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), or finally (3) the default description created here.', DFCG_DOMAIN); ?></p>
-			<p><em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?><br />
-			<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('The Slide Pane has relatively little space. It is recommended to keep the description short, probably less than 25 words or so.', DFCG_DOMAIN); ?><br />
-			<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Allowed XHTML tags are:', DFCG_DOMAIN); ?></em> &lt;a href=" " title=" "&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br /&gt;</p>
+			<p><?php _e('This option is applicable to all', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>. <?php _e('Choose between Manual or Auto Description methods for displaying a description for each image in the gallery Slide Pane:', DFCG_DOMAIN); ?> <em><?php _e('The Slide Pane has relatively little space. It is recommended to keep the description short, probably less than 25 words or so.', DFCG_DOMAIN); ?></em></p>
 			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
-						<th scope="row"><?php _e('Default Description:', DFCG_DOMAIN); ?></th>
-						<td><textarea name="dfcg_plugin_settings[defimagedesc]" id="dfcg-defimagedesc" cols="75" rows="2"><?php echo stripslashes( $dfcg_options['defimagedesc'] ); ?></textarea></td>
-					</tr>	
+						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-manual" type="radio" style="margin-right:5px;" value="manual" <?php checked('manual', $dfcg_options['desc-method']); ?> />
+						<label for="desc-method-manual"><?php _e('Manual', DFCG_DOMAIN); ?></label></th>
+						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), or finally (3) the default description created here.', DFCG_DOMAIN); ?></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></div></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td><label for="dfcg-defimagedesc"><b><?php _e('Manual default Description:', DFCG_DOMAIN); ?></b> <?php _e('Allowed XHTML tags are:', DFCG_DOMAIN); ?></em> &lt;a href=" " title=" "&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br /&gt;</label><br />
+						<textarea name="dfcg_plugin_settings[defimagedesc]" id="dfcg-defimagedesc" cols="85" rows="2"><?php echo stripslashes( $dfcg_options['defimagedesc'] ); ?></textarea></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-auto" type="radio" style="margin-right:5px;" value="auto" <?php checked('auto', $dfcg_options['desc-method']); ?> />
+						<label for="desc-method-auto"><?php _e('Auto', DFCG_DOMAIN); ?></label></th>
+						<td><?php _e('Descriptions are created automatically as a custom excerpt from your Post/Page content. The length of this custom excerpt is set in the below input field.', DFCG_DOMAIN); ?></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td><input name="dfcg_plugin_settings[max-char]" id="dfcg-max-char" size="5" value="<?php echo $dfcg_options['max-char']; ?>" /><span style="padding-left:20px"><em><?php _e('Number of characters to display in the Slide Pane description.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td><input name="dfcg_plugin_settings[more-text]" id="dfcg-more-text" size="15" value="<?php echo $dfcg_options['more-text']; ?>" /><span style="padding-left:20px"><em><?php _e('Text for "more" link added to Auto description.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
 				</tbody>
 			</table>
 			<?php dfcg_ui_buttons(); ?>
@@ -502,8 +568,8 @@ function dfcg_ui_css() {
 					<tr valign="top">
 						<th scope="row"><?php _e('Heading font weight', DFCG_DOMAIN); ?>*:</th>
 						<td><select name="dfcg_plugin_settings[slide-h2-weight]">
-							<option style="padding-right:10px;" value="bold" <?php selected('bottom', $dfcg_options['slide-h2-weight']); ?>>bold</option>
-							<option style="padding-right:10px;" value="normal" <?php selected('top', $dfcg_options['slide-h2-weight']); ?>>normal</option>
+							<option style="padding-right:10px;" value="bold" <?php selected('bold', $dfcg_options['slide-h2-weight']); ?>>bold</option>
+							<option style="padding-right:10px;" value="normal" <?php selected('normal', $dfcg_options['slide-h2-weight']); ?>>normal</option>
 							</select>&nbsp;<span style="padding-left:6px;"><?php _e('Choose Heading font-weight.', DFCG_DOMAIN); ?> <em><?php _e('Default is bold.', DFCG_DOMAIN); ?></em></span></td>
 					</tr>
 					<?php else : ?>
@@ -559,6 +625,30 @@ function dfcg_ui_css() {
 						<th scope="row"><?php _e('Description Margin left and right:', DFCG_DOMAIN); ?></th>
 						<td><input name="dfcg_plugin_settings[slide-p-marglr]" id="dfcg-slide-p-marglr" size="3" value="<?php echo $dfcg_options['slide-p-marglr']; ?>" />&nbsp;px <span style="padding-left:20px;"><em><?php _e('Default is 5px.', DFCG_DOMAIN); ?></em></span></td>
 					</tr>
+					</tr>
+					<?php // More link CSS added for Auto description option ?>
+					<tr valign="top">
+						<th scope="row"><?php _e('Description More link colour:', DFCG_DOMAIN); ?></th>
+						<td><input name="dfcg_plugin_settings[slide-p-a-color]" id="dfcg-slide-p-a-color" size="8" value="<?php echo $dfcg_options['slide-p-a-color']; ?>" />&nbsp;<span style="padding-left:7px;"><?php _e('Only applicable if you selected', DFCG_DOMAIN); ?> <a href="#default-desc"><?php _e('Auto Descriptions', DFCG_DOMAIN); ?></a>. <?php _e('Enter color hex code like this #000000.', DFCG_DOMAIN); ?> <em><?php _e('Default is #FFFFFF.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><?php _e('Description More link font weight:', DFCG_DOMAIN); ?></th>
+						<td><select name="dfcg_plugin_settings[slide-p-a-weight]">
+							<option style="padding-right:10px;" value="bold" <?php selected('bold', $dfcg_options['slide-p-a-weight']); ?>>bold</option>
+							<option style="padding-right:10px;" value="normal" <?php selected('normal', $dfcg_options['slide-p-a-weight']); ?>>normal</option>
+							</select>&nbsp;<span style="padding-left:6px;"><?php _e('Only applicable if you selected', DFCG_DOMAIN); ?> <a href="#default-desc"><?php _e('Auto Descriptions', DFCG_DOMAIN); ?></a>. <?php _e('Choose More link font-weight.', DFCG_DOMAIN); ?> <em><?php _e('Default is normal.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><?php _e('Description More link hover colour:', DFCG_DOMAIN); ?></th>
+						<td><input name="dfcg_plugin_settings[slide-p-ahover-color]" id="dfcg-slide-p-ahover-color" size="8" value="<?php echo $dfcg_options['slide-p-ahover-color']; ?>" />&nbsp;<span style="padding-left:7px;"><?php _e('Only applicable if you selected', DFCG_DOMAIN); ?> <a href="#default-desc"><?php _e('Auto Descriptions', DFCG_DOMAIN); ?></a>. <?php _e('Enter color hex code like this #000000.', DFCG_DOMAIN); ?> <em><?php _e('Default is #FFFFFF.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><?php _e('Description More link hover font weight:', DFCG_DOMAIN); ?></th>
+						<td><select name="dfcg_plugin_settings[slide-p-ahover-weight]">
+							<option style="padding-right:10px;" value="bold" <?php selected('bold', $dfcg_options['slide-p-ahover-weight']); ?>>bold</option>
+							<option style="padding-right:10px;" value="normal" <?php selected('normal', $dfcg_options['slide-p-ahover-weight']); ?>>normal</option>
+							</select>&nbsp;<span style="padding-left:6px;"><?php _e('Only applicable if you selected', DFCG_DOMAIN); ?> <a href="#default-desc"><?php _e('Auto Descriptions', DFCG_DOMAIN); ?></a>. <?php _e('Choose More link hover font-weight.', DFCG_DOMAIN); ?> <em><?php _e('Default is bold.', DFCG_DOMAIN); ?></em></span></td>
+					</tr>
 				</tbody>
 			</table>
 			<?php dfcg_ui_buttons(); ?>
@@ -584,7 +674,7 @@ function dfcg_ui_js_framework() {
 						<th scope="row"><input name="dfcg_plugin_settings[scripts]" id="dfcg-scripts-jquery" type="radio" style="margin-right:5px;" value="jquery" <?php checked('jquery', $dfcg_options['scripts']); ?> />
 						<label for="dfcg-scripts-jquery">jQuery</label></th>
 						<td><?php _e('Use alternative jQuery script. Select this option in case of javascript conflicts with other plugins.', DFCG_DOMAIN); ?></em><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This script does not currently feature a Carousel (in development).', DFCG_DOMAIN); ?></em></td>
+						<em><b><?php _e('Note', DFCG_DOMAIN); ?></b>: <?php _e('This script does not currently feature a Carousel (in development).', DFCG_DOMAIN); ?></em></td>
 					</tr>
 				</tbody>
 			</table>
@@ -689,16 +779,16 @@ function dfcg_ui_restrict_scripts() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-home" type="radio" style="margin-right:5px;" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-home"><?php _e('Home page only', DFCG_DOMAIN); ?></label></th>
-						<td><?php _e("Select this option to load the plugin's scripts ONLY on the homepage.", DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery will only be used on the home page of your site. This is the default.', DFCG_DOMAIN); ?></em><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading and the gallery will only be shown on the home page.', DFCG_DOMAIN); ?></em>
+						<td><p><?php _e("Select this option to load the plugin's scripts ONLY on the homepage.", DFCG_DOMAIN); ?></p>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery will only be used on the home page of your site. This is the default.', DFCG_DOMAIN); ?><br />
+						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading and the gallery will only be shown on the home page.', DFCG_DOMAIN); ?></div>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-page" type="radio" style="margin-right:5px;" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-page"><?php _e('Specific Page Template', DFCG_DOMAIN); ?></label></th>
 						<td><?php _e("Select this option to load the plugin's scripts ONLY when a specific Page Template is being used to display the gallery.", DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery is displayed using a Page Template. Enter the Page Template <strong>filename</strong> below.', DFCG_DOMAIN); ?></em></td>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery is displayed using a Page Template. Enter the Page Template <strong>filename</strong> below.', DFCG_DOMAIN); ?></div></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
@@ -708,7 +798,7 @@ function dfcg_ui_restrict_scripts() {
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-other" style="margin-right:5px;" type="radio" value="other" <?php checked('other', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-other"><?php _e('Other', DFCG_DOMAIN); ?></label></th>
 						<td><?php _e('Check this option if none of the above apply to your setup.', DFCG_DOMAIN); ?><br />
-						<em><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("The plugin's scripts will be loaded in every page. Not recommended.", DFCG_DOMAIN); ?></em></td>
+						<div class="dfcg-tip-box"><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e("The plugin's scripts will be loaded in every page. Not recommended.", DFCG_DOMAIN); ?></div></td>
 					</tr>
 				</tbody>
 			</table>
@@ -838,9 +928,7 @@ function dfcg_ui_reset_end() {
 		</p>
 	</div>
         
-	</fieldset>
-	<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></p>
-</form>
+	
 <?php }
 
 // Credits: box and content
@@ -848,11 +936,17 @@ function dfcg_ui_credits() {
 	global $dfcg_options;
 	?>
 	<div class="sgr-credits">
-		<p><?php _e('For further information please read the README document included in the plugin download, or visit the <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/">Configuration guide</a>,  <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/">Documentation page</a> and comprehensive <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/faq/">FAQ</a>.', DFCG_DOMAIN); ?></p>
-		<p><?php _e('The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by', DFCG_DOMAIN); ?> <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a> <?php _e('and a modified version of the jQuery Galleryview script developed by', DFCG_DOMAIN); ?> <a href="http://www.spaceforaname.com/jquery/galleryview/">Jack Anderson</a>, <?php _e('and is inspired by the Featured Content Gallery v1.0 originally developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.', DFCG_DOMAIN); ?></p> 
+		<p><?php _e('For further information please read the README document included in the plugin download, or visit these resources:', DFCG_DOMAIN); ?></p>
+		<p>
+			<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a> | 
+		  	<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/"><?php _e('Documentation page', DFCG_DOMAIN); ?></a> | 
+			<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/faq/"><?php _e('FAQ', DFCG_DOMAIN); ?></a> | 
+			<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/"><?php _e('Error Messages', DFCG_DOMAIN); ?></a>
+		</p>
+		<p><?php _e('The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by', DFCG_DOMAIN); ?> <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a> <?php _e('and a modified version of the jQuery Galleryview script developed by', DFCG_DOMAIN); ?> <a href="http://www.spaceforaname.com/jquery/galleryview/">Jack Anderson</a>, <?php _e('and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.', DFCG_DOMAIN); ?></p> 
 		<p><?php _e('Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
 		
-	</div>
+	</div><!-- end sgr-credits -->
 <?php }
 
 // Uploading images: box and content
