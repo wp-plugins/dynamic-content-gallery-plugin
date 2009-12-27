@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Dynamic Content Gallery
-Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery-plugin/
-Version: 3.0
+Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
+Version: 3.1
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -26,6 +26,14 @@ Description: Creates a dynamic gallery of images for latest or featured posts se
 
 /* Version History
 
+	3.1			- Bug fix:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
+				- Bug fix:	Tidied up Settings text for easier gettext translation
+				- Bug fix:	Tidied up Settings page CSS
+				- Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
+				- Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
+				- Bug fix:	TODO Deal with default images outside wp-content folder
+				- Feature:	Added auto Description using custom $content excerpt + 7 options
+	
 	3.0			- Feature:	Added alternative jQuery gallery script and new associated options
 				- Bug fix:	Improved data sanitisation
 				- Feature: 	Added WP version check to Plugins screen. DCG now requires WP 2.8+
@@ -90,7 +98,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.0' );
+define( 'DFCG_VER', '3.1' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
@@ -121,6 +129,7 @@ $dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
 *	dfcg-gallery-constructors.php		Three gallery constructor functions - mootools
 *	dfcg-gallery-constructors-jq.php	Three gallery constructor functions - jquery
 *	dfcg-gallery-errors.php				Browser and/or Page Source errors.
+*	dfcg-gallery-content-limit-php		Auto description for Slide Pane
 *
 *	Required for Admin
 *	dfcg-admin-core.php				Main Admin Functions: add page and related functions, options handling/upgrading
@@ -135,10 +144,17 @@ $dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
 */ 
 // Public files
 if( !is_admin() ) {
+	
 	include_once( DFCG_DIR . '/includes/dfcg-gallery-core.php');
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors.php');
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq.php');
+	
+	if( $dfcg_options['scripts'] == 'mootools' ) {
+		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors.php');
+	} else {
+		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq.php');
+	}
+	
 	include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
+	include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
 }
 
 // Admin-only files
