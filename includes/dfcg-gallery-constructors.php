@@ -4,7 +4,7 @@
 *	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.0
+*	@version	3.1
 *
 *	These are the key functions which produce the markup output
 *	for the gallery to run.
@@ -24,26 +24,10 @@ if (!defined('ABSPATH')) {
 }
 
 
-/* Variables that are needed for all populate-method settings */
-function dfcg_baseimgurl() {
-
-	global $dfcg_options;
-	
-	// Do we have a base URL for Custom field images? Set base URL variable
-	if ( $dfcg_options['image-url-type'] == "full" ) {
-		// There is no base URL, so make it empty
-		$output = '';
-	} else {
-		// Partial or No URL, therefore there is a base URL, so get it
-		$output = $dfcg_options['imageurl'];
-	}
-	return $output;
-}
-
 
 /*	This function builds the gallery from Multi Option options
 *
-*	@uses	dfcg_baseimgurl()			Determines whether Full or Partial URL applies
+*	@uses	dfcg_baseimgurl()			Determines whether Full or Partial URL applies (see dfcg-gallery-core.php)
 *
 *	@param	$dfcg_errmsgs				Global: Array of error messages
 *	@param	$dfcg_options				Global: Array of DCG options from wp_postmeta
@@ -178,22 +162,32 @@ function dfcg_multioption_method_gallery() {
 						$output .= "\t" . '<h3>' . get_the_title() . '</h3>' . "\n";
 
 						// Get the description
-						if( get_post_meta($post->ID, "dfcg-desc", true) ){
-							// We have a Custom field description
-							$output .= "\t" . '<p>' . get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
+						if( $dfcg_options['desc-method'] == 'manual' ) {
+						
+							if( get_post_meta($post->ID, "dfcg-desc", true) ){
+								// We have a Custom field description
+								$output .= "\t" . '<p>' . get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
 
-						} elseif( category_description($key) !== '' ) {
-							// show the category description (note: no <p> tags required)
-							$output .= "\t" . category_description($key) . "\n";
+							} elseif( category_description($key) !== '' ) {
+								// show the category description (note: no <p> tags required)
+								$output .= "\t" . category_description($key) . "\n";
 
-						} elseif( $dfcg_options['defimagedesc'] !== '' ) {
-							// or show the default description
-							$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
+							} elseif( $dfcg_options['defimagedesc'] !== '' ) {
+								// or show the default description
+								$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
 							
+							} else {
+								// we have no descriptions (note: smoothgallery needs <p> tags or won't work)
+								$output .= "\t" . '<p></p>' . "\n";
+								$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+							}
+						
 						} else {
-							// we have no descriptions (note: smoothgallery neess <p> tags or won't work)
-							$output .= "\t" . '<p></p>' . "\n";
-							$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+							// We're using Auto custom excerpt
+							$chars = $dfcg_options['max-char'];
+							$more = $dfcg_options['more-text'];
+							$auto_text = dfcg_the_content_limit( $chars, $more );
+							$output .= "\t" . $auto_text . "\n";
 						}
 
        					// Link - additional code courtesy of Martin Downer
@@ -329,41 +323,52 @@ function dfcg_onecategory_method_gallery() {
 			// Display the page title
 			$output .= "\t" . '<h3>'. get_the_title() .'</h3>' . "\n";
 			
-			// Do we have a dfcg-desc?
-			if( get_post_meta($post->ID, "dfcg-desc", true) ) {
-				$output .= "\t" . '<p>'. get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
+			// Get the description
+			if( $dfcg_options['desc-method'] == 'manual' ) {
 			
-			// we have All cats
-			} elseif( $cat_selected == '' ) {
+				// Do we have a dfcg-desc?
+				if( get_post_meta($post->ID, "dfcg-desc", true) ) {
+					$output .= "\t" . '<p>'. get_post_meta($post->ID, "dfcg-desc", true) . '</p>' . "\n";
+			
+				// we have All cats
+				} elseif( $cat_selected == '' ) {
 				
-				// TODO: Get the category ID so that cat descriptions can be displayed for ALL cats
+					// TODO: Get the category ID so that cat descriptions can be displayed for ALL cats
 				
-				// Default description exists
-				if( $dfcg_options['defimagedesc'] !== '' ) {
-					// Show the default description
+					// Default description exists
+					if( $dfcg_options['defimagedesc'] !== '' ) {
+						// Show the default description
+						$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
+				
+					} else {
+						// There is no description
+						$output .= "\t" . '<p></p>' . "\n";
+						$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+					}
+				
+				// we have Single cat and category desc exists
+				} elseif( category_description($cat_selected) !== '') {
+					// a category description exists
+					$output .= "\t" . category_description($cat_selected) . "\n";
+				
+				// we have a Single cat and a default description exists
+				} elseif( $dfcg_options['defimagedesc'] !== '') {
+					// a default description exists
 					$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
-				
+			
+				// we have Single cat and no description
 				} else {
-					// There is no description
+					// Show the error message
 					$output .= "\t" . '<p></p>' . "\n";
 					$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
 				}
 				
-			// we have Single cat and category desc exists
-			} elseif( category_description($cat_selected) !== '') {
-				// a category description exists
-				$output .= "\t" . category_description($cat_selected) . "\n";
-				
-			// we have a Single cat and a default description exists
-			} elseif( $dfcg_options['defimagedesc'] !== '') {
-				// a default description exists
-				$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
-			
-			// we have Single cat and no description
 			} else {
-				// Show the error message
-				$output .= "\t" . '<p></p>' . "\n";
-				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+				// We're using Auto custom excerpt
+				$chars = $dfcg_options['max-char'];
+				$more = $dfcg_options['more-text'];
+				$auto_text = dfcg_the_content_limit( $chars, $more );
+				$output .= "\t" . $auto_text . "\n";
 			}
 
 			// Link - additional code courtesy of Martin Downer
@@ -482,7 +487,7 @@ function dfcg_pages_method_gallery() {
 	
 	/* Do the query - with thanks to Austin Matzko for sprintf help */
 	$pages_found = $wpdb->get_results(
-  		sprintf("SELECT ID,post_title FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $pages_selected ) ) )
+  		sprintf("SELECT ID,post_title,post_content FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $pages_selected ) ) )
 		);
 											
 	/* If we have results from the query */
@@ -520,18 +525,31 @@ function dfcg_pages_method_gallery() {
 			// Display the page title
 			$output .= "\t" . '<h3>'. $page_found->post_title .'</h3>' . "\n";
 
-			// Do we have a dfcg-desc?
-			if( get_post_meta($page_found->ID, "dfcg-desc", true) ) {
-				$output .= "\t" . '<p>' . get_post_meta($page_found->ID, "dfcg-desc", true) . '</p>' . "\n";
+			// Get the description
+			if( $dfcg_options['desc-method'] == 'manual' ) {
+			
+				// Do we have a dfcg-desc?
+				if( get_post_meta($page_found->ID, "dfcg-desc", true) ) {
+					$output .= "\t" . '<p>' . get_post_meta($page_found->ID, "dfcg-desc", true) . '</p>' . "\n";
 
-			} elseif( $dfcg_options['defimagedesc'] !== '' ) {
-				// Show the default description
-				$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
+				} elseif( $dfcg_options['defimagedesc'] !== '' ) {
+					// Show the default description
+					$output .= "\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>' . "\n";
 
+				} else {
+					// Show the error message
+					$output .= "\t" . '<p></p>' . "\n";
+					$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+				}
+				
 			} else {
-				// Show the error message
-				$output .= "\t" . '<p></p>' . "\n";
-				$output .= "\t" . $dfcg_errmsgs['3'] . "\n";
+				// We're using Auto custom excerpt
+				$page_content = $page_found->post_content;
+				$page_id = $page_found->ID;
+				$chars = $dfcg_options['max-char'];
+				$more = $dfcg_options['more-text'];
+				$auto_text = dfcg_the_content_limit( $chars, $more, $page_content, $page_id );
+				$output .= "\t" . $auto_text . "\n";
 			}
 
 			// Link - additional code courtesy of Martin Downer
