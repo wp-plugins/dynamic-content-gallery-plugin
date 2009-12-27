@@ -59,7 +59,10 @@ function dfcg_jq_multioption_method_gallery() {
 	$defimgmulti = $dfcg_options['defimgmulti'];
 
 	// Convert category images absolute URL to Path (with thanks to Charles Clarkson)
-	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgmulti ); 
+	// $filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgmulti );
+	
+	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	$filepath = str_replace( get_bloginfo('siteurl'), ABSPATH, $defimgmulti );
 
 	$query_list = array();
 
@@ -291,7 +294,10 @@ function dfcg_jq_onecategory_method_gallery() {
 	$defimgonecat = $dfcg_options['defimgonecat'];
 
 	// Convert category images folder absolute URL to Path (with thanks to Charles Clarkson)
-	$filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgonecat );
+	// $filepath = preg_replace( '|^.+/wp-content|i', WP_CONTENT_DIR, $defimgonecat );
+	
+	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	$filepath = str_replace( get_bloginfo('siteurl'), ABSPATH, $defimgonecat );
 	
 	// Set a variable for the category default image using the cat ID number for the image name
 	if( $dfcg_cat !== '' ) {
