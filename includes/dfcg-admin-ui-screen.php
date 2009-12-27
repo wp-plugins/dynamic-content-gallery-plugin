@@ -119,9 +119,10 @@ dfcg_ui_reset_end();
 	
 			<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></p>
 		</form>
-	</div><!-- end meta-box holder -->
 	
 <?php	// Credits
-	dfcg_ui_credits();
+		dfcg_ui_credits();
 ?>
+	</div><!-- end meta-box holder -->
+	
 </div><!-- end sgr-style wrap -->
