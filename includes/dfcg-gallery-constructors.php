@@ -522,7 +522,7 @@ function dfcg_pages_method_gallery() {
 
 		foreach( $pages_found as $page_found ) :
 
-			// Increment the counter
+			// Increment the image counter
 			$counter++;
 
 			// Open the imageElement div
