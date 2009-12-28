@@ -1,12 +1,12 @@
 === Dynamic Content Gallery ===
 
-Version: 3.0
+Version: 3.1
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 2.8
-Tested up to: 2.8.6 (WP) and 2.8.6 (WPMU)
+Tested up to: 2.9 (WP) and 2.8.6 (WPMU)
 Stable tag: 3.0
 
 Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -20,7 +20,10 @@ Compatible with Wordpress Mu but with some differences in features compared with
 
 **Key Features**
 ----------------
-Version 3.0 introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
+Version 3.0+ introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
+
+* NEW in 3.1 - Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
+* NEW in 3.1 - Category default images folder can now be outside wp-content folder
 * SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
 * A choice of 3 different methods for populating the gallery -  Multi Option, One Category or Pages.
 * Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages.
@@ -36,10 +39,10 @@ Version 3.0 introduces many new features: streamlined code, expanded Settings pa
 -----------------------
 Comprehensive information on installing, configuring and using the plugin can be found [here](http://www.studiograsshopper.ch/dynamic-content-gallery/)
 
-[Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
-[Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
-[FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
-[Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
+* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
+* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
+* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
+* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
 All support is handled at the [Studiograsshopper Forum](http://www.studiograsshopper.ch/forum/). I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
 
@@ -52,7 +55,7 @@ All support is handled at the [Studiograsshopper Forum](http://www.studiograssho
 
 1. Download the latest version of the plugin to your computer.
 2. Extract and upload the folder *dynamic-content-gallery-plugin* to your */wp-content/plugins/* directory. Please ensure that you do not rename any folder or filenames in the process.
-3. Activate the plugin in your Dashboard via the “Plugins” menu item.
+3. Activate the plugin in your Dashboard via the "Plugins" menu item.
 4. Go to the plugin's Settings page, and configure your settings.
 
 Note for Wordpress Mu users:
@@ -60,31 +63,42 @@ Note for Wordpress Mu users:
 * Install the plugin in your */plugins/* directory (do not install in the */mu-plugins/* directory).
 * In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator. Each blog owner can then configure the plugin's Settings page in their Admin Settings.
 
+
+**Upgrading from version 3.0**
+------------------------------
+Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
+
 **Upgrading from version 2.2**
 ------------------------------
-
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43). 
 
 
 
-== Instructions for use ==
+**Instructions for use**
+------------------------
 
-
-== Using the plugin == 
+**Using the plugin** 
 
 To display the dynamic gallery in your theme, add this code to your theme file wherever you want to display the gallery:
 
-&lt;?php dynamic_content_gallery(); ?&gt;
+`<?php dynamic_content_gallery(); ?>`
 
 **Note:** Do not use in the Loop.
 
 
-== Assigning Images to Posts ==
+**Assigning Images to Posts**
 
 Images are pulled into the gallery from custom fields created in the relevant Posts/Pages:
 
 * Custom field *dfcg-image* for the image filename, including extension, with EITHER the full or partial URL depending on your Image file management Settings.
-* Custom field *dfcg-desc* for the Description which will appear in the gallery Slide Pane. For example: Here's our latest news!
+
+Slide Pane text can be configured in two ways - Manual or Auto
+
+**Manual:**
+* Use a custom field *dfcg-desc* in your Posts/Pages for the Description which will appear in the gallery Slide Pane. For example: Here's our latest news!
+
+**Auto:**
+* Select Auto option to automatically create custom Post/Page excerpts from your Post/Page content.
 
 *Note for WPMU users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Post Custom field. See the Settings page for further information on how to do this. This tip is good for Wordpress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings.
 
@@ -105,6 +119,7 @@ The Dynamic Content Gallery plugin uses custom fields to pull in images and titl
 **How does it work?**
 ---------------------
 The plugin provides three ways to populate the gallery:
+
 * Multi Option: user-definable combination of categories and Posts to display up to 9 images
 * One Category: display up to 15 images from one selected category
 * Pages: features Pages rather than Posts in the gallery
@@ -121,7 +136,7 @@ The plugin is supplied with the original Smoothgallery mootools script and a jQu
 **Download**
 ------------
 
-Latest stable version is version 3.0 available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
+Latest stable version is version 3.1 available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
 
 
 **Support**
@@ -129,11 +144,11 @@ Latest stable version is version 3.0 available from http://wordpress.org/extend/
 
 This plugin is provided free of charge without warranty.  In the event you experience problems you should visit these resources:
 
-Dynamic Content Gallery home page - http://www.studiograsshopper.ch/dynamic-content-gallery/
-Configuration Guide - http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/
-Documentation - http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/
-FAQ - http://www.studiograsshopper.ch/dynamic-content-gallery/faq/
-Error messages info - http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/
+* [Dynamic Content Gallery home page](http://www.studiograsshopper.ch/dynamic-content-gallery/)
+* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
+* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
+* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
+* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
 If, having referred to the above resources, you still need assistance, visit the support page at http://www.studiograsshopper.ch/forum/.  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
 
@@ -167,9 +182,9 @@ If you find any bugs, or have suggestions for future features, please leave a me
 
 
 
-== Acknowledgements ==
+**Acknowledgements**
 
-The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a modified version of the jQuery Galleryview script developed by Jack Anderson, and is inspired by the Featured Content Gallery v1.0 originally developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.
+The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a modified version of the jQuery Galleryview script developed by Jack Anderson, and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.
 
 
 == Screenshots ==
@@ -186,6 +201,16 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 
 == Changelog ==
+
+= 3.1 =
+* Released
+* Bug fix:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
+* Bug fix:	Tidied up Settings text for easier gettext translation
+* Bug fix:	Tidied up Settings page CSS
+* Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
+* Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
+* Bug fix:	Category default images folder can now be outside wp-content folder
+* Feature:	Added auto Description using custom $content excerpt + 7 options
 
 = 3.0 =
 * Released	7 December 2009
