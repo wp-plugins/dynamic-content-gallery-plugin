@@ -203,7 +203,7 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 == Changelog ==
 
 = 3.1 =
-* Released
+* Released	28 December 2009
 * Bug fix:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
 * Bug fix:	Tidied up Settings text for easier gettext translation
 * Bug fix:	Tidied up Settings page CSS
