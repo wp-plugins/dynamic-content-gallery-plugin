@@ -810,7 +810,7 @@ function dfcg_ui_errors() {
 	<div id="error-messages" class="postbox">
 		<h3><?php _e('8. Error Message options (OPTIONAL)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly, which will assist with troubleshooting. These error messages, if activated, are output to the Page Source of the gallery as HTML comments.', DFCG_DOMAIN); ?> <em><?php _e('Error message explanations can be found in the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/">Dynamic Content Gallery Error Messages</a> guide.</em></p>
+			<p><?php _e('The plugin produces informative error messages in the event that Posts, Pages, images and descriptions have not been configured properly, which will assist with troubleshooting. These error messages, if activated, are output to the Page Source of the gallery as HTML comments.', DFCG_DOMAIN); ?> <em><?php _e('Error message explanations can be found in the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/">Dynamic Content Gallery <?php _e('Error Messages', DFCG_DOMAIN); ?></a> <?php _e('guide.', DFCG_DOMAIN); ?></em></p>
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
@@ -954,7 +954,7 @@ function dfcg_ui_create_wpmu() {
 	<div id="upload-images" class="postbox">
 		<h3><?php _e('1. Uploading your images', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p>Use the Media Uploader in Write Posts / Write Pages to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>dfcg-image</strong> custom field in the Write Post screen.</p>
+			<p><?php _e('Use the Media Uploader in Write Posts / Write Pages to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>dfcg-image</strong> custom field in the Write Post screen.', DFCG_DOMAIN); ?></p>
 		</div>
 	</div>
 <?php }
