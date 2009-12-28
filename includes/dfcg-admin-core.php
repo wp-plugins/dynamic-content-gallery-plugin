@@ -380,6 +380,13 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.1 RC1
+	} elseif( $dfcg_prev_version == '3.1 RC1' ) {
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.0
 	} elseif( $dfcg_existing && $dfcg_prev_version == '3.0' ) {
 		
