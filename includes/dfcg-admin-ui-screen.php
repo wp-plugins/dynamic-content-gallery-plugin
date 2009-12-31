@@ -33,18 +33,19 @@ dfcg_options_css_js();
 	
 	<div class="metabox-holder">
 	
-		<form method="post" action="options.php">
-	
 <?php
-// Settings API, nonces etc
-settings_fields('dfcg_plugin_settings_options');
-
 $dfcg_options = get_option('dfcg_plugin_settings'); // Load Options
 
 dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on page load
 
 /* Output the Settings Page boxes */
 dfcg_ui_intro_menu();
+?>
+		<form method="post" action="options.php">
+	
+<?php
+// Settings API, nonces etc
+settings_fields('dfcg_plugin_settings_options');
 
 if ( function_exists('wpmu_create_blog') ) {
 	// Uploading images - WPMU ONLY
