@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	This is the file that displays the gallery, called by dynamic_content_gallery()
 *	template tag function.
@@ -67,7 +67,7 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 
 	$output = '';
 	$output .= $dfcg_errmsgs['public'];
-	$output .= $dfcg_errmsgs['10'] . "\n";
+	$output .= "\n" . $dfcg_errmsgs['10'] . "\n";
 	echo $output;
 }
 ?>
