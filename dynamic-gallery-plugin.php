@@ -2,13 +2,13 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.1
+Version: 3.2
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
 */
 
-/*  Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+/*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License 2 as published by
@@ -26,9 +26,21 @@ Description: Creates a dynamic gallery of images for latest or featured posts se
 
 /* Version History
 
-	3.1			- Bug fix:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
-				- Bug fix:	Tidied up Settings text for easier gettext translation
-				- Bug fix:	Tidied up Settings page CSS
+	3.2			- Feature:	Added Metabox to Post/Page Editor screen to handle custom fields
+				- Feature:	Added _dfcg-exclude postmeta to allow specific exclusion of a post from multi-option or one-category output
+				- Bug fix:	Corrected path to .mo file in load_textdomain() in plugin main file
+				- Enhance:	Tidied up Error Message markup and reorganised dfcg-gallery-errors.php, with new functions
+				- Bug fix:	Fixed Settings Page Donate broken link
+				- Bug fix:	Increased sanitisation Carousel text limit to 50 characters
+				- Enhance:	Renamed function dfcg_add_page() now dfcg_add_to_options_menu()
+				- Enhance:	Removed unneeded call to dfcg_load_textdomain() in dfcg_add_to_options_menu()
+				- Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
+				- Bug fix:	Mootools jd.gallery.js - increased thumbIdleOpacity to 0.4 for improved carousel visuals in IE
+				- Enhance:	jd.gallery.css modified to remove open.gif (looked rubbish in IE and not much better in FF)
+	
+	3.1			- Enhance:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
+				- Enhance:	Tidied up Settings text for easier gettext translation
+				- Enhance:	Tidied up Settings page CSS
 				- Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
 				- Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
 				- Bug fix:	Category default images folder can now be outside wp-content folder
@@ -98,7 +110,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.1' );
+define( 'DFCG_VER', '3.2' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
@@ -124,21 +136,22 @@ $dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
 
 /* 	Load files needed for plugin to run
 *
-*	Required for gallery display
+*	Required for gallery display		Note conditionals based on user Settings, to minimise script loading
 *	dfcg-gallery-core.php				Template tag, header scripts functions
 *	dfcg-gallery-constructors.php		Three gallery constructor functions - mootools
 *	dfcg-gallery-constructors-jq.php	Three gallery constructor functions - jquery
 *	dfcg-gallery-errors.php				Browser and/or Page Source errors.
-*	dfcg-gallery-content-limit-php		Auto description for Slide Pane
+*	dfcg-gallery-content-limit.php		Auto description for Slide Pane
 *
 *	Required for Admin
 *	dfcg-admin-core.php				Main Admin Functions: add page and related functions, options handling/upgrading
 *	dfcg-admin-ui-functions.php		Functions for outputting Settings Page elements
 *	dfcg-admin-ui-validation.php	Functions for validating Settings on load and submit
-*	dfcg-admin-ui-css-js.php		Settings page CSS and JS
+*	dfcg-admin-ui-js.php			Settings page JS
 *	dfcg-admin-ui-help.php			Functions for Settings Page contextual help
 *	dfcg-admin-custom-columns		Adds custom columns to Edit Posts & Edit Pages screens
 *	dfcg-admin-ui-sanitise.php		Sanitisation callback function for register_settings
+*	dfcg-admin-metaboxes.php		Adds metabox to Post and Page screen for access to custom fields
 *
 *	@since	3.0
 */ 
@@ -153,8 +166,13 @@ if( !is_admin() ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq.php');
 	}
 	
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
+	if( $dfcg_options['errors'] == 'true' ) {
+		include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
+	}
+	
+	if( $dfcg_options['desc-method'] == 'auto' ) {
+		include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
+	}
 }
 
 // Admin-only files
@@ -162,19 +180,16 @@ if( is_admin() ) {
 	require_once( DFCG_DIR . '/includes/dfcg-admin-core.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-functions.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-validation.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-css-js.php');
+	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-js.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-help.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-sanitise.php');
+	require_once( DFCG_DIR . '/includes/dfcg-admin-metaboxes.php');
 }
 
 
 
 /***** Add filters and actions ********************/
-
-/* Admin - Register Settings as per new API */
-// Function defined in dfcg-admin-core.php
-add_action('admin_init', 'dfcg_options_init' );
 
 /* Public - Loads scripts into header where gallery is displayed */
 // Function defined in dfcg-gallery-core.php
@@ -184,9 +199,21 @@ add_action('wp_head', 'dfcg_load_scripts');
 // Function defined in dfcg-gallery-core.php
 add_action('template_redirect', 'dfcg_enqueue_script');
 
+/* Admin - Register Settings as per new API */
+// Function defined in dfcg-admin-core.php
+add_action('admin_init', 'dfcg_options_init' );
+
 /* Admin - Adds Settings page */
 // Function defined in dfcg-admin-core.php
-add_action('admin_menu', 'dfcg_add_page');
+add_action('admin_menu', 'dfcg_add_to_options_menu');
+
+/* Admin - Adds Metaboxes to Post/Page Editor */
+// Function defined in dfcg-admin-metaboxes.php
+add_action('admin_menu', 'dfcg_add_metabox');
+
+/* Admin - Saves Metabox data in Post/Page Editor */
+// Function defined in dfcg-admin-metaboxes.php
+add_action('save_post', 'dfcg_save_metabox_data', 1, 2);
 
 /* Admin - Contextual Help to Settings page */
 // Function defined in dfcg-admin-ui-help.php
@@ -216,13 +243,17 @@ add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
 *
 *	Loads textdomain if $dfcg_text_loaded is false
 *
+*	Note: .mo file should be named dynamic-content-gallery-plugin-xx_XX.mo and placed in the DCG plugin's languages folder.
+*	xx_XX is the language code, eg fr_FR for French etc.
+*
 *	Called by dfcg_add_page()
 *	Called by dfcg-wp-ui.php
+*
 *	@uses	variable	$dfcg_text_loaded
 *
-*	@since	1.0
+*	@since	3.2
 */
-// TODO: Is this really a public function too? Probably not.
+// TODO: Is this really a public function? Probably not.
 function dfcg_load_textdomain() {
 	
 	global $dfcg_text_loaded;
@@ -233,7 +264,7 @@ function dfcg_load_textdomain() {
    	}
 	
 	// Textdomain isn't already loaded, let's load it
-   	load_plugin_textdomain(DFCG_DOMAIN, WP_PLUGIN_DIR.'/'.dirname(plugin_basename(__FILE__)), dirname(plugin_basename(__FILE__)));
+   	load_plugin_textdomain(DFCG_DOMAIN, false, dirname(plugin_basename(__FILE__)). '/languages');
    	
 	// Change variable to prevent loading textdomain again
 	$dfcg_text_loaded = true;
