@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	These are the functions which produce the UI postboxes
 *	for the Settings page.
@@ -47,7 +47,7 @@ function dfcg_ui_active() {
 	// Image File Management
 	if( !function_exists('wpmu_create_blog') ) {
 		
-		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span><br />';
+		$output .= '<a href="#image-file">' . __('Image File Management', DFCG_DOMAIN) . '</a>: <span class="key_settings">' . $dfcg_options['image-url-type'] . ' URL</span>';
 		
 		if( $dfcg_options['image-url-type'] == 'partial' ) {
 			
@@ -61,6 +61,9 @@ function dfcg_ui_active() {
 		
 		$output .= '</span><br />';
 		
+		} else {
+		
+			$output .= '<br />';
 		}
 	}
 	
@@ -74,16 +77,23 @@ function dfcg_ui_active() {
 		// TODO: Sort out a message if default image URL has not been defined
 		
 		if( $dfcg_options['populate-method'] == 'multi-option' ) {
-			$output .= $subhead . $dfcg_options['defimgmulti'];
+			if( $dfcg_options['defimgmulti'] ) {
+				$output .= $subhead . $dfcg_options['defimgmulti'];
+			} else {
+				$output .= $subhead . __('not defined', DFCG_DOMAIN);
+			}
 		
 		} elseif( $dfcg_options['populate-method'] == 'one-category' ) {
-			$output .= $subhead . $dfcg_options['defimgonecat'];
-			
-		} elseif( $dfcg_options['populate-method'] == 'pages' ) {
-			$output .= $sep . __('Default image is: ', DFCG_DOMAIN) . '<span class="key_settings">' . $dfcg_options['defimgpages'];
+			if( $dfcg_options['defimgonecat'] ) {
+				$output .= $subhead . $dfcg_options['defimgonecat'];
+			} else {
+				$output .= $subhead . __('not defined', DFCG_DOMAIN);
+			}
 		
+		} elseif( $dfcg_options['defimgpages'] ) {
+				$output .= $sep . __('Default image is: ', DFCG_DOMAIN) . '<span class="key_settings">' . $dfcg_options['defimgpages'];
 		} else {
-			$output .= $sep . __('Default image is:', DFCG_DOMAIN) . '<span class="key_settings">' . __('not defined', DFCG_DOMAIN);
+				$output .= $sep . __('Default image is: ', DFCG_DOMAIN) . '<span class="key_settings">' . __('not defined', DFCG_DOMAIN);
 		}
 		
 		$output .= '</span><br />';
@@ -934,7 +944,7 @@ function dfcg_ui_credits() {
 	global $dfcg_options;
 	?>
 	<div class="sgr-credits">
-		<p><?php _e('For further information please read the README document included in the plugin download, or visit these resources:', DFCG_DOMAIN); ?></p>
+		<p><?php _e('For further information please visit these resources:', DFCG_DOMAIN); ?></p>
 		<p>
 			<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a> | 
 		  	<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/"><?php _e('Documentation page', DFCG_DOMAIN); ?></a> | 
@@ -942,7 +952,7 @@ function dfcg_ui_credits() {
 			<a href="http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/"><?php _e('Error Messages', DFCG_DOMAIN); ?></a>
 		</p>
 		<p><?php _e('The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by', DFCG_DOMAIN); ?> <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a> <?php _e('and a modified version of the jQuery Galleryview script developed by', DFCG_DOMAIN); ?> <a href="http://www.spaceforaname.com/jquery/galleryview/">Jack Anderson</a>, <?php _e('and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.', DFCG_DOMAIN); ?></p> 
-		<p><?php _e('Dynamic Content Gallery plugin for Wordpress and Wordpress Mu by', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
+		<p><?php _e('Dynamic Content Gallery plugin for Wordpress and Wordpress Mu', DFCG_DOMAIN); ?>&nbsp;&copy;&nbsp;2008-2010 <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
 		
 	</div><!-- end sgr-credits -->
 <?php }

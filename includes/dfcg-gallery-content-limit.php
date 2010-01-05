@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
 *	further enhanced by Nathan Rice and Charles Clarkson, to deal with caption shortcodes etc,
@@ -38,7 +38,6 @@ if (!defined('ABSPATH')) {
 *	to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $page_id
 *	arguments for passing the Page content and ID to this function.
 *
-*	Using the function
 *	@since	3.1
 */
 function dfcg_get_the_content_limit($max_char, $more_link_text = '(more...)', $content = NULL, $page_id = NULL, $stripteaser = 0) {

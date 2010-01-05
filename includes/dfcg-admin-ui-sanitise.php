@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	Sanitise Settings screen Options input.
 *	register_settings() callback function.
@@ -163,8 +163,8 @@ function dfcg_sanitise($input) {
 	// sanitise
 	foreach( $str_opts_no_html as $key ) {
 		
-		// Extract first 25 characters
-		$input[$key] = substr( $input[$key], 0, 25 );
+		// Extract first 50 characters (v3.2: increased from 25 chars to allow longer Featured Article text) 
+		$input[$key] = substr( $input[$key], 0, 50 );
 		
 		$input[$key] = wp_filter_nohtml_kses( $input[$key] );
 	}

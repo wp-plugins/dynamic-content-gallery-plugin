@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	These are the 'public' functions which produce the gallery in the browser
 *	Loads header scripts
@@ -232,7 +232,13 @@ function dfcg_jquery_scripts() {
 }
 
 
-/* Variables that are needed for all populate-method settings */
+/**	Function to determine base URL of custom field images
+*
+*	If FULL, baseimgurl is empty, if PARTIAL, baseimgurl is pulled from options
+*
+*	@return	$output	Either the base URL (PARTIAL) or empty (FULL)
+*	@since 3.0
+*/
 function dfcg_baseimgurl() {
 
 	global $dfcg_options;

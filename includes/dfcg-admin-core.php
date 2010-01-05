@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	Core Admin Functions called by various add_filters and add_actions:
 *		- Register Settings
@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
 
 /** Register Settings as per new API, 2.7+
 *
-*	Hooked to admin_init
+*	Hooked to 'admin_init'
 *
 *	@uses	dfcg_sanitise() = callback function for sanitising options
 *	dfcg_plugin_settings_options 	= Options Group name
@@ -49,36 +49,51 @@ function dfcg_options_init() {
 
 /**	Create Admin settings page and populate options
 *
+*	Hooked to 'admin_menu'
+*
+*	Renamed in 3.2, was dfcg_add_page()
+*	No need to check credentials - already built in to core wp function
+*
 *	@uses	dfcg_load_textdomain()
 *	@uses	dfcg_options_page()
 *	@uses	dfcg_set_gallery_options()
 *
-*	@since	1.0
-*/	
-function dfcg_add_page() {
+*	@return	$dfcg_page_hook, wp page hook
+*	@since	3.2
+*/
+function dfcg_add_to_options_menu() {
 	
-	dfcg_load_textdomain();
+	// Add Settings Page
+	$dfcg_page_hook = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
 	
-	// check user credentials
-	if ( current_user_can('manage_options') && function_exists('add_options_page') ) {
-		
-		// Add Settings Page
-		$dfcgpage = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
-		
-		// Populate plugin's options
-		dfcg_set_gallery_options();
-	}
+	// Load Admin external scripts and CSS
+	add_action( 'admin_print_scripts-settings_page_' . DFCG_FILE_HOOK, 'dfcg_loadjs_admin_head' );
 	
-	return $dfcgpage;
+	// Populate plugin's options
+	dfcg_set_gallery_options();
+	
+	return $dfcg_page_hook; // May need this later
 }
+
+
+/*	Function to load Admin CSS file
+*
+*	Hooked to admin_print_scripts-settings_page_ in dfcg_add_to_options()
+*
+*/
+function dfcg_loadjs_admin_head() {
+	
+	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-ui-admin.css" type="text/css" />' . "\n";
+}
+
 
 
 /**	Display the Settings page
 *
-*	Used by dfcg_add_page()
+*	Used by dfcg_add_to_options_menu()
 *
 *	@since	1.0
-*/	
+*/
 function dfcg_options_page(){
 	global $dfcg_options;
 	include_once( DFCG_DIR . '/includes/dfcg-admin-ui-screen.php' );
@@ -91,8 +106,9 @@ function dfcg_options_page(){
 *
 *	Hooked to plugin_action_links filter
 *
+*	@return	$links	Array of links shown in first column, main Dashboard Plugins page
 *	@since	1.0
-*/	
+*/
 function dfcg_filter_plugin_actions($links, $file){
 	static $this_plugin;
 
@@ -112,8 +128,9 @@ function dfcg_filter_plugin_actions($links, $file){
 *
 *	Hooked to plugin_row_meta filter, so only works for WP 2.8+
 *
+*	@return	$links	Array of links shown in plugin row after activation
 *	@since	3.0
-*/	
+*/
 function dfcg_plugin_meta($links, $file) {
  
 	// $file is the main plugin filename
@@ -143,7 +160,7 @@ function dfcg_plugin_meta($links, $file) {
 *	DCG v3.0 requires WP 2.8+ to run. This function prints a warning
 *	message in the main Plugins screen and on the DCG Settings page if version is less than 2.8.
 *
-*	Called by add_filter('after_action_row_$plugin', )
+*	Hooked to add_filter('after_action_row_$plugin', )
 *
 *	@since	3.0
 */	
@@ -207,7 +224,7 @@ function dfcg_wp_version_check() {
 
 /**	Function to display Admin Notices
 *
-*	Displays Admin Notices after Settings are reset etc
+*	Displays Admin Notices after Settings are reset
 *
 *	Hooked to admin_notices action
 *
@@ -246,7 +263,7 @@ function dfcg_admin_notices() {
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
 	$dfcg_default_options = array(
-		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3
+		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3: multi-option, one-category, pages
 		'cat-display' => '1',									// one-category: the ID of the selected category - since 2.3
 		'posts-number' => '5',									// one-category: the number of posts to display - since 2.3
 		'cat01' => '1',											// multi-option: the category IDs
@@ -269,7 +286,7 @@ function dfcg_default_options() {
 		'off09' => '',											// multi-option: the post select
 		'pages-selected' => '',									// pages: Page ID's in comma separated list - since 2.3
 		'homeurl' => get_option('home'),						// Stored, but not currently used...
-		'image-url-type' => 'full',								// WP only. All methods: URL type for dfcg-images - since 2.3
+		'image-url-type' => 'full',								// WP only. All methods: URL type for dfcg-images - since 2.3: full, partial
 		'imageurl' => '',										// WP only. All methods: URL for partial custom images
 		'defimgmulti' => '',									// WP only. Multi-option: URL for default category image folder
 		'defimgonecat' => '',									// WP only. One-category: URL for default category image folder
@@ -294,7 +311,7 @@ function dfcg_default_options() {
 		'slide-p-colour' => '#FFFFFF',							// all methods: CSS
 		'reset' => '0',											// Settings: Reset options state
 		'mootools' => '0',										// Settings: Toggle on/off Mootools loading
-		'limit-scripts' => 'homepage',							// Settings: Toggle on/off loading scripts on home page only
+		'limit-scripts' => 'homepage',							// Settings: Toggle on/off loading scripts on home page only: homepage, pagetemplate, other
 		'page-filename' => '',									// Settings: Specify a Page Template filename, for loading scripts
 		'timed' => 'true',										// JS option
 		'delay' => '9000',										// JS option
@@ -310,23 +327,23 @@ function dfcg_default_options() {
 		'posts-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
 		'pages-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
 		'just-reset' => 'false',								// all methods: Used for controlling admin_notices messages
-		'scripts' => 'mootools',								// all methods: Selects js framework
-		'slide-h2-weight' => 'bold',							// JS jquery only
+		'scripts' => 'mootools',								// all methods: Selects js framework: mootools, jquery
+		'slide-h2-weight' => 'bold',							// JS jquery only: bold, normal
 		'slide-p-line-height' => '14',							// JS jquery only
 		'slide-overlay-color' => '#000000',						// JS jquery only
-		'slide-overlay-position' => 'bottom',					// JS jquery only
+		'slide-overlay-position' => 'bottom',					// JS jquery only: bottom,top
 		'transition-speed' => '1500',							// JS jquery only
-		'nav-theme' => 'light',									// JS jquery only
+		'nav-theme' => 'light',									// JS jquery only: light, dark
 		'pause-on-hover' => 'true',								// JS jquery only
 		'fade-panels' => 'true',								// JS jquery only
 		'gallery-background' => '#000000',						// JS jquery only
-		'desc-method' => 'manual',								// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
+		'desc-method' => 'manual',								// all methods: Select how to display descriptions: manual, auto
 		'max-char' => '100',									// all methods: No. of characters for custom excerpt
 		'more-text' => '[more]',								// all methods: More text for custom excerpt
 		'slide-p-a-color' => '#FFFFFF',							// all methods: More text CSS
 		'slide-p-ahover-color' => '#FFFFFF',					// all methods: More text CSS
-		'slide-p-a-weight' => 'normal',							// all methods: More text CSS
-		'slide-p-ahover-weight' => 'bold'						// all methods: More text CSS
+		'slide-p-a-weight' => 'normal',							// all methods: More text CSS: bold, normal
+		'slide-p-ahover-weight' => 'bold'						// all methods: More text CSS: bold, normal
 	);
 	
 	// Return options array for use elsewhere
@@ -334,12 +351,12 @@ function dfcg_default_options() {
 }
 
 
-/**	Function for upgrading options
+/**	Function for loading and upgrading options
 *	
 *	Loads options on admin_menu hook.
 *	Includes "upgrader" routine to update existing install.
 *
-*	Called by dfcg_add_page() which is hooked to admin_menu
+*	Called by dfcg_add_page() which is hooked to 'admin_menu'
 *
 *	In 2.3 - "imagepath" is deprecated, replaced by "imageurl" in 2.3
 *	In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
@@ -380,8 +397,15 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.1
+	} elseif( $dfcg_existing && $dfcg_prev_version == '3.1' ) {
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.1 RC1
-	} elseif( $dfcg_prev_version == '3.1 RC1' ) {
+	} elseif( $dfcg_existing && $dfcg_prev_version == '3.1 RC1' ) {
 		
 		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );

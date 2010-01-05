@@ -1,12 +1,12 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
-*	Options page for Wordpress and Wordpress Mu.
+*	Settings page for Wordpress and Wordpress Mu.
 *
 *	All UI functions on this page are defined in dfcg-admin-ui-functions.php
 *	dfcg_load_textdomain() is defined in dynamic-gallery-plugin.php
@@ -23,6 +23,8 @@ dfcg_load_textdomain();
 
 // Load Settings Page JS and CSS
 dfcg_options_css_js();
+
+dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on page load
 ?>
 
 <div class="wrap" id="sgr-style">
@@ -32,20 +34,19 @@ dfcg_options_css_js();
 	<h2><?php _e('Dynamic Content Gallery Configuration', DFCG_DOMAIN); ?></h2>
 	
 	<div class="metabox-holder">
-	
+		
+<?php
+/* Output the Settings Page boxes */
+dfcg_ui_intro_menu();
+?>
+
 		<form method="post" action="options.php">
-	
+
 <?php
 // Settings API, nonces etc
 settings_fields('dfcg_plugin_settings_options');
 
-$dfcg_options = get_option('dfcg_plugin_settings'); // Load Options
-
-dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on page load
-
-/* Output the Settings Page boxes */
-dfcg_ui_intro_menu();
-
+// Image File management
 if ( function_exists('wpmu_create_blog') ) {
 	// Uploading images - WPMU ONLY
 	dfcg_ui_create_wpmu();

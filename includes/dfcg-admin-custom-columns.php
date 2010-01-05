@@ -1,10 +1,10 @@
 <?php
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	dynamic_content_gallery
-*	@version	3.1
+*	@version	3.2
 *
 *	Functions and filters for adding custom columns to Edit Posts & Edit Pages screens
 *
@@ -110,7 +110,7 @@ function dfcg_custom_posts_desc_column($column_name, $post_id) {
     }
 }
 
-/* Helper function to shorten the length of dfcg-desc */
+/* Helper function to shorten the length of dfcg-desc when displayed in Post/Page Edit screen */
 /* Based on my Limit Title plugin */
 function dfcg_shorten_desc($string) {
 
