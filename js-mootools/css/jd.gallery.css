@@ -1,12 +1,12 @@
 /**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
 *	*******************************************************
-*	Copyright 2008-2009  Ade WALKER  (email : info@studiograsshopper.ch)
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.0 beta
+*	@version	3.2
 *
 *	Modified CSS file based on original jd.gallery.css from SmoothGallery
-*	See dfcg-user-styles.php for CSS elements set in Settings page.
+*	See dfcg-gallery-mootools-styles.php for CSS elements set in Settings page.
 *	
 */
 
@@ -263,10 +263,11 @@
 	opacity: 0.8;
 }
 
-.withArrows a.open:hover { background: url('img/open.png') no-repeat center center; }
+/*.withArrows a.open:hover { background: url('img/open.png') no-repeat center center; }*/
 
-* html .withArrows a.open:hover { background: url('img/open.gif') no-repeat center center;
-	filter:alpha(opacity=80); }
+/* IE fix */
+/** html .withArrows a.open:hover { background: url('img/open.gif') no-repeat center center;
+	filter:alpha(opacity=80); }*/
 	
 	
 /* Gallery Sets */
@@ -376,10 +377,10 @@
 *:first-child+html .jdGallery a.right:hover, *:first-child+html .jdGallery a.left:hover {
     filter:alpha(opacity=80);
    }
-*:first-child+html .jdGallery a.left { background: url('img/fleche1.gif') no-repeat center left; }
-*:first-child+html .jdGallery a.right { background: url('img/fleche2.gif') no-repeat center right; }
-*:first-child+html a.open:hover {
+*:first-child+html .jdGallery a.left { background: url('img/fleche1.png') no-repeat center left; }
+*:first-child+html .jdGallery a.right { background: url('img/fleche2.png') no-repeat center right; }
+/**:first-child+html a.open:hover {
    background: url('img/open.gif') no-repeat center center;
     filter:alpha(opacity=80);
-   }
+   }*/
 /* End of arrows IE7 fix */
