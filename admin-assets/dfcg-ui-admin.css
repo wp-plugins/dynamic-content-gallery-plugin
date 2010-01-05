@@ -1,0 +1,45 @@
+/** This file is part of the DYNAMIC CONTENT GALLERY Plugin
+*	*******************************************************
+*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+*
+* 	@package	dynamic_content_gallery
+*	@version	3.2
+*
+*	Loaded by dfcg_loadjs_admin_head, which is hooked to admin_print_scripts-
+*
+*	CSS for admin Settings pages
+*/
+
+.form-table th {font-size:11px;}
+.metabox-holder {margin:0;padding:0;}
+.sgr-credits {border-top:1px solid #CCCCCC;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left;}
+.sgr-credits p {font-size:11px;}
+#sgr-info {float:right;width:260px;background:#f9f9f9;padding:0px 20px 10px 20px;margin:20px 10px 10px 10px;border:1px solid #DFDFDF;display:inline;}
+#sgr-info ul {list-style-type:none;margin-left:0px;}
+#sgr-info img {float:left;margin:0px 10px 10px 0px;border:none;}
+#sgr-info input {float:right;margin:0px 0px 10px 10px;}
+#sgr-info h4 {font-size:12px;}
+div.inside {padding: 0px 10px 10px 10px;margin:0px;}
+.inside p {font-size:11px;padding:0px 0px 0px 0px;line-height:20px;}
+.inside table p {margin:0;padding:0;}
+.inside ul {list-style-type:none;margin-left:20px;font-size:11px;}
+.inside h4 {font-size:11px;margin:1em 0;}
+.postbox-sgr {padding:0px 10px;margin:0px;}
+.error p, .updated p {font-size:11px;line-height:20px;}
+.dfcg-tip {margin:0px;padding:10px 0px 0px 0px;}
+.dfcg-tip-box {font-size:11px;line-height:20px;font-style:italic;margin:0 0px 0 0;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+-moz-border-radius-bottomleft: 5px;
+-moz-border-radius-bottomright: 5px;
+-khtml-border-radius: 5px;
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-webkit-border-bottom-left-radius: 5px;
+-webkit-border-bottom-right-radius: 5px;
+padding:0;border:1px solid #e9e9e9;background:#eeffff;}
+.inside table .dfcg-tip-box p {padding: 1px 5px 1px 5px;margin:0;}
+.key_settings {color:#D53131;}
+.help-outer p, .help-outer ul, .help-outer li {font-size:11px;padding:0px 0px 0px 0px;line-height:15px;}
+.help-outer h4 {margin:0px 0px 10px 0px;}
+.bold-italic {font-weight:bold;font-style:italic;}
