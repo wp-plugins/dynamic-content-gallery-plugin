@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 2.8
-Tested up to: 2.9.1 (WP) and 2.8.6 (WPMU)
+Tested up to: 2.9.1 (WP) and 2.9.1 (WPMU)
 Stable tag: 3.1
 
 Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
