@@ -53,8 +53,8 @@ if( isset($dfcg_options['pages-sort-column']) && $dfcg_options['pages-sort-colum
 /**
 * Add dfcg-image columns
 *
-* @param array $defaults	Default Edit screen columns
-* @return array $defaults	Modified Edit screen columns
+* @param array $defaults Default Edit screen columns
+* @return array $defaults Modified Edit screen columns
 * @since 3.2
 */
 function dfcg_posts_columns($defaults) {
@@ -68,6 +68,7 @@ function dfcg_posts_columns($defaults) {
 *
 * @param mixed $column_name	Name of Edit screen column
 * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
+* @global array $wpdb WP database object
 * @since 3.2
 */
 function dfcg_custom_posts_column($column_name, $post_id) {
@@ -96,8 +97,8 @@ function dfcg_custom_posts_column($column_name, $post_id) {
 /**
 * Add dfcg-desc columns
 *
-* @param array $defaults	Default Edit screen columns
-* @return array $defaults	Modified Edit screen columns
+* @param array $defaults Default Edit screen columns
+* @return array $defaults Modified Edit screen columns
 * @since 3.2
 */
 function dfcg_posts_desc_columns($defaults) {
@@ -110,6 +111,7 @@ function dfcg_posts_desc_columns($defaults) {
 *
 * @param mixed $column_name	Name of Edit screen column
 * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
+* @global array $wpdb WP database object
 * @since 3.2
 */
 function dfcg_custom_posts_desc_column($column_name, $post_id) {
@@ -142,8 +144,8 @@ function dfcg_custom_posts_desc_column($column_name, $post_id) {
 /**
 * Add dfcg-sort columns
 *
-* @param array $defaults	Default Edit screen columns
-* @return array $defaults	Modified Edit screen columns
+* @param array $defaults Default Edit screen columns
+* @return array $defaults Modified Edit screen columns
 * @since 3.2
 */
 function dfcg_pages_sort_columns($defaults) {
@@ -156,6 +158,7 @@ function dfcg_pages_sort_columns($defaults) {
 *
 * @param mixed $column_name	Name of Edit screen column
 * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
+* @global array $wpdb WP database object
 * @since 3.2
 */
 function dfcg_custom_pages_sort_column($column_name, $post_id) {
@@ -186,8 +189,8 @@ function dfcg_custom_pages_sort_column($column_name, $post_id) {
 *
 * Based on my Limit Title plugin
 *
-* @param string $string		Contents of dfcg-desc custom field
-* @return string $string	Shortened dfcg-desc text
+* @param string $string	 Contents of dfcg-desc custom field
+* @return string $string Shortened dfcg-desc text
 * @since 3.0
 */
 function dfcg_shorten_desc($string) {
