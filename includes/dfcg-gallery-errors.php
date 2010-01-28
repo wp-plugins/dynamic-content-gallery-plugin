@@ -1,17 +1,17 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Front-end - Error Messages
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Error messages generated in the event that Settings are not correct.
-*	Messages are printed to the browser and/or Page Source.
-*	This should help users get the gallery working.
-*	Note: Admin related error messages are handled in dfcg-admin-ui-validation.php
+* @info Error messages generated in the event that Settings are not correct.
+* @info Messages are printed to the browser and/or Page Source.
+* @info This should help users get the gallery working.
+* @info Note: Admin related error messages are handled in dfcg-admin-ui-validation.php
 *
-*	@since	3.0
+* @since 3.2
 */
 
 /* Prevent direct access to this file */
@@ -21,12 +21,14 @@ if (!defined('ABSPATH')) {
 
 
 
-/**	Function to control Error Reporting
+/**
+* Function to control Error Reporting
 *
-*	Uses	dfcg_errors()
+* @uses	dfcg_errors()
 *
-*	@param	$dfcg_options	Array of plugin options
-*
+* @global array $dfcg_options Array of plugin options from db
+* @return array $errmsgs Array of error messages, if Errors have been turned on in settings
+* @since 3.2
 */
 function dfcg_errors_output() {
 	
@@ -35,25 +37,26 @@ function dfcg_errors_output() {
 	// If Error reporting is ON
 	if( $dfcg_options['errors'] == "true" ) {
 		// Create array of error messages
-		$dfcg_errmsgs = dfcg_errors();
-		return $dfcg_errmsgs;
+		$errmsgs = dfcg_errors();
+		return $errmsgs;
 	}
 }
 
 
-/**	Function which manages Error Message content
+/**
+* Function which manages Error Message content
 *
-*	@return	$dfcg_errmsgs	Array of all Error Messages
-*
+* @return $dfcg_errmsgs	Array of all Error Messages
+* @since 3.2
 */
 function dfcg_errors() {
 
 	/* Public error messages - these are displayed in the browser */
-	$dfcg_errmsg_public = __('Dynamic Content Gallery Error: View page source for details.', DFCG_DOMAIN);
+	$errmsg_public = __('Dynamic Content Gallery Error: View page source for details.', DFCG_DOMAIN);
 
 	/* Page Source error messages - standard texts */
-	$dfcg_errmsg_critical = '<!-- ' . __('Rating: Critical. Fix error in order to display gallery.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_noncritical = '<!-- ' . __('Rating: Non-critical. This error does not prevent the gallery from working properly.', DFCG_DOMAIN) .' -->';
+	$errmsg_critical = '<!-- ' . __('Rating: Critical. Fix error in order to display gallery.', DFCG_DOMAIN) .' -->';
+	$errmsg_noncritical = '<!-- ' . __('Rating: Non-critical. This error does not prevent the gallery from working properly.', DFCG_DOMAIN) .' -->';
 
 
 	/* Page Source error messages - these are shown as HTML comments in the Page Source */
@@ -68,10 +71,10 @@ function dfcg_errors() {
 	*	Notes:				See $dfcg_errmsg_2 for when no Page ID have been specified in DCG Settings
 	*						See $dfcg_errmsg_9 for when SQL query only finds one valid Page ID
 	*/
-	$dfcg_errmsg_1 .= "\n" . $dfcg_errmsg_public;
-	$dfcg_errmsg_1 .= "\n" . '<!-- ' . __('DCG Error Message 1: You have only specified one Page ID in the DCG Settings page.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_1 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_1 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
+	$errmsg_1 = "\n" . $errmsg_public;
+	$errmsg_1 .= "\n" . '<!-- ' . __('DCG Error Message 1: You have only specified one Page ID in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_1 .= "\n" . $errmsg_critical;
+	$errmsg_1 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 2		No Page Ids have been specified in Settings.
@@ -83,10 +86,10 @@ function dfcg_errors() {
 	*	Fix:				Enter a minimum of 2 Page IDs in the DCG Settings page
 	*	Notes:				Fix is same as $dfcg_errmsg_1 but Reason is different.
 	*/
-	$dfcg_errmsg_2 .= "\n" . $dfcg_errmsg_public;
-	$dfcg_errmsg_2 .= "\n" . '<!-- ' . __('DCG Error Message 2: You have not specified any Page IDs in the DCG Settings page.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_2 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_2 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
+	$errmsg_2 = "\n" . $errmsg_public;
+	$errmsg_2 .= "\n" . '<!-- ' . __('DCG Error Message 2: You have not specified any Page IDs in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_2 .= "\n" . $errmsg_critical;
+	$errmsg_2 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Page IDs in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 3		Missing Description
@@ -101,9 +104,9 @@ function dfcg_errors() {
 	*						Either of these fixes will clear both errmsg_public and this error message.
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*/
-	$dfcg_errmsg_3 .= "\n" . '<!-- ' . __('DCG Error Message 3: Custom Field dfcg-desc does not exist and Default Description does not exist.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_3 .= "\n" . $dfcg_errmsg_noncritical;
-	$dfcg_errmsg_3 .= "\n" . '<!--	' . __('Fix: Create a dfcg-desc Custom Field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_3 = "\n" . '<!-- ' . __('DCG Error Message 3: Custom Field dfcg-desc does not exist and Default Description does not exist.', DFCG_DOMAIN) .' -->';
+	$errmsg_3 .= "\n" . $errmsg_noncritical;
+	$errmsg_3 .= "\n" . '<!--	' . __('Fix: Create a dfcg-desc Custom Field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 4		Missing Images
@@ -122,9 +125,9 @@ function dfcg_errors() {
 	*						This errmsg is NOT triggered if the information in dfcg-image and/or a default image is incorrect, ie the URL or path is wrong
 	*						Error image should also be displayed in gallery.
 	*/
-	$dfcg_errmsg_4 = "\n" . '<!-- ' . __('DCG Error Message 4: Custom Field dfcg-image does not exist and Default Image does not exist.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_4 .= "\n" . $dfcg_errmsg_noncritical;
-	$dfcg_errmsg_4 .= "\n" . '<!-- ' . __('Fix: Create a dfcg-image Custom Field for this Page/Post and/or define a Default Image in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_4 = "\n" . '<!-- ' . __('DCG Error Message 4: Custom Field dfcg-image does not exist and Default Image does not exist.', DFCG_DOMAIN) .' -->';
+	$errmsg_4 .= "\n" . $errmsg_noncritical;
+	$errmsg_4 .= "\n" . '<!-- ' . __('Fix: Create a dfcg-image Custom Field for this Page/Post and/or define a Default Image in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 5		Number of Page IDs found in db is not equal to the number of Page IDs selected in Settings
@@ -137,9 +140,9 @@ function dfcg_errors() {
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*						
 	*/
-	$dfcg_errmsg_5 .= "\n" . '<!-- ' . __('DCG Error Message 5: Not all of the selected Page IDs are valid Pages.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_5 .= "\n" . $dfcg_errmsg_noncritical;
-	$dfcg_errmsg_5 .= "\n" . '<!-- ' . __('Fix: Check the Page IDs entered in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_5 = "\n" . '<!-- ' . __('DCG Error Message 5: Not all of the selected Page IDs are valid Pages.', DFCG_DOMAIN) .' -->';
+	$errmsg_5 .= "\n" . $errmsg_noncritical;
+	$errmsg_5 .= "\n" . '<!-- ' . __('Fix: Check the Page IDs entered in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 6		No valid Page ID's selected, or db query has failed
@@ -149,11 +152,11 @@ function dfcg_errors() {
 	*	Action:				Print public error message, return, exit script.
 	*	Notes:
 	*/
-	$dfcg_errmsg_6 .= "\n" . $dfcg_errmsg_public . "\n";
-	$dfcg_errmsg_6 .= "\n" . '<!-- ' . __('DCG Error Message 6: None of the selected Page IDs are valid Pages or the database query has failed.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_6 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_6 .= "\n" . '<!-- ' . __('Fix: Check the validity of the Page IDs entered in the DCG Settings page. At least 2 Page IDs must be valid.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_6 .= "\n" . '<!-- ' . __('Fix: If at least 2 of the selected Page IDs are valid, check server error logs.', DFCG_DOMAIN) .' -->';
+	$errmsg_6 = "\n" . $errmsg_public . "\n";
+	$errmsg_6 .= "\n" . '<!-- ' . __('DCG Error Message 6: None of the selected Page IDs are valid Pages or the database query has failed.', DFCG_DOMAIN) .' -->';
+	$errmsg_6 .= "\n" . $errmsg_critical;
+	$errmsg_6 .= "\n" . '<!-- ' . __('Fix: Check the validity of the Page IDs entered in the DCG Settings page. At least 2 Page IDs must be valid.', DFCG_DOMAIN) .' -->';
+	$errmsg_6 .= "\n" . '<!-- ' . __('Fix: If at least 2 of the selected Page IDs are valid, check server error logs.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 7
@@ -167,9 +170,9 @@ function dfcg_errors() {
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*						
 	*/
-	$dfcg_errmsg_7 .= "\n" . '<!-- ' . __('DCG Error Message 7: You have less Posts in the selected Category than the number specified in the Settings Page.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_7 .= "\n" . $dfcg_errmsg_noncritical;
-	$dfcg_errmsg_7 .= "\n" . '<!-- ' . __('Fix: Reduce the "Number of Posts to display" in the DCG Settings page to match the Number of Posts found.', DFCG_DOMAIN) .' -->';
+	$errmsg_7 = "\n" . '<!-- ' . __('DCG Error Message 7: You have less Posts in the selected Category than the number specified in the Settings Page.', DFCG_DOMAIN) .' -->';
+	$errmsg_7 .= "\n" . $errmsg_noncritical;
+	$errmsg_7 .= "\n" . '<!-- ' . __('Fix: Reduce the "Number of Posts to display" in the DCG Settings page to match the Number of Posts found.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 8
@@ -185,10 +188,10 @@ function dfcg_errors() {
 	*	Notes:				This error message should never occur on a properly installed
 	*						and working WP install.
 	*/
-	$dfcg_errmsg_8 .= "\n" . $dfcg_errmsg_public . "\n";
-	$dfcg_errmsg_8 .= "\n" . '<!-- ' . __('DCG Error Message 8: The wp_query failed to find any Posts.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_8 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_8 .= "\n" . '<!-- ' . __('Fix: Deactivate and reactivate the plugin and try again.', DFCG_DOMAIN) .' -->';
+	$errmsg_8 = "\n" . $errmsg_public . "\n";
+	$errmsg_8 .= "\n" . '<!-- ' . __('DCG Error Message 8: The wp_query failed to find any Posts.', DFCG_DOMAIN) .' -->';
+	$errmsg_8 .= "\n" . $errmsg_critical;
+	$errmsg_8 .= "\n" . '<!-- ' . __('Fix: Deactivate and reactivate the plugin and try again.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 9		Only 1 Page ID selected in Settings is valid, as per SQL query results
@@ -200,10 +203,10 @@ function dfcg_errors() {
 	*	Notes:				This is similar to Error Message 1, but is triggered by a check on the SQL results,
 	*						not on the number of selected Pages.
 	*/
-	$dfcg_errmsg_9 .= "\n" . $dfcg_errmsg_public . "\n";
-	$dfcg_errmsg_9 .= "\n" . '<!-- ' . __('DCG Error Message 9: Only one of the Page IDs specified in the DCG Settings page is a valid Page ID in the database.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_9 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_9 .= "\n" . '<!-- ' . __('Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_9 = "\n" . $errmsg_public . "\n";
+	$errmsg_9 .= "\n" . '<!-- ' . __('DCG Error Message 9: Only one of the Page IDs specified in the DCG Settings page is a valid Page ID in the database.', DFCG_DOMAIN) .' -->';
+	$errmsg_9 .= "\n" . $errmsg_critical;
+	$errmsg_9 .= "\n" . '<!-- ' . __('Fix: Ensure that there are a minimum of 2 valid Page IDs specified in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 10	dynamic-gallery.php produces no output at all
@@ -215,9 +218,9 @@ function dfcg_errors() {
 	*	Notes:				This shouldn't happen with a correct plugin install 
 	*
 	*/
-	$dfcg_errmsg_10 .= "\n" . '<!-- ' . __('DCG Error Message 10: The plugin is unable to generate any output.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_10 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_10 .= "\n" . '<!-- ' . __('Fix: Check that the plugin has been installed properly and that all files contained within the download ZIP file have been uploaded to your server.', DFCG_DOMAIN) .' -->';
+	$errmsg_10 = "\n" . '<!-- ' . __('DCG Error Message 10: The plugin is unable to generate any output.', DFCG_DOMAIN) .' -->';
+	$errmsg_10 .= "\n" . $errmsg_critical;
+	$errmsg_10 .= "\n" . '<!-- ' . __('Fix: Check that the plugin has been installed properly and that all files contained within the download ZIP file have been uploaded to your server.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 11	Insufficient Post Selects have been defined in Settings
@@ -230,10 +233,10 @@ function dfcg_errors() {
 	*	Notes:				This is a pre-WP_Query validation check, ie checks what is in Settings only
 	*						
 	*/
-	$dfcg_errmsg_11 .= "\n" . $dfcg_errmsg_public . "\n";
-	$dfcg_errmsg_11 .= "\n" . '<!-- ' . __('DCG Error Message 11: You have defined less than 2 Post Selects in the DCG Settings page.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_11 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_11 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Post Selects in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
+	$errmsg_11 = "\n" . $errmsg_public . "\n";
+	$errmsg_11 .= "\n" . '<!-- ' . __('DCG Error Message 11: You have defined less than 2 Post Selects in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_11 .= "\n" . $errmsg_critical;
+	$errmsg_11 .= "\n" . '<!-- ' . __('Fix: Enter a minimum of 2 valid Post Selects in the DCG Settings page for the gallery to work.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 12	WP_Query couldn't find a specific Post
@@ -249,11 +252,11 @@ function dfcg_errors() {
 	*						$counter1 = number of times WP_Query is run
 	*						$counter2 = number of Excluded Posts
 	*/
-	$dfcg_errmsg_12 .= "\n" . '<!-- ' . __('DCG Error Message 12: The Post for at least one of your chosen Image Slots could not be found.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_12 .= "\n" . $dfcg_errmsg_noncritical;
-	$dfcg_errmsg_12 .= "\n" . '<!-- ' . __('This could be caused by, for example, defining a Post Select of 4 but only 3 Posts exist in that Category.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_12 .= "\n" . '<!-- ' . __('Look at the XHTML comments to see which Image # is missing.', DFCG_DOMAIN) .' -->'; 
-	$dfcg_errmsg_12 .= "\n" . '<!-- ' . __('Fix: Check the Post Select for this missing Image # in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_12 = "\n" . '<!-- ' . __('DCG Error Message 12: The Post for at least one of your chosen Image Slots could not be found.', DFCG_DOMAIN) .' -->';
+	$errmsg_12 .= "\n" . $errmsg_noncritical;
+	$errmsg_12 .= "\n" . '<!-- ' . __('This could be caused by, for example, defining a Post Select of 4 but only 3 Posts exist in that Category.', DFCG_DOMAIN) .' -->';
+	$errmsg_12 .= "\n" . '<!-- ' . __('Look at the XHTML comments to see which Image # is missing.', DFCG_DOMAIN) .' -->'; 
+	$errmsg_12 .= "\n" . '<!-- ' . __('Fix: Check the Post Select for this missing Image # in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/**	Error Message 13	WP_Query couldn't find FIRST Post
@@ -268,31 +271,31 @@ function dfcg_errors() {
 	*	Notes:				This is a post-WP_Query validation check, only triggered by the first WP_Query.
 	*						
 	*/
-	$dfcg_errmsg_13 .= "\n" . $dfcg_errmsg_public . "\n";
-	$dfcg_errmsg_13 .= "\n" . '<!-- ' . __('DCG Error Message 13: The Post for Image Slot 1 could not be found.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_13 .= "\n" . $dfcg_errmsg_critical;
-	$dfcg_errmsg_13 .= "\n" . '<!-- ' . __('This is because the plugin has set a default category for this Image Slot, but there are no posts in this category.', DFCG_DOMAIN) .' -->';
-	$dfcg_errmsg_13 .= '<!-- ' . __('Fix: Go to the DCG Settings page and click Save Changes. The error should then clear itself.', DFCG_DOMAIN) .' -->';
+	$errmsg_13 = "\n" . $errmsg_public . "\n";
+	$errmsg_13 .= "\n" . '<!-- ' . __('DCG Error Message 13: The Post for Image Slot 1 could not be found.', DFCG_DOMAIN) .' -->';
+	$errmsg_13 .= "\n" . $errmsg_critical;
+	$errmsg_13 .= "\n" . '<!-- ' . __('This is because the plugin has set a default category for this Image Slot, but there are no posts in this category.', DFCG_DOMAIN) .' -->';
+	$errmsg_13 .= '<!-- ' . __('Fix: Go to the DCG Settings page and click Save Changes. The error should then clear itself.', DFCG_DOMAIN) .' -->';
 
 
 	// Set up our error message array of all error messages
 	// This will be handier when using global scope declaration in gallery display functions
-	$dfcg_errmsgs = array (
-		'1' => $dfcg_errmsg_1,
-		'2' => $dfcg_errmsg_2,
-		'3' => $dfcg_errmsg_3,
-		'4' => $dfcg_errmsg_4,
-		'5' => $dfcg_errmsg_5,
-		'6' => $dfcg_errmsg_6,
-		'7' => $dfcg_errmsg_7,
-		'8' => $dfcg_errmsg_8,
-		'9' => $dfcg_errmsg_9,
-		'10' => $dfcg_errmsg_10,
-		'11' => $dfcg_errmsg_11,
-		'12' => $dfcg_errmsg_12,
-		'13' => $dfcg_errmsg_13
+	$errmsgs = array (
+		'1' => $errmsg_1,
+		'2' => $errmsg_2,
+		'3' => $errmsg_3,
+		'4' => $errmsg_4,
+		'5' => $errmsg_5,
+		'6' => $errmsg_6,
+		'7' => $errmsg_7,
+		'8' => $errmsg_8,
+		'9' => $errmsg_9,
+		'10' => $errmsg_10,
+		'11' => $errmsg_11,
+		'12' => $errmsg_12,
+		'13' => $errmsg_13
 	);
 	
 	// Return array of Error Messages
-	return $dfcg_errmsgs;
+	return $errmsgs;
 }

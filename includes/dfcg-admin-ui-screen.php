@@ -1,15 +1,17 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Displays Settings Page
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Settings page for Wordpress and Wordpress Mu.
+* @info Settings page for Wordpress and Wordpress Mu.
 *
-*	All UI functions on this page are defined in dfcg-admin-ui-functions.php
-*	dfcg_load_textdomain() is defined in dynamic-gallery-plugin.php
+* 	All UI functions on this page are defined in dfcg-admin-ui-functions.php
+*	dfcg_load_textdomain()		- defined in dfcg-admin-core.php
+*	dfcg_options_js()			- defined in dfcg-admin-ui-js.php
+*	dfcg_on_load_validation()	- defined in dfcg-admin-ui-validation.php
 */
 
 /* Prevent direct access to this file */
@@ -21,8 +23,8 @@ if (!defined('ABSPATH')) {
 // Load text domain
 dfcg_load_textdomain();
 
-// Load Settings Page JS and CSS
-dfcg_options_css_js();
+// Load Settings Page JS
+dfcg_options_js();
 
 dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on page load
 ?>

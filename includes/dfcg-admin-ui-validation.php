@@ -1,15 +1,14 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Settings Page options validation functions
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Admin Settings Page options validation functions
+* @info Validates certain key Settings and produces validation messages after Settings Page form is submitted
 *
-*	@since	3.0
-*
+* @since 3.0
 */
 
 /* Prevent direct access to this file */
@@ -18,18 +17,19 @@ if (!defined('ABSPATH')) {
 }
 
 
-/**	Function for validation on loading of Settings Page
+/**
+* Function for validation on loading of Settings Page
 *	
 *	Prints validation messages to the Settings Page.
 *	Thanks to register_settings/settings_fields, Settings Page
 *	is refreshed after Submit, so this function can be used
 *	either on fresh load, or after submit. See dfcg-ui-admin-screen.php.
 *
-*	uses dfcg_wp_version_check()
+* @uses dfcg_wp_version_check()
 *
-*	@param	array	$options_array, options from db
+* @param array $options_array, Options from db
 *
-*	@since	3.0	
+* @since 3.0
 */
 function dfcg_on_load_validation($options_array) {
 

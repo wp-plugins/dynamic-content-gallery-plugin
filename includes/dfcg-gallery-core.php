@@ -1,17 +1,16 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Front-end - These are the core functions for loading scripts, creating template tag, etc
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	These are the 'public' functions which produce the gallery in the browser
-*	Loads header scripts
-*	Defines template tag
+* @info These are the 'public' functions which produce the gallery in the browser
+* @info Loads header scripts
+* @info Defines template tag
 *
-*	@since	3.0
-*
+* @since 3.2
 */
 
 /* Prevent direct access to this file */
@@ -20,12 +19,14 @@ if (!defined('ABSPATH')) {
 }
 
 
-/**	Template tag to display gallery in theme files
+/**
+* Template tag to display gallery in theme files
 *
-*	Do not use in the Loop.
+* Do not use in the Loop.
 *
-*	@uses	dynamic-gallery.php
-*	@since	2.1
+* @uses	dynamic-gallery.php
+* @global array $dfcg_options Plugin options from db
+* @since 2.1
 */
 function dynamic_content_gallery() {
 	global $dfcg_options;
@@ -35,33 +36,34 @@ function dynamic_content_gallery() {
 
 /***** Functions to display gallery ******************** */
 
-/* 	Function to determine which pages get the MOOTOOLS or JQUERY scripts loaded into wp_head.
+/**
+* Function to determine which pages get the MOOTOOLS or JQUERY scripts loaded into wp_head.
 *
-*	Called by add_action('wp_head', ).
-*	
-*	Settings options are homepage, a page template or other.
-*	Settings "other" loads scripts into every page.
+* Hooked to 'wp_head' action
 *
-*	Determines whether to load MOOTOOLS or JQUERY scripts
+* Settings options are homepage, a page template or other.
+* Settings "other" loads scripts into every page.
 *
-*	@uses	dfcg_header_scripts()
-*	@since 	3.0
+* Determines whether to load MOOTOOLS or JQUERY scripts
+*
+* @uses	dfcg_mootools_scripts()
+* @uses dfcg_jquery_scripts()
+*
+* @global array $dfcg_options Plugin options from db
+* @since 3.2
 */
 function dfcg_load_scripts() {
 	
 	global $dfcg_options;
 	
-	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
+	if( $dfcg_options['limit-scripts'] == 'homepage' && ( is_home() || is_front_page() ) ) {
+    	
+    	if( $dfcg_options['scripts'] == 'mootools' ) {
+			dfcg_mootools_scripts($dfcg_options);
+    	} else {
+			dfcg_jquery_scripts($dfcg_options);
+		}
     
-    	if( is_home() || is_front_page() ) {
-    		
-			if( $dfcg_options['scripts'] == 'mootools' ) {
-				dfcg_mootools_scripts($dfcg_options);
-    		} else {
-				dfcg_jquery_scripts($dfcg_options);
-			}
-    	}
-	
     } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 	
 		$dfcg_page_filenames = $dfcg_options['page-filename'];
@@ -81,38 +83,39 @@ function dfcg_load_scripts() {
     		}
     	}
 		
-    } elseif( $dfcg_options['scripts'] == 'mootools' ) {
-	 
-		dfcg_mootools_scripts($dfcg_options);
-	
-    } else {
-	
-		dfcg_jquery_scripts($dfcg_options);
+    } elseif( $dfcg_options['limit-scripts'] == 'other' ) {
+		
+		if( $dfcg_options['scripts'] == 'mootools' ) {
+	 		dfcg_mootools_scripts($dfcg_options);
+		} else {		
+			dfcg_jquery_scripts($dfcg_options);
+		}
 	}
 }
 
 
-/* 	Enqueue jQuery in header
+/**
+* Enqueue jQuery in header
 *
-*	Adds jQuery framework to header using template_redirect hook
+* Adds jQuery framework to header using template_redirect hook
 *
-*	@since 3.0
+* @uses wp_enqueue_script()
+*
+* @global array $dfcg_options Plugin options from db
+* @since 3.2
 */
 function dfcg_enqueue_script() {
 
 	global $dfcg_options;
 	
-	if( !is_admin() && $dfcg_options['scripts'] == 'jquery' ) {
+	if( $dfcg_options['scripts'] == 'jquery' && !is_admin() ) {
 	
-		if( $dfcg_options['limit-scripts'] == 'homepage' ) {
-    
-    		if( is_home() || is_front_page() ) {
+		if( $dfcg_options['limit-scripts'] == 'homepage' && ( is_home() || is_front_page() ) ) {
     		
-				// Pull in jQuery
-				wp_enqueue_script('jquery');
-    		}
-	
-    	} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
+    		// Pull in jQuery
+			wp_enqueue_script('jquery');
+    	
+		} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 	
 			$dfcg_page_filenames = $dfcg_options['page-filename'];
 	
@@ -127,8 +130,8 @@ function dfcg_enqueue_script() {
     			}
     		}
 		
-    	} else {
-		
+    	} elseif( $dfcg_options['limit-scripts'] == 'other' ) {
+			
 			// Pull in jQuery
 			wp_enqueue_script('jquery');
 		}
@@ -136,14 +139,15 @@ function dfcg_enqueue_script() {
 }
 
 
-/* 	Function to display MOOTOOLS header scripts and css
+/**
+* Function to display MOOTOOLS header scripts and css
 *
-*	Called by dfcg_load_scripts which is hooked to wp_head action.
-*	Loads scripts and CSS into head
+* Called by dfcg_load_scripts() which is hooked to wp_head action.
+* Loads scripts and CSS into head
 *
-*	@param 	array	$dfcg_options, the array of plugin options
-*	@uses	includes dfcg-user-styles.php
-*	@since	1.0
+* @param array $dfcg_options, Plugin options from db
+* @uses includes dfcg-user-styles.php
+* @since 1.0
 */
 function dfcg_mootools_scripts($dfcg_options) {
     
@@ -185,14 +189,16 @@ function dfcg_mootools_scripts($dfcg_options) {
 }
 
 
-/* 	Function to display JQUERY header scripts and css
+/**
+* Function to display JQUERY header scripts and css
 *
-*	Called by dfcg_load_scripts which is hooked to wp_head action.
-*	Loads scripts and CSS into head
+* Called by dfcg_load_scripts() which is hooked to wp_head action.
+* Loads scripts and CSS into head
 *
-*	@param 	array	$dfcg_options, the array of plugin options
-*	@uses	includes dfcg-user-styles.php
-*	@since	3.0
+* @uses includes dfcg-user-styles.php
+*
+* @global array $dfcg_options Plugin options from db
+* @since 3.0
 */
 function dfcg_jquery_scripts() {
 
@@ -232,12 +238,14 @@ function dfcg_jquery_scripts() {
 }
 
 
-/**	Function to determine base URL of custom field images
+/**
+* Function to determine base URL of custom field images
 *
-*	If FULL, baseimgurl is empty, if PARTIAL, baseimgurl is pulled from options
+* If FULL => baseimgurl is empty, if PARTIAL => baseimgurl is pulled from options
 *
-*	@return	$output	Either the base URL (PARTIAL) or empty (FULL)
-*	@since 3.0
+* @global array $dfcg_options Plugin options from db
+* @return string $output Either the base URL (PARTIAL) or empty (FULL)
+* @since 3.0
 */
 function dfcg_baseimgurl() {
 
@@ -252,4 +260,55 @@ function dfcg_baseimgurl() {
 		$output = $dfcg_options['imageurl'];
 	}
 	return $output;
+}
+
+
+/**
+* Function to build an array of cat/off pairs from Multi Option Image Slot Settings
+*
+* Gets cat01 to cat10 and off01 to off10 from $dfcg_options array, skips empty image slots,
+* and builds an array for use in WP_Query in Multi-Option constructors.
+*
+* Used by all js script framework constructors
+*
+* @global array $dfcg_options Plugin options from db
+* @return array $query_list	Array of cat/off pairs
+* @since 3.2
+*/
+function dfcg_query_list() {
+
+	global $dfcg_options;
+
+	// Set up variable to convert Slot to real Offset
+	$offset = 1;
+
+	$query_list = array();
+
+	// Loop through the 9 possible cats/post selects
+	for( $i=1; $i < 10; $i+=1 ) {
+	
+		// Set temp variables for catXX and offXX
+		$tmpcat = 'cat0'.$i;
+		$tmpoff = 'off0'.$i;
+	
+		// Get Settings
+		$tmpcats = $dfcg_options[$tmpcat];
+		$tmpoffs = $dfcg_options[$tmpoff];
+	
+		// If Post Select is empty, skip
+		if( empty($tmpoffs) ) continue;
+	
+		// Convert Post Select to real Offset
+		$tmpoffs = $tmpoffs-$offset;
+	
+		// Create temp assoc array $key=>$value pair
+		$tmp_query_list[$tmpcats] = $tmpoffs;
+	
+		// Add this array to final array
+		array_push($query_list, $tmp_query_list);
+	
+		// Empty temp array ready for next loop
+		unset($tmp_query_list);
+	}
+	return $query_list;
 }

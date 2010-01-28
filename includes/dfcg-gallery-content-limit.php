@@ -1,19 +1,18 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Front-end - Function to generate auto text for Slide Pane
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
-*	further enhanced by Nathan Rice and Charles Clarkson, to deal with caption shortcodes etc,
-*	modified by me for use with DCG.
+* @info Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
+* @info further enhanced by Charles Clarkson and Nathan Rice, to deal with caption shortcodes etc,
+* @info modified by me for use with DCG.
 *
-*	Used to generate a custom excerpt from Post/Page content for display in the Slide Pane.
+* @info Used to generate a custom excerpt from Post/Page content for display in the Slide Pane.
 *
-*	@since	3.1
-*
+* @since 3.1
 */
 
 /* Prevent direct access to this file */
@@ -23,22 +22,24 @@ if (!defined('ABSPATH')) {
 
 
 
-/**	Function for creating custom excerpt from Post/Page content
-*	
-*	Strips caption shortcodes, html, script tags etc
-*	Used in gallery constructor functions
+/**
+* Function for creating custom excerpt from Post/Page content
 *
-*	@param	string	$max_char, Number of characters to display
-*	@param	string	$more_link_text, Text to display as link to post
-*	@param	string	$content, Post/Page content, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
-*	@param	int		$page_id, ID of Page, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
-*	@param	string	$stripteaser
+* Strips caption shortcodes, html, script tags etc
+* Used in gallery constructor functions
 *
-*	Note that when dealing with non-Loop/WP_Query, ie when using the custom db query in the Pages Method, we don't have access
-*	to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $page_id
-*	arguments for passing the Page content and ID to this function.
+* @param	string	$max_char, Number of characters to display
+* @param	string	$more_link_text, Text to display as link to post
+* @param	string	$content, Post/Page content, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
+* @param	int		$page_id, ID of Page, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
+* @param	string	$stripteaser
+* @return	Text excerpt
 *
-*	@since	3.1
+* Note that when dealing with non-Loop/WP_Query, ie when using the custom db query in the Pages Method, we don't have access
+* to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $page_id
+* arguments for passing the Page content and ID to this function.
+*
+* @since 3.1
 */
 function dfcg_get_the_content_limit($max_char, $more_link_text = '(more...)', $content = NULL, $page_id = NULL, $stripteaser = 0) {
     
@@ -77,11 +78,12 @@ function dfcg_get_the_content_limit($max_char, $more_link_text = '(more...)', $c
 }
 
 
-/**	Function for displaying custom excerpt
+/**
+* Function for displaying custom excerpt
 *
-*	Used in gallery constructor functions
+* Used in gallery constructor functions
 *
-*	@since	3.1	
+* @since 3.1
 */
 function dfcg_the_content_limit($max_char, $more_link_text = '(more...)', $content = NULL, $page_id = NULL, $stripteaser = 0) {
 	$auto_text = dfcg_get_the_content_limit($max_char, $more_link_text, $content, $page_id, $stripteaser);

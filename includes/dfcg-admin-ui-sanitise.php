@@ -1,15 +1,15 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Settings API Callback Function - to sanitise Settings page input
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Sanitise Settings screen Options input.
-*	register_settings() callback function.
+* @info Sanitise Settings screen Options input.
+* @info register_settings() callback function.
 *
-*	@since 3.0	
+* @since 3.2
 */
 
 /* Prevent direct access to this file */
@@ -18,7 +18,14 @@ if (!defined('ABSPATH')) {
 }
 
 
-// Callback function for register_settings()
+/**
+* Settings API callback function
+*
+* @param array $input $_POST input from form
+* @global array $dfcg_options plugin options from db
+* @return $input Sanitised form input ready for db
+* @since 3.0
+*/
 function dfcg_sanitise($input) {
 	
 	global $dfcg_options;
@@ -74,17 +81,18 @@ function dfcg_sanitise($input) {
 	//	Whitelist options													(11)	(10)
 	//	Path and URL options												(5)		(1)
 	//	On-off options														(1)
-	//	Bool options														(13)
+	//	Bool options														(15)
 	//	String options - no XHTML allowed									(3)
 	//	String options - some XHTML allowed									(1)
 	//	String options - CSS hexcodes										(7)
 	//	String options - numeric comma separated only 						(1)
 	//	String options - filenames											(1)
-	//	Integer options - positive - can be blank, can't be zero 			(10)
+	//	Integer options - positive - can be blank, can't be zero 			(9)
+	//	Integer options - positive - can be blank, can't be zero 			(1)
 	//	Integer options - positive - can't be blank, can't be zero 			(10)
 	//	Integer options - positive integer - can't be blank, can be zero 	(16)
 	//	Integer options - positive - large									(2)
-	//	Total 																81
+	//	Total 																83
 	
 	
 	/***** Whitelist options (11/10) *****/
@@ -98,13 +106,14 @@ function dfcg_sanitise($input) {
 	}
 	
 	// Define whitelist of known values
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto', 'none' );
 	
 	// sanitise
 	foreach( $whitelist_opts as $key ) {
 		// If option value is not in whitelist
 		if( !in_array( $input[$key], $dfcg_whitelist ) ) {
 			//Used for testing: $input[$key] = 'dodgy';
+			//var_dump($input[$key]);
 			wp_die( "Dynamic Content Gallery Message #20: " .$dfcg_sanitise_error );
 		}
 	}
@@ -146,9 +155,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Bool options (13) *****/
+	/***** Bool options (15) *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pause-on-hover', 'fade-panels' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pause-on-hover', 'fade-panels', 'pages-sort-column', 'pages-sort-control' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {
@@ -276,11 +285,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive - can be blank, can't be 0 (10) *****/
+	/***** Integer options - positive - can be blank, can't be 0 (9) *****/
 	
-	// Note: cat-display can be blank to avoid WP_Query error on first loading plugin
-	
-	$int_opts_can_be_blank = array( 'off01', 'off02', 'off03', 'off04', 'off05', 'off06', 'off07', 'off08', 'off09', 'cat-display' );
+	$int_opts_can_be_blank = array( 'off01', 'off02', 'off03', 'off04', 'off05', 'off06', 'off07', 'off08', 'off09' );
 	
 	// sanitise, but leave blank as empty, not 0
 	foreach( $int_opts_can_be_blank as $key ) {
@@ -292,6 +299,28 @@ function dfcg_sanitise($input) {
 			$input[$key] = str_replace( " ", "", $input[$key] );
 			// Extract first 2 characters
 			$input[$key] = substr( $input[$key], 0, 2 );
+			// Cast as integer
+			$input[$key] = absint( $input[$key] );
+		}
+	}
+	
+	
+	/***** Integer options - positive - can be blank, can't be 0 (1) *****/
+	
+	// Note: cat-display can be blank to avoid WP_Query error on first loading plugin
+	
+	$int_opts_can_be_blank_big = array( 'cat-display' );
+	
+	// sanitise, but leave blank as empty, not 0
+	foreach( $int_opts_can_be_blank_big as $key ) {
+		//
+		if( $input[$key] == 0 || $input[$key] == '0' ) {
+			$input[$key] = '';
+		} else {
+			// Strip out any whitespace within
+			$input[$key] = str_replace( " ", "", $input[$key] );
+			// Extract first 4 characters
+			$input[$key] = substr( $input[$key], 0, 4 );
 			// Cast as integer
 			$input[$key] = absint( $input[$key] );
 		}
