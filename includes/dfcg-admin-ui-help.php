@@ -1,18 +1,15 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Functions for displaying Contextual Help in Settings page
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	These are the functions which produce the Contextual Help
-*	in the Settings page pull-down.
+* @info These are the functions which produce the Contextual Help
+* @info in the Settings page pull-down.
 *
-*	Called by add_filter('contextual_help', )
-*
-*	@since	3.0
-*
+* @since 3.0
 */
 
 
@@ -22,13 +19,17 @@ if (!defined('ABSPATH')) {
 }
 
 
-/** Add help to Admin Contextual Help pull-down
+/**
+* Add help to Admin Contextual Help pull-down
 *
-*	Hooked to contextual_help
+* Hooked to 'contextual_help'
 *
-*	@uses	dfcg_admin_help_content()
+* @uses dfcg_admin_help_content()
 *
-*	@since	3.0
+* @param string $text	Default help text
+* @param string $screen Current Page hook
+* @return string $text	DCG help text
+* @since 3.0
 */
 function dfcg_admin_help($text, $screen) {
 	
@@ -43,13 +44,14 @@ function dfcg_admin_help($text, $screen) {
 }
 
 
-/** Admin Contextual Help content
+/**
+* Admin Contextual Help content
 *
-*	Used by dfcg_admin_help()
+* Used by dfcg_admin_help()
 *
-*	Contains actual content displayed in Contextual Help pull-down
+* Contains actual content displayed in Contextual Help pull-down
 *
-*	@since	3.0
+* @since 3.0
 */
 function dfcg_admin_help_content() {
 ?>
