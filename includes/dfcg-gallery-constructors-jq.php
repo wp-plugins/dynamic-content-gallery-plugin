@@ -43,13 +43,24 @@ if (!defined('ABSPATH')) {
 * @param string $filename			Stores absolute path, incl filename, of category default image
 *
 * @global array $dfcg_options Plugin options array from db
+* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $post Post object
 *
 * @since 3.2
 */
 function dfcg_jq_multioption_method_gallery() {
 
-	global $dfcg_options, $post;
+	global $dfcg_options, $post, $dfcg_postmeta_upgrade;
+	
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+		$desc = '_dfcg-desc';
+		$image = '_dfcg-image';
+		$link = '_dfcg-link';
+	} else {
+		$desc = 'dfcg-desc';
+		$image = 'dfcg-image';
+		$link = 'dfcg-link';
+	}
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
@@ -146,17 +157,17 @@ function dfcg_jq_multioption_method_gallery() {
 						$output .= "\n\n" . '<div class="panel"><!-- DCG Image #' . $counter . ' -->';
 
 						// Link - additional code courtesy of Martin Downer
-						if( get_post_meta($post->ID, "_dfcg-link", true) ){
+						if( get_post_meta($post->ID, $link, true) ){
 							// We have an external/manual link
-							$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, "_dfcg-link", true) .'" rel="bookmark">';
+							$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, $link, true) .'" rel="bookmark">';
 							
 						} else {
 							$output .= "\n\t" . '<a href="'. get_permalink() .'" rel="bookmark">';
 						}
 						
 						// Get the images
-						if( get_post_meta($post->ID, "_dfcg-image", true) ) {
-							$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, "_dfcg-image", true) .'" alt="'. get_the_title() .'" />';
+						if( get_post_meta($post->ID, $image, true) ) {
+							$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" />';
         					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404
 						} else {
 							// Path to Default Category image
@@ -185,9 +196,9 @@ function dfcg_jq_multioption_method_gallery() {
 						
 						} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 						
-							if( get_post_meta($post->ID, "_dfcg-desc", true) ){
+							if( get_post_meta($post->ID, $desc, true) ){
 								// We have a Custom field description
-								$output .= "\n\t\t" . '<p>' . get_post_meta($post->ID, "_dfcg-desc", true) . '</p>';
+								$output .= "\n\t\t" . '<p>' . get_post_meta($post->ID, $desc, true) . '</p>';
 
 							} elseif( category_description($key) !== '' ) {
 								// show the category description (note: no <p> tags required)
@@ -266,13 +277,24 @@ function dfcg_jq_multioption_method_gallery() {
 * @param string	$counter			Incremented variable to find number of posts output by wp_query
 *
 * @global array $dfcg_options Plugin options array from db
+* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $post Post object
 *
 * @since 3.2
 */
 function dfcg_jq_onecategory_method_gallery() {
 
-	global $post, $dfcg_options;
+	global $post, $dfcg_options, $dfcg_postmeta_upgrade;
+	
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+		$desc = '_dfcg-desc';
+		$image = '_dfcg-image';
+		$link = '_dfcg-link';
+	} else {
+		$desc = 'dfcg-desc';
+		$image = 'dfcg-image';
+		$link = 'dfcg-link';
+	}
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
@@ -338,17 +360,17 @@ function dfcg_jq_onecategory_method_gallery() {
 			$output .= "\n\n" . '<div class="panel"><!-- DCG Image #' . $counter . ' -->';
 
 			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($post->ID, "_dfcg-link", true) ){
+			if( get_post_meta($post->ID, $link, true) ){
 				// We have an external/manual link
-				$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, "_dfcg-link", true) .'" rel="bookmark">';
+				$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, $link, true) .'" rel="bookmark">';
 							
 			} else {
 				$output .= "\n\t" . '<a href="'. get_permalink() .'" rel="bookmark">';
 			}
 
 			// Get the _dfcg-image
-			if( get_post_meta($post->ID, "_dfcg-image", true) ) {
-				$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, "_dfcg-image", true) .'" alt="'. get_the_title() .'" />';
+			if( get_post_meta($post->ID, $image, true) ) {
+				$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" />';
         		
 				// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404.
 			} elseif( file_exists($filename) ) {
@@ -378,8 +400,8 @@ function dfcg_jq_onecategory_method_gallery() {
 			} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 			
 				// Do we have a _dfcg-desc?
-				if( get_post_meta($post->ID, "_dfcg-desc", true) ) {
-					$output .= "\n\t\t" . '<p>'. get_post_meta($post->ID, "_dfcg-desc", true) . '</p>';
+				if( get_post_meta($post->ID, $desc, true) ) {
+					$output .= "\n\t\t" . '<p>'. get_post_meta($post->ID, $desc, true) . '</p>';
 			
 				// we have All cats
 				} elseif( $cat_selected == '' ) {
@@ -479,14 +501,25 @@ function dfcg_jq_onecategory_method_gallery() {
 * @param string	$counter				Incremented variable to add image # in HTML comments markup
 *
 * @global array $dfcg_options Plugin options array from db
+* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $wpdb WP $wpdb database object
 *
 * @since 3.0
 */
 function dfcg_jq_pages_method_gallery() {
 
-	global $dfcg_options;
-
+	global $dfcg_options, $dfcg_postmeta_upgrade;
+	
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+		$desc = '_dfcg-desc';
+		$image = '_dfcg-image';
+		$link = '_dfcg-link';
+	} else {
+		$desc = 'dfcg-desc';
+		$image = 'dfcg-image';
+		$link = 'dfcg-link';
+	}
+	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
 	if( function_exists('dfcg_errors_output') ) {
@@ -587,17 +620,17 @@ function dfcg_jq_pages_method_gallery() {
 			$output .= "\n" . '<div class="panel"><!-- DCG Image #' . $counter . '-->';
 
 			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($page_found->ID, "_dfcg-link", true) ){
+			if( get_post_meta($page_found->ID, $link, true) ){
 				// We have an external/manual link
-				$output .= "\n\t" . '<a href="'. get_post_meta($page_found->ID, "_dfcg-link", true) .'" rel="bookmark">';
+				$output .= "\n\t" . '<a href="'. get_post_meta($page_found->ID, $link, true) .'" rel="bookmark">';
 			
 			} else {
 				$output .= "\n\t" . '<a href="'. get_permalink($page_found->ID) .'" rel="bookmark">';
 			}
 			
 			// Get the _dfcg-image
-			if( get_post_meta($page_found->ID, "_dfcg-image", true) ) {
-				$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($page_found->ID, "_dfcg-image", true) .'" alt="'. $page_found->post_title .'" />';
+			if( get_post_meta($page_found->ID, $image, true) ) {
+				$output .= "\n\t\t" . '<img src="'. $baseimgurl . get_post_meta($page_found->ID, $image, true) .'" alt="'. $page_found->post_title .'" />';
         		
 				// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404.
 			} elseif( !empty($dfcg_options['defimgpages']) ) {
@@ -628,8 +661,8 @@ function dfcg_jq_pages_method_gallery() {
 			} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 			
 				// Do we have a _dfcg-desc?
-				if( get_post_meta($page_found->ID, "_dfcg-desc", true) ) {
-					$output .= "\n\t\t" . '<p>' . get_post_meta($page_found->ID, "_dfcg-desc", true) . '</p>';
+				if( get_post_meta($page_found->ID, $desc, true) ) {
+					$output .= "\n\t\t" . '<p>' . get_post_meta($page_found->ID, $desc, true) . '</p>';
 
 				} elseif( $dfcg_options['defimagedesc'] !== '' ) {
 					// Show the default description
