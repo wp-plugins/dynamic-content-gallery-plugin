@@ -40,11 +40,11 @@ if( isset($_POST['dfcg_upgrade_1']) ) {
 	// check the nonce
 	check_admin_referer( 'dfcg_plugin_postmeta_upgrade' );
 	
-	// build the array from input
+	// build the array from input (1 item)
 	$input = $_POST['dfcg_plugin_postmeta_upgrade'];
 	
-	
-	if( $input['upgraded'] == 'start' ) {
+	// Make sure we only run this once
+	if( $input['upgraded'] == 'started' ) {
 		
 		$data = dfcg_update_postmeta();
 		
@@ -54,13 +54,14 @@ if( isset($_POST['dfcg_upgrade_1']) ) {
 			$input['postmetas'] = $data['postmetas'];
 			$input['modified'] = $data['modified'];
 			$input['deleted'] = $data['deleted'];
+			$input['dfcg-image'] = $data['dfcg-image'];
+			$input['dfcg-desc'] = $data['dfcg-desc'];
+			$input['dfcg-link'] = $data['dfcg-link'];
 		}
 		
-		$input['upgraded'] = esc_attr('just');
 		
 		// Update the db options
 		update_option( 'dfcg_plugin_postmeta_upgrade', $input);
-		//echo '<div id="message" class="updated fade"><p><strong>' . __('Dynamic Content Gallery Postmeta upgraded successfully.') . '</strong></p></div>';
 	}
 }
 // Get the updated db options
@@ -81,7 +82,7 @@ if( $dfcg_postmeta_upgrade['upgraded'] == '' ) {
 	/* Output pre-upgrade screen contents */
 	dfcg_ui_upgrade_page1();
 	
-} elseif( $dfcg_postmeta_upgrade['upgraded'] == 'just' ) {
+} elseif( $dfcg_postmeta_upgrade['upgraded'] == 'started' ) {
 	
 	/* Output post-upgrade screen contents */
 	dfcg_ui_upgrade_page2($dfcg_postmeta_upgrade);
