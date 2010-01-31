@@ -193,7 +193,7 @@ function dfcg_admin_postmeta_wpmu_page() {
 			<p><?php _e('To complete the installation of the Dynamic Content Gallery v3.2 please run a Site Admin Upgrade. Click the "Upgrade Site" button above to perform this Site Admin Upgrade.', DFCG_DOMAIN); ?></p>
 			<p><?php _e("Note: The plugin will continue to display the gallery correctly without this Site Admin Upgrade, but Blog Owners will not be able to administer the plugin's Settings page until this is run.", DFCG_DOMAIN); ?></p>
 			<p><?php _e("This upgrade routine makes permanent changes to the postmeta tables for all Blogs. It is advisable to backup the database before proceeding!", DFCG_DOMAIN); ?></p>
-			<p><?php _e('To learn more about this upgrade please visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/postmeta-upgrade/"><?php _e('Custom field postmeta upgrade', DFCG_DOMAIN); ?></a> <?php _e('page.', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Further information about this upgrade can be found', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/"><?php _e('here', DFCG_DOMAIN); ?></a>.</p>
 			</div>
 		</div>
 <?php
