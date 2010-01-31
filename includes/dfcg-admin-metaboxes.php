@@ -22,17 +22,18 @@ if (!defined('ABSPATH')) {
 * Hooked to 'admin_menu'
 *
 * @global array $dfcg_options plugin options from db
+* @global array $dfcg_postmeta_upgrade plugin options from db
 * @since 3.2
 */
 function dfcg_add_metabox() {
 
-	global $dfcg_options;
+	global $dfcg_options, $dfcg_postmeta_upgrade;
 	
-	if( $dfcg_options['populate-method'] == 'pages' ) {
+	if( $dfcg_options['populate-method'] == 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 	
 		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side' );
 	
-	} else {
+	} elseif( $dfcg_options['populate-method'] !== 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 	
 		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side' );
 	}
