@@ -113,7 +113,7 @@ function dfcg_add_to_options_menu() {
 /**
 * Function to load Admin CSS file
 *
-* Hooked to 'admin_print_scripts-settings_page_' in dfcg_add_to_options()
+* Hooked to 'admin_print_scripts-settings_page_' in dfcg_add_to_options_menu()
 *
 * @since 3.2
 */
@@ -142,8 +142,9 @@ function dfcg_options_page(){
 	
 	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 		include_once( DFCG_DIR . '/includes/dfcg-admin-ui-screen.php' );
+	
 	} else {
-		// We need to run the postmeta upgrade
+		// We need to upgrade
 		include_once( DFCG_DIR . '/includes/dfcg-admin-ui-upgrade-screen.php' );
 	}
 }
