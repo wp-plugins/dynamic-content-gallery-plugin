@@ -1,16 +1,15 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Functions for loading Javascript in Settings Page
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	Admin Settings page Javascript
-*	Since 3.2 Admin CSS is now handled through separate stylesheet hooked to admin_print_styles
+* @info Admin Settings page Javascript
+* @info Since 3.2 Admin CSS is now handled through separate stylesheet hooked to admin_print_styles
 *
-*	@since	3.0
-*
+* @since 3.0
 */
 
 /* Prevent direct access to this file */
@@ -19,14 +18,15 @@ if (!defined('ABSPATH')) {
 }
 
 
-/**	Function for loading JS for Settings Page
-*	
-*	Code idea from Nathan Rice, Theme Options plugin.
-* 	Since 3.2, this only includes JS. CSS now in external stylesheet.
+/**
+* Function for loading JS for Settings Page
 *
-*	@since	3.2
+* Code idea from Nathan Rice, Theme Options plugin.
+* Since 3.2, this only includes JS. CSS now in external stylesheet.
+*
+* @since 3.2
 */
-function dfcg_options_css_js() {
+function dfcg_options_js() {
 echo <<<JS
 
 <script type="text/javascript">
