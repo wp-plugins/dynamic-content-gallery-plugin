@@ -191,6 +191,7 @@ function dfcg_admin_postmeta_wpmu_page() {
 			<div class="dfcg-postmeta-db-info" style="margin-top:20px;">
 			<p><strong><?php _e("Information for Site Administrator(s):", DFCG_DOMAIN); ?></strong></p>
 			<p><?php _e('To complete the installation of the Dynamic Content Gallery v3.2 please run a Site Admin Upgrade. Click the "Upgrade Site" button above to perform this Site Admin Upgrade.', DFCG_DOMAIN); ?></p>
+			<p><?php _e("Note: The plugin will continue to display the gallery correctly without this Site Admin Upgrade, but Blog Owners will not be able to administer the plugin's Settings page until this is run.", DFCG_DOMAIN); ?></p>
 			<p><?php _e("This upgrade routine makes permanent changes to the postmeta tables for all Blogs. It is advisable to backup the database before proceeding!", DFCG_DOMAIN); ?></p>
 			<p><?php _e('To learn more about this upgrade please visit the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/postmeta-upgrade/"><?php _e('Custom field postmeta upgrade', DFCG_DOMAIN); ?></a> <?php _e('page.', DFCG_DOMAIN); ?></p>
 			</div>
@@ -378,6 +379,7 @@ function dfcg_ui_upgrade_page1_wpmu_content() {
 			<div class="dfcg-postmeta-db-info" style="margin-top:20px;">
 				<p><strong><?php _e("Information for Site Administrator(s):", DFCG_DOMAIN); ?></strong></p>
 				<p><?php _e('To complete the installation of the Dynamic Content Gallery v3.2, please run a', DFCG_DOMAIN); ?> <a href="./wp-admin/wpmu-upgrade-site.php"><?php _e('Site Admin Upgrade', DFCG_DOMAIN); ?></a></p>
+				<p><?php _e("Note: The plugin will continue to display the gallery correctly without this Site Admin Upgrade, but Blog Owners will not be able to administer the plugin's Settings page until this is run.", DFCG_DOMAIN); ?></p>
 				<p><?php _e("This upgrade routine makes permanent changes to the postmeta tables for all Blogs. It is advisable to backup the database before proceeding!", DFCG_DOMAIN); ?></p>
 				<p><?php _e('The information shown below is displayed to Blog Admins in place of the normal Dynamic Content Gallery Settings page. Please note that the gallery will not work properly until the Site Admin Upgrade is performed.', DFCG_DOMAIN); ?></p>
 			</div>
