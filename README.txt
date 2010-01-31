@@ -1,13 +1,13 @@
 === Dynamic Content Gallery ===
 
-Version: 3.1
+Version: 3.2
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 2.8
 Tested up to: 2.9.1 (WP) and 2.9.1.1 (WPMU)
-Stable tag: 3.1
+Stable tag: 3.2
 
 Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
 
@@ -22,8 +22,10 @@ Compatible with Wordpress Mu but with some differences in features compared with
 ----------------
 Version 3.0+ introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
 
-* NEW in 3.1 - Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
-* NEW in 3.1 - Category default images folder can now be outside wp-content folder
+* NEW in 3.2 - New metabox panel in Write Post/Page screens for easy editing of custom fields used by the plugin.
+* NEW in 3.2 - Added _dfcg-exclude postmeta to allow specific exclusion of a post from multi-option or one-category output.
+* NEW in 3.2 - Added ability to apply a custom Sort Order to gallery images when using Pages Method
+* Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
 * SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
 * A choice of 3 different methods for populating the gallery -  Multi Option, One Category or Pages.
 * Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages.
@@ -64,13 +66,10 @@ Note for Wordpress Mu users:
 * In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator. Each blog owner can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.0**
-------------------------------
+**Upgrading from version 2.2, 3.0, 3.1**
+----------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
-
-**Upgrading from version 2.2**
-------------------------------
-Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43). 
+Version 3.2 introduces some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after installing 3.2, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/).
 
 
 
@@ -92,13 +91,16 @@ Images are pulled into the gallery from custom fields created in the relevant Po
 
 * Custom field *dfcg-image* for the image filename, including extension, with EITHER the full or partial URL depending on your Image file management Settings.
 
-Slide Pane text can be configured in two ways - Manual or Auto
+Slide Pane text can be configured in three ways - Manual, Auto or None
 
 **Manual:**
 * Use a custom field *dfcg-desc* in your Posts/Pages for the Description which will appear in the gallery Slide Pane. For example: Here's our latest news!
 
 **Auto:**
 * Select Auto option to automatically create custom Post/Page excerpts from your Post/Page content.
+
+**None:**
+* Select None option to not display any description. (Post/Page title will still display with this option)
 
 *Note for WPMU users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Post Custom field. See the Settings page for further information on how to do this. This tip is good for Wordpress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings.
 
@@ -136,7 +138,7 @@ The plugin is supplied with the original Smoothgallery mootools script and a jQu
 **Download**
 ------------
 
-Latest stable version is version 3.1 available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
+Latest stable version is available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
 
 
 **Support**
@@ -202,20 +204,45 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 == Changelog ==
 
+= 3.2 =
+* Released	31 January 2010
+* Feature:	Added custom sort order option for Pages Method using _dfcg-sort custom field
+* Feature:	Added "no description" option for the Slide Pane
+* Feature:	Manual description now displays Auto description if _dfcg-desc, category description and default description don't exist
+* Feature:	Added Metabox to Post/Page Editor screen to handle custom fields
+* Feature:	Added _dfcg-exclude postmeta to allow specific exclusion of a post from multi-option or one-category output
+* Feature:	Added postmeta upgrade routine to convert dfcg- custom fields to _dfcg-
+* Enhance:	Added text-align left to h2 in jd.gallery.css for wider theme compatibility
+* Enhance:	Updated inline docs
+* Enhance:	$dfcg_load_textdomain() moved to dfcg-admin-core.php
+* Enhance:	$dfcg_errorimgurl variable deprecated in favour of DFCG_ERRORIMGURL constant
+* Enhance:	New function dfcg_query_list() for handling multi-option cat/off pairs, in dfcg-gallery-core.php
+* Enhance:	Function dfcg_admin_notices() renamed to dfcg_admin_notice_reset()
+* Enhance:	Tidied up Error Message markup and reorganised dfcg-gallery-errors.php, with new functions
+* Enhance:	Renamed function dfcg_add_page() now dfcg_add_to_options_menu()
+* Enhance:	jd.gallery.css modified to remove open.gif (looked rubbish in IE and not much better in FF)
+* Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
+* Bug fix:	Fixed non-fatal wp_errors in dfcg-gallery-errors.php
+* Bug fix:	Corrected path error for .mo files in load_textdomain() in plugin main file
+* Bug fix:	Fixed Settings Page Donate broken link
+* Bug fix:	Increased sanitisation cat-display limit to 4 characters
+* Bug fix:	Increased sanitisation Carousel text limit to 50 characters
+* Bug fix:	Removed unneeded call to dfcg_load_textdomain() in dfcg_add_to_options_menu()
+* Bug fix:	Mootools jd.gallery.js - increased thumbIdleOpacity to 0.4 for improved carousel visuals in IE
+
 = 3.1 =
 * Released	28 December 2009
-* Bug fix:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
-* Bug fix:	Tidied up Settings text for easier gettext translation
-* Bug fix:	Tidied up Settings page CSS
+* Feature:	Added auto Description using custom $content excerpt + 7 options
+* Enhance:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
+* Enhance:	Tidied up Settings text for easier gettext translation
+* Enhance:	Tidied up Settings page CSS
 * Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
 * Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
 * Bug fix:	Category default images folder can now be outside wp-content folder
-* Feature:	Added auto Description using custom $content excerpt + 7 options
 
 = 3.0 =
 * Released	7 December 2009
 * Feature:	Added alternative jQuery gallery script and new associated options
-* Bug fix:	Improved data sanitisation
 * Feature: 	Added WP version check to Plugins screen. DCG now requires WP 2.8+
 * Feature: 	Added contextual help to Settings Page
 * Feature:	Added plugin meta links to Plugins main admin page
@@ -230,17 +257,18 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 * Feature: 	Added Padding Settings for Slide Pane Heading and Description
 * Bug fix: 	Complete re-write of code and file organisation for more efficient coding
 * Bug fix: 	Changed $options variable name to $dfcg_options to avoid conflicts with other plugins.
+* Bug fix:	Improved data sanitisation
 
 = 2.2 =
 * Released 5 December 2008
-* Feature: Added template tag function for theme files
-* Feature: Added "disable mootools" checkbox in Settings to avoid js framework	being loaded twice if another plugin uses mootools.
-* Bug fix: Changed handling of WP constants - now works as intended
-* Bug fix: Removed activation_hook, not needed
-* Feature: Changed options page CSS to better match with 2.7 look
-* Bug fix: Fixed loading flicker with CSS change => dynamic-gallery.php
-* Bug fix: Fixed error if selected post doesn't exist => dynamic-gallery.php
-* Bug fix: Fixed XHTML validation error with user-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS
+* Feature:	Added template tag function for theme files
+* Feature:	Added "disable mootools" checkbox in Settings to avoid js framework	being loaded twice if another plugin uses mootools.
+* Feature:	Changed options page CSS to better match with 2.7 look
+* Bug fix:	Changed handling of WP constants - now works as intended
+* Bug fix:	Removed activation_hook, not needed
+* Bug fix:	Fixed loading flicker with CSS change => dynamic-gallery.php
+* Bug fix:	Fixed error if selected post doesn't exist => dynamic-gallery.php
+* Bug fix:	Fixed XHTML validation error with user-defined styles/CSS moved to head with new file dfcg-user-styles.php for the output of user definable CSS
 
 = 2.1 =
 * Released 7 November 2008
