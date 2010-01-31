@@ -8,46 +8,63 @@ Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
 */
 
-/*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch) */
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License 2 as published by
-    the Free Software Foundation.
+/*	License information
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License 2 as published by
+the Free Software Foundation.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    The license for this software can be found here: 
-    http://www.gnu.org/licenses/gpl-2.0.html
-	
+The license for this software can be found here: 
+http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/* 	About Version History info:
+Bug fix:	means that something was broken and has been fixed
+Enhance:	means code has been improved either for better optimisation, code organisation, compatibility with wider use cases
+Feature:	means new user functionality has been added
 */
 
 /* Version History
 
-	3.2			- Feature:	Added Metabox to Post/Page Editor screen to handle custom fields
+	3.2			- Feature:	Added custom sort order option for Pages Method using _dfcg-sort custom field, with on/off option in Settings
+				- Feature:	Added "no description" option for the Slide Pane
+				- Feature:	Manual description now displays Auto description if _dfcg-desc, category description and default description don't exist
+				- Feature:	Added Metabox to Post/Page Editor screen to handle custom fields
 				- Feature:	Added _dfcg-exclude postmeta to allow specific exclusion of a post from multi-option or one-category output
-				- Bug fix:	Corrected path to .mo file in load_textdomain() in plugin main file
+				- Feature:	Added postmeta upgrade routine to convert dfcg- custom fields to _dfcg-
+				- Enhance:	Added text-align left to h2 in jd.gallery.css for wider theme compatibility
+				- Enhance:	Updated inline docs
+				- Enhance:	$dfcg_load_textdomain() moved to dfcg-admin-core.php
+				- Enhance:	$dfcg_errorimgurl variable deprecated in favour of DFCG_ERRORIMGURL constant
+				- Enhance:	New function dfcg_query_list() for handling multi-option cat/off pairs, in dfcg-gallery-core.php
+				- Enhance:	Function dfcg_admin_notices() renamed to dfcg_admin_notice_reset()
 				- Enhance:	Tidied up Error Message markup and reorganised dfcg-gallery-errors.php, with new functions
-				- Bug fix:	Fixed Settings Page Donate broken link
-				- Bug fix:	Increased sanitisation Carousel text limit to 50 characters
 				- Enhance:	Renamed function dfcg_add_page() now dfcg_add_to_options_menu()
-				- Enhance:	Removed unneeded call to dfcg_load_textdomain() in dfcg_add_to_options_menu()
-				- Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
-				- Bug fix:	Mootools jd.gallery.js - increased thumbIdleOpacity to 0.4 for improved carousel visuals in IE
 				- Enhance:	jd.gallery.css modified to remove open.gif (looked rubbish in IE and not much better in FF)
+				- Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
+				- Bug fix:	Fixed non-fatal wp_errors in dfcg-gallery-errors.php
+				- Bug fix:	Corrected path error for .mo files in load_textdomain() in plugin main file
+				- Bug fix:	Fixed Settings Page Donate broken link
+				- Bug fix:	Increased sanitisation cat-display limit to 4 characters
+				- Bug fix:	Increased sanitisation Carousel text limit to 50 characters
+				- Bug fix:	Removed unneeded call to dfcg_load_textdomain() in dfcg_add_to_options_menu()
+				- Bug fix:	Mootools jd.gallery.js - increased thumbIdleOpacity to 0.4 for improved carousel visuals in IE
 	
-	3.1			- Enhance:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
+	3.1			- Feature:	Added auto Description using custom $content excerpt + 7 options
+				- Enhance:	dfcg_baseimgurl() moved to dfcg-gallery-core.php, and added conditional check on loading jq or mootools constructors
 				- Enhance:	Tidied up Settings text for easier gettext translation
 				- Enhance:	Tidied up Settings page CSS
 				- Bug fix:	Fixed "Key Settings" display error when Restrict Scripts is set to Home page only ("home" was used incorrectly instead of "homepage").
 				- Bug fix:	Fixed whitelist option error for WPMU in dfcg-admin-ui-sanitise.php
 				- Bug fix:	Category default images folder can now be outside wp-content folder
-				- Feature:	Added auto Description using custom $content excerpt + 7 options
 	
 	3.0			- Feature:	Added alternative jQuery gallery script and new associated options
-				- Bug fix:	Improved data sanitisation
 				- Feature: 	Added WP version check to Plugins screen. DCG now requires WP 2.8+
 				- Feature: 	Added contextual help to Settings Page
 				- Feature:	Added plugin meta links to Plugins main admin page
@@ -65,13 +82,14 @@ Description: Creates a dynamic gallery of images for latest or featured posts se
 				- Bug fix: 	Complete re-write of code and file organisation for more efficient coding
 				- Bug fix: 	Changed $options variable name to $dfcg_options to avoid conflicts
 							with other plugins.
+				- Bug fix:	Improved data sanitisation
 		
 	2.2			- Feature:	Added template tag function for theme files
 				- Feature:	Added "disable mootools" checkbox in Settings to avoid js framework
 							being loaded twice if another plugin uses mootools.
+				- Feature:	Changed options page CSS to better match with 2.7 look
 				- Bug fix:	Changed handling of WP constants - now works as intended
 				- Bug fix:	Removed activation_hook, not needed
-				- Feature:	Changed options page CSS to better match with 2.7 look
 				- Bug fix:	Fixed loading flicker with CSS change => dynamic-gallery.php
 				- Bug fix:	Fixed error if selected post doesn't exist => dynamic-gallery.php
 				- Bug fix:	Fixed XHTML validation error with user-defined styles/CSS moved to head
@@ -96,6 +114,7 @@ if (!defined('ABSPATH')) {
 }
 
 
+
 /* Pre-2.6 compatibility to find directories */
 if ( ! defined( 'WP_CONTENT_URL' ) )
 	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
@@ -116,6 +135,7 @@ define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 'dynamic_content_gallery' );
 define( 'DFCG_PAGEHOOK', 'settings_page_'.DFCG_FILE_HOOK );
+define( 'DFCG_ERRORIMGURL', DFCG_URL . '/error-img/error.jpg' );
 
 
 
@@ -126,9 +146,7 @@ $dfcg_text_loaded = false;
 
 // Load plugin options
 $dfcg_options = get_option('dfcg_plugin_settings');
-
-// Error image
-$dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
+$dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
 
 
 
@@ -144,18 +162,25 @@ $dfcg_errorimgurl = DFCG_URL . '/error-img/error.jpg';
 *	dfcg-gallery-content-limit.php		Auto description for Slide Pane
 *
 *	Required for Admin
-*	dfcg-admin-core.php				Main Admin Functions: add page and related functions, options handling/upgrading
-*	dfcg-admin-ui-functions.php		Functions for outputting Settings Page elements
-*	dfcg-admin-ui-validation.php	Functions for validating Settings on load and submit
-*	dfcg-admin-ui-js.php			Settings page JS
-*	dfcg-admin-ui-help.php			Functions for Settings Page contextual help
-*	dfcg-admin-custom-columns		Adds custom columns to Edit Posts & Edit Pages screens
-*	dfcg-admin-ui-sanitise.php		Sanitisation callback function for register_settings
-*	dfcg-admin-metaboxes.php		Adds metabox to Post and Page screen for access to custom fields
+*	dfcg-admin-core.php					Main Admin Functions: add page and related functions, options handling/upgrading
+*	dfcg-admin-ui-functions.php			Functions for outputting Settings Page elements
+*	dfcg-admin-ui-validation.php		Functions for validating Settings on load and submit
+*	dfcg-admin-ui-js.php				Settings page JS
+*	dfcg-admin-ui-help.php				Functions for Settings Page contextual help
+*	dfcg-admin-custom-columns			Adds custom columns to Edit Posts & Edit Pages screens
+*	dfcg-admin-ui-sanitise.php			Sanitisation callback function for register_settings
+*	dfcg-admin-metaboxes.php			Adds metabox to Post and Page screen for access to custom fields
+*	dfcg-admin-postmeta-upgrade.php		Functions for upgrading postmeta data in v3.2+
 *
-*	@since	3.0
+*	Files included elsewhere, within functions
+*	dfcg-admin-ui-screen.php			Admin, Settings page	- included in dfcg_options_page() in dfcg-admin-core.php
+*	dfcg-admin-ui-upgrade-screen.php	Admin, Upgrade page		- included in dfcg_options_page() in dfcg-admin-core.php
+*	dfcg-gallery-jquery-styles.php		Public, CSS				- included in dfcg_mootools_scripts() in dfcg-gallery-core.php
+*	dfcg-gallery-mootools-styles.php	Public, CSS				- included in dfcg_jquery_scripts() in dfcg-gallery-core.php
+*
+*	@since 3.2
 */ 
-// Public files
+// Front-end files
 if( !is_admin() ) {
 	
 	include_once( DFCG_DIR . '/includes/dfcg-gallery-core.php');
@@ -170,10 +195,11 @@ if( !is_admin() ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
 	}
 	
-	if( $dfcg_options['desc-method'] == 'auto' ) {
+	if( $dfcg_options['desc-method'] == 'auto' || $dfcg_options['desc-method'] == 'manual' ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
 	}
 }
+
 
 // Admin-only files
 if( is_admin() ) {
@@ -185,17 +211,21 @@ if( is_admin() ) {
 	require_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-sanitise.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-metaboxes.php');
+	
+	if( $dfcg_postmeta_upgrade['upgraded'] !== 'completed' ) {
+		require_once( DFCG_DIR . '/includes/dfcg-admin-postmeta-upgrade.php');
+	}
 }
 
 
 
 /***** Add filters and actions ********************/
 
-/* Public - Loads scripts into header where gallery is displayed */
+/* Front-end - Loads scripts into header where gallery is displayed */
 // Function defined in dfcg-gallery-core.php
 add_action('wp_head', 'dfcg_load_scripts');
 
-/* Public - Enqueue jQuery into header where gallery is displayed */
+/* Front-end - Enqueue jQuery into header where gallery is displayed */
 // Function defined in dfcg-gallery-core.php
 add_action('template_redirect', 'dfcg_enqueue_script');
 
@@ -223,9 +253,9 @@ add_filter('contextual_help', 'dfcg_admin_help', 10, 2);
 // Function defined in dfcg-admin-core.php
 add_action('after_plugin_row_dynamic-content-gallery-plugin/dynamic-gallery-plugin.php', 'dfcg_wp_version_check');
 
-/* Admin - Adds Admin Notices when updating Settings */
+/* Admin - Adds Admin Notice when resetting Settings */
 // Function defined in dfcg-admin-core.php
-add_action('admin_notices', 'dfcg_admin_notices');
+add_action('admin_notices', 'dfcg_admin_notice_reset');
 
 /* Admin - Adds additional links in main Plugins page */
 // Function defined in dfcg-admin-core.php
@@ -234,38 +264,3 @@ add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
 /* Admin - Adds additional Settings link in main Plugin page */
 // Function defined in dfcg-admin-core.php
 add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
-
-
-
-/***** Functions used by both public and admin *****/
-
-/**	Function to load textdomain for Internationalisation functionality
-*
-*	Loads textdomain if $dfcg_text_loaded is false
-*
-*	Note: .mo file should be named dynamic-content-gallery-plugin-xx_XX.mo and placed in the DCG plugin's languages folder.
-*	xx_XX is the language code, eg fr_FR for French etc.
-*
-*	Called by dfcg_add_page()
-*	Called by dfcg-wp-ui.php
-*
-*	@uses	variable	$dfcg_text_loaded
-*
-*	@since	3.2
-*/
-// TODO: Is this really a public function? Probably not.
-function dfcg_load_textdomain() {
-	
-	global $dfcg_text_loaded;
-   	
-	// If textdomain is already loaded, do nothing
-	if( $dfcg_text_loaded ) {
-   		return;
-   	}
-	
-	// Textdomain isn't already loaded, let's load it
-   	load_plugin_textdomain(DFCG_DOMAIN, false, dirname(plugin_basename(__FILE__)). '/languages');
-   	
-	// Change variable to prevent loading textdomain again
-	$dfcg_text_loaded = true;
-}
