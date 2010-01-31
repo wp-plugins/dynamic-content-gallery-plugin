@@ -1,19 +1,18 @@
 <?php
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+/**
+* Functions for displaying contents of Settings page
 *
-* 	@package	dynamic_content_gallery
-*	@version	3.2
+* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @package dynamic_content_gallery
+* @version 3.2
 *
-*	These are the functions which produce the UI postboxes
-*	for the Settings page.
+* @info These are the functions which produce the UI postboxes
+* @info for the Settings page.
 *
-*	Functions ending _wp are only used for Wordpress
-*	Functions ending _wpmu are only used for WPMU
+* @info Functions ending _wp are only used for Wordpress
+* @info Functions ending _wpmu are only used for WPMU
 *
-*	@since	3.0
-*
+* @since 3.0
 */
 
 
@@ -23,8 +22,11 @@ if (!defined('ABSPATH')) {
 }
 
 
-
-// Metabox Save buttons
+/**
+* Metabox Save buttons
+*
+* @since 3.0
+*/
 function dfcg_ui_buttons() { ?>
 	<div style="float:left;width:400px;margin:0;padding:0;"><p class="submit"><input type="submit" value="<?php _e('Save Changes'); ?>" /></p></div>
 	<div style="float:right;margin:0;padding:0;width:300px;"><p class="submit"><a class="button-secondary" href="#sgr-style" title="Back to top" style="float:right;"><?php _e('Back to top', DFCG_DOMAIN); ?></a></p></div>
@@ -34,7 +36,12 @@ function dfcg_ui_buttons() { ?>
 <?php }
 
 
-// Active Settings display
+/**
+* Active Settings display
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_active() {
 
 	global $dfcg_options;
@@ -145,7 +152,15 @@ function dfcg_ui_active() {
 }
 
 
-// Intro box: menu and holder
+/**
+* Intro box: menu and holder
+*
+* @uses dfcg_ui_intro_text()
+* @uses dfcg_ui_sgr_info()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_intro_menu() {
 	global $dfcg_options;
 	?>
@@ -181,7 +196,14 @@ function dfcg_ui_intro_menu() {
 <?php }
 
 
-// Intro box: content
+/**
+* Intro box: content
+*
+* @uses dfcg_ui_active()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_intro_text() {
 	global $dfcg_options;
 	?>
@@ -193,7 +215,12 @@ function dfcg_ui_intro_text() {
 	</div>
 <?php }
 
-// Resources inner box: content
+
+/**
+* Resources inner box: content
+*
+* @since 3.0
+*/
 function dfcg_ui_sgr_info() {
 ?>
 <div class="postbox" id="sgr-info">	
@@ -220,7 +247,14 @@ function dfcg_ui_sgr_info() {
 <?php }
 
 
-// Image File Management: box and content
+/**
+* Image File Management: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_1_image_wp() {
 	global $dfcg_options;
 	?>
@@ -260,7 +294,15 @@ function dfcg_ui_1_image_wp() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Gallery Method: box and content
+
+/**
+* Gallery Method: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_2_method() {
 	global $dfcg_options;
 	?>
@@ -293,7 +335,13 @@ function dfcg_ui_2_method() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Mult-Option: box and content
+
+/**
+* Multi-Option: box and content
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_multi() {
 	global $dfcg_options;
 	?>
@@ -361,8 +409,14 @@ function dfcg_ui_multi() {
 			</table>
 <?php }
 
-// Multi-Option default image folder: content
-// WP ONLY
+
+/**
+* Multi-Option default image folder: content
+* WP ONLY
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_multi_wp() {
 	global $dfcg_options;
 	?>
@@ -381,7 +435,12 @@ function dfcg_ui_multi_wp() {
 <?php }
 
 
-// One Category: box and contents
+/**
+* One Category: box and contents
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_onecat() {
 	global $dfcg_options;
 	?>
@@ -419,8 +478,14 @@ function dfcg_ui_onecat() {
 				</table>
 <?php }
 
-// One Category default image folder: content
-// WP ONLY
+
+/**
+* One Category default image folder: content
+* WP ONLY
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_onecat_wp() {
 	global $dfcg_options;
 	?>
@@ -439,7 +504,12 @@ function dfcg_ui_onecat_wp() {
 <?php }
 
 
-// Pages: box and content
+/**
+* Pages: box and content
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_pages() {
 	global $dfcg_options;
 	?>
@@ -454,12 +524,23 @@ function dfcg_ui_pages() {
 							<td><input name="dfcg_plugin_settings[pages-selected]" id="dfcg-pages-selected" size="75" value="<?php echo $dfcg_options['pages-selected']; ?>" /><br />
 							<em><?php _e("Enter ID's in a comma separated list with no spaces, eg: 2,7,8,19,21", DFCG_DOMAIN); ?></em></td>
 						</tr>
+						<tr>
+							<th scope="row"><?php _e('Use Custom Image Order:', DFCG_DOMAIN); ?></th>
+							<td><input name="dfcg_plugin_settings[pages-sort-control]" id="dfcg-pages-sort-control" type="checkbox" value="1" <?php checked('true', $dfcg_options['pages-sort-control']); ?> />
+							<span style="padding-left:30px"><em><?php _e("Check the box if you want to apply your own ordering to the images in the Gallery.", DFCG_DOMAIN); ?></em></span></td>
+						</tr>
 					</tbody>
 				</table>
 <?php }
 
-// Pages default image: content
-// WP ONLY
+
+/**
+* Pages default image: content
+* WP ONLY
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_pages_wp() {
 	global $dfcg_options;
 	?>
@@ -478,22 +559,33 @@ function dfcg_ui_pages_wp() {
 <?php }
 
 
-// Default Desc: box and content
+/**
+* Default Desc: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_defdesc() {
 	global $dfcg_options;
 	?>
 	<div id="default-desc" class="postbox">
 		<h3><?php _e('3. Slide Pane Descriptions:', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('This option is applicable to all', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>. <?php _e('Choose between Manual or Auto Description methods for displaying a description for each image in the gallery Slide Pane:', DFCG_DOMAIN); ?> <em><?php _e('The Slide Pane has relatively little space. It is recommended to keep the description short, probably less than 25 words or so.', DFCG_DOMAIN); ?></em></p>
+			<p><?php _e('This option is applicable to all', DFCG_DOMAIN); ?> <a href="#gallery-method">Gallery Method</a> <?php _e('Settings', DFCG_DOMAIN); ?>. <?php _e('Choose between Manual or Auto Description methods for displaying a description for each image in the gallery Slide Pane, or select None if you do not want to display any descriptions in the Slide Pane:', DFCG_DOMAIN); ?> <em><?php _e('The Slide Pane has relatively little space. It is recommended to keep the description short, probably less than 25 words or so.', DFCG_DOMAIN); ?></em></p>
 			
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-manual" type="radio" style="margin-right:5px;" value="manual" <?php checked('manual', $dfcg_options['desc-method']); ?> />
 						<label for="desc-method-manual"><?php _e('Manual', DFCG_DOMAIN); ?></label></th>
-						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), or finally (3) the default description created here.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></p></div></td>
+						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), (3) the default description created here, or finally (4) the Auto description.', DFCG_DOMAIN); ?></p>
+							<div class="dfcg-tip-box">
+								<p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></p>
+								<p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Even if you have selected Manual, if you intend to use Auto text as a fallback in the event no manual descriptions have been set for individual Posts/Pages, set the Auto number of characters and More link options shown under Auto options below.', DFCG_DOMAIN); ?></p>
+							</div>
+						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
@@ -513,12 +605,25 @@ function dfcg_ui_defdesc() {
 						<th scope="row"></th>
 						<td><input name="dfcg_plugin_settings[more-text]" id="dfcg-more-text" size="15" value="<?php echo $dfcg_options['more-text']; ?>" /><span style="padding-left:20px"><em><?php _e('Text for "more" link added to Auto description.', DFCG_DOMAIN); ?></em></span></td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-none" type="radio" style="margin-right:5px;" value="none" <?php checked('none', $dfcg_options['desc-method']); ?> />
+						<label for="desc-method-none"><?php _e('None', DFCG_DOMAIN); ?></label></th>
+						<td><p><?php _e('With this method no descriptions will be displayed in the Slide Pane, only the Post/Page title.', DFCG_DOMAIN); ?></p></td>
+					</tr>
 				</tbody>
 			</table>
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Gallery CSS: box and content
+
+/**
+* Gallery CSS: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_css() {
 	global $dfcg_options;
 	?>
@@ -662,7 +767,15 @@ function dfcg_ui_css() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Select Javascript Framework
+
+/**
+* Select Javascript Framework
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_js_framework() {
 	global $dfcg_options;
 	?>
@@ -689,7 +802,15 @@ function dfcg_ui_js_framework() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Javascript options: box and content
+
+/**
+* Javascript options: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_javascript() {
 	global $dfcg_options;
 	?>
@@ -773,7 +894,15 @@ function dfcg_ui_javascript() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Restrict Scripts loading: box and content
+
+/**
+* Restrict Scripts loading: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_restrict_scripts() {
 	global $dfcg_options;
 	?>
@@ -813,7 +942,15 @@ function dfcg_ui_restrict_scripts() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Error Messages: box and content
+
+/**
+* Error Messages: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_errors() {
 	global $dfcg_options;
 	?>
@@ -832,7 +969,15 @@ function dfcg_ui_errors() {
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Posts/Pages edit columns: box and content
+
+/**
+* Posts/Pages edit columns: box and content
+*
+* @uses dfcg_ui_buttons()
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_columns() {
 	global $dfcg_options;
 	?>
@@ -851,15 +996,22 @@ function dfcg_ui_columns() {
 					<tr valign="top">
 						<th scope="row"><?php _e('Show columns in Edit Pages:', DFCG_DOMAIN); ?></th>
 						<td>dfcg-image URL: <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?> />
-						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?> /></td>
+						<span style="padding-left:50px;"><?php _e('dfcg-desc Description:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?> />
+						<span style="padding-left:50px;"><?php _e('Sort Order:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-sort-column]" id="dfcg-pages-sort-column" value="1" <?php checked('true', $dfcg_options['pages-sort-column']); ?> /></td>
 					</tr>
 				</tbody>
 			</table>
 			<?php dfcg_ui_buttons(); ?>
 <?php }
 
-// Form hidden fields
-// WP ONLY
+
+/**
+* Form hidden fields
+* WP ONLY
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_hidden_wp() {
 	global $dfcg_options;
 	?>
@@ -888,8 +1040,14 @@ function dfcg_ui_hidden_wp() {
 	
 <?php }
 
-// Form hidden fields
-// WPMU ONLY
+
+/**
+* Form hidden fields
+* WPMU ONLY
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_hidden_wpmu() {
 	global $dfcg_options;
 	?>
@@ -924,7 +1082,13 @@ function dfcg_ui_hidden_wpmu() {
 	
 <?php }
 
-// Reset box and form end XHTML
+
+/**
+* Reset box and form end XHTML
+*
+* @global array $dfcg_options plugin options from db
+* @since 3.0
+*/
 function dfcg_ui_reset_end() {
 	global $dfcg_options;
 	?>
@@ -939,9 +1103,13 @@ function dfcg_ui_reset_end() {
 	
 <?php }
 
-// Credits: box and content
+
+/**
+* Credits: box and content
+*
+* @since 3.0
+*/
 function dfcg_ui_credits() {
-	global $dfcg_options;
 	?>
 	<div class="sgr-credits">
 		<p><?php _e('For further information please visit these resources:', DFCG_DOMAIN); ?></p>
@@ -957,8 +1125,13 @@ function dfcg_ui_credits() {
 	</div><!-- end sgr-credits -->
 <?php }
 
-// Uploading images: box and content
-// WPMU ONLY
+
+/**
+* Uploading images: box and content
+* WPMU ONLY
+*
+* @since 3.0
+*/
 function dfcg_ui_create_wpmu() {
 	?>
 	<div id="upload-images" class="postbox">
