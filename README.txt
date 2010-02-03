@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.2
+Version: 3.2.1
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -203,6 +203,14 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 
 == Changelog ==
+
+= 3.2.1 =
+* Released	03 February 2010
+* Bug fix:	Fixed PHP warning on undefined index when _dfcg-exclude is unchecked
+* Bug fix:	Fixed missing arg error in dfcg_add_metabox() (in dfcg-admin-metaboxes.php)
+* Bug fix:	Fixed metabox error of adding extra http:// when using Partial URL settings (dfcg-admin-metaboxes.php)
+* Bug fix:	Added sanitisation routine to dfcg_save_metabox_data() to remove leading slash when using Partial URL setting
+* Bug fix: 	Increased sanitisation cat01 etc char limit to 6 chars to avoid problems with large cat IDs
 
 = 3.2 =
 * Released	31 January 2010
