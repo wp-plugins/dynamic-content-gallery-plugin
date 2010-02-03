@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.2
+Version: 3.2.1
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -32,6 +32,12 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
+	3.2.1		- Bug fix:	Fixed PHP warning on undefined index when _dfcg-exclude is unchecked
+				- Bug fix:	Fixed missing arg error in dfcg_add_metabox() (in dfcg-admin-metaboxes.php)
+				- Bug fix:	Fixed metabox error of extra http:// when using Partial URL settings (dfcg-admin-metaboxes.php)
+				- Bug fix:	Added sanitisation routine to dfcg_save_metabox_data() to remove leading slash when using Partial URL setting
+				- Bug fix: 	Increased sanitisation cat01 etc char limit to 6 chars to avoid problems with large cat IDs
+	
 	3.2			- Feature:	Added custom sort order option for Pages Method using _dfcg-sort custom field, with on/off option in Settings
 				- Feature:	Added "no description" option for the Slide Pane
 				- Feature:	Manual description now displays Auto description if _dfcg-desc, category description and default description don't exist
@@ -129,7 +135,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.2' );
+define( 'DFCG_VER', '3.2.1' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
