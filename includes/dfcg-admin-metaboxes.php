@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2
+* @version 3.2.1
 *
 * @since 3.2
 */
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 *
 * @global array $dfcg_options plugin options from db
 * @global array $dfcg_postmeta_upgrade plugin options from db
-* @since 3.2
+* @since 3.2.1
 */
 function dfcg_add_metabox() {
 
@@ -31,11 +31,11 @@ function dfcg_add_metabox() {
 	
 	if( $dfcg_options['populate-method'] == 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
 	
 	} elseif( $dfcg_options['populate-method'] !== 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
 	}
 }
 
@@ -158,7 +158,7 @@ function dfcg_meta_box($post) {
 *
 * @param mixed $post_id Post ID
 * @param object $post object
-* @since 3.2
+* @since 3.2.1
 */
 function dfcg_save_metabox_data($post_id, $post) {
 	
@@ -179,9 +179,14 @@ function dfcg_save_metabox_data($post_id, $post) {
 	// Build array from $_POST data	
 	$newdata['_dfcg-image'] = $_POST['_dfcg-image'];
 	$newdata['_dfcg-desc'] = $_POST['_dfcg-desc'];
-	$newdata['_dfcg-exclude'] = $_POST['_dfcg-exclude'];
 	$newdata['_dfcg-link'] = $_POST['_dfcg-link'];
 	$newdata['_dfcg-sort'] = $_POST['_dfcg-sort'];
+	
+	if( isset( $_POST['_dfcg-exclude'] ) ) {
+		$newdata['_dfcg-exclude'] = $_POST['_dfcg-exclude'];
+	} else {
+		$newdata['_dfcg-exclude'] = false;
+	}
 	
 	
 	/* Sanitise data */
@@ -192,8 +197,15 @@ function dfcg_save_metabox_data($post_id, $post) {
 	}
 	
 	
+	// Deal with Image (could be partial or full)
+	$newdata['_dfcg-image'] = esc_attr( $newdata['_dfcg-image'] );
+	// If we are using Partial URL, check if first character in string is a /
+	if( substr( $newdata['_dfcg-image'], 0, 1 ) == '/' ) {
+		// Remove leading slash
+		$newdata['_dfcg-image'] = substr( $newdata['_dfcg-image'], 1 );
+	}
+	
 	// Deal with URLs
-	$newdata['_dfcg-image'] = esc_url_raw( $newdata['_dfcg-image'] );
 	$newdata['_dfcg-link'] = esc_url_raw( $newdata['_dfcg-link'] );
 	
 	

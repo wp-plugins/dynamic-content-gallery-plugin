@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2
+* @version 3.2.1
 *
 * @info These are the key functions which produce the markup output
 * @info for the gallery to run using mootools.

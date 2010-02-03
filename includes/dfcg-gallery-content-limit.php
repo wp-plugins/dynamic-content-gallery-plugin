@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2
+* @version 3.2.1
 *
 * @info Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
 * @info further enhanced by Charles Clarkson and Nathan Rice, to deal with caption shortcodes etc,

@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2
+* @version 3.2.1
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.
@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 * @param array $input $_POST input from form
 * @global array $dfcg_options plugin options from db
 * @return $input Sanitised form input ready for db
-* @since 3.0
+* @since 3.2.1
 */
 function dfcg_sanitise($input) {
 	
@@ -339,8 +339,8 @@ function dfcg_sanitise($input) {
 		if( empty( $input[$key] ) ) {
 			$input[$key] = 1;
 		} else {
-			// Extract first 4 characters
-			$input[$key] = substr( $input[$key], 0, 4 );
+			// Extract first 6 characters - increased from 4 to allow for big cat ID numbers
+			$input[$key] = substr( $input[$key], 0, 6 );
 			// Cast as integer
 			$input[$key] = absint( $input[$key] );
 		}
