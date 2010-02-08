@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.
@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 * @param array $input $_POST input from form
 * @global array $dfcg_options plugin options from db
 * @return $input Sanitised form input ready for db
-* @since 3.2.1
+* @since 3.2.2
 */
 function dfcg_sanitise($input) {
 	
@@ -85,14 +85,14 @@ function dfcg_sanitise($input) {
 	//	String options - no XHTML allowed									(3)
 	//	String options - some XHTML allowed									(1)
 	//	String options - CSS hexcodes										(7)
-	//	String options - numeric comma separated only 						(1)
+	//	String options - numeric comma separated only 						(2)
 	//	String options - filenames											(1)
 	//	Integer options - positive - can be blank, can't be zero 			(9)
 	//	Integer options - positive - can be blank, can't be zero 			(1)
 	//	Integer options - positive - can't be blank, can't be zero 			(10)
 	//	Integer options - positive integer - can't be blank, can be zero 	(16)
 	//	Integer options - positive - large									(2)
-	//	Total 																83
+	//	Total 																84
 	
 	
 	/***** Whitelist options (11/10) *****/
@@ -106,7 +106,7 @@ function dfcg_sanitise($input) {
 	}
 	
 	// Define whitelist of known values
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto', 'none' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto', 'none', 'page' );
 	
 	// sanitise
 	foreach( $whitelist_opts as $key ) {
@@ -223,9 +223,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** String options - numeric comma separated only (1) *****/
+	/***** String options - numeric comma separated only (2) *****/
 	
-	$str_opts_csv_num = array( 'pages-selected' );
+	$str_opts_csv_num = array( 'pages-selected', 'page-ids' );
 	
 	// sanitise
 	foreach( $str_opts_csv_num as $key ) {

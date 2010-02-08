@@ -4,12 +4,12 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info These are the functions which produce the Contextual Help
 * @info in the Settings page pull-down.
 *
-* @since 3.2
+* @since 3.0
 */
 
 
@@ -51,7 +51,7 @@ function dfcg_admin_help($text, $screen) {
 *
 * Contains actual content displayed in Contextual Help pull-down
 *
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_admin_help_content() {
 ?>
@@ -67,10 +67,9 @@ function dfcg_admin_help_content() {
 		</p>
 		
 		<h4><?php _e('Understanding the basics', DFCG_DOMAIN); ?></h4>
-		<p><?php _e('The gallery is populated with images which you assign to your posts or pages using a custom field called <strong>_dfcg-image</strong> in the relevant posts or pages. The description/text, displayed in the Slide Pane below the post/page title, can be set as an automatically generated excerpt from the relevant posts or pages, or entered manually using a custom field called <strong>_dfcg-desc</strong> in the relevant posts or pages.', DFCG_DOMAIN); ?></p>
-		<p><?php _e('Since version 3.2 these custom fields are handled via a Dynamic Content Gallery Metabox in the Write Posts/Pages screens.', DFCG_DOMAIN); ?></p>
+		<p><?php _e('The gallery is populated with images which you assign to your posts or pages by entering a URL in the Image URL field in the Write Post/Page DCG Metabox. The description/text, displayed in the Slide Pane below the post/page title, can be set as an automatically generated excerpt from the relevant posts or pages, or entered manually in the Slide Pane Description field in the Write Post/Page DCG Metabox.', DFCG_DOMAIN); ?></p>
 		<p><?php _e('The Settings page <a href="#image-file">Image File Management</a> option allows you to choose the form of the URL that you enter in the dfcg-image custom field. You also select the <a href="#gallery-method">Gallery method</a> which determines how your gallery is populated, either by posts from a <a href="#one-category">single category</a>, <a href="#multi-option">a mix of categories</a>, or from <a href="#pages-method">pages</a>.', DFCG_DOMAIN); ?></p>
-		<p><?php _e('You can also <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/#default-images">create default images</a> and specify their location on your server so that, in the event a custom field image is missing from a post or page, a default image will be shown in its place.', DFCG_DOMAIN); ?></p>
+		<p><?php _e('You can also <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/#default-images">create default images</a> and specify their location on your server so that, in the event a DCG Metabox Image URL is missing from a post or page, a default image will be shown in its place.', DFCG_DOMAIN); ?></p>
 		<p><?php _e('There are lots of options for the <a href="#gallery-css">Gallery CSS</a>, as well as various <a href="#gallery-js">Javascript options</a> which determine the behaviour of the gallery. There are also options for <a href="#restrict-scripts">restricting</a> the loading of the plugin\'s javascript files to reduce the impact of the plugin on page loading times. Finally, you have two choices of <a href="#gallery-js-scripts">javascript framework</a>, mootools or jquery, which should eliminate javascript conflicts with other plugins.', DFCG_DOMAIN); ?></p>
 		<p><?php _e('<strong>Still a bit lost?</strong> Find out more in the Configuration Guide =>', DFCG_DOMAIN); ?></p>
 		<ul>

@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info These are the functions which produce the UI postboxes
 * @info for the Settings page.
@@ -40,7 +40,7 @@ function dfcg_ui_buttons() { ?>
 * Active Settings display
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_active() {
 
@@ -135,6 +135,9 @@ function dfcg_ui_active() {
 	
 	if( $dfcg_options['limit-scripts'] == 'homepage' ) {
 		$output .= __('Home Page', DFCG_DOMAIN);
+	
+	} elseif( $dfcg_options['limit-scripts'] == 'page' ) {
+		$output .= __('Page ID => ', DFCG_DOMAIN) . $dfcg_options['page-ids'];
 		
 	} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 		$output .= __('Page Template => ', DFCG_DOMAIN) . $dfcg_options['page-filename'];
@@ -235,14 +238,14 @@ function dfcg_ui_sgr_info() {
 		<li><a href="http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/"><?php _e('Error messages', DFCG_DOMAIN); ?></a></li>
 		<li><a href="http://www.studiograsshopper.ch/forum/"><?php _e('Support Forum', DFCG_DOMAIN); ?></a></li>
 	</ul>
-	<p><?php _e('If you have found this plugin useful, please consider making a donation to help support future development. Your support will be much appreciated. Thank you!', DFCG_DOMAIN); ?> 
+	<p><?php _e('If you have found this plugin useful, please consider making a donation to help support future development. Your support will be much appreciated. Thank you!', DFCG_DOMAIN); ?></p>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 			<input type="hidden" name="cmd" value="_s-xclick" />
 			<input type="hidden" name="hosted_button_id" value="7415216" />
 			<input type="image" src="https://www.paypal.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
 			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 		</form>
-	</p>
+	
 </div><!-- end sgr-info -->
 <?php }
 
@@ -253,7 +256,7 @@ function dfcg_ui_sgr_info() {
 * @uses dfcg_ui_buttons()
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_1_image_wp() {
 	global $dfcg_options;
@@ -261,27 +264,26 @@ function dfcg_ui_1_image_wp() {
 	<div id="image-file" class="postbox">
 		<h3>1. <?php _e('Image file management (REQUIRED)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>dfcg-image</strong> Custom Field added to the Posts or Pages featured in the gallery.', DFCG_DOMAIN); ?> <em><?php _e('Further information about this setting can be found in the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a>.</em></p>
+			<p><?php _e('Complete the following settings to set up your gallery image file management preferences. Your selection determines the form of the image URL which is entered in the <strong>Image URL</strong> field in the Write Post/Page screen DCG Metabox.', DFCG_DOMAIN); ?> <em><?php _e('Further information about this setting can be found in the', DFCG_DOMAIN); ?> <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/"><?php _e('Configuration guide', DFCG_DOMAIN); ?></a>.</em></p>
 			<table class="optiontable form-table">
 				<tbody>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[image-url-type]" id="dfcg-fullurl" type="radio" style="margin-right:5px;" value="full" <?php checked('full', $dfcg_options['image-url-type']); ?> />
 						<label for="dfcg-fullurl"><?php _e('Full URL (Default)', DFCG_DOMAIN); ?></label></th>
-						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/folder/anotherfolder/myimage.jpg</span><br />
+						<td><p><?php _e('Enter <strong>Image URL</strong> in this format:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/folder/anotherfolder/myimage.jpg</span><br />
 						<?php _e('Select this option if you want complete freedom to reference images anywhere in your site and in multiple locations.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the custom field.', DFCG_DOMAIN); ?></p></div></td>
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the best option if you keep images in many different directories both inside and outside of the /wp-content/uploads folder. Also, select this option if your images are stored off-site eg Flickr, Picasa etc. This is also the recommended option if you use the Media Uploader for uploading images to your site - just copy the File URL from the Uploader screen and paste it into the DCG Metabox Image URL field.', DFCG_DOMAIN); ?></p></div></td>
 					</tr>
 						
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[image-url-type]" id="dfcg-parturl" type="radio" style="margin-right:5px;" value="partial" <?php checked('partial', $dfcg_options['image-url-type']); ?> />
 						<label for="dfcg-parturl"><?php _e('Partial URL', DFCG_DOMAIN); ?></label></th>
-						<td><p><?php _e('Enter Custom Field <strong>dfcg-image</strong> in this format: ', DFCG_DOMAIN); ?><span class="bold-italic">subfoldername/myimage.jpg</span><br />
-						<?php _e('Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.', DFCG_DOMAIN); ?></p>
-						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('This is the "default" option if you have upgraded from an earlier version of the Dynamic Content Gallery.', DFCG_DOMAIN); ?></p></div></td>
+						<td><p><?php _e('Enter <strong>Image URL</strong> in this format (for example): ', DFCG_DOMAIN); ?><span class="bold-italic">subfoldername/myimage.jpg</span><br />
+						<?php _e('Select this option if your images are organised into many sub-folders within one main folder. The URL to the main folder is entered in the field below.', DFCG_DOMAIN); ?></p></td>
 					</tr>
 						
 					<tr valign="top">
-						<th scope="row"><?php _e('URL to Custom Field images folder:', DFCG_DOMAIN); ?></th>
+						<th scope="row"><?php _e('URL to images folder:', DFCG_DOMAIN); ?></th>
 						<td><?php _e('If you selected <strong>Partial URL</strong> you must also specify the URL to the top-level folder which contains the relevant sub-folders and images. Include your domain name in this URL, for example:', DFCG_DOMAIN); ?> <span class="bold-italic">http://www.yourdomain.com/myspecial_image_folder/</span></td>
 					</tr>
 						
@@ -415,7 +417,7 @@ function dfcg_ui_multi() {
 * WP ONLY
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_multi_wp() {
 	global $dfcg_options;
@@ -424,7 +426,7 @@ function dfcg_ui_multi_wp() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
-				<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Custom Field <strong>dfcg-image</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
+				<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox <strong>Image URL</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"></th>
@@ -484,7 +486,7 @@ function dfcg_ui_onecat() {
 * WP ONLY
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_onecat_wp() {
 	global $dfcg_options;
@@ -493,7 +495,7 @@ function dfcg_ui_onecat_wp() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
-				<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Custom Field <strong>dfcg-image</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
+				<td><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox <strong>Image URL</strong>.  This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"></th>
@@ -527,7 +529,7 @@ function dfcg_ui_pages() {
 						<tr>
 							<th scope="row"><?php _e('Use Custom Image Order:', DFCG_DOMAIN); ?></th>
 							<td><input name="dfcg_plugin_settings[pages-sort-control]" id="dfcg-pages-sort-control" type="checkbox" value="1" <?php checked('true', $dfcg_options['pages-sort-control']); ?> />
-							<span style="padding-left:30px"><em><?php _e("Check the box if you want to apply your own ordering to the images in the Gallery.", DFCG_DOMAIN); ?></em></span></td>
+							<span style="padding-left:15px"><em><?php _e("Check the box if you want to apply your own ordering to the images in the Gallery.", DFCG_DOMAIN); ?></em></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -539,7 +541,7 @@ function dfcg_ui_pages() {
 * WP ONLY
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_pages_wp() {
 	global $dfcg_options;
@@ -548,7 +550,7 @@ function dfcg_ui_pages_wp() {
 		<tbody>
 			<tr>
 				<th scope="row"><?php _e('Specify a default image:', DFCG_DOMAIN); ?></th>
-				<td><?php _e("This image will be displayed in the event you haven't assigned a Custom Field <strong>dfcg-image</strong> to one of your selected Pages.", DFCG_DOMAIN); ?><br /><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?><br /><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em></td>
+				<td><?php _e("This image will be displayed in the event that your Pages do not have an image specified in the Write Page DCG Metabox <strong>Image URL</strong> to one of your selected Pages.", DFCG_DOMAIN); ?><br /><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?><br /><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"></th>
@@ -565,7 +567,7 @@ function dfcg_ui_pages_wp() {
 * @uses dfcg_ui_buttons()
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_defdesc() {
 	global $dfcg_options;
@@ -580,7 +582,7 @@ function dfcg_ui_defdesc() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[desc-method]" id="desc-method-manual" type="radio" style="margin-right:5px;" value="manual" <?php checked('manual', $dfcg_options['desc-method']); ?> />
 						<label for="desc-method-manual"><?php _e('Manual', DFCG_DOMAIN); ?></label></th>
-						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a custom field <strong>dfcg-desc</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), (3) the default description created here, or finally (4) the Auto description.', DFCG_DOMAIN); ?></p>
+						<td><p><?php _e('With this method the plugin looks for the image description in this sequence: (1) a manual description entered in the Write Post/Page <strong>Slide Pane Description</strong>, (2) a Category Description if that exists (not applicable to the Pages Gallery Method), (3) the default description created here, or finally (4) the Auto description.', DFCG_DOMAIN); ?></p>
 							<div class="dfcg-tip-box">
 								<p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories.', DFCG_DOMAIN); ?></p>
 								<p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Even if you have selected Manual, if you intend to use Auto text as a fallback in the event no manual descriptions have been set for individual Posts/Pages, set the Auto number of characters and More link options shown under Auto options below.', DFCG_DOMAIN); ?></p>
@@ -901,7 +903,7 @@ function dfcg_ui_javascript() {
 * @uses dfcg_ui_buttons()
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_restrict_scripts() {
 	global $dfcg_options;
@@ -916,10 +918,20 @@ function dfcg_ui_restrict_scripts() {
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-home" type="radio" style="margin-right:5px;" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 						<label for="limit-scripts-home"><?php _e('Home page only', DFCG_DOMAIN); ?></label></th>
-						<td><p><?php _e("Select this option to load the plugin's scripts ONLY on the homepage.", DFCG_DOMAIN); ?></p>
+						<td><p><?php _e("Select this option to load the plugin's scripts ONLY on the home page.", DFCG_DOMAIN); ?></p>
 						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery will only be used on the home page of your site. This is the default.', DFCG_DOMAIN); ?><br />
 						<b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Select this option if you use a Static Front Page defined in Dashboard > Settings > Reading and the gallery will only be shown on the home page.', DFCG_DOMAIN); ?></p></div>
 						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-pages" type="radio" style="margin-right:5px;" value="page" <?php checked('page', $dfcg_options['limit-scripts']); ?> />
+						<label for="limit-scripts-pages"><?php _e('Pages', DFCG_DOMAIN); ?></label></th>
+						<td><?php _e("Select this option to load the plugin's scripts ONLY when a specific Page is being used to display the gallery.", DFCG_DOMAIN); ?><br />
+						<div class="dfcg-tip-box"><p><b><?php _e('Tip', DFCG_DOMAIN); ?></b>: <?php _e('Best option if the gallery is displayed using a Page. Enter the Page <strong>ID</strong> below.', DFCG_DOMAIN); ?></p></div></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td><input name="dfcg_plugin_settings[page-ids]" id="dfcg-page-ids" size="45" value="<?php echo $dfcg_options['page-ids']; ?>" /><span style="padding-left:20px"><em><?php _e('ID of the Page, eg 42. Multiple pages are also possible, like this: 2,43,17', DFCG_DOMAIN); ?></em></span></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-page" type="radio" style="margin-right:5px;" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
@@ -976,7 +988,7 @@ function dfcg_ui_errors() {
 * @uses dfcg_ui_buttons()
 *
 * @global array $dfcg_options plugin options from db
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_columns() {
 	global $dfcg_options;
@@ -984,7 +996,7 @@ function dfcg_ui_columns() {
 	<div id="custom-columns" class="postbox">
 		<h3><?php _e('9. Add Custom Field columns to Posts and Pages Edit screen (OPTIONAL)', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('These settings let you display a column in the Edit Posts and Edit Pages screens to show the value of the <strong>dfcg-image</strong> and <strong>dfcg-desc</strong> Custom Fields. This can be useful to help keep track of the contents of the <strong>dfcg-image</strong> and <strong>dfcg-desc</strong> Custom Fields without having to open each individual Post or Page.', DFCG_DOMAIN); ?></p>
+			<p><?php _e('These settings let you display a column in the Edit Posts and Edit Pages screens to show the value of the <strong>Image URL</strong> and manual <strong>Slide Pane Descriptions</strong> entered in the Write Post/Page DCG Metabox. This can be useful to help keep track of the Image URLs and manual Slide Pane Descriptions without having to open each individual Post or Page.', DFCG_DOMAIN); ?></p>
 			<p><em><?php _e('To hide the additional columns in the Edit Posts and Edit Pages screens, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em></p>
 			<table class="optiontable form-table">
 				<tbody>
@@ -1130,14 +1142,14 @@ function dfcg_ui_credits() {
 * Uploading images: box and content
 * WPMU ONLY
 *
-* @since 3.0
+* @since 3.2.2
 */
 function dfcg_ui_create_wpmu() {
 	?>
 	<div id="upload-images" class="postbox">
 		<h3><?php _e('1. Uploading your images', DFCG_DOMAIN); ?></h3>
 		<div class="inside">
-			<p><?php _e('Use the Media Uploader in Write Posts / Write Pages to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>dfcg-image</strong> custom field in the Write Post screen.', DFCG_DOMAIN); ?></p>
+			<p><?php _e('Use the Media Uploader in the Write Post/Page screen to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>Image URL</strong> field in the DCG Metabox in the Write Post/Page screen.', DFCG_DOMAIN); ?></p>
 		</div>
 	</div>
 <?php }

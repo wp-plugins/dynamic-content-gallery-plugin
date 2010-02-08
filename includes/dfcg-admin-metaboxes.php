@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @since 3.2
 */
@@ -49,7 +49,7 @@ function dfcg_add_metabox() {
 *
 * @global array $dfcg_options plugin options from db
 * @param object $post object
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_meta_box($post) {
 
@@ -65,7 +65,7 @@ function dfcg_meta_box($post) {
 	
 	// Variables for use in the metabox
 	if( $dfcg_options['image-url-type'] == 'partial' ) {
-		$text = 'Partial URL.';
+		$text = 'Partial URL';
 		$url = $dfcg_options['imageurl'];
 		if( $url == '' ) {
 			$url = '<span style="color:#D53131;">Not defined. You must define this in the DCG Settings page.</span>';

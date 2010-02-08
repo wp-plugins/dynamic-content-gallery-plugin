@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -16,7 +16,7 @@
 * @info	- Admin Notices for Settings reset
 * @info	- Options handling and upgrading
 *
-* @since 3.2
+* @since 3.0
 */
 
 /* Prevent direct access to this file */
@@ -303,9 +303,9 @@ function dfcg_admin_notice_reset() {
 *
 * Used by the "upgrader" function dfcg_set_gallery_options().
 *
-* 83 options (5 are WP only)
+* 84 options (5 are WP only)
 *
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
@@ -392,7 +392,8 @@ function dfcg_default_options() {
 		'slide-p-a-weight' => 'normal',							// all methods: More text CSS: bold, normal
 		'slide-p-ahover-weight' => 'bold',						// all methods: More text CSS: bold, normal
 		'pages-sort-column' => 'true',							// Pages: Show edit pages column _dfcg-sort: bool
-		'pages-sort-control' => 'false'							// Pages: Allow custom sort of images using _dfcg-sort: bool
+		'pages-sort-control' => 'false',						// Pages: Allow custom sort of images using _dfcg-sort: bool
+		'page-ids' => ''										// Restrict scripts: ordinary page ID numbers
 	);
 	
 	// Return options array for use elsewhere
@@ -430,10 +431,13 @@ function dfcg_default_options() {
 * In 3.2 - 'pages-sort-column' added
 * In 3.2 - 'pages-sort-control' added
 * In 3.2 - Total options = 81 + 2 = 83
+* In 3.2.2 - 'page-ids' option added
+* In 3.2.2 - new value 'page' added to 'limit-scripts' option
+* In 3.2.2 - Total options = 83 + 1 = 84
 *
 *
 * @uses dfcg_default_options()
-* @since 3.2.1
+* @since 3.2.2
 */
 function dfcg_set_gallery_options() {
 	
@@ -450,8 +454,29 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.2.1
+	} elseif( $existing && $existing_version == '3.2.1' ) {
+		
+		// Added in 3.2.2
+		$existing['page-ids'] = ''; 	// Restrict scripts: ordinary page ID numbers
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.2
 	} elseif( $existing && $existing_version == '3.2' ) {
+		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
 		
 		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );
@@ -460,6 +485,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1
 	} elseif( $existing && $existing_version == '3.1' ) {
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';	// Pages: Show edit pages column _dfcg-sort: bool
 		$existing['pages-sort-control'] = 'false';	// Pages: Allow custom sort of images using _dfcg-sort: bool
@@ -475,6 +502,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1 RC1
 	} elseif( $existing && $existing_version == '3.1 RC1' ) {
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -490,6 +519,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0
 	} elseif( $existing && $existing_version == '3.0' ) {
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -513,6 +544,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0 RC4
 	} elseif( $existing && $existing_version == '3.0 RC4' ) {
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -541,6 +574,8 @@ function dfcg_set_gallery_options() {
 			$existing['image-url-type'] = 'partial';
 		}
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -583,6 +618,8 @@ function dfcg_set_gallery_options() {
 			$existing['image-url-type'] = 'partial';
 		}
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -632,6 +669,8 @@ function dfcg_set_gallery_options() {
 			$existing['image-url-type'] = 'partial';
 		}
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';
@@ -684,6 +723,8 @@ function dfcg_set_gallery_options() {
 		unset($existing['imagepath']);
 		unset($existing['defimagepath']);
 		
+		// Added in 3.2.2
+		$existing['page-ids'] = '';
 		// Added in 3.2
 		$existing['pages-sort-column'] = 'true';
 		$existing['pages-sort-control'] = 'false';

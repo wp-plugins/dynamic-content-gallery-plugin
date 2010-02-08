@@ -4,13 +4,13 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info These are the 'public' functions which produce the gallery in the browser
 * @info Loads header scripts
 * @info Defines template tag
 *
-* @since 3.2
+* @since 3.0
 */
 
 /* Prevent direct access to this file */
@@ -50,7 +50,7 @@ function dynamic_content_gallery() {
 * @uses dfcg_jquery_scripts()
 *
 * @global array $dfcg_options Plugin options from db
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_load_scripts() {
 	
@@ -83,6 +83,25 @@ function dfcg_load_scripts() {
     		}
     	}
 		
+	} elseif( $dfcg_options['limit-scripts'] == 'page' ) {
+	
+		$page_ids = $dfcg_options['page-ids'];
+		
+		// Turn list into array
+		$page_ids = explode(",", $page_ids);
+		
+		foreach ( $page_ids as $key ) {
+			if( is_page($key) ) {
+			
+				// Mootools or Jquery?
+				if( $dfcg_options['scripts'] == 'mootools' ) {
+					dfcg_mootools_scripts($dfcg_options);
+				} else {
+					dfcg_jquery_scripts($dfcg_options);
+				}
+			}
+		}
+		
     } elseif( $dfcg_options['limit-scripts'] == 'other' ) {
 		
 		if( $dfcg_options['scripts'] == 'mootools' ) {
@@ -102,7 +121,7 @@ function dfcg_load_scripts() {
 * @uses wp_enqueue_script()
 *
 * @global array $dfcg_options Plugin options from db
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_enqueue_script() {
 
@@ -129,6 +148,21 @@ function dfcg_enqueue_script() {
 					wp_enqueue_script('jquery');
     			}
     		}
+		
+		} elseif( $dfcg_options['limit-scripts'] == 'page' ) {
+	
+			$page_ids = $dfcg_options['page-ids'];
+			
+			// Turn list into array
+			$page_ids = explode(",", $page_ids);
+			
+			foreach ( $page_ids as $key ) {
+				if( is_page($key) ) {
+					
+					// Pull in jQuery
+				wp_enqueue_script('jquery');
+				}
+			}
 		
     	} elseif( $dfcg_options['limit-scripts'] == 'other' ) {
 			

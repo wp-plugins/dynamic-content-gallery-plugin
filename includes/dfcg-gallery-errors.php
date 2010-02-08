@@ -4,14 +4,14 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.1
+* @version 3.2.2
 *
 * @info Error messages generated in the event that Settings are not correct.
 * @info Messages are printed to the browser and/or Page Source.
 * @info This should help users get the gallery working.
 * @info Note: Admin related error messages are handled in dfcg-admin-ui-validation.php
 *
-* @since 3.2
+* @since 3.0
 */
 
 /* Prevent direct access to this file */
@@ -47,7 +47,7 @@ function dfcg_errors_output() {
 * Function which manages Error Message content
 *
 * @return $dfcg_errmsgs	Array of all Error Messages
-* @since 3.2
+* @since 3.2.2
 */
 function dfcg_errors() {
 
@@ -97,37 +97,37 @@ function dfcg_errors() {
 	*	Trigger:			get_post_meta($dfcg_get_page->ID, "dfcg-desc", true) returns FALSE and
 	*						$dfcg_options['defimagedesc'] !== '' returns FALSE
 	*	Rating:				Non-critical
-	*	Reason:				Missing Description. The Post/Page does not have a custom field dfcg-desc defined and neither is a
+	*	Reason:				Missing Description. The Post/Page does not have a custom field _dfcg-desc defined and neither is a
 	*						Default Description defined in DCG Settings.
 	*	Action:				$dfcg_errmsg_3 displayed as HTML comment underneath empty <p> tags in Source markup.
-	*	Fix:				Either create a custom field dfcg-desc for the relevant Page/Post, or define a Default Description in the DCG Settings page.
+	*	Fix:				Either create a custom field _dfcg-desc for the relevant Page/Post, or define a Default Description in the DCG Settings page.
 	*						Either of these fixes will clear both errmsg_public and this error message.
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*/
-	$errmsg_3 = "\n" . '<!-- ' . __('DCG Error Message 3: Custom Field dfcg-desc does not exist and Default Description does not exist.', DFCG_DOMAIN) .' -->';
+	$errmsg_3 = "\n" . '<!-- ' . __('DCG Error Message 3: DCG Metabox Slide Pane Description is empty and Default Description does not exist.', DFCG_DOMAIN) .' -->';
 	$errmsg_3 .= "\n" . $errmsg_noncritical;
-	$errmsg_3 .= "\n" . '<!--	' . __('Fix: Create a dfcg-desc Custom Field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_3 .= "\n" . '<!--	' . __('Fix: Enter a description in the DCG Metabox Slide Pane Description field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 4		Missing Images
 	*	Populate-method: 	Pages, One Category, Multi Option
-	*	Trigger:			Pages:			get_post_meta($dfcg_get_page->ID, "dfcg-image", true) returns FALSE and
+	*	Trigger:			Pages:			get_post_meta($dfcg_get_page->ID, "_dfcg-image", true) returns FALSE and
 	*										!empty($dfcg_options['defimgpages']) returns FALSE
-	*						One Category:	get_post_meta($dfcg_get_page->ID, "dfcg-image", true) returns FALSE and
+	*						One Category:	get_post_meta($dfcg_get_page->ID, "_dfcg-image", true) returns FALSE and
 	*										file_exists($filename) returns FALSE, therefore a Category Default image doesn't exist.
-	*						Multi Option:	get_post_meta($dfcg_get_page->ID, "dfcg-image", true) returns FALSE and
+	*						Multi Option:	get_post_meta($dfcg_get_page->ID, "_dfcg-image", true) returns FALSE and
 	*										file_exists($filename) returns FALSE, therefore a Category Default image doesn't exist.										
 	*	Rating:				Non-critical
-	*	Reason:				Missing image. The Post/Page does not have a custom field dfcg-image defined and a Default Image has not been defined.
+	*	Reason:				Missing image. The Post/Page does not have a custom field _dfcg-image defined and a Default Image has not been defined.
 	*	Action:				$dfcg_errmsg_4 displayed as HTML comment underneath <img> tags in Source markup.
-	*	Fix:				Either create a custom field dfcg-image for the relevant Page/Post, or define a Default Description in the DCG Settings page.
+	*	Fix:				Either create a custom field _dfcg-image for the relevant Page/Post, or define a Default Description in the DCG Settings page.
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*						This errmsg is NOT triggered if the information in dfcg-image and/or a default image is incorrect, ie the URL or path is wrong
 	*						Error image should also be displayed in gallery.
 	*/
-	$errmsg_4 = "\n" . '<!-- ' . __('DCG Error Message 4: Custom Field dfcg-image does not exist and Default Image does not exist.', DFCG_DOMAIN) .' -->';
+	$errmsg_4 = "\n" . '<!-- ' . __('DCG Error Message 4: DCG Metabox Image URL is empty and Default Image does not exist.', DFCG_DOMAIN) .' -->';
 	$errmsg_4 .= "\n" . $errmsg_noncritical;
-	$errmsg_4 .= "\n" . '<!-- ' . __('Fix: Create a dfcg-image Custom Field for this Page/Post and/or define a Default Image in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$errmsg_4 .= "\n" . '<!-- ' . __('Fix: Enter an image URL in the DCG Metabox Image URL field for this Page/Post and/or define a Default Image in the DCG Settings page.', DFCG_DOMAIN) .' -->';
 
 
 	/*	Error Message 5		Number of Page IDs found in db is not equal to the number of Page IDs selected in Settings
