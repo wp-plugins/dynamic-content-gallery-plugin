@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.2.1
+Version: 3.2.2
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -32,6 +32,18 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
+	3.2.2		- Feature:	DCG Widget added
+				- Enhance:	Updated dfcg_ui_1_image_wp() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_multi_wp() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_onecat_wp() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_pages_wp() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_defdesc() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_columns() info re DCG Metabox
+				- Enhance:	Updated dfcg_ui_create_wpmu() info re DCG Metabox
+				- Enhance:	Updated contextual help text in dfcg_admin_help_content() re DCG Metabox
+				- Enhance:	Updated Error Message text in dfcg_errors() re DCG Metabox
+				- Bug fix:	Added conditional tags to add_action, add_filter hooks in main plugin file
+	
 	3.2.1		- Bug fix:	Fixed PHP warning on undefined index when _dfcg-exclude is unchecked
 				- Bug fix:	Fixed missing arg error in dfcg_add_metabox() (in dfcg-admin-metaboxes.php)
 				- Bug fix:	Fixed metabox error of extra http:// when using Partial URL settings (dfcg-admin-metaboxes.php)
@@ -135,7 +147,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.2.1' );
+define( 'DFCG_VER', '3.2.2' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
@@ -206,7 +218,6 @@ if( !is_admin() ) {
 	}
 }
 
-
 // Admin-only files
 if( is_admin() ) {
 	require_once( DFCG_DIR . '/includes/dfcg-admin-core.php');
@@ -223,6 +234,8 @@ if( is_admin() ) {
 	}
 }
 
+// DCG Widget
+require_once( DFCG_DIR . '/includes/dfcg-widget.php');
 
 
 /***** Add filters and actions ********************/
@@ -235,38 +248,40 @@ add_action('wp_head', 'dfcg_load_scripts');
 // Function defined in dfcg-gallery-core.php
 add_action('template_redirect', 'dfcg_enqueue_script');
 
-/* Admin - Register Settings as per new API */
-// Function defined in dfcg-admin-core.php
-add_action('admin_init', 'dfcg_options_init' );
+if( is_admin() ) {
+	/* Admin - Register Settings as per new API */
+	// Function defined in dfcg-admin-core.php
+	add_action('admin_init', 'dfcg_options_init' );
 
-/* Admin - Adds Settings page */
-// Function defined in dfcg-admin-core.php
-add_action('admin_menu', 'dfcg_add_to_options_menu');
+	/* Admin - Adds Settings page */
+	// Function defined in dfcg-admin-core.php
+	add_action('admin_menu', 'dfcg_add_to_options_menu');
 
-/* Admin - Adds Metaboxes to Post/Page Editor */
-// Function defined in dfcg-admin-metaboxes.php
-add_action('admin_menu', 'dfcg_add_metabox');
+	/* Admin - Adds Metaboxes to Post/Page Editor */
+	// Function defined in dfcg-admin-metaboxes.php
+	add_action('admin_menu', 'dfcg_add_metabox');
 
-/* Admin - Saves Metabox data in Post/Page Editor */
-// Function defined in dfcg-admin-metaboxes.php
-add_action('save_post', 'dfcg_save_metabox_data', 1, 2);
+	/* Admin - Saves Metabox data in Post/Page Editor */
+	// Function defined in dfcg-admin-metaboxes.php
+	add_action('save_post', 'dfcg_save_metabox_data', 1, 2);
 
-/* Admin - Contextual Help to Settings page */
-// Function defined in dfcg-admin-ui-help.php
-add_filter('contextual_help', 'dfcg_admin_help', 10, 2);
+	/* Admin - Contextual Help to Settings page */
+	// Function defined in dfcg-admin-ui-help.php
+	add_filter('contextual_help', 'dfcg_admin_help', 10, 2);
 
-/* Admin - Adds WP version warning on main Plugins screen */
-// Function defined in dfcg-admin-core.php
-add_action('after_plugin_row_dynamic-content-gallery-plugin/dynamic-gallery-plugin.php', 'dfcg_wp_version_check');
+	/* Admin - Adds WP version warning on main Plugins screen */
+	// Function defined in dfcg-admin-core.php
+	add_action('after_plugin_row_dynamic-content-gallery-plugin/dynamic-gallery-plugin.php', 'dfcg_wp_version_check');
 
-/* Admin - Adds Admin Notice when resetting Settings */
-// Function defined in dfcg-admin-core.php
-add_action('admin_notices', 'dfcg_admin_notice_reset');
+	/* Admin - Adds Admin Notice when resetting Settings */
+	// Function defined in dfcg-admin-core.php
+	add_action('admin_notices', 'dfcg_admin_notice_reset');
 
-/* Admin - Adds additional links in main Plugins page */
-// Function defined in dfcg-admin-core.php
-add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
+	/* Admin - Adds additional links in main Plugins page */
+	// Function defined in dfcg-admin-core.php
+	add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
 
-/* Admin - Adds additional Settings link in main Plugin page */
-// Function defined in dfcg-admin-core.php
-add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+	/* Admin - Adds additional Settings link in main Plugin page */
+	// Function defined in dfcg-admin-core.php
+	add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+}
