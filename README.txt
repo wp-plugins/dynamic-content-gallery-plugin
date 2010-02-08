@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.2.1
+Version: 3.2.2
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -22,13 +22,12 @@ Compatible with Wordpress Mu but with some differences in features compared with
 ----------------
 Version 3.0+ introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
 
-* NEW in 3.2 - New metabox panel in Write Post/Page screens for easy editing of custom fields used by the plugin.
-* NEW in 3.2 - Added _dfcg-exclude postmeta to allow specific exclusion of a post from multi-option or one-category output.
-* NEW in 3.2 - Added ability to apply a custom Sort Order to gallery images when using Pages Method
+* NEW in 3.2.2 - DCG in a Widget!
+* Metabox panel in Write Post/Page screens for easy editing of custom fields used by the plugin.
 * Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
 * SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
 * A choice of 3 different methods for populating the gallery -  Multi Option, One Category or Pages.
-* Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages.
+* Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages (with custom page Sort Order).
 * Provides for a system of default images which will be displayed in the event a custom field image has not been defined.
 * Displays the Post/Page title and a user-definable description in the Slide Pane.
 * Images can be linked to external URLs.
@@ -66,10 +65,15 @@ Note for Wordpress Mu users:
 * In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator. Each blog owner can then configure the plugin's Settings page in their Admin Settings.
 
 
+**Upgrading from version 3.2, 3.2.1**
+-------------------------------------
+Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
+
+
 **Upgrading from version 2.2, 3.0, 3.1**
 ----------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
-Version 3.2 introduces some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after installing 3.2, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/).
+Version 3.2 introduces some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after upgrading from version 3.1 or earlier, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/). 
 
 
 
@@ -87,22 +91,20 @@ To display the dynamic gallery in your theme, add this code to your theme file w
 
 **Assigning Images to Posts**
 
-Images are pulled into the gallery from custom fields created in the relevant Posts/Pages:
-
-* Custom field *dfcg-image* for the image filename, including extension, with EITHER the full or partial URL depending on your Image file management Settings.
+Enter your image URL in the Write Post/Page screen DCG Metabox Image URL field. (The exact form of the image URL depends on whether your DCG Image File Management Settings are set to FULL or PARTIAL URL). 
 
 Slide Pane text can be configured in three ways - Manual, Auto or None
 
 **Manual:**
-* Use a custom field *dfcg-desc* in your Posts/Pages for the Description which will appear in the gallery Slide Pane. For example: Here's our latest news!
+* Enter a Slide Pane Description in the Write Post/Page screen DCG Metabox. For example: Here's our latest news!
 
 **Auto:**
 * Select Auto option to automatically create custom Post/Page excerpts from your Post/Page content.
 
 **None:**
-* Select None option to not display any description. (Post/Page title will still display with this option)
+* Select None if you don't want to diplay a Slide Pane Description. (Post/Page title will still display with this option)
 
-*Note for WPMU users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Post Custom field. See the Settings page for further information on how to do this. This tip is good for Wordpress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings.
+*Note for WPMU users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Write Post/Page screen DCG Metabox Image URL field. See the Settings page for further information on how to do this. This tip is good for Wordpress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings.
 
 
 
@@ -203,6 +205,20 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 
 == Changelog ==
+
+= 3.2.2 =
+* Released	08 February 2010
+* Feature:	DCG Widget added
+* Enhance:	Updated dfcg_ui_1_image_wp() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_multi_wp() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_onecat_wp() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_pages_wp() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_defdesc() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_columns() info re DCG Metabox
+* Enhance:	Updated dfcg_ui_create_wpmu() info re DCG Metabox
+* Enhance:	Updated contextual help text in dfcg_admin_help_content() re DCG Metabox
+* Enhance:	Updated Error Message text in dfcg_errors() re DCG Metabox
+* Bug fix:	Added conditional tags to add_action, add_filter hooks in main plugin file
 
 = 3.2.1 =
 * Released	03 February 2010
