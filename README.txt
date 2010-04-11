@@ -210,8 +210,8 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 == Changelog ==
 
 = 3.2.3 =
-* Released
-* Big fix:	Fixes contextual help compatibility issue with WP3.0
+* Released	11 April 2010
+* Bug fix:	Fixes contextual help compatibility issue with WP3.0
 
 = 3.2.2 =
 * Released	08 February 2010
