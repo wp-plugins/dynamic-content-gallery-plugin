@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.2
+* @version 3.2.3
 *
 * @info These are the functions which produce the Contextual Help
 * @info in the Settings page pull-down.
@@ -24,23 +24,40 @@ if (!defined('ABSPATH')) {
 *
 * Hooked to 'contextual_help'
 *
+* Checks WP version and handles contextual help differently if on WP3.0+
+*
 * @uses dfcg_admin_help_content()
 *
 * @param string $text	Default help text
-* @param string $screen Current Page hook
-* @return string $text	DCG help text
-* @since 3.0
+* @param string (<WP3.0), object (WP3.0+) $screen Current Page hook
+* @return string $contextual_help	DCG help text
+* @since 3.2.3
 */
-function dfcg_admin_help($text, $screen) {
+function dfcg_admin_help($contextual_help, $screen) {
 	
-	// Check we're only on the DCG Settings page
-	if (strcmp($screen, DFCG_PAGEHOOK) == 0 ) {
+	// Check WP version
+	$wp_old = version_compare(get_bloginfo("version"), '2.9.2', '<=');
+	
+	if( $wp_old ) {
+		// Check we're only on the DCG Settings page
+		if (strcmp($screen, DFCG_PAGEHOOK) == 0 ) {
 		
-		$text = dfcg_admin_help_content();
-		return $text;
+			$text = dfcg_admin_help_content();
+			return $contextual_help;
+		}
+		// Let the default WP Dashboard help stuff through on other Admin pages
+		return $contextual_help;
+	
+	} else {
+		// Check we're only on my Settings page
+		if (strcmp($screen->base, DFCG_PAGEHOOK) == 0 ) {
+ 
+			$contextual_help = dfcg_admin_help_content();
+			return $contextual_help;
+		}
+		// Let the default WP Dashboard help stuff through on other Admin pages
+		return $contextual_help;
 	}
-	// Let the default WP Dashboard help stuff through on other Admin pages
-	return $text;
 }
 
 

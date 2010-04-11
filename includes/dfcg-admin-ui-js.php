@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.2
+* @version 3.2.3
 *
 * @info Admin Settings page Javascript
 * @info Since 3.2 Admin CSS is now handled through separate stylesheet hooked to admin_print_styles

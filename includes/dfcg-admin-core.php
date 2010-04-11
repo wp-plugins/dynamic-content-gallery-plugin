@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.2
+* @version 3.2.3
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -453,6 +453,12 @@ function dfcg_set_gallery_options() {
 		// Nothing to do here...
 		return;
 	
+	
+	// We're upgrading from 3.2.2
+	} elseif( $existing && $existing_version == '3.2.2' ) {
+	
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
 	
 	// We're upgrading from 3.2.1
 	} elseif( $existing && $existing_version == '3.2.1' ) {
