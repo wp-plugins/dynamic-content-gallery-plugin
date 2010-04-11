@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.2.2
+Version: 3.2.3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -32,6 +32,8 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
+	3.2.3		- Bug fix:	Fixes contextual help compatibility issue with WP3.0
+	
 	3.2.2		- Feature:	DCG Widget added
 				- Enhance:	Updated dfcg_ui_1_image_wp() info re DCG Metabox
 				- Enhance:	Updated dfcg_ui_multi_wp() info re DCG Metabox
@@ -147,7 +149,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.2.2' );
+define( 'DFCG_VER', '3.2.3' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '2.8' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );

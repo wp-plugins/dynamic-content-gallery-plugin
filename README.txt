@@ -1,12 +1,12 @@
 === Dynamic Content Gallery ===
 
-Version: 3.2.2
+Version: 3.2.3
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 2.8
-Tested up to: 2.9.1 (WP) and 2.9.1.1 (WPMU)
+Tested up to: 3.0 (WP) and 2.9.1.1 (WPMU)
 Stable tag: 3.2.2
 
 Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
@@ -20,9 +20,11 @@ Compatible with Wordpress Mu but with some differences in features compared with
 
 **Key Features**
 ----------------
+This version 3.2.3 fixes a compatibility issue with WP 3.0.
+
 Version 3.0+ introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
 
-* NEW in 3.2.2 - DCG in a Widget!
+* NEW since 3.2.2 - DCG in a Widget!
 * Metabox panel in Write Post/Page screens for easy editing of custom fields used by the plugin.
 * Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
 * SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
@@ -65,8 +67,8 @@ Note for Wordpress Mu users:
 * In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator. Each blog owner can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2, 3.2.1**
--------------------------------------
+**Upgrading from version 3.2, 3.2.1, 3.2.2**
+------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
 
@@ -88,6 +90,7 @@ To display the dynamic gallery in your theme, add this code to your theme file w
 
 **Note:** Do not use in the Loop.
 
+Alternatively, add it as a Widget via Dashboard>Appearance>Widgets.
 
 **Assigning Images to Posts**
 
@@ -205,6 +208,10 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 
 == Changelog ==
+
+= 3.2.3 =
+* Released
+* Big fix:	Fixes contextual help compatibility issue with WP3.0
 
 = 3.2.2 =
 * Released	08 February 2010

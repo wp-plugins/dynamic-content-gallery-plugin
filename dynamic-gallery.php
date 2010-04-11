@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.2
+* @version 3.2.3
 *
 *	This is the file that displays the gallery, called by dynamic_content_gallery()
 *	template tag function.
