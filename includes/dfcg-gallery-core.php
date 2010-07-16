@@ -4,11 +4,12 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @info These are the 'public' functions which produce the gallery in the browser
 * @info Loads header scripts
 * @info Defines template tag
+* @info Various helper functions used by the gallery constructor functions
 *
 * @since 3.0
 */
@@ -24,6 +25,8 @@ if (!defined('ABSPATH')) {
 *
 * Do not use in the Loop.
 *
+* Note: DCG Widget can be used instead.
+*
 * @uses	dynamic-gallery.php
 * @global array $dfcg_options Plugin options from db
 * @since 2.1
@@ -37,22 +40,20 @@ function dynamic_content_gallery() {
 /***** Functions to display gallery ******************** */
 
 /**
-* Function to determine which pages get the MOOTOOLS or JQUERY scripts loaded into wp_head.
+* Function to determine which pages get the MOOTOOLS scripts/css or JQUERY css loaded into wp_head.
 *
 * Hooked to 'wp_head' action
 *
 * Settings options are homepage, a page template or other.
 * Settings "other" loads scripts into every page.
 *
-* Determines whether to load MOOTOOLS or JQUERY scripts
-*
 * @uses	dfcg_mootools_scripts()
-* @uses dfcg_jquery_scripts()
+* @uses dfcg_jquery_css()
 *
 * @global array $dfcg_options Plugin options from db
-* @since 3.2.2
+* @since 3.3
 */
-function dfcg_load_scripts() {
+function dfcg_load_scripts_header() {
 	
 	global $dfcg_options;
 	
@@ -61,7 +62,7 @@ function dfcg_load_scripts() {
     	if( $dfcg_options['scripts'] == 'mootools' ) {
 			dfcg_mootools_scripts($dfcg_options);
     	} else {
-			dfcg_jquery_scripts($dfcg_options);
+			dfcg_jquery_css($dfcg_options);
 		}
     
     } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
@@ -78,7 +79,7 @@ function dfcg_load_scripts() {
 				if( $dfcg_options['scripts'] == 'mootools' ) {
 					dfcg_mootools_scripts($dfcg_options);
 				} else {
-					dfcg_jquery_scripts($dfcg_options);
+					dfcg_jquery_css($dfcg_options);
 				}
     		}
     	}
@@ -97,7 +98,7 @@ function dfcg_load_scripts() {
 				if( $dfcg_options['scripts'] == 'mootools' ) {
 					dfcg_mootools_scripts($dfcg_options);
 				} else {
-					dfcg_jquery_scripts($dfcg_options);
+					dfcg_jquery_css($dfcg_options);
 				}
 			}
 		}
@@ -107,23 +108,84 @@ function dfcg_load_scripts() {
 		if( $dfcg_options['scripts'] == 'mootools' ) {
 	 		dfcg_mootools_scripts($dfcg_options);
 		} else {		
-			dfcg_jquery_scripts($dfcg_options);
+			dfcg_jquery_css($dfcg_options);
 		}
 	}
 }
 
 
 /**
-* Enqueue jQuery in header
+* Function to determine which pages get the JQUERY scripts loaded into wp_footer.
+*
+* Hooked to 'wp_footer' action
+*
+* Settings options are homepage, a page template or other.
+* Settings "other" loads scripts into every page.
+*
+* @uses dfcg_jquery_smooth_scripts()
+*
+* @global array $dfcg_options Plugin options from db
+* @since 3.3
+*/
+function dfcg_load_scripts_footer() {
+	
+	global $dfcg_options;
+	
+	if( $dfcg_options['scripts'] == 'jquery' ) {
+	
+		if( $dfcg_options['limit-scripts'] == 'homepage' && ( is_home() || is_front_page() ) ) {
+    	
+			dfcg_jquery_smooth_scripts($dfcg_options);
+
+    
+    	} elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
+	
+			$dfcg_page_filenames = $dfcg_options['page-filename'];
+	
+			// Turn list into an array
+			$dfcg_page_filenames = explode(",", $dfcg_page_filenames);
+	
+			foreach ( $dfcg_page_filenames as $key) {
+				if( is_page_template($key) ) {
+					dfcg_jquery_smooth_scripts($dfcg_options);
+				}
+    		}
+
+		
+		} elseif( $dfcg_options['limit-scripts'] == 'page' ) {
+	
+			$page_ids = $dfcg_options['page-ids'];
+		
+			// Turn list into array
+			$page_ids = explode(",", $page_ids);
+		
+			foreach ( $page_ids as $key ) {
+				if( is_page($key) ) {
+					dfcg_jquery_smooth_scripts($dfcg_options);
+				}
+			}
+		
+    	} elseif( $dfcg_options['limit-scripts'] == 'other' ) {
+		
+			dfcg_jquery_smooth_scripts($dfcg_options);
+		}
+	}
+}
+
+
+/**
+* Enqueue jQuery in header if JQUERY Scripts are used
 *
 * Adds jQuery framework to header using template_redirect hook
+* Named dfcg_enqueue_scripts() prior to v3.3
 *
 * @uses wp_enqueue_script()
 *
 * @global array $dfcg_options Plugin options from db
 * @since 3.2.2
+* @updated 3.3
 */
-function dfcg_enqueue_script() {
+function dfcg_enqueue_jquery() {
 
 	global $dfcg_options;
 	
@@ -176,11 +238,12 @@ function dfcg_enqueue_script() {
 /**
 * Function to display MOOTOOLS header scripts and css
 *
-* Called by dfcg_load_scripts() which is hooked to wp_head action.
+* Called by dfcg_load_scripts_header() which is hooked to wp_head action.
 * Loads scripts and CSS into head
 *
-* @param array $dfcg_options, Plugin options from db
 * @uses includes dfcg-user-styles.php
+*
+* @param array $dfcg_options, Plugin options from db
 * @since 1.0
 */
 function dfcg_mootools_scripts($dfcg_options) {
@@ -191,12 +254,13 @@ function dfcg_mootools_scripts($dfcg_options) {
 	
 	// Should mootools framework be loaded?
 	if ( $dfcg_options['mootools'] !== '1' ) {
-		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/mootools.v1.11.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js"></script>' . "\n";
 	}
 	
 	// Add gallery javascript files
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery.js"></script>' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery.transitions.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js"></script>' . "\n";
 	
 	// Add JS function call to gallery
 	echo '<script type="text/javascript">
@@ -224,73 +288,98 @@ function dfcg_mootools_scripts($dfcg_options) {
 
 
 /**
-* Function to display JQUERY header scripts and css
+* Function to load JQUERY css
 *
-* Called by dfcg_load_scripts() which is hooked to wp_head action.
-* Loads scripts and CSS into head
+* Called by dfcg_load_scripts_header() which is hooked to wp_head action.
+* Loads CSS into head
 *
-* @uses includes dfcg-user-styles.php
+* @uses includes dfcg-gallery-jquery-smooth-styles.php
 *
-* @global array $dfcg_options Plugin options from db
-* @since 3.0
+* @param array $dfcg_options, Plugin options from db
+* @since 3.3
 */
-function dfcg_jquery_scripts() {
-
-	global $dfcg_options;
+function dfcg_jquery_css($dfcg_options) {
 	
     // Add javascript and CSS files
-	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin jQuery scripts -->' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery/scripts/jquery.easing.1.3.js"></script>' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery/scripts/jquery.timers-1.1.2.js"></script>' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery/scripts/jquery.galleryview-1.1.js"></script>' . "\n";
+	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin jQuery smoothSlideshow scripts -->';
 	
 	// Add user-defined CSS set in Settings page
-	include_once( DFCG_DIR .'/includes/dfcg-gallery-jquery-styles.php');
+	include_once( DFCG_DIR .'/includes/dfcg-gallery-jquery-smooth-styles.php');
 	
-	// Add JS script function and arguments
-	echo "<script type='text/javascript'>
-	jQuery.noConflict();
-	jQuery(document).ready(function(){
-		jQuery('#dfcg_images').galleryView({
-    		panel_width: ". $dfcg_options['gallery-width'] .",
-    		panel_height: ". $dfcg_options['gallery-height'] .",
-			overlay_height: ". $dfcg_options['slide-height'] .",
-			overlay_opacity: ". $dfcg_options['slideInfoZoneOpacity'] .",
-			overlay_color: '". $dfcg_options['slide-overlay-color'] ."',
-			overlay_position: '". $dfcg_options['slide-overlay-position'] ."',
-			background_panel: '". $dfcg_options['gallery-background'] ."',
-    		transition_speed: ". $dfcg_options['transition-speed'] .",
-    		transition_interval: ". $dfcg_options['delay'] .",
-    		nav_theme: '". $dfcg_options['nav-theme'] ."',
-    		border: '". $dfcg_options['gallery-border-thick'] ."px solid ". $dfcg_options['gallery-border-colour'] ."',
-    		pause_on_hover: ". $dfcg_options['pause-on-hover'] .",
-			fade_panels: ". $dfcg_options['fade-panels'] ."
-		});
-	});
-	</script>";
-	echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
+	echo '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
+}
+
+
+/**
+* Function to load JQUERY scripts
+*
+* Called by dfcg_load_scripts_footer() which is hooked to wp_footer action.
+* Loads scripts into footer
+*
+* @param array $dfcg_options, Plugin options from db
+* @since 3.3
+*/
+function dfcg_jquery_smooth_scripts($dfcg_options) {
+	
+	if( $dfcg_options['scripts'] == 'jquery' ) {
+		echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.js"></script>' . "\n";
+		echo '<script type="text/javascript">
+			jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
+				showArrows: true,
+				showCarousel: '. $dfcg_options['showCarousel'] .',
+				showInfopane: '. $dfcg_options['showInfopane'] .',
+				timed: '. $dfcg_options['timed'] .',
+				delay: '. $dfcg_options['delay'] .',
+				thumbScrollSpeed:4,
+				preloader: true,
+				preloaderImage: true,
+				preloaderErrorImage: true,
+				elementSelector: "li",
+				imgContainer:"#dfcg-image",
+				imgPrevBtn:"#dfcg-imgprev",
+				imgNextBtn:"#dfcg-imgnext",
+				imgLinkBtn:"#dfcg-imglink",
+				titleSelector: "h3",
+				subtitleSelector: "p",
+				linkSelector: "a",
+				imageSelector: "img.full",
+				thumbnailSelector: "a img",
+				carouselContainerSelector: "#dfcg-thumbnails",
+				thumbnailContainerSelector: "#dfcg-slider",
+				thumbnailInfoSelector: "#dfcg-sliderInfo",
+				carouselSlideDownSelector: "#dfcg-openGallery",
+				carouselSlideDownSpeed: 500,
+				infoContainerSelector:"#dfcg-text",
+				borderActive:"#fff",
+				slideInfoZoneOpacity: '. $dfcg_options['slideInfoZoneOpacity'] .',
+				carouselOpacity: 0.3,
+				thumbSpacing: 5
+			});
+		</script>';
+		echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
+	}
 }
 
 
 /**
 * Function to determine base URL of custom field images
 *
-* If FULL => baseimgurl is empty, if PARTIAL => baseimgurl is pulled from options
+* If FULL or AUTO, baseimgurl is empty; if PARTIAL, baseimgurl is pulled from options
 *
 * @global array $dfcg_options Plugin options from db
 * @return string $output Either the base URL (PARTIAL) or empty (FULL)
 * @since 3.0
+* @updated 3.3
 */
 function dfcg_baseimgurl() {
 
 	global $dfcg_options;
 	
-	// Do we have a base URL for Custom field images? Set base URL variable
-	if ( $dfcg_options['image-url-type'] == "full" ) {
-		// There is no base URL, so make it empty
+	if ( $dfcg_options['image-url-type'] == "full" || $dfcg_options['image-url-type'] == "auto" ) {
 		$output = '';
+		
 	} else {
-		// Partial or No URL, therefore there is a base URL, so get it
 		$output = $dfcg_options['imageurl'];
 	}
 	return $output;
@@ -345,4 +434,93 @@ function dfcg_query_list() {
 		unset($tmp_query_list);
 	}
 	return $query_list;
+}
+
+
+/**
+* Function to grab the first image attachment from Posts
+*
+* Used by gallery constructor functions
+*
+* Uses Studiopress Genesis functions as helpers (credit: Nathan Rice, Brian Gardner)
+*
+* @uses dfcg_get_image_id(), wp_get_attachment_image_src()
+*
+* @return string $output src of first image attachment
+* @since 3.3
+*/
+function dfcg_grab_post_image($parent_id) {
+	$args = array(
+			'size' => 'full',
+			'attr' => 'full',
+			'num' => 0
+			);
+	// Get the image attachment ID
+	$id = dfcg_get_image_id($parent_id, $args['num']);
+	// Get the image details (returns array of src, width, height)
+	$image = wp_get_attachment_image_src($id, $args['size']);
+	// We only want the src
+	$output = $image[0];
+	return $output;
+}
+
+/**
+ * Pulls an attachment ID from a post, if one exists
+ *
+ * Used by dfcg_grab_post_image($parent_id)
+ *
+ * Based on Studiopress Genesis functions as helpers (credit: Nathan Rice, Brian Gardner)
+ *
+ * @param string $parent_id ID of post/page
+ * @param int $num used to specify that we are grabbing the first attachment ID
+ * @return array $image_ids[$num] the ID of the first image attachment, or false if no image attachments
+ * @since 3.3
+ */
+function dfcg_get_image_id($parent_id, $num = 0) {
+	
+	$image_ids = array_keys(
+		get_children(
+			array(
+				'post_parent' => $parent_id,
+				'post_type' => 'attachment',
+				'post_mime_type' => 'image',
+				'orderby' => 'menu_order',
+				'order' => 'ASC'
+			)
+		)
+	);
+
+	if ( isset($image_ids[$num]) )
+		return $image_ids[$num];
+
+	return false;
+}
+
+
+/**
+* Function to populate the $postmeta array with correct postmeta key names
+*
+* Used by gallery constructor functions
+*
+* @global array $dfcg_postmeta_upgrade Plugin options from db
+*
+* @return array $postmeta
+* @since 3.3
+*/
+function dfcg_postmeta_info() {
+	global $dfcg_postmeta_upgrade;
+
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+		$postmeta['desc'] = '_dfcg-desc';
+		$postmeta['image'] = '_dfcg-image';
+		$postmeta['exclude'] = '_dfcg-exclude';
+		$postmeta['link'] = '_dfcg-link';
+		$postmeta['link-window'] = '_dfcg-link-window';
+	} else {
+		$postmeta['desc'] = 'dfcg-desc';
+		$postmeta['image'] = 'dfcg-image';
+		$postmeta['exclude'] = 'dfcg-exclude';
+		$postmeta['link'] = 'dfcg-link';
+	}
+	return $postmeta;
 }

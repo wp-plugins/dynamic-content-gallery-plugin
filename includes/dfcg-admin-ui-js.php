@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @info Admin Settings page Javascript
 * @info Since 3.2 Admin CSS is now handled through separate stylesheet hooked to admin_print_styles
@@ -25,13 +25,14 @@ if (!defined('ABSPATH')) {
 * Since 3.2, this only includes JS. CSS now in external stylesheet.
 *
 * @since 3.2
+* @updated 3.3 - WP3.0 introduces new settings updated div id/classes
 */
 function dfcg_options_js() {
 echo <<<JS
 
 <script type="text/javascript">
 jQuery(document).ready(function($) {
-	$(".fade").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
+	$("#setting-error-settings_updated").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
 });
 </script>
 

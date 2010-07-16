@@ -4,10 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
-*
-* @info These are the key functions which produce the markup output
-* @info for the gallery to run using mootools.
+* @version 3.3
 *
 * @info One function for each of the 3 populate-methods.
 *		- Multi Option		dfcg_multioption_method_gallery()
@@ -27,55 +24,58 @@ if (!defined('ABSPATH')) {
 /**
 * This function builds the gallery from Multi Option options
 *
+* @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
 * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
 * @uses	dfcg_baseimgurl()			Determines whether FULL or Partial URL applies (see dfcg-gallery-core.php)
 * @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+* @uses dfcg_the_content_limit()	Creates Auto description (see dfcg-gallery-content-limit.php)
+* @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
 *
-* @param array	$dfcg_errmsgs		Array of error messages. Output of dfcg_errors_output()
-* @param string $baseimgurl			Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
-* @param string $defimgmulti		Holds DCG Option: defimgmulti, URL to default images folder
-* @param string $filepath			Absolute path to default images directory
-* @param array 	$query_list			Array of cat/off pairs. Output of dfcg_query_list()
-* @param string	$selected_slots		Number of pairs in $query_list array
-* @param string	$counter			Stores how many times $query_list is run through foreach loop
-* @param string $counter1			Stores how many times WP_Query is run (to do comparison for missing posts)
-* @param string $counter2			Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
-* @param string $filename			Stores absolute path, incl filename, of category default image
+* @var array	$postmeta				Array of postmeta keys, eg _dfcg-image, etc. Output of dfcg_postmeta_info()
+* @var array	$dfcg_errmsgs			Array of error messages. Output of dfcg_errors_output()
+* @var string 	$baseimgurl				Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
+* @var string 	$def_img_folder_url		Holds DCG Option: 'defimgmulti', URL to default images folder
+* @var string 	$def_img_folder_path	Absolute path to default images directory
+* @var array 	$query_list				Array of cat/off pairs. Output of dfcg_query_list()
+* @var string	$selected_slots			Number of pairs in $query_list array
+* @var string	$counter				Stores how many times $query_list is run through foreach loop
+* @var string 	$counter1				Stores how many times WP_Query is run (to do comparison for missing posts)
+* @var string 	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
+* @var string 	$slide_text				Slide Pane description text
+* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
+* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
+* @var string	$link					Image link URL, either to Post/Page or External
+* @var string 	$auto_image				First image attachment in the Post, as URL
+* @var string	$image_src				SRC of gallery image
+* @var string	$image_err				Error message, if relevant
+* @var string 	$def_img_path			Stores absolute path, incl filename, of category default image for file_exists() check
+* @var string	$thumb					Stores output of get_the_post_thumbnail() function, for accessing Post Thumbnails/Featured Image
+* @var string	$thumb_html				Stores HTML of thumbnail IMG
 *
 * @global array $dfcg_options Plugin options array from db
-* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $post Post object
 *
 * @since 3.2
+* @updated 3.3
 */
 function dfcg_multioption_method_gallery() {
 
-	global $dfcg_options, $dfcg_postmeta_upgrade, $post;
+	global $dfcg_options, $post;
 	
-	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
-		$desc = '_dfcg-desc';
-		$image = '_dfcg-image';
-		$link = '_dfcg-link';
-	} else {
-		$desc = 'dfcg-desc';
-		$image = 'dfcg-image';
-		$link = 'dfcg-link';
-	}
+	$postmeta = dfcg_postmeta_info();
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
-	if( function_exists('dfcg_errors_output') ) {
-		$dfcg_errmsgs = dfcg_errors_output();
-	}
+	$dfcg_errmsgs = dfcg_errors_output();
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
 
 	// Get the absolute URL to the default "Category" images folder from Settings
-	$defimgmulti = $dfcg_options['defimgmulti'];
+	$def_img_folder_url = $dfcg_options['defimgmulti'];
 
-	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
-	$filepath = str_replace( get_bloginfo('siteurl'), ABSPATH, $defimgmulti );
+	// Added 3.1: Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	$def_img_folder_path = str_replace( get_bloginfo('siteurl'), ABSPATH, $def_img_folder_url );
 	
 	$query_list = dfcg_query_list();
 
@@ -88,11 +88,6 @@ function dfcg_multioption_method_gallery() {
 		echo $output;
 		return;
 	}
-
-
-	// Start the Gallery Markup
-	$output = "\n" . '<div id="myGallery"><!-- Start of Dynamic Content Gallery -->';
-
 
 	// Validation of output - not much needs to be done. 
 	// Clicking Save in Settings will automatically assign a valid cat to each image slot
@@ -115,6 +110,11 @@ function dfcg_multioption_method_gallery() {
 	$counter1 = 0;
 	$counter2 = 0;
 
+	
+	// Start the Gallery Markup
+	$output = "\n" . '<div id="myGallery"><!-- Start of Dynamic Content Gallery -->';
+
+	
 	/* Now loop through our array of all the cat/post selects and run the WP_Queries */
 	foreach ($query_list as $value) {
 	
@@ -130,12 +130,11 @@ function dfcg_multioption_method_gallery() {
 				// Now run the query using $key for cat and $value for offset
 				$recent = new WP_Query("cat=$key&showposts=1&offset=$value1");
 				
-				
 				// Do we have any posts? If this is the first loop and no post is found, we need to abort
 				// because the gallery won't display. Although this check is performed on every loop, we
 				// don't need to abort after Image slot #1 is tested.
 				if( !$recent->have_posts() && $counter < 2 ) :
-					$output .= $dfcg_errmsgs['13'] . "\n";
+					$output .= "\n" . $dfcg_errmsgs['13'];
 					$output .= "\n" . '</div><!-- End of Dynamic Content Gallery output -->' . "\n";
 					echo $output;
 					return;
@@ -143,87 +142,139 @@ function dfcg_multioption_method_gallery() {
 				else :
 					while($recent->have_posts()) : $recent->the_post();
 				
-						// Exclude the post if _dfcg-exclude custom field is true
-						if( get_post_meta($post->ID, '_dfcg-exclude', true) == 'true' ) {
-							$output .= "\n\n" . '<!-- DCG Image #' . $counter . ' has been Excluded by user -->';
-							$counter2++;
-							continue;
-						}
+					// Exclude the post if _dfcg-exclude custom field is true
+					if( get_post_meta($post->ID, $postmeta['exclude'], true) == 'true' ) {
+						$output .= "\n\n" . '<!-- DCG Image #' . $counter . ' has been Excluded by user -->';
+						$counter2++;
+						continue;
+					}
 						
-						// Increment the second counter
-						$counter1++;
+					// Increment the second counter
+					$counter1++;
 					
-						// Open the imageElement div
-						$output .= "\n\n" . '<div class="imageElement"><!-- DCG Image #' . $counter . ' -->';
+					// Open the imageElement div
+					$output .= "\n\n" . '<div class="imageElement"><!-- DCG Image #' . $counter . ' -->';
 
-						// Display the page title
-						$output .= "\n\t" . '<h3>' . get_the_title() . '</h3>';
+					// Display the page title
+					$output .= "\n\t" . '<h3>' . get_the_title() . '</h3>';
 
-						// Get the description
-						if( $dfcg_options['desc-method'] == 'none' ) {
-							// we don't want any descriptions (note: smoothgallery needs <p> tags or won't work)
-							$output .= "\n\t" . '<p></p>';
+					// Get the slide pane description
+					if( $dfcg_options['desc-method'] == 'none' ) {
+						// we don't want any descriptions (note: smoothgallery needs <p> tags or won't work)
+						$slide_text = '<p></p>';
+					
+					} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 						
-						} elseif( $dfcg_options['desc-method'] == 'manual' ) {
-						
-							if( get_post_meta($post->ID, $desc, true) ){
-								// We have a Custom field description
-								$output .= "\n\t" . '<p>' . get_post_meta($post->ID, $desc, true) . '</p>';
+						if( get_post_meta($post->ID, $postmeta['desc'], true) ){
+							// We have a Custom field description
+							$slide_text = '<p>' . get_post_meta($post->ID, $postmeta['desc'], true) . '</p>';
 
-							} elseif( category_description($key) !== '' ) {
-								// show the category description (note: no <p> tags required)
-								$output .= "\n\t" . category_description($key);
+						} elseif( category_description($key) !== '' ) {
+							// show the category description (note: no <p> tags required)
+							$slide_text = category_description($key);
 
-							} elseif( $dfcg_options['defimagedesc'] !== '' ) {
-								// or show the default description
-								$output .= "\n\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
+						} elseif( $dfcg_options['defimagedesc'] !== '' ) {
+							// or show the default description
+							$slide_text = '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
 							
-							} else {
-								// Fall back to Auto custom excerpt
-								$chars = $dfcg_options['max-char'];
-								$more = $dfcg_options['more-text'];
-								$auto_text = dfcg_the_content_limit( $chars, $more );
-								$output .= "\n\t" . $auto_text;
-							}
-						
 						} else {
-							// We're using Auto custom excerpt
+							// Fall back to Auto custom excerpt
 							$chars = $dfcg_options['max-char'];
 							$more = $dfcg_options['more-text'];
-							$auto_text = dfcg_the_content_limit( $chars, $more );
-							$output .= "\n\t" . $auto_text;
+							$slide_text = dfcg_the_content_limit( $chars, $more );
 						}
+						
+					} else {
+						// We're using Auto custom excerpt
+						$chars = $dfcg_options['max-char'];
+						$more = $dfcg_options['more-text'];
+						$slide_text = dfcg_the_content_limit( $chars, $more );
+					}
+					
+					// Output slide pane description
+					$output .= "\n\t" . $slide_text;
 
-       					// Link - additional code courtesy of Martin Downer
-						if( get_post_meta($post->ID, $link, true) ){
-							// We have an external/manual link
-							$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, $link, true) .'" title="Read More" class="open"></a>';
+       				// Get Image Link - based on code courtesy of Martin Downer
+					if( get_post_meta($post->ID, $postmeta['link'], true) ){
+						// We have an external/manual link
+						$link = get_post_meta($post->ID, $postmeta['link'], true);
+					} else {
+						$link = get_permalink();
+					}
+					
+					// Output Image Link
+					$output .= "\n\t" . '<a href="'. $link .'" title="Read More" class="open"></a>';
+
+					// Get the _dfcg-image
+					if( $dfcg_options['image-url-type'] == "auto" ) {
+				
+						$auto_image = dfcg_grab_post_image($post->ID);
+				
+						if( $auto_image ) {
+							$image_src = $auto_image;
+							$image_err = "";
+							// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP, ie 404.
+							
+						} elseif( get_post_meta($post->ID, $postmeta['image'], true) ) {
+							$image_src = $baseimgurl . get_post_meta($post->ID, $postmeta['image'], true);
+       						$image_err = $dfcg_errmsgs['14'];
 							
 						} else {
-							$output .= "\n\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>';
-						}
-
-						// Get the images
-						if( get_post_meta($post->ID, $image, true) ) {
-							$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" class="full" />';
-        					$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" class="thumbnail" />';
-							// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404
-						} else {
 							// Path to Default Category image
-							$filename = $filepath . $key . '.jpg';
+							$def_img_path = $def_img_folder_path . $key . '.jpg';
 							// Does category image exist?
-							if( file_exists($filename) ) {
-								$output .= "\n\t" . '<img src="'. $defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="full" />';
-        						$output .= "\n\t" . '<img src="'. $defimgmulti . $key .'.jpg" alt="'. get_the_title() .'" class="thumbnail" />';
+							if( file_exists($def_img_path) ) {
+								// Display the "Category" default image
+								$image_src = $def_img_folder_url . $key . '.jpg';
+								$image_err = $dfcg_errmsgs['15'];
+								
 							} else {
-								$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. get_the_title() .'" class="full" />';
-        						$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. get_the_title() .'" class="thumbnail" />';
-        						$output .= "\n\t" . $dfcg_errmsgs['4'];
+								$image_src = DFCG_ERRORIMGURL;
+								$image_err = $dfcg_errmsgs['16'];
 							}
 						}
-
-						// Close ImageElement div
-						$output .= "\n" . '</div>';
+				
+					} else {
+						
+						// or, Get the Metabox image
+						$metabox_image = get_post_meta($post->ID, $postmeta['image'], true);
+							
+						if( $metabox_image ) {
+							$image_src = $baseimgurl . $metabox_image;
+							$image_err = "";
+							// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404
+							
+						} else {
+							// Path to Default Category image
+							$def_img_path = $def_img_folder_path . $key . '.jpg';
+							// Does category image exist?
+							if( file_exists($def_img_path) ) {
+								$image_src = $def_img_folder_url . $key . '.jpg';
+								$image_err = $dfcg_errmsgs['17'];
+							} else {
+								$image_src = DFCG_ERRORIMGURL;
+        						$image_err = $dfcg_errmsgs['18'];
+							}
+						}
+					}
+					
+					// Get the thumbnail
+					if( current_theme_supports('post-thumbnails') ) {
+						$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
+					}
+					if( $thumb ) {
+						$thumb_html = $thumb;
+					} else {
+						$thumb_html = '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="thumbnail" />';
+					}
+					
+					// Output image and thumbnail
+					$output .= "\n\t" . '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="full" />';
+					$output .= "\n\t" . $thumb_html;
+					$output .= $image_err;
+					
+					// Close ImageElement div
+					$output .= "\n" . '</div>';
 
 					endwhile; 
 
@@ -257,45 +308,50 @@ function dfcg_multioption_method_gallery() {
 /**
 * This function builds the gallery from One Category options
 *
+* @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
 * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
 * @uses	dfcg_baseimgurl()			Determines whether FULL or Partial URL applies (see dfcg-gallery-core.php)
+* @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+* @uses dfcg_the_content_limit()	Creates Auto description (see dfcg-gallery-content-limit.php)
+* @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
 *
-* @param array	$dfcg_errmsgs		Array of error messages. Output of dfcg_errors_output()
-* @param string $baseimgurl			Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
-* @param string $posts_number		DCG option: number of posts to display
-* @param string $cat_selected		DCG option: selected category
-* @param string $defimgurl			DCG option: URL to default images folder
-* @param string $filepath			Absolute path to default images directory
-* @param string	$def_img_name		Default image filename
-* @param string	$filename			Stores absolute path, incl filename, of category default image
-* @param array	$recent				WP_Query object
-* @param string	$counter			Incremented variable to find number of posts output by wp_query
+* @var array	$postmeta				Array of postmeta keys, eg _dfcg-image, etc. Output of dfcg_postmeta_info()
+* @var array	$dfcg_errmsgs			Array of error messages. Output of dfcg_errors_output()
+* @var string 	$baseimgurl				Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
+* @var string 	$posts_number			DCG option: number of posts to display
+* @var string 	$cat_selected			DCG option: selected category
+* @var string 	$def_img_folder_url		DCG option: URL to default images folder
+* @var string 	$def_img_folder_path	Absolute path to default images directory
+* @var string	$def_img_name			Default image filename
+* @var string	$def_img_path			Stores absolute path, incl filename, of category default image
+* @var object	$recent					WP_Query object
+* @var string	$counter				Stores how many times items in $recent wp_query loop
+* @var string	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
+* @var string 	$slide_text				Slide Pane description text
+* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
+* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
+* @var string	$link					Image link URL, either to Post/Page or External
+* @var string 	$auto_image				First image attachment in the Post, as URL
+* @var string	$image_src				SRC of gallery image
+* @var string	$image_err				Error message, if relevant
+* @var string	$thumb					Stores output of get_the_post_thumbnail() function, for accessing Post Thumbnails/Featured Image
+* @var string	$thumb_html				Stores HTML of thumbnail IMG
 *
 * @global array $dfcg_options Plugin options array from db
-* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $post Post object
 *
 * @since 3.2
+* @updated 3.3
 */
 function dfcg_onecategory_method_gallery() {
 
-	global $post, $dfcg_options, $dfcg_postmeta_upgrade;
+	global $post, $dfcg_options;
 	
-	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
-		$desc = '_dfcg-desc';
-		$image = '_dfcg-image';
-		$link = '_dfcg-link';
-	} else {
-		$desc = 'dfcg-desc';
-		$image = 'dfcg-image';
-		$link = 'dfcg-link';
-	}
+	$postmeta = dfcg_postmeta_info();
 	
-	// Build array of error messages (NULL if Errors are off)
+	// Build array of error messages (NULL if Errors are off). Reset to NULL, just in case Settings have been changed
 	$dfcg_errmsgs = NULL;
-	if( function_exists('dfcg_errors_output') ) {
-		$dfcg_errmsgs = dfcg_errors_output();
-	}
+	$dfcg_errmsgs = dfcg_errors_output();
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
@@ -310,10 +366,10 @@ function dfcg_onecategory_method_gallery() {
 	$cat_selected = $dfcg_options['cat-display'];
 
 	/* Get the URL to the default "Category" images folder from Settings */
-	$defimgurl = $dfcg_options['defimgonecat'];
+	$def_img_folder_url = $dfcg_options['defimgonecat'];
 
 	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
-	$filepath = str_replace( get_bloginfo('siteurl'), ABSPATH, $defimgurl );
+	$def_img_folder_path = str_replace( get_bloginfo('siteurl'), ABSPATH, $def_img_folder_url );
 	
 	// Set a variable for the category default image using the cat ID number for the image name
 	if( $cat_selected !== '' ) {
@@ -322,9 +378,8 @@ function dfcg_onecategory_method_gallery() {
 		$def_img_name = 'all.jpg';
 	}
 	
-	// Absolute path to default image
-	// This needed for the file_exists() check.
-	$filename = $filepath . $def_img_name;
+	// Absolute path to default image, needed for file_exists() check
+	$def_img_path = $def_img_folder_path . $def_img_name;
 	
 	/* Do the WP_Query */
 	$recent = new WP_Query("cat=$cat_selected&showposts=$posts_number");
@@ -345,7 +400,7 @@ function dfcg_onecategory_method_gallery() {
 			$counter++;
 			
 			// Exclude the post if _dfcg-exclude custom field is true
-			if( get_post_meta($post->ID, '_dfcg-exclude', true) == 'true' ) {
+			if( get_post_meta($post->ID, $postmeta['exclude'], true) == 'true' ) {
 				$output .= "\n\n" . '<!-- DCG Image #' . $counter . ' has been Excluded by user -->';
 				$counter2++;
 				continue;
@@ -357,16 +412,16 @@ function dfcg_onecategory_method_gallery() {
 			// Display the page title
 			$output .= "\n\t" . '<h3>'. get_the_title() .'</h3>';
 			
-			// Get the description
+			// Get the description based on 'none', 'manual' or 'auto'
 			if( $dfcg_options['desc-method'] == 'none' ) {
 				// we don't want any descriptions (note: smoothgallery needs <p> tags or won't work)
-				$output .= "\n\t" . '<p></p>';
+				$slide_text = '<p></p>';
 				
 			} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 			
 				// Do we have a _dfcg-desc?
-				if( get_post_meta($post->ID, $desc, true) ) {
-					$output .= "\n\t" . '<p>'. get_post_meta($post->ID, $desc, true) . '</p>';
+				if( get_post_meta($post->ID, $postmeta['desc'], true) ) {
+					$slide_text = '<p>'. get_post_meta($post->ID, $postmeta['desc'], true) . '</p>';
 			
 				// we have All cats
 				} elseif( $cat_selected == '' ) {
@@ -376,67 +431,114 @@ function dfcg_onecategory_method_gallery() {
 					// Default description exists
 					if( $dfcg_options['defimagedesc'] !== '' ) {
 						// Show the default description
-						$output .= "\n\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
+						$slide_text = '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
 				
 					} else {
 						// We're using Auto custom excerpt as fallback
 						$chars = $dfcg_options['max-char'];
 						$more = $dfcg_options['more-text'];
-						$auto_text = dfcg_the_content_limit( $chars, $more );
-						$output .= "\n\t" . $auto_text;
+						$slide_text = dfcg_the_content_limit( $chars, $more );
 					}
 				
 				// we have Single cat and category desc exists
 				} elseif( category_description($cat_selected) !== '') {
 					// a category description exists
-					$output .= "\n\t" . category_description($cat_selected);
+					$slide_text = category_description($cat_selected);
 				
 				// we have a Single cat and a default description exists
 				} elseif( $dfcg_options['defimagedesc'] !== '') {
 					// a default description exists
-					$output .= "\n\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
+					$slide_text = '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
 			
 				// we have Single cat and no description
 				} else {
 					// We're using Auto custom excerpt as fallback
 					$chars = $dfcg_options['max-char'];
 					$more = $dfcg_options['more-text'];
-					$auto_text = dfcg_the_content_limit( $chars, $more );
-					$output .= "\n\t" . $auto_text;
+					$slide_text = dfcg_the_content_limit( $chars, $more );
 				}
 				
 			} else {
 				// We're using Auto custom excerpt
 				$chars = $dfcg_options['max-char'];
 				$more = $dfcg_options['more-text'];
-				$auto_text = dfcg_the_content_limit( $chars, $more );
-				$output .= "\n\t" . $auto_text;
+				$slide_text = dfcg_the_content_limit( $chars, $more );
 			}
+			
+			// Output slide pane description
+			$output .= "\n\t" . $slide_text;
 
-			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($post->ID, $link, true) ){
+			// Get Image Link - based on code courtesy of Martin Downer
+			if( get_post_meta($post->ID, $postmeta['link'], true) ){
 				// We have an external/manual link
-				$output .= "\n\t" . '<a href="'. get_post_meta($post->ID, $link, true) .'" title="Read More" class="open"></a>';
-							
+				$link = get_post_meta($post->ID, $postmeta['link'], true);
 			} else {
-				$output .= "\n\t" . '<a href="'. get_permalink() .'" title="Read More" class="open"></a>';
+				$link = get_permalink();
 			}
+			
+			// Output Image Link
+			$output .= "\n\t" . '<a href="'. $link .'" title="Read More" class="open"></a>';
 
 			// Get the _dfcg-image
-			if( get_post_meta($post->ID, $image, true) ) {
-				$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($post->ID, $image, true) .'" alt="'. get_the_title() .'" class="thumbnail" />';
-				// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
-			
-			} elseif( file_exists($filename) ) {
-				// Display the "Category" default image
-				$output .= "\n\t" . '<img src="'. $defimgurl . $def_img_name .'" alt="'. get_the_title() .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. $defimgurl . $def_img_name .'" alt="'. get_the_title() .'" class="thumbnail" />';
+			if( $dfcg_options['image-url-type'] == "auto" ) {
+				
+				$auto_image = dfcg_grab_post_image($post->ID);
+				
+				if( $auto_image ) {
+					$image_src = $auto_image;
+					$image_err = "";
+					// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
+				
+				} elseif( get_post_meta($post->ID, $postmeta['image'], true) ) {
+					// For backwards compatibility - see if a DCG Metabox Image URL exists
+					$image_src = $baseimgurl . get_post_meta($post->ID, $postmeta['image'], true);
+        			$image_err = $dfcg_errmsgs['14'];
+				
+				} elseif( file_exists($def_img_path) ) {
+					// Display the "Category" default image
+					$image_src = $def_img_folder_url . $def_img_name;
+        			$image_err = $dfcg_errmsgs['15'];
+				
+				} else {
+					$image_src = DFCG_ERRORIMGURL;
+					$image_err = $dfcg_errmsgs['16'];
+				}
+				
 			} else {
-				$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. get_the_title() .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. get_the_title() .'" class="thumbnail" />';
-				$output .= "\n\t" . $dfcg_errmsgs['4'];
+				
+				// or, Get the Metabox image
+				$metabox_image = get_post_meta($post->ID, $postmeta['image'], true);
+				
+				if( $metabox_image ) {
+					$image_src = $baseimgurl . $metabox_image;
+        			$image_err = "";
+					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+			
+				} elseif( file_exists($def_img_path) ) {
+					// Display the "Category" default image
+					$image_src = $def_img_folder_url . $def_img_name;
+        			$image_err = $dfcg_errmsgs['17'];
+			
+				} else {
+					$image_src = DFCG_ERRORIMGURL;
+					$image_err = $dfcg_errmsgs['18'];
+				}
 			}
+			
+			// Get the thumbnail
+			if( current_theme_supports('post-thumbnails') ) {
+				$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
+			}
+			if( $thumb ) {
+				$thumb_html = $thumb;
+			} else {
+				$thumb_html = '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="thumbnail" />';
+			}
+			
+			// Output image and thumbnail
+			$output .= "\n\t" . '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="full" />';
+			$output .= "\n\t" . $thumb_html;
+			$output .= $image_err;
 
 			// Close the ImageElement div
 			$output .= "\n" . '</div>';
@@ -474,67 +576,75 @@ function dfcg_onecategory_method_gallery() {
 
 
 /**
-* This function builds the gallery from Pages options
+* This function builds the gallery from ID Method options
 *
+* NOTE: This function was renamed in v3.3 (formally dfcg_pages_method_gallery() )
+*
+* @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
 * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
 * @uses	dfcg_baseimgurl()			Determines whether FULL or Partial URL applies (see dfcg-gallery-core.php)
+* @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+* @uses dfcg_the_content_limit()	Creates Auto description (see dfcg-gallery-content-limit.php)
+* @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
 *
-* @param array	$dfcg_errmsgs			Array of error messages. Output of dfcg_errors_output()
-* @param string $baseimgurl				Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
-* @param string $pages_selected			DCG option: comma separated list of Page IDs
-* @param string	$pages_selected_count	No. of pages specified in DCG options
-* @param array	$pages_found			$wpdb query object
-* @param string	$pages_found_count		Number of Pages in $wpdb query object
-* @param string	$counter				Incremented variable to add image # in HTML comments markup
+* @var array	$postmeta				Array of postmeta keys, eg _dfcg-image, etc. Output of dfcg_postmeta_info()
+* @var array	$dfcg_errmsgs			Array of error messages. Output of dfcg_errors_output()
+* @var string 	$baseimgurl				Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
+* @var string 	$ids_selected			DCG option: comma separated list of Page/Post IDs
+* @var string	$ids_selected_count		No. of Page/Post IDs specified in DCG options
+* @var array	$ids_found				$wpdb query object
+* @var string	$ids_found_count		Number of Pages in $wpdb query object
+* @var string	$counter				Incremented variable to add image # in HTML comments markup
+* @var string 	$slide_text				Slide Pane description text
+* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
+* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
+* @var string	$id_content				Stores value of $id_found->post_content, used as param in dfcg_the_content_limit()
+* @var string	$id_id					Stores value of $id_found->ID, used as param in dfcg_the_content_limit()
+* @var string	$link					Image link URL, either to Post/Page or External
+* @var string 	$auto_image				First image attachment in the Post, as URL
+* @var string	$image_src				SRC of gallery image
+* @var string	$image_err				Error message, if relevant
+* @var string	$thumb					Stores output of get_the_post_thumbnail() function, for accessing Post Thumbnails/Featured Image
+* @var string	$thumb_html				Stores HTML of thumbnail IMG
 *
 * @global array $dfcg_options Plugin options array from db
-* @global array $dfcg_postmeta_upgrade options array from db
 * @global array $wpdb WP $wpdb database object
 *
 * @since 3.2
+* @updated 3.3
 */
-function dfcg_pages_method_gallery() {
+function dfcg_id_method_gallery() {
 
-	global $dfcg_options, $dfcg_postmeta_upgrade;
+	global $dfcg_options;
 	
-	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
-		$desc = '_dfcg-desc';
-		$image = '_dfcg-image';
-		$link = '_dfcg-link';
-	} else {
-		$desc = 'dfcg-desc';
-		$image = 'dfcg-image';
-		$link = 'dfcg-link';
-	}
+	$postmeta = dfcg_postmeta_info();
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
-	if( function_exists('dfcg_errors_output') ) {
-		$dfcg_errmsgs = dfcg_errors_output();
-	}
+	$dfcg_errmsgs = dfcg_errors_output();
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
 	
 	/* Get the comma separated list of Page ID's */
-	$pages_selected = trim($dfcg_options['pages-selected']);
+	$ids_selected = trim($dfcg_options['ids-selected']);
 
-	if( !empty($pages_selected) ) {
+	if( !empty($ids_selected) ) {
 
 		/* Get rid of the final comma so that the variable is ready for use in SQL query */
 		// If last character in string is a comma
-		if( substr( $pages_selected, -1) == ',' ) {
+		if( substr( $ids_selected, -1) == ',' ) {
 			// Remove the final comma in the list
-			$pages_selected = substr( $pages_selected, 0, substr( $pages_selected, -1)-1 );
+			$ids_selected = substr( $ids_selected, 0, substr( $ids_selected, -1)-1 );
 		}
 
 		/* Turn the list into an array */
-		$pages_selected = explode(",", $pages_selected);
+		$ids_selected = explode(",", $ids_selected);
 		/* Store how many IDs were in list */
-		$pages_selected_count = count($pages_selected);
+		$ids_selected_count = count($ids_selected);
 
 		/* If only one Page ID has been specified in Settings: print error messages and exit */
-		if( $pages_selected_count < 2 ) {
+		if( $ids_selected_count < 2 ) {
 			$output = $dfcg_errmsgs['1'] . "\n";
 			echo $output;
 			return;
@@ -550,42 +660,42 @@ function dfcg_pages_method_gallery() {
 	/* Instantiate the $wpdb object */
 	global $wpdb;
 	
-	if( $dfcg_options['pages-sort-control'] == 'true' ) {
+	if( $dfcg_options['id-sort-control'] == 'true' ) {
 	
 		/* User defined sort order for Pages */
 		$sort = esc_attr('_dfcg-sort');
 	
 		/* Do the query - with thanks to Austin Matzko for sprintf help */
-		$pages_found = $wpdb->get_results(
+		$ids_found = $wpdb->get_results(
   			sprintf("SELECT ID,post_title,post_content
 				FROM $wpdb->posts
 				LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '%s'
 				WHERE $wpdb->posts.ID IN( %s )
-				ORDER BY $wpdb->postmeta.meta_value ASC", $sort, implode(',', array_map( 'intval', $pages_selected )) )
+				ORDER BY $wpdb->postmeta.meta_value ASC", $sort, implode(',', array_map( 'intval', $ids_selected )) )
 			);
 	
 	} else {
 		
 		/* Do the query - with thanks to Austin Matzko for sprintf help */
 		/* Note: simplified query without custom sort ordering */
-		$pages_found = $wpdb->get_results(
-  			sprintf("SELECT ID,post_title,post_content FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $pages_selected ) ) )
+		$ids_found = $wpdb->get_results(
+  			sprintf("SELECT ID,post_title,post_content FROM $wpdb->posts WHERE $wpdb->posts.ID IN( %s )", implode(',', array_map( 'intval', $ids_selected ) ) )
 			);
 	}
 	
 	/* If we have results from the query */
-	if( $pages_found ) {
+	if( $ids_found ) {
 
 		// Validation: Check how many Pages the query found
 		// The results if this are printed to Page Source further down
-		$pages_found_count = count($pages_found);
+		$ids_found_count = count($ids_found);
 	
 		// If less than 2, print error messages and exit function
-		if( $pages_found_count < 2 ) {
+		if( $ids_found_count < 2 ) {
 			$output = "\n" . $dfcg_errmsgs['9'];
 			if( $dfcg_options['errors'] == "true" ) {
-				$output .= "\n" . '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $pages_selected_count . ' -->';
-				$output .= "\n" . '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $pages_found_count . ' -->';
+				$output .= "\n" . '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $ids_selected_count . ' -->';
+				$output .= "\n" . '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $ids_found_count . ' -->';
 			}
 			echo $output;
 			return;
@@ -597,7 +707,7 @@ function dfcg_pages_method_gallery() {
 		// Start the gallery markup
 		$output = "\n" . '<div id="myGallery"><!-- Start of Dynamic Content Gallery output -->';
 
-		foreach( $pages_found as $page_found ) :
+		foreach( $ids_found as $id_found ) :
 
 			// Increment the image counter
 			$counter++;
@@ -606,71 +716,120 @@ function dfcg_pages_method_gallery() {
 			$output .= "\n" . '<div class="imageElement"><!-- DCG Image #' . $counter . '-->';
 
 			// Display the page title
-			$output .= "\n\t" . '<h3>'. $page_found->post_title .'</h3>';
+			$output .= "\n\t" . '<h3>'. $id_found->post_title .'</h3>';
 
-			// Get the description
+			// Get the slide pane description
 			if( $dfcg_options['desc-method'] == 'none' ) {
 				// we don't want any descriptions (note: smoothgallery needs <p> tags or won't work)
-				$output .= "\n\t" . '<p></p>';
+				$slide_text = '<p></p>';
 			
 			} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 			
 				// Do we have a _dfcg-desc?
-				if( get_post_meta($page_found->ID, $desc, true) ) {
-					$output .= "\n\t" . '<p>' . get_post_meta($page_found->ID, $desc, true) . '</p>';
+				if( get_post_meta($id_found->ID, $postmeta['desc'], true) ) {
+					$slide_text = '<p>' . get_post_meta($id_found->ID, $postmeta['desc'], true) . '</p>';
 
 				} elseif( $dfcg_options['defimagedesc'] !== '' ) {
 					// Show the default description
-					$output .= "\n\t" . '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
+					$slide_text = '<p>' . stripslashes( $dfcg_options['defimagedesc'] ) . '</p>';
 
 				} else {
 					// We're using Auto custom excerpt as fallback
-					$page_content = $page_found->post_content;
-					$page_id = $page_found->ID;
+					$id_content = $id_found->post_content;
+					$id_id = $id_found->ID;
 					$chars = $dfcg_options['max-char'];
 					$more = $dfcg_options['more-text'];
-					$auto_text = dfcg_the_content_limit( $chars, $more, $page_content, $page_id );
-					$output .= "\n\t" . $auto_text;
+					$slide_text = dfcg_the_content_limit( $chars, $more, $id_content, $id_id );
 				}
 				
 			} else {
 				// We're using Auto custom excerpt
-				$page_content = $page_found->post_content;
-				$page_id = $page_found->ID;
+				$id_content = $id_found->post_content;
+				$id_id = $id_found->ID;
 				$chars = $dfcg_options['max-char'];
 				$more = $dfcg_options['more-text'];
-				$auto_text = dfcg_the_content_limit( $chars, $more, $page_content, $page_id );
-				$output .= "\n\t" . $auto_text;
+				$slide_text = dfcg_the_content_limit( $chars, $more, $id_content, $id_id );
 			}
+			
+			// Output slide pane description
+			$output .= "\n\t" . $slide_text;
 
-			// Link - additional code courtesy of Martin Downer
-			if( get_post_meta($page_found->ID, $link, true) ){
+			// Get Image Link - based on code courtesy of Martin Downer
+			if( get_post_meta($id_found->ID, $postmeta['link'], true) ){
 				// We have an external/manual link
-				$output .= "\n\t" . '<a href="'. get_post_meta($page_found->ID, $link, true) .'" title="Read More" class="open"></a>';
-							
+				$link = get_post_meta($id_found->ID, $postmeta['link'], true);
 			} else {
-				$output .= "\n\t" . '<a href="'. get_permalink($page_found->ID) .'" title="Read More" class="open"></a>';
+				$link = get_permalink($id_found->ID);
 			}
+			
+			// Output Image Link
+			$output .= "\n\t" . '<a href="'. $link .'" title="Read More" class="open"></a>';
 
 			// Get the _dfcg-image
-			if( get_post_meta($page_found->ID, $image, true) ) {
-				$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($page_found->ID, $image, true) .'" alt="'. $page_found->post_title .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. $baseimgurl . get_post_meta($page_found->ID, $image, true) .'" alt="'. $page_found->post_title .'" class="thumbnail" />';
-				// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
-			
-			} elseif( !empty($dfcg_options['defimgpages']) ) {
-				// Display the "Pages" default image
-				$output .= "\n\t" . '<img src="'. $dfcg_options['defimgpages'] .'" alt="'. $page_found->post_title .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. $dfcg_options['defimgpages'] .'" alt="'. $page_found->post_title .'" class="thumbnail" />';
-        		// Note: No Error message will be triggered if defimgpages is set but URL is wrong, ie 404.
-			
+			if( $dfcg_options['image-url-type'] == "auto" ) {
+				
+				$auto_image = dfcg_grab_post_image($id_found->ID);
+				
+				if( $auto_image ) {
+					$image_src = $auto_image;
+					$image_err = "";
+					// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
+				
+				} elseif( get_post_meta($id_found->ID, $postmeta['image'], true) ) {
+					// For backwards compatibility - see if a DCG Metabox Image URL exists
+					$image_src = $baseimgurl . get_post_meta($id_found->ID, $postmeta['image'], true);
+					$image_err = $dfcg_errmsgs['14'];
+					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+				
+				} elseif( !empty($dfcg_options['defimgid']) ) {
+					// Display the "ID" default image
+					$image_src = $dfcg_options['defimgid'];
+        			// Note: No Error message will be triggered if defimgid is set but URL is wrong, ie 404.
+        			$image_err = $dfcg_errmsgs['15'];
+				
+				} else {
+					$image_src = DFCG_ERRORIMGURL;
+					$image_err = $dfcg_errmsgs['16'];
+				}
+				
 			} else {
-				// Display Pages Error image
-				$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. $page_found->post_title .'" class="full" />';
-        		$output .= "\n\t" . '<img src="'. DFCG_ERRORIMGURL .'" alt="'. $page_found->post_title .'" class="thumbnail" />';
-				$output .= "\n\t" . $dfcg_errmsgs['4'];
+			
+				// Get the Metabox image
+				$metabox_image = get_post_meta($id_found->ID, $postmeta['image'], true);
+				
+				if( $metabox_image ) {
+					$image_src = $baseimgurl . $metabox_image;
+        			$image_err = "";
+					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+			
+				} elseif( !empty($dfcg_options['defimgid']) ) {
+					// Display the "Pages" default image
+					$image_src = $dfcg_options['defimgid'];
+        			// Note: No Error message will be triggered if defimgid is set but URL is wrong, ie 404.
+					$image_err = $dfcg_errmsgs['17'];
+				
+				} else {
+					// Display Pages Error image
+					$image_src = DFCG_ERRORIMGURL;
+					$image_err = $dfcg_errmsgs['18'];
+				}
 			}
-
+			
+			// Get the thumbnail
+			if( current_theme_supports('post-thumbnails') ) {
+				$thumb = get_the_post_thumbnail( $id_found->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
+			}
+			if( $thumb ) {
+				$thumb_html = $thumb;
+			} else {
+				$thumb_html = '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="thumbnail" />';
+			}
+			
+			// Output image and thumbnail
+			$output .= "\n\t" . '<img src="'. $image_src . '" alt="'. get_the_title() .'" class="full" />';
+			$output .= "\n\t" . $thumb_html;
+			$output .= $image_err;
+			
 			// Close the ImageElement div
 			$output .= "\n" . '</div>';
 
@@ -680,11 +839,11 @@ function dfcg_pages_method_gallery() {
 			to check that the number of gallery images is the same.	If it's not the
 			same, then one or more of the selected Page IDs are not valid Pages */
 
-		if( $pages_found_count !== $pages_selected_count) {
+		if( $ids_found_count !== $ids_selected_count) {
 			$output .= "\n" . $dfcg_errmsgs['5'];
 			if( $dfcg_options['errors'] == "true" ) {
-				$output .= "\n" . '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $pages_selected_count . ' -->';
-				$output .= "\n" . '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $pages_found_count . ' -->';
+				$output .= "\n" . '<!-- ' . __('Number of Pages selected in DCG Settings = ', DFCG_DOMAIN) . $ids_selected_count . ' -->';
+				$output .= "\n" . '<!-- ' . __('Number of Pages found = ', DFCG_DOMAIN) . $ids_found_count . ' -->';
 			}
 		}
 

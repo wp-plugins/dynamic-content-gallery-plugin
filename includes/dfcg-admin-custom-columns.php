@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @since 3.2
 */

@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @since 3.2
 */
@@ -21,21 +21,25 @@ if (!defined('ABSPATH')) {
 *
 * Hooked to 'admin_menu'
 *
+* Note: since 3.3 Post metabox appears for all gallery methods, including ID Method
+*
 * @global array $dfcg_options plugin options from db
 * @global array $dfcg_postmeta_upgrade plugin options from db
 * @since 3.2.1
+* @updated 3.3
 */
 function dfcg_add_metabox() {
 
 	global $dfcg_options, $dfcg_postmeta_upgrade;
 	
-	if( $dfcg_options['populate-method'] == 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
-	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
-	
-	} elseif( $dfcg_options['populate-method'] !== 'pages' && $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
 	
 		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
+	}
+	
+	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' && $dfcg_options['populate-method'] == 'id-method' ) {
+	
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
 	}
 }
 
@@ -50,6 +54,7 @@ function dfcg_add_metabox() {
 * @global array $dfcg_options plugin options from db
 * @param object $post object
 * @since 3.2.2
+* @updated 3.3
 */
 function dfcg_meta_box($post) {
 
@@ -79,8 +84,12 @@ function dfcg_meta_box($post) {
 <?php /* IMAGE BLOCK */ ?>
 	<div class="dfcg-form">
 		<h5><?php _e('Image URL', DFCG_DOMAIN); ?>:</h5>
+		<?php if( $dfcg_options['image-url-type'] == 'auto' ) : ?>
+			<p><em>You are using Auto gallery images. The DCG will automatically grab the first image attachment from this Post/Page.</em></p>
+			<p><em>If you want to specify an alternative image enter the Image URL in the box below, otherwise leave blank.</em></p>
+		<?php endif; ?>
 		<label class="screen-reader-text" for="_dfcg-image"><?php _e('Image URL', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;" cols="38" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
+		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;" cols="33" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
 		<p><em>You are using <?php echo $text; ?>.</em>
 		<?php if( $url !== 'not used' ) { ?>
 			<br /><em>Images folder is: <?php echo $url; ?></em>
@@ -95,7 +104,7 @@ function dfcg_meta_box($post) {
 	<div class="dfcg-form">
 		<h5><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h5>
 		<label class="screen-reader-text" for="_dfcg-desc"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-desc" name="_dfcg-desc" style="font-size:11px;" cols="38" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
+		<textarea id="_dfcg-desc" name="_dfcg-desc" style="font-size:11px;" cols="33" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
 	</div>
 	
 	<?php else : // Slide Pane Description is Auto ?>
@@ -108,21 +117,21 @@ function dfcg_meta_box($post) {
 	<?php endif; ?>
 	
 <?php /* EXTERNAL LINK BLOCK */ ?>
-
+	
 	<div class="dfcg-form">
 		<h5><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h5>
 		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link for image', DFCG_DOMAIN ); ?></label>
-		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;" size="41" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />
+		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;width:260px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
 	</div>
 	
-<?php /* PAGES SORT ORDER BLOCK */ ?>
+<?php /* ID METHOD SORT ORDER BLOCK */ ?>
 
-	<?php if( $dfcg_options['populate-method'] == 'pages' && $dfcg_options['pages-sort-control'] == 'true' ) : ?>
+	<?php if( $dfcg_options['populate-method'] == 'id-method' && $dfcg_options['id-sort-control'] == 'true' ) : ?>
 	<div class="dfcg-form">
 		<h5><?php _e('Sort Order', DFCG_DOMAIN); ?>:</h5>
 		<label class="screen-reader-text" for="_dfcg-sort"><?php _e('Sort Order', DFCG_DOMAIN); ?></label>
 		<input name="_dfcg-sort" id="_dfcg-sort" size="3" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
-		<p><em><?php _e('By default, Pages are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></em></p>
+		<p><em><?php _e('By default, images are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></em></p>
 	</div>
 	<?php else : ?>
 		<input id="_dfcg-sort" name="_dfcg-sort" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
@@ -131,7 +140,7 @@ function dfcg_meta_box($post) {
 <?php /* EXCLUDE POST BLOCK */ ?>
 	
 	<?php // Only show Exclude option for multi-option and one-category
-	if( $dfcg_options['populate-method'] !== 'pages' ) {
+	if( $dfcg_options['populate-method'] !== 'id-method' ) {
 		$exclude = false;
 		if( get_post_meta($post->ID,'_dfcg-exclude',true) == 'true' ) {
 			$exclude = true;
@@ -159,6 +168,7 @@ function dfcg_meta_box($post) {
 * @param mixed $post_id Post ID
 * @param object $post object
 * @since 3.2.1
+* @updated 3.3
 */
 function dfcg_save_metabox_data($post_id, $post) {
 	
@@ -221,7 +231,7 @@ function dfcg_save_metabox_data($post_id, $post) {
 	$newdata['_dfcg-sort'] = esc_attr($newdata['_dfcg-sort']);
 	
 	
-	// Deal with checkbox - we don't want to save this postmeta if _dfcg-exclude is not true
+	// Deal with checkboxes - we don't want to save this postmeta if _dfcg-exclude is not true
 	$newdata['_dfcg-exclude'] = $newdata['_dfcg-exclude'] ? 'true' : NULL;
 	
 	

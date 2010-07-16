@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.
@@ -25,6 +25,7 @@ if (!defined('ABSPATH')) {
 * @global array $dfcg_options plugin options from db
 * @return $input Sanitised form input ready for db
 * @since 3.2.2
+* @updated 3.3
 */
 function dfcg_sanitise($input) {
 	
@@ -78,42 +79,42 @@ function dfcg_sanitise($input) {
 	
 	/***** Organise the options by type etc, into arrays, then sanitise / validate / format correct *****/
 	
-	//	Whitelist options													(11)	(10)
+	//	Whitelist options													(9)		(8)
 	//	Path and URL options												(5)		(1)
 	//	On-off options														(1)
-	//	Bool options														(15)
+	//	Bool options														(13)
 	//	String options - no XHTML allowed									(3)
 	//	String options - some XHTML allowed									(1)
-	//	String options - CSS hexcodes										(7)
+	//	String options - CSS hexcodes										(6)
 	//	String options - numeric comma separated only 						(2)
 	//	String options - filenames											(1)
 	//	Integer options - positive - can be blank, can't be zero 			(9)
 	//	Integer options - positive - can be blank, can't be zero 			(1)
-	//	Integer options - positive - can't be blank, can't be zero 			(10)
-	//	Integer options - positive integer - can't be blank, can be zero 	(16)
-	//	Integer options - positive - large									(2)
-	//	Total 																84
+	//	Integer options - positive - can't be blank, can't be zero 			(9)
+	//	Integer options - positive integer - can't be blank, can be zero 	(17)
+	//	Integer options - positive - large									(1)
+	//	Total 																78
 	
 	
-	/***** Whitelist options (11/10) *****/
+	/***** Whitelist options (9/8) *****/
 	
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU
-		$whitelist_opts = array( 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'slide-overlay-position', 'nav-theme', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
+		$whitelist_opts = array( 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
 	} else {
 		// We're in WP
-		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'slide-overlay-position', 'nav-theme', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
+		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
 	}
 	
 	// Define whitelist of known values
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'pages', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'bottom', 'top', 'light', 'dark', 'manual', 'auto', 'none', 'page' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'manual', 'auto', 'none', 'page' );
 	
 	// sanitise
 	foreach( $whitelist_opts as $key ) {
 		// If option value is not in whitelist
 		if( !in_array( $input[$key], $dfcg_whitelist ) ) {
 			//Used for testing: $input[$key] = 'dodgy';
-			//var_dump($input[$key]);
+			var_dump($key, $input[$key]);
 			wp_die( "Dynamic Content Gallery Message #20: " .$dfcg_sanitise_error );
 		}
 	}
@@ -126,13 +127,13 @@ function dfcg_sanitise($input) {
 		$abs_url_opts = array( 'homeurl' );
 	} else {
 		// We're in WP
-		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgpages', 'homeurl' );
+		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgid', 'homeurl' );
 	}
 	
 	// sanitise and add trailing slash
 	foreach( $abs_url_opts as $key ) {
 		if( !empty($input[$key]) ) {
-			if( $key == 'defimgpages' ) {
+			if( $key == 'defimgid' ) {
 				// Sanitise for db only
 				$input[$key] = esc_url_raw( $input[$key] );
 			} else {
@@ -155,9 +156,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Bool options (15) *****/
+	/***** Bool options (13) *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pause-on-hover', 'fade-panels', 'pages-sort-column', 'pages-sort-control' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {
@@ -195,9 +196,9 @@ function dfcg_sanitise($input) {
 	} 
 	
 	
-	/***** String options - CSS hexcodes (7) *****/
+	/***** String options - CSS hexcodes (6) *****/
 	
-	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'gallery-background', 'slide-p-a-color', 'slide-p-ahover-color' );
+	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'slide-p-a-color', 'slide-p-ahover-color' );
 	
 	// TODO: This could be improved - regex doesn't validate whether a valid hex code.
 	
@@ -225,7 +226,7 @@ function dfcg_sanitise($input) {
 	
 	/***** String options - numeric comma separated only (2) *****/
 	
-	$str_opts_csv_num = array( 'pages-selected', 'page-ids' );
+	$str_opts_csv_num = array( 'ids-selected', 'page-ids' );
 	
 	// sanitise
 	foreach( $str_opts_csv_num as $key ) {
@@ -327,11 +328,11 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive - can't be blank, can't be zero (10) *****/
+	/***** Integer options - positive - can't be blank, can't be zero (9) *****/
 	
 	// Theoretically, this isn't needed, unless user turns off Select boxes in browser
 	
-	$int_opts_nonblank_nonzero = array( 'cat01', 'cat02', 'cat03', 'cat04', 'cat05', 'cat06', 'cat07', 'cat08', 'cat09', 'max-char' );
+	$int_opts_nonblank_nonzero = array( 'cat01', 'cat02', 'cat03', 'cat04', 'cat05', 'cat06', 'cat07', 'cat08', 'cat09' );
 	
 	// sanitise, but leave blank and zero as 1
 	foreach( $int_opts_nonblank_nonzero as $key ) {
@@ -347,9 +348,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive integer - can't be blank, can be zero (16) *****/
+	/***** Integer options - positive integer - can't be blank, can be zero (17) *****/
 	
-	$int_opts_nonblank = array( 'posts-number', 'gallery-width', 'gallery-height', 'gallery-border-thick', 'slide-height', 'slide-h2-size', 'slide-h2-padtb', 'slide-h2-padlr', 'slide-h2-marglr', 'slide-h2-margtb', 'slide-p-size', 'slide-p-padtb', 'slide-p-padlr', 'slide-p-marglr', 'slide-p-margtb', 'slide-p-line-height' );
+	$int_opts_nonblank = array( 'posts-number', 'gallery-width', 'gallery-height', 'gallery-border-thick', 'slide-height', 'slide-h2-size', 'slide-h2-padtb', 'slide-h2-padlr', 'slide-h2-marglr', 'slide-h2-margtb', 'slide-p-size', 'slide-p-padtb', 'slide-p-padlr', 'slide-p-marglr', 'slide-p-margtb', 'slide-p-line-height', 'max-char' );
 	
 	// sanitise, limit to 4 chars, convert blanks to 0
 	foreach( $int_opts_nonblank as $key ) {
@@ -362,9 +363,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive - large (2) *****/
+	/***** Integer options - positive - large (1) *****/
 	
-	$int_opts_large = array( 'delay', 'transition-speed' );
+	$int_opts_large = array( 'delay' );
 	
 	// sanitise, limit to 5 chars, can't be blank, minimum value = 1000
 	foreach( $int_opts_large as $key ) {

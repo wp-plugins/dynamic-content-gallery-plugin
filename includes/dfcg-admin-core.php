@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -21,7 +21,7 @@
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
+	exit( __('Sorry, you are not allowed to access this file directly.') );
 }
 
 
@@ -94,14 +94,17 @@ function dfcg_options_init() {
 *
 * @return string $dfcg_page_hook, wp page hook
 * @since 3.2
+* @updated 3.3
 */
 function dfcg_add_to_options_menu() {
 	
 	// Add Settings Page
 	$dfcg_page_hook = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
 	
+	wp_enqueue_script('jquery');
+	
 	// Load Admin external scripts and CSS
-	add_action( 'admin_print_scripts-settings_page_' . DFCG_FILE_HOOK, 'dfcg_loadjs_admin_head' );
+	add_action( 'admin_head-settings_page_' . DFCG_FILE_HOOK, 'dfcg_loadjs_admin_head', 20 );
 	
 	// Populate plugin's options
 	dfcg_set_gallery_options();
@@ -111,15 +114,67 @@ function dfcg_add_to_options_menu() {
 
 
 /**
-* Function to load Admin CSS file
+* Function to load Admin CSS and JS files
 *
 * Hooked to 'admin_print_scripts-settings_page_' in dfcg_add_to_options_menu()
 *
 * @since 3.2
+* @updated 3.3
 */
 function dfcg_loadjs_admin_head() {
 	
+	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin admin scripts -->' . "\n";
 	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-ui-admin.css" type="text/css" />' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-tabs-ui.css" type="text/css" />' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/admin-assets/dfcg-admin-js.min.js"></script>' . "\n";
+	echo '<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				var $tabs = $("#tabs").tabs();
+				
+				$(".dfcg-panel-image-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 1); // switch to second tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-gallery-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 2); // switch to third tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-desc-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 3); // switch to fourth tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-css-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 4); // switch to fifth tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-javascript-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 5); // switch to sixth tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-scripts-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 6); // switch to seventh tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-tools-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 7); // switch to eighth tab
+    			return false;
+				});
+			});
+		</script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_URL . '/admin-assets/cluetip/jquery.cluetip.min.js"></script>' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/cluetip/jquery.cluetip.css" type="text/css" />' . "\n";
+	echo "<script type=\"text/javascript\">
+			jQuery(document).ready(function($) {
+				$('a.load-local').cluetip({local:true, cursor: 'pointer', sticky: true, closePosition: 'title'});
+			});
+		</script>" . "\n";
+	echo '<!-- Dynamic Content Gallery plugin end admin scripts -->' . "\n";
 }
 
 
@@ -153,9 +208,9 @@ function dfcg_options_page(){
 /**
 * Display a Settings link in main Plugin page in Dashboard
 *
-*	Puts the Settings link in with Deactivate/Activate links in Plugins Settings page
+* Puts the Settings link in with Deactivate/Activate links in Plugins Settings page
 *
-*	Hooked to 'plugin_action_links' filter
+* Hooked to 'plugin_action_links' filter
 *
 * @return array $links Array of links shown in first column, main Dashboard Plugins page
 * @since 1.0
@@ -209,14 +264,15 @@ function dfcg_plugin_meta($links, $file) {
 
 
 /**
-* Function to do WP Version check
+* Function to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
 *
-* DCG v3.0 requires WP 2.8+ to run. This function prints a warning
-* message in the main Plugins screen and on the DCG Settings page if version is less than 2.8.
+* DCG v3.0 requires WP 2.9+ to run. This function prints a warning
+* message in the main Plugins screen and on the DCG Settings page if version is less than 2.9.
 *
 * Hooked to 'after_action_row_$plugin' filter
 *
 * @since 3.2
+* @updated 3.3
 */	
 function dfcg_wp_version_check() {
 	
@@ -225,7 +281,7 @@ function dfcg_wp_version_check() {
 	$current_page = basename($_SERVER['PHP_SELF']);
 	
 	// Check we are on the right screen and version is not valid
-	if( $current_page == "plugins.php" && !$wp_valid ) {
+	if( !$wp_valid && $current_page == "plugins.php" ) {
 		
 		$version_msg_start = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
 		$version_msg_start .= '<div class="update-message" style="background:#FFEBE8;border-color:#BB0000;">';
@@ -243,11 +299,20 @@ function dfcg_wp_version_check() {
 		}
 	}
 	
+	// Need to check for Theme Support for Post Thumbnails, introduced in WP2.9 and required by DCG v3.3
+	if( !current_theme_supports('post-thumbnails') && $current_page == "plugins.php" ) {
+		$msg_start = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
+		$msg_start .= '<div class="update-message" style="background:#FFEBE8;border-color:#BB0000;">';
+		$msg_end = '</div></td></tr>';
+		$msg = __('<strong>Warning!</strong> This version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
+		echo $msg_start . $msg . $msg_end;
+	}
+	
 	// The following will also show the version warning message on the DCG Settings page and at the top of the Plugins page
 	// We only need to check against options-general.php because this part of the function
 	// will only be run by the calling function dfcg_on_load_validation() which is only run when we're on the DCG page.
 	// TODO: Would be better to hook to admin_notices though...
-	if( ( $current_page == "options-general.php" || $current_page == "plugins.php" ) && !$wp_valid ) {
+	if( !$wp_valid && ( $current_page == "options-general.php" || $current_page == "plugins.php" ) ) {
 		
 		$version_msg_start = '<div class="error"><p>';
 		$version_msg_end = '</p></div>';
@@ -262,6 +327,15 @@ function dfcg_wp_version_check() {
 			$version_msg = '<strong>' . __('Warning! This version of Dynamic Content Gallery requires WPMU', DFCG_DOMAIN) . ' ' . DFCG_WP_VERSION_REQ . '+ ' . __('Please contact your Site Administrator.', DFCG_DOMAIN) . '</strong>';
 			echo $version_msg_start . $version_msg . $version_msg_end;
 		}
+	}
+	
+	
+	// Need to check for Theme Support for Post Thumbnails, introduced in WP2.9 and required by DCG v3.3
+	if( !current_theme_supports('post-thumbnails') && ( $current_page == "options-general.php" || $current_page == "plugins.php" ) ) {
+		$msg_start = '<div class="error"><p>';
+		$msg_end = '</p></div>';
+		$msg = __('<strong>Warning!</strong> This version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="http://www.studiograsshopper.ch/dynamic-content-gallery/">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
+		echo $msg_start . $msg . $msg_end;
 	}
 }
 
@@ -306,11 +380,12 @@ function dfcg_admin_notice_reset() {
 * 84 options (5 are WP only)
 *
 * @since 3.2.2
+* @updated 3.3
 */
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
 	$default_options = array(
-		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3: multi-option, one-category, pages
+		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3: multi-option, one-category, ID
 		'cat-display' => '1',									// one-category: the ID of the selected category - since 2.3
 		'posts-number' => '5',									// one-category: the number of posts to display - since 2.3
 		'cat01' => '1',											// multi-option: the category IDs
@@ -331,17 +406,17 @@ function dfcg_default_options() {
 		'off07' => '',											// multi-option: the post select
 		'off08' => '',											// multi-option: the post select
 		'off09' => '',											// multi-option: the post select
-		'pages-selected' => '',									// pages: Page ID's in comma separated list - since 2.3
+		'ids-selected' => '',									// ID method: Page/Post ID's in comma separated list - since 2.3 (renamed in 3.3)
 		'homeurl' => get_option('home'),						// Stored, but not currently used...
-		'image-url-type' => 'full',								// WP only. All methods: URL type for dfcg-images - since 2.3: full, partial
+		'image-url-type' => 'auto',								// WP only. All methods: URL type for dfcg-images - since 2.3: full, partial, auto (added 3.3)
 		'imageurl' => '',										// WP only. All methods: URL for partial custom images
 		'defimgmulti' => '',									// WP only. Multi-option: URL for default category image folder
 		'defimgonecat' => '',									// WP only. One-category: URL for default category image folder
-		'defimgpages' => '',									// WP only. Pages: URL for a default image
+		'defimgid' => '',										// WP only. ID Method: URL for a default image
 		'defimagedesc' => '',									// all methods: default description
 		'gallery-width' => '460',								// all methods: CSS
 		'gallery-height' => '250',								// all methods: CSS
-		'slide-height' => '50',									// all methods: CSS
+		'slide-height' => '50',									// all methods: CSS - mootools only
 		'gallery-border-thick' => '0',							// all methods: CSS
 		'gallery-border-colour' => '#000000',					// all methods: CSS
 		'slide-h2-size' => '12',								// all methods: CSS
@@ -356,18 +431,25 @@ function dfcg_default_options() {
 		'slide-p-marglr' => '5',								// all methods: CSS
 		'slide-p-margtb' => '2',								// all methods: CSS
 		'slide-p-colour' => '#FFFFFF',							// all methods: CSS
+		'slide-h2-weight' => 'bold',							// all methods: CSS bold, normal
+		'slide-p-line-height' => '14',							// all methods: CSS
+		'slide-overlay-color' => '#000000',						// all methods: CSS
+		'slide-p-a-color' => '#FFFFFF',							// all methods: More text CSS
+		'slide-p-ahover-color' => '#FFFFFF',					// all methods: More text CSS
+		'slide-p-a-weight' => 'normal',							// all methods: More text CSS: bold, normal
+		'slide-p-ahover-weight' => 'bold',						// all methods: More text CSS: bold, normal
 		'reset' => '0',											// Settings: Reset options state
-		'mootools' => '0',										// Settings: Toggle on/off Mootools loading
+		'mootools' => '0',										// Settings: Toggle on/off Mootools loading - mootools only
 		'limit-scripts' => 'homepage',							// Settings: Select scripts loading: homepage, pagetemplate, other
 		'page-filename' => '',									// Settings: Specify a Page Template filename, for loading scripts
 		'timed' => 'true',										// JS option
 		'delay' => '9000',										// JS option
 		'showCarousel' => 'true',								// JS option
-		'showInfopane' => 'true',								// JS option
-		'slideInfoZoneSlide' => 'true',							// JS option
+		'showInfopane' => 'true',								// JS option - mootools only
+		'slideInfoZoneSlide' => 'true',							// JS option - mootools only
 		'slideInfoZoneOpacity' => '0.7',						// JS option
 		'textShowCarousel' => 'Featured Articles',				// JS option
-		'defaultTransition' => 'fade',							// JS option
+		'defaultTransition' => 'fade',							// JS option - mootools only
 		'errors' => '0',										// all methods: Error reporting on/off
 		'posts-column' => 'true',								// all methods: Show edit posts column dfcg-image
 		'pages-column' => 'true',								// all methods: Show edit pages column dfcg-image
@@ -375,24 +457,11 @@ function dfcg_default_options() {
 		'pages-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
 		'just-reset' => 'false',								// all methods: Used for controlling admin_notices messages
 		'scripts' => 'mootools',								// all methods: Selects js framework: mootools, jquery
-		'slide-h2-weight' => 'bold',							// JS jquery only: bold, normal
-		'slide-p-line-height' => '14',							// JS jquery only
-		'slide-overlay-color' => '#000000',						// JS jquery only
-		'slide-overlay-position' => 'bottom',					// JS jquery only: bottom,top
-		'transition-speed' => '1500',							// JS jquery only
-		'nav-theme' => 'light',									// JS jquery only: light, dark
-		'pause-on-hover' => 'true',								// JS jquery only
-		'fade-panels' => 'true',								// JS jquery only
-		'gallery-background' => '#000000',						// JS jquery only
 		'desc-method' => 'manual',								// all methods: Select how to display descriptions: manual, auto, none
 		'max-char' => '100',									// all methods: No. of characters for custom excerpt
 		'more-text' => '[more]',								// all methods: More text for custom excerpt
-		'slide-p-a-color' => '#FFFFFF',							// all methods: More text CSS
-		'slide-p-ahover-color' => '#FFFFFF',					// all methods: More text CSS
-		'slide-p-a-weight' => 'normal',							// all methods: More text CSS: bold, normal
-		'slide-p-ahover-weight' => 'bold',						// all methods: More text CSS: bold, normal
-		'pages-sort-column' => 'true',							// Pages: Show edit pages column _dfcg-sort: bool
-		'pages-sort-control' => 'false',						// Pages: Allow custom sort of images using _dfcg-sort: bool
+		'pages-sort-column' => 'true',							// ID: Show edit pages column _dfcg-sort: bool
+		'id-sort-control' => 'false',							// ID: Allow custom sort of images using _dfcg-sort: bool
 		'page-ids' => ''										// Restrict scripts: ordinary page ID numbers
 	);
 	
@@ -434,10 +503,18 @@ function dfcg_default_options() {
 * In 3.2.2 - 'page-ids' option added
 * In 3.2.2 - new value 'page' added to 'limit-scripts' option
 * In 3.2.2 - Total options = 83 + 1 = 84
+* In 3.3 - new value 'auto' added to 'image-url-type' option
+* In 3.3 - 'pages-selected' option renamed as 'ids-selected' (handles Post and Page IDs)
+* In 3.3 - 'defimgpages' option renamed as 'defimgid'
+* In 3.3 - 'pages-sort-control' option renamed as 'id-sort-control'
+* In 3.3 - 'pages' value of "populate-method" is changed to 'id-method'
+* In 3.3 - 'nav-theme', 'pause-on-hover', 'transition-speed', 'fade-panels', 'slide-overlay-position', 'gallery-background' removed.
+* In 3.3 - Total options = 84 - 6 = 78
 *
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
+* @updated 3.3
 */
 function dfcg_set_gallery_options() {
 	
@@ -454,14 +531,87 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.2.3
+	} elseif( $existing && $existing_version == '3.2.3' ) {
+	
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		unset($existing['nav-theme']);
+		unset($existing['pause-on-hover']);
+		unset($existing['transition-speed']);
+		unset($existing['fade-panels']);
+		unset($existing['slide-overlay-position']);
+		unset($existing['gallery-background']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+		
+	
 	// We're upgrading from 3.2.2
 	} elseif( $existing && $existing_version == '3.2.2' ) {
 	
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		unset($existing['nav-theme']);
+		unset($existing['pause-on-hover']);
+		unset($existing['transition-speed']);
+		unset($existing['fade-panels']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
+		
 		// Update version no. in the db
 		update_option('dfcg_version', DFCG_VER );
 	
 	// We're upgrading from 3.2.1
 	} elseif( $existing && $existing_version == '3.2.1' ) {
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = ''; 	// Restrict scripts: ordinary page ID numbers
@@ -477,6 +627,22 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2
 	} elseif( $existing && $existing_version == '3.2' ) {
 		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
+		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
 		
@@ -490,6 +656,22 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.1
 	} elseif( $existing && $existing_version == '3.1' ) {
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -508,6 +690,22 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1 RC1
 	} elseif( $existing && $existing_version == '3.1 RC1' ) {
 		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
+		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
 		// Added in 3.2
@@ -524,6 +722,22 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.0
 	} elseif( $existing && $existing_version == '3.0' ) {
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -549,6 +763,22 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.0 RC4
 	} elseif( $existing && $existing_version == '3.0 RC4' ) {
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -579,6 +809,22 @@ function dfcg_set_gallery_options() {
 		if( $existing['image-url-type'] == 'part' ) {
 			$existing['image-url-type'] = 'partial';
 		}
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -623,6 +869,22 @@ function dfcg_set_gallery_options() {
 		if( $existing['image-url-type'] == 'part' ) {
 			$existing['image-url-type'] = 'partial';
 		}
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -674,6 +936,22 @@ function dfcg_set_gallery_options() {
 		if( $existing['image-url-type'] == 'part' ) {
 			$existing['image-url-type'] = 'partial';
 		}
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';
@@ -728,6 +1006,22 @@ function dfcg_set_gallery_options() {
 		// Remove old keys from db
 		unset($existing['imagepath']);
 		unset($existing['defimagepath']);
+		
+		// Deal with renamed options in 3.3
+		$existing['ids-selected'] = $existing['pages-selected'];
+		$existing['defimgid'] = $existing['defimgpages'];
+		$existing['id-sort-control'] = $existing['pages-sort-control'];
+		
+		unset($existing['pages-selected']);
+		unset($existing['defimgpages']);
+		unset($existing['pages-sort-control']);
+		
+		// 'pages' changed to 'id-method'
+		if( $existing['populate-method'] == 'pages' ) {
+			$existing['populate-method'] = 'id-method';
+		}
+		// Add new v3.3 options
+		
 		
 		// Added in 3.2.2
 		$existing['page-ids'] = '';

@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
 *
 * @info Validates certain key Settings and produces validation messages after Settings Page form is submitted
 *
@@ -30,6 +30,7 @@ if (!defined('ABSPATH')) {
 * @param array $options_array, Options from db
 *
 * @since 3.0
+* @updated 3.3
 */
 function dfcg_on_load_validation($options_array) {
 
@@ -38,12 +39,12 @@ function dfcg_on_load_validation($options_array) {
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'partial' && empty($options_array['imageurl']) ) {
-		echo '<div class="error"><p><strong>' . __('Warning! You have selected the "Partial" URL option but you have not defined the URL to your images folder in the <a href="#image-file">Image File Management settings</a>.', DFCG_DOMAIN) . '</strong></p></div>';
+		echo '<div class="error"><p><strong>' . __('Warning! You have selected the "Partial" URL option but you have not defined the URL to your images folder in the Image Management tab.', DFCG_DOMAIN) . '</strong></p></div>';
 	}
 	
 	// If Pages, Page ID's must be defined
-	if( $options_array['populate-method'] == 'pages' && empty($options_array['pages-selected']) ) {
-		echo '<div class="error"><p><strong>' . __('Warning! You are using the "Pages" <a href="#gallery-method">Gallery Method</a>. You must enter at least two valid Page ID\'s in <a href="#pages-method">Section 2.3</a>.', DFCG_DOMAIN) . '</strong></p></div>';
+	if( $options_array['populate-method'] == 'id-method' && empty($options_array['ids-selected']) ) {
+		echo '<div class="error"><p><strong>' . __('Warning! You are using the "ID Method" Gallery Method. You must enter at least two valid Post/Page ID\'s in the ID Method settings in the Gallery Method tab.', DFCG_DOMAIN) . '</strong></p></div>';
 	}
 	
 	// If Multi Option, must be minimum of 2 Post Selects
@@ -73,7 +74,7 @@ function dfcg_on_load_validation($options_array) {
 		}
 		
 		if( count($multioption_offsets) < 2 ) {
-			echo '<div class="error"><p><strong>' . __('Warning! You are using the "Multi Option" <a href="#gallery-method">Gallery Method</a>. You must enter at least 2 Posts Selects in <a href="#multi-option">Multi Option Settings</a>.', DFCG_DOMAIN) . '</strong></p></div>';
+			echo '<div class="error"><p><strong>' . __('Warning! You are using the "Multi Option" Gallery Method. You must enter at least 2 Posts Selects in the Multi Option settings in the Gallery Method tab.', DFCG_DOMAIN) . '</strong></p></div>';
 		}
 	}
 	
@@ -82,17 +83,17 @@ function dfcg_on_load_validation($options_array) {
 		
 		// If Multi Option, defimgmulti should be defined
 		if( $options_array['populate-method'] == 'multi-option' && empty($options_array['defimgmulti']) ) {
-			echo '<div class="updated"><p><strong>' . __('Note: You are using the "Multi Option" <a href="#gallery-method">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#multi-option">Multi Option</a> section to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
+			echo '<div class="updated"><p><strong>' . __('Note: You are using the "Multi Option" Gallery Method. Enter the Path to your Category default images folder in the Multi Option settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
 		}
 		
 		// If One Category, defimgonecat should be defined
 		if( $options_array['populate-method'] == 'one-category' && empty($options_array['defimgonecat']) ) {
-			echo '<div class="updated"><p><strong>' . __('Note: You are using the "One Category" <a href="#gallery-method">Gallery Method</a>. Enter the Path to your Category default images folder in the <a href="#one-category">One Category</a> section to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
+			echo '<div class="updated"><p><strong>' . __('Note: You are using the "One Category" Gallery Method. Enter the Path to your Category default images folder in the One Category settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
 		}
 	
-		// If Pages, defimgpages should be defined
-		if( $options_array['populate-method'] == 'pages' && empty($options_array['defimgpages']) ) {
-			echo '<div class="updated"><p><strong>' . __('Note: You are using the "Pages"  <a href="#2">Gallery Method</a>. Enter the URL of your default image in the <a href="#pages-method">Pages</a> section to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
+		// If ID Method, defimgpages should be defined
+		if( $options_array['populate-method'] == 'id-method' && empty($options_array['defimgid']) ) {
+			echo '<div class="updated"><p><strong>' . __('Note: You are using the "ID Method" Gallery Method. Enter the URL of your default image in the ID Method settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
 		}
 	}
 }
