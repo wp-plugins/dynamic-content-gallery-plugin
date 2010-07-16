@@ -4,7 +4,9 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.2.3
+* @version 3.3
+*
+* NOTE: This file was updated due to change from Pages Method to ID Method in v3.3
 *
 *	This is the file that displays the gallery, called by dynamic_content_gallery()
 *	template tag function.
@@ -18,10 +20,11 @@
 *	3 methods of populating the gallery as per Settings:
 *		- Multi Option
 *		- One Category
-*		- Pages
+*		- ID Method
 *	Plus 2 script options for each gallery method
 *
 * @since 3.0
+* @updated 3.3
 */
 
 /* Prevent direct access to this file */
@@ -33,38 +36,32 @@ if (!defined('ABSPATH')) {
 /*	Determine which scripts are being loaded */
 if( $dfcg_options['scripts'] == 'mootools' ) {
 
-	/* Populate method = MULTI-OPTION */
 	if($dfcg_options['populate-method'] == 'multi-option' && function_exists('dfcg_multioption_method_gallery') ) {
-		// Output the gallery
+		// Populate method = MULTI-OPTION
 		dfcg_multioption_method_gallery();
-
-	/* Populate method = ONE CATEGORY */
+	
 	} elseif($dfcg_options['populate-method'] == 'one-category' && function_exists('dfcg_onecategory_method_gallery') ) {
-		// Output the gallery
+		// Populate method = ONE CATEGORY
 		dfcg_onecategory_method_gallery();
-
-	/* Populate method = PAGES */
-	} elseif($dfcg_options['populate-method'] == 'pages' && function_exists('dfcg_pages_method_gallery') ) {
-		// Output the gallery
-		dfcg_pages_method_gallery();
+	
+	} elseif($dfcg_options['populate-method'] == 'id-method' && function_exists('dfcg_id_method_gallery') ) {
+		// Populate method = ID METHOD
+		dfcg_id_method_gallery();
 	}
 
 } elseif( $dfcg_options['scripts'] == 'jquery' ) {
-
-	/* Populate method = MULTI-OPTION */
+	
 	if($dfcg_options['populate-method'] == 'multi-option' && function_exists('dfcg_jq_multioption_method_gallery') ) {
-		// Output the gallery
+		// Populate method = MULTI-OPTION
 		dfcg_jq_multioption_method_gallery();
-
-	/* Populate method = ONE CATEGORY */
+	
 	} elseif($dfcg_options['populate-method'] == 'one-category' && function_exists('dfcg_jq_onecategory_method_gallery') ) {
-		// Output the gallery
+		// Populate method = ONE CATEGORY
 		dfcg_jq_onecategory_method_gallery();
 
-	/* Populate method = PAGES */
-	} elseif($dfcg_options['populate-method'] == 'pages' && function_exists('dfcg_jq_pages_method_gallery') ) {
-		// Output the gallery
-		dfcg_jq_pages_method_gallery();
+	} elseif($dfcg_options['populate-method'] == 'id-method' && function_exists('dfcg_jq_id_method_gallery') ) {
+		// Populate method = PAGES
+		dfcg_jq_id_method_gallery();
 	}
 
 /* Something has gone horribly wrong and there's no output! */

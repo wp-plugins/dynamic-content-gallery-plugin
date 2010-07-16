@@ -2,10 +2,10 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.2.3
+Version: 3.3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
+Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.9+.
 */
 
 /*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch) */
@@ -32,6 +32,22 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
+	3.3			- Feature:	New Auto Image Management option - pulls in Post/Page Image Attachment
+				- Feature:	Carousel thumbnails now generated using WP Post Thumbnails feature
+				- Feature:	New jQuery script, replaces galleryview script. Plays nicer with jQuery 1.4.2 used by WP3.0
+				- Feature:	Gallery images and thumbnails can now be automatically populated by post image attachments
+				- Feature:	Mootools js updated to use Mootools 1.2.4
+				- Enhance:	Constructor functions cleaned up and improved
+				- Enhance:	Pages method now called ID Method (as both Post and Page ID's can be specified)
+				- Enhance:	dfcg_pages_method_gallery() renamed to dfcg_id_method_gallery()
+				- Enhance:	dfcg_jq_pages_method_gallery() renamed to dfcg_jq_id_method_gallery()
+				- Enhance:	DCG Metabox visible in both Write Posts and Write Pages, if ID Method is selected
+				- Enhance:	New tabbed interface for the DCG Settings Page
+				- Enhance:	Tooltips added to DCG Settings Page to declutter the interface
+				- Enhance:	Contextual help now moved to DCG Settings Page Help tab. dfcg-admin-ui-help.php deprecated.
+				- Enhance:	Cleaned up interface text strings, re-worded some strings to make info more understandable
+				- Bug fix:	Removed unnecessary noConflict() call in dfcg_jquery_scripts() function
+	
 	3.2.3		- Bug fix:	Fixes contextual help compatibility issue with WP3.0
 	
 	3.2.2		- Feature:	DCG Widget added
@@ -149,9 +165,9 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.2.3' );
+define( 'DFCG_VER', '3.3' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
-define( 'DFCG_WP_VERSION_REQ', '2.8' );
+define( 'DFCG_WP_VERSION_REQ', '2.9' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 'dynamic_content_gallery' );
 define( 'DFCG_PAGEHOOK', 'settings_page_'.DFCG_FILE_HOOK );
@@ -174,31 +190,35 @@ $dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
 
 /* 	Load files needed for plugin to run
 *
-*	Required for gallery display		Note conditionals based on user Settings, to minimise script loading
-*	dfcg-gallery-core.php				Template tag, header scripts functions
-*	dfcg-gallery-constructors.php		Three gallery constructor functions - mootools
-*	dfcg-gallery-constructors-jq.php	Three gallery constructor functions - jquery
-*	dfcg-gallery-errors.php				Browser and/or Page Source errors.
-*	dfcg-gallery-content-limit.php		Auto description for Slide Pane
+*	Required for gallery display			Note conditionals based on user Settings, to minimise script loading
+*	dfcg-gallery-core.php					Template tag, header/enqueue scripts functions
+*	dfcg-gallery-constructors.php			Three gallery constructor functions - mootools
+*	dfcg-gallery-constructors-jq-smooth.php	Three gallery constructor functions - jquery
+*	dfcg-gallery-errors.php					Browser and/or Page Source errors.
+*	dfcg-gallery-content-limit.php			Auto description for Slide Pane
 *
 *	Required for Admin
 *	dfcg-admin-core.php					Main Admin Functions: add page and related functions, options handling/upgrading
 *	dfcg-admin-ui-functions.php			Functions for outputting Settings Page elements
 *	dfcg-admin-ui-validation.php		Functions for validating Settings on load and submit
 *	dfcg-admin-ui-js.php				Settings page JS
-*	dfcg-admin-ui-help.php				Functions for Settings Page contextual help
 *	dfcg-admin-custom-columns			Adds custom columns to Edit Posts & Edit Pages screens
 *	dfcg-admin-ui-sanitise.php			Sanitisation callback function for register_settings
-*	dfcg-admin-metaboxes.php			Adds metabox to Post and Page screen for access to custom fields
+*	dfcg-admin-metaboxes.php			Adds metabox to Post and Page write screen for access to hidden custom fields
 *	dfcg-admin-postmeta-upgrade.php		Functions for upgrading postmeta data in v3.2+
 *
 *	Files included elsewhere, within functions
-*	dfcg-admin-ui-screen.php			Admin, Settings page	- included in dfcg_options_page() in dfcg-admin-core.php
-*	dfcg-admin-ui-upgrade-screen.php	Admin, Upgrade page		- included in dfcg_options_page() in dfcg-admin-core.php
-*	dfcg-gallery-jquery-styles.php		Public, CSS				- included in dfcg_mootools_scripts() in dfcg-gallery-core.php
-*	dfcg-gallery-mootools-styles.php	Public, CSS				- included in dfcg_jquery_scripts() in dfcg-gallery-core.php
+*	dfcg-admin-ui-screen.php				Admin, Settings page	- included by dfcg_options_page() in dfcg-admin-core.php
+*	dfcg-admin-ui-upgrade-screen.php		Admin, Upgrade page		- included by dfcg_options_page() in dfcg-admin-core.php
+*	dfcg-gallery-jquery-smooth-styles.php	Public, CSS				- included by dfcg_jquery_css() in dfcg-gallery-core.php
+*	dfcg-gallery-mootools-styles.php		Public, CSS				- included by dfcg_mootools_scripts() in dfcg-gallery-core.php
+*
+*	@deprecated dfcg-gallery-constructors-jq.php
+*	@deprecated dfcg-gallery-jquery-styles.php
+*	@deprecated dfcg-admin-ui-help.php
 *
 *	@since 3.2
+*   @updated 3.3
 */ 
 // Front-end files
 if( !is_admin() ) {
@@ -208,7 +228,7 @@ if( !is_admin() ) {
 	if( $dfcg_options['scripts'] == 'mootools' ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors.php');
 	} else {
-		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq.php');
+		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq-smooth.php');
 	}
 	
 	if( $dfcg_options['errors'] == 'true' ) {
@@ -226,7 +246,6 @@ if( is_admin() ) {
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-functions.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-validation.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-js.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-help.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-sanitise.php');
 	require_once( DFCG_DIR . '/includes/dfcg-admin-metaboxes.php');
@@ -243,12 +262,13 @@ require_once( DFCG_DIR . '/includes/dfcg-widget.php');
 /***** Add filters and actions ********************/
 
 /* Front-end - Loads scripts into header where gallery is displayed */
-// Function defined in dfcg-gallery-core.php
-add_action('wp_head', 'dfcg_load_scripts');
+// Functions defined in dfcg-gallery-core.php
+add_action('wp_head', 'dfcg_load_scripts_header');
+add_action('wp_footer', 'dfcg_load_scripts_footer');
 
 /* Front-end - Enqueue jQuery into header where gallery is displayed */
 // Function defined in dfcg-gallery-core.php
-add_action('template_redirect', 'dfcg_enqueue_script');
+add_action('template_redirect', 'dfcg_enqueue_jquery');
 
 if( is_admin() ) {
 	/* Admin - Register Settings as per new API */
@@ -266,10 +286,6 @@ if( is_admin() ) {
 	/* Admin - Saves Metabox data in Post/Page Editor */
 	// Function defined in dfcg-admin-metaboxes.php
 	add_action('save_post', 'dfcg_save_metabox_data', 1, 2);
-
-	/* Admin - Contextual Help to Settings page */
-	// Function defined in dfcg-admin-ui-help.php
-	add_filter('contextual_help', 'dfcg_admin_help', 10, 2);
 
 	/* Admin - Adds WP version warning on main Plugins screen */
 	// Function defined in dfcg-admin-core.php
