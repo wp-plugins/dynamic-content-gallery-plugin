@@ -258,8 +258,8 @@ function dfcg_multioption_method_gallery() {
 						}
 					}
 					
-					// Get the thumbnail
-					if( current_theme_supports('post-thumbnails') ) {
+					// Get the thumbnail - uses Post Thumbnails if AUTO images are used
+					if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
 						$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
 					}
 					if( $thumb ) {
@@ -525,8 +525,8 @@ function dfcg_onecategory_method_gallery() {
 				}
 			}
 			
-			// Get the thumbnail
-			if( current_theme_supports('post-thumbnails') ) {
+			// Get the thumbnail - uses Post Thumbnails if AUTO images are used
+			if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
 				$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
 			}
 			if( $thumb ) {
@@ -815,8 +815,8 @@ function dfcg_id_method_gallery() {
 				}
 			}
 			
-			// Get the thumbnail
-			if( current_theme_supports('post-thumbnails') ) {
+			// Get the thumbnail - uses Post Thumbnails if AUTO images are used
+			if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
 				$thumb = get_the_post_thumbnail( $id_found->ID, array(100,100), array("class" => "dfcg-thumbnail-auto thumbnail") );
 			}
 			if( $thumb ) {
