@@ -42,6 +42,7 @@ dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on pag
 	<form method="post" action="options.php">
 
 	<?php settings_fields('dfcg_plugin_settings_options'); // Settings API, nonces etc ?>
+	
 	<div id="tabs">
 		<ul id="dfcg-tabs">
 			<li id="dfcg-tab-general"><a href="#dfcg-panel-general"><?php _e('General', DFCG_DOMAIN) ?></a></li>
@@ -103,16 +104,14 @@ dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on pag
 				// Hidden fields - WP ONLY
 				dfcg_ui_hidden_wp();
 			}
-		
-		// Reset and End
-		dfcg_ui_reset_end();
 ?>
 	</div><!-- end #tabs -->
 	
+	<?php dfcg_ui_reset_end(); // Reset and End ?>
 	<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></p>
 	
 	</form>
 	
 	<?php dfcg_ui_credits(); // Credits ?>	
 	
-</div><!-- end sgr-style wrap -->
+</div><!-- end #sgr-style .wrap -->
