@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.2.3
+Version: 3.3
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -9,7 +9,7 @@ Requires at least: 2.8
 Tested up to: 3.0 (WP) and 2.9.1.1 (WPMU)
 Stable tag: 3.2.3
 
-Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.8+.
+Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress MS. Requires WP/WPMU version 2.8+.
 
 
 == Description==

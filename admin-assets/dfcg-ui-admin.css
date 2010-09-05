@@ -38,8 +38,11 @@ div.dfcg-panel {padding: 0px 10px 10px 10px;margin:0px;}
 .dfcg-panel a:hover {color: #D54E21;}
 .dfcg-panel p {font-size:11px;padding:0px 0px 0px 0px;line-height:20px;}
 .dfcg-panel table p {margin:0;padding:0;}
-.dfcg-panel ul {list-style-type:none;margin-left:20px;font-size:11px;}
+.dfcg-panel ul {list-style-type:disc;margin-left:20px;font-size:11px;}
+.dfcg-panel ul.links {list-style-type:none;}
 .dfcg-panel ul.upgrade li {line-height:20px;}
+.dfcg-panel ol {list-style-type:decimal;margin-left:20px;margin-top:6px;font-size:11px;}
+.dfcg-panel li {line-height:20px;}
 .dfcg-panel h3 {font-size:11px;margin:1em 0 1em; padding:0 0 6px; color:#005170;}
 .dfcg-panel h3.not-top {border-top: 1px solid #dfdfdf; padding: 15px 0 5px; margin: 20px 0 0 0;}
 /* General tab info */

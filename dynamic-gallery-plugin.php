@@ -5,7 +5,7 @@ Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Version: 3.3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress MS. Requires WP/WPMU version 2.9+.
+Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.9+.
 */
 
 /*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch) */
