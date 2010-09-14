@@ -5,7 +5,7 @@ Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Version: 3.3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic gallery of images for latest or featured posts selected from one category or a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress Mu. Requires WP/WPMU version 2.9+.
+Description: Creates a dynamic gallery of images for latest or featured posts selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress. Requires WP version 3.0+.
 */
 
 /*  Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch) */
@@ -32,7 +32,8 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
-	3.3			- Feature:	New Auto Image Management option - pulls in Post/Page Image Attachment
+	3.3			- Feature:	Support for Custom Post Types added
+				- Feature:	New Auto Image Management option - pulls in Post/Page Image Attachment
 				- Feature:	Carousel thumbnails now generated using WP Post Thumbnails feature
 				- Feature:	New jQuery script, replaces galleryview script. Plays nicer with jQuery 1.4.2 used by WP3.0
 				- Feature:	Gallery images and thumbnails can now be automatically populated by post image attachments
@@ -47,6 +48,7 @@ Feature:	means new user functionality has been added
 				- Enhance:	Contextual help now moved to DCG Settings Page Help tab. dfcg-admin-ui-help.php deprecated.
 				- Enhance:	Cleaned up interface text strings, re-worded some strings to make info more understandable
 				- Bug fix:	Removed unnecessary noConflict() call in dfcg_jquery_scripts() function
+				- Bug fix:	Fixed html entities encoding for alt attribute in ID Method contructors (formerly Pages method). Props: Joe Veler.
 	
 	3.2.3		- Bug fix:	Fixes contextual help compatibility issue with WP3.0
 	
@@ -167,7 +169,7 @@ define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_VER', '3.3' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
-define( 'DFCG_WP_VERSION_REQ', '2.9' );
+define( 'DFCG_WP_VERSION_REQ', '3.0' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 'dynamic_content_gallery' );
 define( 'DFCG_PAGEHOOK', 'settings_page_'.DFCG_FILE_HOOK );
@@ -183,7 +185,6 @@ $dfcg_text_loaded = false;
 // Load plugin options
 $dfcg_options = get_option('dfcg_plugin_settings');
 $dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
-
 
 
 /***** Load files needed for plugin to run ********************/
