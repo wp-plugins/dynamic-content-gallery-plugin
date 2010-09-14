@@ -38,20 +38,20 @@ function dfcg_add_metabox() {
 	
 	if( $dfcg_options['populate-method'] == 'multi-option' || $dfcg_options['populate-method'] == 'one-category' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
 	}
 	
 	if( $dfcg_options['populate-method'] == 'id-method' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
 	}
 	
 	if( $dfcg_options['populate-method'] == 'custom-post' ) {
 	
 		// Only show Metabox on Edit Screen for selected Custom Post Type
 		$post_type = $dfcg_options['custom-post-type'];
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', $post_type, 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', $post_type, 'side', 'low' );
 	}
 }
 
@@ -97,8 +97,8 @@ function dfcg_meta_box($post) {
 	<div class="dfcg-form">
 		<h5><?php _e('Image URL', DFCG_DOMAIN); ?>:</h5>
 		<?php if( $dfcg_options['image-url-type'] == 'auto' ) : ?>
-			<p><em>You are using Auto gallery images. The DCG will automatically grab the first image attachment from this Post/Page.</em></p>
-			<p><em>If you want to specify an alternative image enter the Image URL in the box below, otherwise leave blank.</em></p>
+			<p><em><?php _e('You are using Auto gallery images. The DCG will automatically grab the first image attachment from this Post/Page.', DFCG_DOMAIN); ?></em></p>
+			<p><em><?php _e('If there are no image attachments for this Post/Page, you may specify an alternative image by entering the Image URL in the box below. Leave blank if you attach an image via the Media Uploader.', DFCG_DOMAIN); ?></em></p>
 		<?php endif; ?>
 		<label class="screen-reader-text" for="_dfcg-image"><?php _e('Image URL', DFCG_DOMAIN); ?></label>
 		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;" cols="33" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
