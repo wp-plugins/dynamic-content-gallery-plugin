@@ -17,10 +17,11 @@
 *	Note: the name of this file is preserved because some users will still be using the
 *	old method of calling the plugin (now replaced with template tag)
 *
-*	3 methods of populating the gallery as per Settings:
+*	4 methods of populating the gallery as per Settings:
 *		- Multi Option
 *		- One Category
 *		- ID Method
+*		- Custom Post type Method - added in v3.3
 *	Plus 2 script options for each gallery method
 *
 * @since 3.0
@@ -40,8 +41,8 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 		// Populate method = MULTI-OPTION
 		dfcg_multioption_method_gallery();
 	
-	} elseif($dfcg_options['populate-method'] == 'one-category' && function_exists('dfcg_onecategory_method_gallery') ) {
-		// Populate method = ONE CATEGORY
+	} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
 		dfcg_onecategory_method_gallery();
 	
 	} elseif($dfcg_options['populate-method'] == 'id-method' && function_exists('dfcg_id_method_gallery') ) {
@@ -49,14 +50,15 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 		dfcg_id_method_gallery();
 	}
 
+
 } elseif( $dfcg_options['scripts'] == 'jquery' ) {
 	
 	if($dfcg_options['populate-method'] == 'multi-option' && function_exists('dfcg_jq_multioption_method_gallery') ) {
 		// Populate method = MULTI-OPTION
 		dfcg_jq_multioption_method_gallery();
 	
-	} elseif($dfcg_options['populate-method'] == 'one-category' && function_exists('dfcg_jq_onecategory_method_gallery') ) {
-		// Populate method = ONE CATEGORY
+	} elseif($dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
 		dfcg_jq_onecategory_method_gallery();
 
 	} elseif($dfcg_options['populate-method'] == 'id-method' && function_exists('dfcg_jq_id_method_gallery') ) {

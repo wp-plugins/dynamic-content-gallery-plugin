@@ -5,38 +5,40 @@ Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
-Requires at least: 2.8
-Tested up to: 3.0 (WP) and 2.9.1.1 (WPMU)
+Requires at least: 3.0
+Tested up to: 3.0.1
 Stable tag: 3.2.3
 
-Creates a dynamic gallery of images for latest or featured content selected from one category, a mix of categories, or pages. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Wordpress MS. Requires WP/WPMU version 2.8+.
+Creates a dynamic gallery of images for latest or featured posts selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
 
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured Posts or Pages using either the JonDesign SmoothGallery script for mootools, or the Galleryview script for jQuery.  By associating your gallery images with individual Posts or Pages, using custom fields, the plugin dynamically creates the gallery from your latest and/or featured content. Additionally, default images can be displayed in the event that the necessary custom fields have not been created. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. 
+This plugin creates a dynamic gallery of images for latest and/or featured Posts or Pages using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the first Image Attachment from relevant Posts/Pages, or by specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have an Image Attachment or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
 
-Compatible with Wordpress Mu but with some differences in features compared with the Wordpress version. Requires WP/WPMU version 2.8+.
+For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
+
+Compatible with network-enabled (multisite) WordPress 3.0, though available plugin options are slightly reduced.
 
 **Key Features**
 ----------------
-This version 3.2.3 fixes a compatibility issue with WP 3.0.
 
-Version 3.0+ introduces many new features: streamlined code, expanded Settings page to handle javascript options, and new options for image file management and populating the gallery.
+Version 3.3 introduces many new features: Auto populate method to automatically pull in Image attachments and thumbnails from relevant Posts/Pages, upgraded javascript scripts, streamlined code, new-look and easier to navigate Settings page, and updated options for image file management.
 
-* NEW since 3.2.2 - DCG in a Widget!
-* Metabox panel in Write Post/Page screens for easy editing of custom fields used by the plugin.
-* Auto custom excerpt option for the Slide Pane Description - automatically pulls text from your Post/Page content
-* SmoothGallery javascript image gallery using mootools framework, or an alternative jQuery script.
-* A choice of 3 different methods for populating the gallery -  Multi Option, One Category or Pages.
-* Up to 15 gallery images (One Category method), 9 gallery images (Multi Option), or unlimited for Pages (with custom page Sort Order).
-* Provides for a system of default images which will be displayed in the event a custom field image has not been defined.
+* NEW in 3.3!
+* Auto Image Management option - automatically pulls in first Image Attachment from relevant Posts/Pages
+* Auto Carousel thumbnails, using WP's Post Thumbnail feature.
+* SmoothGallery javascript updated to use latest version of mootools (v1.2.4).
+* New custom jQuery script - now much closer in look and feel to the mootools version
+* A choice of 4 different methods for populating the gallery -  Multi Option, One Category, ID Method or Custom Post Type.
+* Up to 15 gallery images (One Category/Custom Post Type methods), 9 gallery images (Multi Option), or unlimited for ID Method (with custom page Sort Order).
+* Provides for a system of default images which will be displayed in the event an image has not been defined.
 * Displays the Post/Page title and a user-definable description in the Slide Pane.
 * Images can be linked to external URLs.
 * User settings for image file management, CSS and javascript options.
 * Built-in configuration validation checks and error message reporting. 
 * Valid xhtml output.
-* WPMU compatible (with some differences in the Settings available to the user).
+* WP Multisite compatible (with some differences in the Settings available to the user).
 
 **Further information**
 -----------------------
@@ -61,21 +63,21 @@ All support is handled at the [Studiograsshopper Forum](http://www.studiograssho
 3. Activate the plugin in your Dashboard via the "Plugins" menu item.
 4. Go to the plugin's Settings page, and configure your settings.
 
-Note for Wordpress Mu users:
+Note for WordPress Multisite users:
 
 * Install the plugin in your */plugins/* directory (do not install in the */mu-plugins/* directory).
-* In order for this plugin to be visible to blog owners, the plugin has to be activated for each blog by the Site Administrator. Each blog owner can then configure the plugin's Settings page in their Admin Settings.
+* In order for this plugin to be visible to Site Admins, the plugin has to be activated for each blog by the Network Admin. Each Site Admin can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2, 3.2.1, 3.2.2**
-------------------------------------------
+**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3**
+---------------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
 
 **Upgrading from version 2.2, 3.0, 3.1**
 ----------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
-Version 3.2 introduces some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after upgrading from version 3.1 or earlier, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/). 
+Version 3.2 introduced some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after upgrading from version 3.1 or earlier, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/). 
 
 
 
@@ -94,7 +96,7 @@ Alternatively, add it as a Widget via Dashboard>Appearance>Widgets.
 
 **Assigning Images to Posts**
 
-Enter your image URL in the Write Post/Page screen DCG Metabox Image URL field. (The exact form of the image URL depends on whether your DCG Image File Management Settings are set to FULL or PARTIAL URL). 
+Either select Auto in the Image Management options to automatically pull in Image Attachments from relevant Posts/Pages, or enter your image URL in the Write Post/Page screen DCG Metabox Image URL field. (The exact form of the image URL depends on whether your DCG Image File Management Settings are set to FULL or PARTIAL URL). 
 
 Slide Pane text can be configured in three ways - Manual, Auto or None
 
@@ -105,9 +107,9 @@ Slide Pane text can be configured in three ways - Manual, Auto or None
 * Select Auto option to automatically create custom Post/Page excerpts from your Post/Page content.
 
 **None:**
-* Select None if you don't want to diplay a Slide Pane Description. (Post/Page title will still display with this option)
+* Select None if you don't want to display a Slide Pane Description. (Post/Page title will still display with this option)
 
-*Note for WPMU users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Write Post/Page screen DCG Metabox Image URL field. See the Settings page for further information on how to do this. This tip is good for Wordpress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings.
+*Note for WP Multisite users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Write Post/Page screen DCG Metabox Image URL field. See the Settings page for further information on how to do this. This tip is good for WordPress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings. An even better tip for Multisite setups is to use the Auto Image Management option to automatically pull in post attachments.
 
 
 
@@ -119,25 +121,21 @@ Comprehensive information on installing, configuring and using the plugin can be
 
 == Frequently Asked Questions ==
 
-**What does it do?**
-------------------------
-The Dynamic Content Gallery plugin uses custom fields to pull in images and titles from user-definable Posts or Pages, and displays them on your web page using a javascript-driven rotating image gallery.  The Settings page provides comprehensive options for configuring the choice of Posts, Categories or Pages, styling the gallery, and configuring the behaviour of the gallery.
-
 **How does it work?**
 ---------------------
-The plugin provides three ways to populate the gallery:
+The plugin provides four ways to populate the gallery:
 
 * Multi Option: user-definable combination of categories and Posts to display up to 9 images
 * One Category: display up to 15 images from one selected category
-* Pages: features Pages rather than Posts in the gallery
+* ID: designed for Pages, this method can also be used for mixing Pages and Posts in the gallery.
 
-Image file management settings provide comprehensive options for how custom field images are referenced, either by Full URL or Partial URL.
+Image file management settings provide comprehensive options for how images are referenced, either by Auto, Full URL or Partial URL options.
 
-Default images can be defined for each category (One Category and Multi Option display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in Wordpress Mu).
+Default images can be defined for each category (One Category and Multi Option display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in WordPress Multisite).
 
 There are a wide range of CSS and javascript Settings for configuring the look and behaviour of the gallery.
 
-The plugin is supplied with the original Smoothgallery mootools script and a jQuery alternative, selectable via the plugin's Settings page.
+The plugin is supplied with an updated version of the original Smoothgallery mootools script and a jQuery alternative, selectable via the plugin's Settings page.
 
 
 **Download**
@@ -185,13 +183,17 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 4. In order to reduce loading time it is recommended to match your image dimensions to the visible dimensions of the gallery and optimise the filesize in your image editor.
 
+5. To benefit from the new Auto Image Management options your theme needs to support Wp's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
+
 If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
 
 
 
 **Acknowledgements**
 
-The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a modified version of the jQuery Galleryview script developed by Jack Anderson, and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Jack and Jason.
+The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a custom jQuery script developed by developed by Maxim Palianytsia, and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Maxim and Jason.
+
+Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contributing code for the Custom Post Type integration into the DCG.
 
 
 == Screenshots ==
@@ -209,9 +211,29 @@ The Dynamic Content Gallery plugin uses the mootools SmoothGallery script develo
 
 == Changelog ==
 
+= 3.3 =
+* Released	
+* Feature:	Support for Custom Post Types added
+* Feature:	New Auto Image Management option - pulls in Post/Page Image Attachment
+* Feature:	Carousel thumbnails now generated using WP Post Thumbnails feature
+* Feature:	New jQuery script, replaces galleryview script. Plays nicer with jQuery 1.4.2 used by WP3.0
+* Feature:	Gallery images and thumbnails can now be automatically populated by post image attachments
+* Feature:	Mootools js updated to use Mootools 1.2.4
+* Enhance:	Constructor functions cleaned up and improved
+* Enhance:	Pages method now called ID Method (as both Post and Page ID's can be specified)
+* Enhance:	dfcg_pages_method_gallery() renamed to dfcg_id_method_gallery()
+* Enhance:	dfcg_jq_pages_method_gallery() renamed to dfcg_jq_id_method_gallery()
+* Enhance:	DCG Metabox visible in both Write Posts and Write Pages, if ID Method is selected
+* Enhance:	New tabbed interface for the DCG Settings Page
+* Enhance:	Tooltips added to DCG Settings Page to declutter the interface
+* Enhance:	Contextual help now moved to DCG Settings Page Help tab. dfcg-admin-ui-help.php deprecated.
+* Enhance:	Cleaned up interface text strings, re-worded some strings to make info more understandable
+* Bug fix:	Removed unnecessary noConflict() call in dfcg_jquery_scripts() function
+* Bug fix:	Fixed html entities encoding for alt attribute in ID Method contructors (formerly Pages method). Props: Joe Veler.
+
 = 3.2.3 =
-* Released
-* Big fix:	Fixes contextual help compatibility issue with WP3.0
+* Released	11 April 2010
+* Bug fix:	Fixes contextual help compatibility issue with WP3.0
 
 = 3.2.2 =
 * Released	08 February 2010
