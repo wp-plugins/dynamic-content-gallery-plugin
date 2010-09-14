@@ -69,6 +69,7 @@ dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on pag
 			<?php dfcg_ui_multi(); // Multi-Option ?>
 			<?php dfcg_ui_onecat(); // One Category ?>
 			<?php dfcg_ui_id(); // Pages ?>
+			<?php dfcg_ui_custom_post(); // Custom Post type ?>
 		</div>
 	
 		<div class="dfcg-panel form-table" id="dfcg-panel-desc">

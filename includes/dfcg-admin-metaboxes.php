@@ -32,14 +32,26 @@ function dfcg_add_metabox() {
 
 	global $dfcg_options, $dfcg_postmeta_upgrade;
 	
-	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
+	if( $dfcg_postmeta_upgrade['upgraded'] !== 'completed' ) {
+		return; // No Metaboxes unless upgrade is done!
+	}
+	
+	if( $dfcg_options['populate-method'] == 'multi-option' || $dfcg_options['populate-method'] == 'one-category' ) {
 	
 		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
 	}
 	
-	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' && $dfcg_options['populate-method'] == 'id-method' ) {
+	if( $dfcg_options['populate-method'] == 'id-method' ) {
 	
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
 		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
+	}
+	
+	if( $dfcg_options['populate-method'] == 'custom-post' ) {
+	
+		// Only show Metabox on Edit Screen for selected Custom Post Type
+		$post_type = $dfcg_options['custom-post-type'];
+		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery', DFCG_DOMAIN ), 'dfcg_meta_box', $post_type, 'side', 'low' );
 	}
 }
 
@@ -149,7 +161,7 @@ function dfcg_meta_box($post) {
 		}
 	?>
 	<div class="dfcg-form">
-		<h5><?php _e('Exclude from gallery?', DFCG_DOMAIN); ?></h5>
+		<h5><?php _e('Exclude this Post/Page from gallery?', DFCG_DOMAIN); ?></h5>
 		<input type="checkbox" id="_dfcg-exclude" name="_dfcg-exclude" <?php checked($exclude); ?> />
 		<label for="_dfcg-exclude" style="font-size:10px;">&nbsp;<?php _e('Check to exclude', DFCG_DOMAIN ); ?></label>
 	</div>
@@ -173,7 +185,7 @@ function dfcg_meta_box($post) {
 function dfcg_save_metabox_data($post_id, $post) {
 	
 	// Check referrer is from DCG metabox
-	if ( !wp_verify_nonce( $_POST['dfcg_metabox_noncename'], DFCG_FILE_HOOK )) {
+	if ( !wp_verify_nonce( isset($_POST['dfcg_metabox_noncename']), DFCG_FILE_HOOK )) {
 	return $post->ID;
 	}
 

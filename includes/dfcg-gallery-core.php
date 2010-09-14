@@ -323,7 +323,7 @@ function dfcg_jquery_smooth_scripts($dfcg_options) {
 	
 	if( $dfcg_options['scripts'] == 'jquery' ) {
 		echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n";
-		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js"></script>' . "\n";
 		echo '<script type="text/javascript">
 			jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
 				showArrows: true,
@@ -523,4 +523,45 @@ function dfcg_postmeta_info() {
 		$postmeta['link'] = 'dfcg-link';
 	}
 	return $postmeta;
+}
+
+
+/**
+* Function to get the thumbnail for carousel
+*
+* Used by gallery constructor functions
+*
+* Uses WP get_the_post_thumbnail() function
+*
+* @global array $dfcg_postmeta_upgrade Plugin options from db
+*
+* @return $thumb_html HTML markup for thumbnail
+* @since 3.3
+**/
+function dfcg_get_thumbnail($id, $image_src, $title) {
+	global $dfcg_options;
+	
+	// Get the thumbnail - uses Post Thumbnails if AUTO images are used
+	if( current_theme_supports('post-thumbnails') && $dfcg_options['thumb-type'] == "post-thumbnails" ) {
+		
+		$args = array(
+			"class" => "dfcg-postthumb-auto thumbnail",
+			"alt" => esc_attr($title),
+			);
+		
+		$thumb = get_the_post_thumbnail( $id, array(100,100), $args );
+		
+		if( $thumb ) {
+			$thumb_html = $thumb;
+		} else {
+			// A Post Thumbnail has not been set for this post
+			$thumb_html = '<img class="dfcg-postthumb-notset thumbnail" src="'. $image_src . '" alt="'. esc_attr($title) .'" />';
+		}
+		
+	} else {
+		// Legacy thumbnails, therefore just use $image_src, no resizing etc
+		$thumb_html = '<img class="dfcg-thumb-legacy thumbnail" src="'. $image_src . '" alt="'. esc_attr($title) .'" />';
+	}
+	
+	return $thumb_html;
 }

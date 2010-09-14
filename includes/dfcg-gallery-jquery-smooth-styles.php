@@ -93,7 +93,7 @@ if (!defined('ABSPATH')) {
 	position:absolute;
 	z-index:25;
 	width:auto;
-	height:<?php echo $dfcg_options['gallery-height']; ?>px;/* Added AAW - not sure */
+	/*height:<?php //echo $dfcg_options['gallery-height']; ?>px;/* Added AAW - not sure */
 	}
 
 .dfcg-imgnav {

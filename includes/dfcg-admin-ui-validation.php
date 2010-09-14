@@ -25,6 +25,8 @@ if (!defined('ABSPATH')) {
 *	is refreshed after Submit, so this function can be used
 *	either on fresh load, or after submit. See dfcg-ui-admin-screen.php.
 *
+*	Updated for new Custom Post type Gallery Method in 3.3
+*
 * @uses dfcg_wp_version_check()
 *
 * @param array $options_array, Options from db
@@ -94,6 +96,11 @@ function dfcg_on_load_validation($options_array) {
 		// If ID Method, defimgpages should be defined
 		if( $options_array['populate-method'] == 'id-method' && empty($options_array['defimgid']) ) {
 			echo '<div class="updated"><p><strong>' . __('Note: You are using the "ID Method" Gallery Method. Enter the URL of your default image in the ID Method settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
+		}
+		
+		// If Custom Post, defimgcustompost should be defined
+		if( $options_array['populate-method'] == 'custom-post' && empty($options_array['defimgcustompost']) ) {
+			echo '<div class="updated"><p><strong>' . __('Note: You are using the "Custom Post Type" Gallery Method. Enter the Path to your Taxonomy default images folder in the Custom Post settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</strong></p></div>';
 		}
 	}
 }

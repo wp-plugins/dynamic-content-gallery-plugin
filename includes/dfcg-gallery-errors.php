@@ -355,6 +355,21 @@ function dfcg_errors() {
 	$errmsg_18 .= "\n" . '<!-- ' . __('Fix: Enter an image URL in the DCG Metabox Image URL field for this Post/Page. You should also create Default images as described in the Configuration Guide.', DFCG_DOMAIN) .' -->';
 	
 	
+	/** Error Message 19	Info message
+	*	Populate-method:	All
+	*	Trigger:			Image attachment found
+	*/
+	$errmsg_19 = "\n" . '<!-- ' . __('DCG Info Message 19: Auto image selected. Image attachment found.', DFCG_DOMAIN) .' -->';
+	
+	
+	/** Error Message 20	Info message
+	*	Populate-method:	All
+	*	Trigger:			Metabox image found
+	*/
+	$errmsg_20 = "\n" . '<!-- ' . __('DCG Info Message 20: Metabox image selected. Metabox image found.', DFCG_DOMAIN) .' -->';
+	
+	
+	
 	// Set up our error message array of all error messages
 	// This will be handier when using global scope declaration in gallery display functions
 	$errmsgs = array (
@@ -375,7 +390,9 @@ function dfcg_errors() {
 		'15' => $errmsg_15,
 		'16' => $errmsg_16,
 		'17' => $errmsg_17,
-		'18' => $errmsg_18
+		'18' => $errmsg_18,
+		'19' => $errmsg_19,
+		'20' => $errmsg_20
 	);
 	
 	// Return array of Error Messages

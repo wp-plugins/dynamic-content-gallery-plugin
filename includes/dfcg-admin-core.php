@@ -101,7 +101,10 @@ function dfcg_add_to_options_menu() {
 	// Add Settings Page
 	$dfcg_page_hook = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
 	
+	// Load all the jQuery stuff we need for back end
 	wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery-ui-core');
+	wp_enqueue_script('jquery-ui-tabs');
 	
 	// Load Admin external scripts and CSS
 	add_action( 'admin_head-settings_page_' . DFCG_FILE_HOOK, 'dfcg_loadjs_admin_head', 20 );
@@ -126,7 +129,7 @@ function dfcg_loadjs_admin_head() {
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin admin scripts -->' . "\n";
 	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-ui-admin.css" type="text/css" />' . "\n";
 	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-tabs-ui.css" type="text/css" />' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/admin-assets/dfcg-admin-js.min.js"></script>' . "\n";
+	
 	echo '<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				var $tabs = $("#tabs").tabs();
@@ -163,6 +166,11 @@ function dfcg_loadjs_admin_head() {
 				
 				$(".dfcg-panel-tools-link").click(function() { // bind click event to link
     				$tabs.tabs("select", 7); // switch to eighth tab
+    			return false;
+				});
+				
+				$(".dfcg-panel-help-link").click(function() { // bind click event to link
+    				$tabs.tabs("select", 8); // switch to nine tab
     			return false;
 				});
 			});
@@ -377,7 +385,7 @@ function dfcg_admin_notice_reset() {
 *
 * Used by the "upgrader" function dfcg_set_gallery_options().
 *
-* 84 options (5 are WP only)
+* 83 options (6 are WP only)
 *
 * @since 3.2.2
 * @updated 3.3
@@ -385,7 +393,7 @@ function dfcg_admin_notice_reset() {
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
 	$default_options = array(
-		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3: multi-option, one-category, ID
+		'populate-method' => 'one-category',					// Populate method for how the plugin works - since 2.3: multi-option, one-category, 'id-method, custom-post
 		'cat-display' => '1',									// one-category: the ID of the selected category - since 2.3
 		'posts-number' => '5',									// one-category: the number of posts to display - since 2.3
 		'cat01' => '1',											// multi-option: the category IDs
@@ -407,12 +415,16 @@ function dfcg_default_options() {
 		'off08' => '',											// multi-option: the post select
 		'off09' => '',											// multi-option: the post select
 		'ids-selected' => '',									// ID method: Page/Post ID's in comma separated list - since 2.3 (renamed in 3.3)
+		'custom-post-type' => '',								// post-type: the Custom Post type selected
+		'custom-post-type-number' => '5',						// post-type: the number of posts to display
+		'custom-post-type-tax' => '',							// post-type: the ID of the post type taxonomy to display posts from
 		'homeurl' => get_option('home'),						// Stored, but not currently used...
 		'image-url-type' => 'auto',								// WP only. All methods: URL type for dfcg-images - since 2.3: full, partial, auto (added 3.3)
 		'imageurl' => '',										// WP only. All methods: URL for partial custom images
 		'defimgmulti' => '',									// WP only. Multi-option: URL for default category image folder
 		'defimgonecat' => '',									// WP only. One-category: URL for default category image folder
 		'defimgid' => '',										// WP only. ID Method: URL for a default image
+		'defimgcustompost' => '',								// WP only. Post-type: URL for default custom category image folder
 		'defimagedesc' => '',									// all methods: default description
 		'gallery-width' => '460',								// all methods: CSS
 		'gallery-height' => '250',								// all methods: CSS
@@ -450,7 +462,7 @@ function dfcg_default_options() {
 		'slideInfoZoneOpacity' => '0.7',						// JS option
 		'textShowCarousel' => 'Featured Articles',				// JS option
 		'defaultTransition' => 'fade',							// JS option - mootools only
-		'errors' => '0',										// all methods: Error reporting on/off
+		'errors' => 'false',									// all methods: Error reporting on/off
 		'posts-column' => 'true',								// all methods: Show edit posts column dfcg-image
 		'pages-column' => 'true',								// all methods: Show edit pages column dfcg-image
 		'posts-desc-column' => 'true',							// all methods: Show edit pages column dfcg-desc
@@ -462,7 +474,8 @@ function dfcg_default_options() {
 		'more-text' => '[more]',								// all methods: More text for custom excerpt
 		'pages-sort-column' => 'true',							// ID: Show edit pages column _dfcg-sort: bool
 		'id-sort-control' => 'false',							// ID: Allow custom sort of images using _dfcg-sort: bool
-		'page-ids' => ''										// Restrict scripts: ordinary page ID numbers
+		'page-ids' => '',										// Restrict scripts: ordinary page ID numbers
+		'thumb-type' => 'legacy'								// all methods: post-thumbnails or legacy - mootools only
 	);
 	
 	// Return options array for use elsewhere
@@ -480,36 +493,36 @@ function dfcg_default_options() {
 * In 2.3 - "imagepath" is deprecated, replaced by "imageurl" in 2.3
 * In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
 * In 2.3 - 29 orig options + 30 new options added , total now is 59
-* In RC2 - "nourl" value of "image-url-type" is deprecated
-* In RC3 - "posts-column" added
-* In RC3 - "pages-column" added
+*
+* In RC2 - Change: "nourl" value of "image-url-type" is deprecated
+*
+* In RC3 - Added 2: "posts-column", "pages-column" added
 * In RC3 - Total options is 59 + 2 = 61
-* In RC4 - "posts-desc-column" added
-* In RC4 - "pages-desc-column" added
-* In RC4 - "just-reset" added
-* In RC4 - "scripts" added
-* In RC4 - 9 jQuery options added
+*
+* In RC4 - Added 13: "posts-desc-column", "pages-desc-column", "just-reset", "scripts", 9 jQuery options
+* In RC4 - Change: "part" value of "image-url-type" is changed to "partial"
 * In RC4 - Total options is 61 + 13 = 74
-* In RC4 - "part" value of "image-url-type" is changed to "partial"
-* In 3.1 - "desc-method" added
-* In 3.1 - "max-char" added
-* In 3.1 - "more-text" added
-* In 3.1 - "slide-p-a-color", "slide-p-ahover-color", "slide-p-a-weight", "slide-p-ahover-weight" added
+*
+* In 3.1 - Added 7: "desc-method", "max-char", "more-text", "slide-p-a-color", "slide-p-ahover-color", "slide-p-a-weight", "slide-p-ahover-weight"
 * In 3.1 - Total options = 74 + 7 = 81
-* In 3.2 - "desc-method" can now have three values - auto, manual, none
-* In 3.2 - 'pages-sort-column' added
-* In 3.2 - 'pages-sort-control' added
+*
+* In 3.2 - Change: "desc-method" can now have three values - auto, manual, none
+* In 3.2 - Added 2: 'pages-sort-column', 'pages-sort-control'
 * In 3.2 - Total options = 81 + 2 = 83
-* In 3.2.2 - 'page-ids' option added
-* In 3.2.2 - new value 'page' added to 'limit-scripts' option
+*
+* In 3.2.2 - Added 1: 'page-ids'
+* In 3.2.2 - Change: new value 'page' added to 'limit-scripts' option
 * In 3.2.2 - Total options = 83 + 1 = 84
-* In 3.3 - new value 'auto' added to 'image-url-type' option
-* In 3.3 - 'pages-selected' option renamed as 'ids-selected' (handles Post and Page IDs)
-* In 3.3 - 'defimgpages' option renamed as 'defimgid'
-* In 3.3 - 'pages-sort-control' option renamed as 'id-sort-control'
-* In 3.3 - 'pages' value of "populate-method" is changed to 'id-method'
-* In 3.3 - 'nav-theme', 'pause-on-hover', 'transition-speed', 'fade-panels', 'slide-overlay-position', 'gallery-background' removed.
-* In 3.3 - Total options = 84 - 6 = 78
+*
+* In 3.3 - Change: new value 'auto' added to 'image-url-type' option
+* In 3.3 - Change: 'pages-selected' option renamed as 'ids-selected' (handles Post and Page IDs)
+* In 3.3 - Change: 'defimgpages' option renamed as 'defimgid'
+* In 3.3 - Change: 'pages-sort-control' option renamed as 'id-sort-control'
+* In 3.3 - Change: 'pages' value of "populate-method" is changed to 'id-method'
+* In 3.3 - Deleted 6: 'nav-theme', 'pause-on-hover', 'transition-speed', 'fade-panels', 'slide-overlay-position', 'gallery-background'
+* In 3.3 - Added 5: 'thumb-type' 'defimgcustompost', 'custom-post-type', 'custom-post-type-number', 'custom-post-type-tax'
+* In 3.3 - Change: 'custom-post' value added to 'populate-method' option
+* In 3.3 - Total options = 84 - 6 + 5 = 83
 *
 *
 * @uses dfcg_default_options()
@@ -554,6 +567,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Delete the old and add the upgraded options
@@ -585,6 +603,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Delete the old and add the upgraded options
@@ -611,6 +634,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -641,6 +669,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -671,6 +704,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -704,6 +742,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -737,6 +780,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -778,6 +826,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -824,6 +877,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -884,6 +942,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -951,6 +1014,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2
@@ -1021,6 +1089,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
+		$existing['thumb-type'] == 'legacy';
+		$existing['custom-post-type'] == '';
+		$existing['custom-post-type-tax'] == '';
+		$existing['custom-post-type-number'] == '5';
+		$existing['defimgcustompost'] == '';
 		
 		
 		// Added in 3.2.2

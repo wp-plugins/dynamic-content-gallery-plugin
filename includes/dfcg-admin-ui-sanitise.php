@@ -79,11 +79,11 @@ function dfcg_sanitise($input) {
 	
 	/***** Organise the options by type etc, into arrays, then sanitise / validate / format correct *****/
 	
-	//	Whitelist options													(9)		(8)
-	//	Path and URL options												(5)		(1)
+	//	Whitelist options													(10)	(10)
+	//	Path and URL options												(6)		(1)
 	//	On-off options														(1)
 	//	Bool options														(13)
-	//	String options - no XHTML allowed									(3)
+	//	String options - no XHTML allowed									(5)
 	//	String options - some XHTML allowed									(1)
 	//	String options - CSS hexcodes										(6)
 	//	String options - numeric comma separated only 						(2)
@@ -91,43 +91,43 @@ function dfcg_sanitise($input) {
 	//	Integer options - positive - can be blank, can't be zero 			(9)
 	//	Integer options - positive - can be blank, can't be zero 			(1)
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
-	//	Integer options - positive integer - can't be blank, can be zero 	(17)
+	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																78
+	//	Total 																83
 	
 	
-	/***** Whitelist options (9/8) *****/
+	/***** Whitelist options (10/10) *****/
 	
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU
-		$whitelist_opts = array( 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
+		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight', 'thumb-type' );
 	} else {
 		// We're in WP
-		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight' );
+		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight', 'thumb-type' );
 	}
 	
 	// Define whitelist of known values
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'manual', 'auto', 'none', 'page' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'manual', 'auto', 'none', 'page', 'post-thumbnails', 'legacy' );
 	
 	// sanitise
 	foreach( $whitelist_opts as $key ) {
 		// If option value is not in whitelist
 		if( !in_array( $input[$key], $dfcg_whitelist ) ) {
 			//Used for testing: $input[$key] = 'dodgy';
-			var_dump($key, $input[$key]);
-			wp_die( "Dynamic Content Gallery Message #20: " .$dfcg_sanitise_error );
+			//var_dump($key, $input[$key]);
+			wp_die( "Dynamic Content Gallery Message #20: " . $dfcg_sanitise_error . "<br />Error with option: " . $key . "<br />Value: " . $input[$key] );
 		}
 	}
 	
 	
-	/***** Path and URL options (5/1) *****/
+	/***** Path and URL options (6/1) *****/
 	
 	if ( function_exists('wpmu_create_blog') ) {
 		// We're in WPMU
 		$abs_url_opts = array( 'homeurl' );
 	} else {
 		// We're in WP
-		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgid', 'homeurl' );
+		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgid', 'defimgcustompost', 'homeurl' );
 	}
 	
 	// sanitise and add trailing slash
@@ -166,9 +166,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** String options - no XHTML allowed (3) *****/
+	/***** String options - no XHTML allowed (5) *****/
 	
-	$str_opts_no_html = array( 'textShowCarousel', 'slideInfoZoneOpacity', 'more-text' );
+	$str_opts_no_html = array( 'textShowCarousel', 'slideInfoZoneOpacity', 'more-text', 'custom-post-type', 'custom-post-type-tax' );
 	
 	// sanitise
 	foreach( $str_opts_no_html as $key ) {
@@ -348,9 +348,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Integer options - positive integer - can't be blank, can be zero (17) *****/
+	/***** Integer options - positive integer - can't be blank, can be zero (18) *****/
 	
-	$int_opts_nonblank = array( 'posts-number', 'gallery-width', 'gallery-height', 'gallery-border-thick', 'slide-height', 'slide-h2-size', 'slide-h2-padtb', 'slide-h2-padlr', 'slide-h2-marglr', 'slide-h2-margtb', 'slide-p-size', 'slide-p-padtb', 'slide-p-padlr', 'slide-p-marglr', 'slide-p-margtb', 'slide-p-line-height', 'max-char' );
+	$int_opts_nonblank = array( 'posts-number', 'gallery-width', 'gallery-height', 'gallery-border-thick', 'slide-height', 'slide-h2-size', 'slide-h2-padtb', 'slide-h2-padlr', 'slide-h2-marglr', 'slide-h2-margtb', 'slide-p-size', 'slide-p-padtb', 'slide-p-padlr', 'slide-p-marglr', 'slide-p-margtb', 'slide-p-line-height', 'max-char', 'custom-post-type-number' );
 	
 	// sanitise, limit to 4 chars, convert blanks to 0
 	foreach( $int_opts_nonblank as $key ) {
@@ -381,6 +381,11 @@ function dfcg_sanitise($input) {
 			$input[$key] = 1000;
 		}
 	}
+	
+	
+	/***** String options (2) *****/
+	
+	
 	
 	
 	// Return sanitised options array ready for db

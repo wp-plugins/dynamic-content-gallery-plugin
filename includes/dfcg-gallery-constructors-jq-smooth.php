@@ -6,9 +6,10 @@
 * @package dynamic_content_gallery
 * @version 3.3
 *
-* @info One function for each of the 3 populate-methods.
+* @info One function for each of the 4 populate-methods.
 *		- Multi Option		dfcg_jq_multioption_method_gallery()
 *		- One Category		dfcg_jq_onecategory_method_gallery()
+*		- Custom Post Type	dfcg_jq_onecategory_method_gallery()
 *		- Pages				dfcg_jq_id_method_gallery()
 *
 * @since 3.3
@@ -42,8 +43,6 @@ if (!defined('ABSPATH')) {
 * @var string 	$counter1				Stores how many times WP_Query is run (to do comparison for missing posts)
 * @var string 	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
 * @var string 	$slide_text				Slide Pane description text
-* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
-* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
 * @var string	$link					Image link URL, either to Post/Page or External
 * @var string 	$auto_image				First image attachment in the Post, as URL
 * @var string	$image_src				SRC of gallery image
@@ -65,7 +64,9 @@ function dfcg_jq_multioption_method_gallery() {
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
-	$dfcg_errmsgs = dfcg_errors_output();
+	if( function_exists( 'dfcg_errors_output' ) ) {
+		$dfcg_errmsgs = dfcg_errors_output();
+	}
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
@@ -74,7 +75,7 @@ function dfcg_jq_multioption_method_gallery() {
 	$def_img_folder_url = $dfcg_options['defimgmulti'];
 
 	// Added 3.1: Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
-	$def_img_folder_path = str_replace( get_bloginfo('siteurl'), ABSPATH, $def_img_folder_url );
+	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	$query_list = dfcg_query_list();
 
@@ -158,30 +159,34 @@ function dfcg_jq_multioption_method_gallery() {
 					// Display the page title
 					$output .= "\n\t\t\t" . '<h3>' . get_the_title() . '</h3>';
 					
-					// Get the images
+					// Get the Image
 					if( $dfcg_options['image-url-type'] == "auto" ) {
 				
 						$auto_image = dfcg_grab_post_image($post->ID);
 				
 						if( $auto_image ) {
 							$image_src = $auto_image;
-							$image_err = "";
+							$image_class = "dfcg-auto";
+							$image_err = $dfcg_errmsgs['19'];
 							// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
 						
 						} elseif( get_post_meta($post->ID, $postmeta['image'], true) ) {
 							$image_src = $baseimgurl . get_post_meta($post->ID, $postmeta['image'], true);
+							$image_class = "dfcg-auto-metabox";
         					$image_err = $dfcg_errmsgs['14'];
-							// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+							// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
 						
 						} else {
 							// Path to Default Category image
 							$def_img_path = $def_img_folder_path . $key . '.jpg';
 							if( file_exists($def_img_path) ) {
 								$image_src = $def_img_folder_url . $key . '.jpg';
+								$image_class = "dfcg-auto-default";
 								$image_err = $dfcg_errmsgs['15'];
 								
         					} else {
 								$image_src = DFCG_ERRORIMGURL;
+								$image_class = "dfcg-auto-error";
         						$image_err = $dfcg_errmsgs['16'];
 							}
 						}
@@ -192,26 +197,28 @@ function dfcg_jq_multioption_method_gallery() {
 						
 						if( $metabox_image ) {
 							$image_src = $baseimgurl . $metabox_image;
-        					$image_err = "";
-							// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie image gives 404
+							$image_class = "dfcg-metabox";
+        					$image_err = $dfcg_errmsgs['20'];
+							// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie image gives 404
 						
 						} else {
 							// Path to Default Category image
 							$def_img_path = $def_img_folder_path . $key . '.jpg';
 							if( file_exists($def_img_path) ) {
 								$image_src = $def_img_folder_url . $key;
+								$image_class = "dfcg-metabox-default";
 								$image_err = $dfcg_errmsgs['17'];
-								// Note: No Error message will be triggered if defimgid is set but URL is wrong, ie 404.
 							
         					} else {
 								$image_src = DFCG_ERRORIMGURL;
+								$image_class = "dfcg-metabox-error";
         						$image_err = $dfcg_errmsgs['18'];
 							}
 						}
 					}
 					
 					// Output the images
-					$output .= "\n\t\t\t" . '<img class="full" src="'. $image_src .'" alt="'. get_the_title() .'" />';
+					$output .= "\n\t\t\t" . '<img class="full ' . $image_class . '" src="'. $image_src .'" alt="'. get_the_title() .'" />';
 					$output .= $image_err;
 
 					// Get the description
@@ -235,16 +242,12 @@ function dfcg_jq_multioption_method_gallery() {
 						
 						} else {
 							// Fall back to Auto custom excerpt
-							$chars = $dfcg_options['max-char'];
-							$more = $dfcg_options['more-text'];
-							$slide_text = dfcg_the_content_limit( $chars, $more );
+							$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 						}
 					
 					} else {
 						// We're using Auto custom excerpt
-						$chars = $dfcg_options['max-char'];
-						$more = $dfcg_options['more-text'];
-						$slide_text = dfcg_the_content_limit( $chars, $more );
+						$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 					}
 					
 					// Output Slide Text
@@ -262,14 +265,7 @@ function dfcg_jq_multioption_method_gallery() {
 					$output .= "\n\t\t\t" . '<a href="'. $link .'" title="Read More" rel="bookmark">';
 
 					// Get the thumbnail - uses Post Thumbnails if AUTO images are used
-					if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
-						$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto") );
-					}
-					if( $thumb ) {
-						$thumb_html = $thumb;
-					} else {
-						$thumb_html = '<img width="100" height="100" class="dfcg-thumbnail" src="' . $image_src . '" alt="'. get_the_title() .'" />';
-					}
+					$thumb_html = dfcg_get_thumbnail($post->ID, $image_src, $post->post_title);
 					
 					// Output the thumbnail
 					$output .= "\n\t\t\t" . $thumb_html;
@@ -359,8 +355,6 @@ function dfcg_jq_multioption_method_gallery() {
 * @var string	$counter				Stores how many times items in $recent wp_query loop
 * @var string	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
 * @var string 	$slide_text				Slide Pane description text
-* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
-* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
 * @var string	$link					Image link URL, either to Post/Page or External
 * @var string 	$auto_image				First image attachment in the Post, as URL
 * @var string	$image_src				SRC of gallery image
@@ -381,29 +375,56 @@ function dfcg_jq_onecategory_method_gallery() {
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
-	$dfcg_errmsgs = dfcg_errors_output();
+	if( function_exists( 'dfcg_errors_output' ) ) {
+		$dfcg_errmsgs = dfcg_errors_output();
+	}
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
 	
-	/* Get the number of Posts to display */
-	// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
-	$posts_number = $dfcg_options['posts-number'];
+	if( $dfcg_options['populate-method'] == 'one-category' ) {
+		/* Get the number of Posts to display */
+		// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
+		$posts_number = $dfcg_options['posts-number'];
+		
+		/* Get the Selected Category/Term */
+		// No need to check Category existence, or whether it has Posts,
+		// thanks to use of wp_dropdown_categories in Settings
+		// With One Category Method, this is the cat ID
+		$term_selected = $dfcg_options['cat-display'];
+		
+		/* Get the URL to the default "Category" images folder from Settings */
+		$def_img_folder_url = $dfcg_options['defimgonecat'];
+		
+		/* The query */
+		$query = 'cat=' . $term_selected . '&showposts=' . $posts_number;
+	}
 
-	/* Get the Selected Category */
-	// No need to check Category existence, or whether it has Posts,
-	// thanks to use of dropdown in Settings
-	$cat_selected = $dfcg_options['cat-display'];
-
-	/* Get the URL to the default "Category" images folder from Settings */
-	$def_img_folder_url = $dfcg_options['defimgonecat'];
+	if( $dfcg_options['populate-method'] == 'custom-post' ) {
+		/* Get the Custom Post Type */
+		$post_type = $dfcg_options['custom-post-type'];
+		
+		/* Get the number of Posts to display */
+		// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
+		$posts_number = $dfcg_options['custom-post-type-number'];
+		
+		/* Get the Selected Category/Term */
+		// In format "taxonomy_name=term_Name" eg ade_products=Guitars
+		$term_selected = $dfcg_options['custom-post-type-tax'];
+		
+		/* Get the URL to the default "Category" images folder from Settings */
+		$def_img_folder_url = $dfcg_options['defimgcustompost'];
+		
+		/* The query */
+		$query = 'post_type=' . $post_type . '&' . $term_selected . '&showposts=' . $posts_number;
+	}
 
 	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
-	$def_img_folder_path = str_replace( get_bloginfo('siteurl'), ABSPATH, $def_img_folder_url );
+	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	// Set a variable for the category default image using the cat ID number for the image name
-	if( $cat_selected !== '' ) {
-		$def_img_name = $cat_selected .'.jpg';
+	if( $term_selected !== '' ) {
+		$def_img_name = $term_selected .'.jpg';
 	} else {
 		$def_img_name = 'all.jpg';
 	}
@@ -412,7 +433,7 @@ function dfcg_jq_onecategory_method_gallery() {
 	$def_img_path = $def_img_folder_path . $def_img_name;
 	
 	/* Do the WP_Query */
-	$recent = new WP_Query("cat=$cat_selected&showposts=$posts_number");
+	$recent = new WP_Query( $query );
 	// Do we have any posts?
 	if ( $recent->have_posts() ) {
 
@@ -450,20 +471,25 @@ function dfcg_jq_onecategory_method_gallery() {
 				
 				if( $auto_image ) {
 					$image_src = $auto_image;
+					$image_class = "dfcg-auto";
+					$image_err = $dfcg_errmsgs['19'];
 					// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
 				
 				} elseif( get_post_meta($post->ID, $postmeta['image'], true) ) {
 					// For backwards compatibility - see if a DCG Metabox Image URL exists
 					$image_src = $baseimgurl . get_post_meta($post->ID, $postmeta['image'], true);
+					$image_class = "dfcg-auto-metabox";
 					$image_err = $dfcg_errmsgs['14'];
 				
 				} elseif( file_exists($def_img_path) ) {
 					// Display the "Category" default image
 					$image_src = $def_img_folder_url . $def_img_name;
+					$image_class = "dfcg-auto-default";
 					$image_err = $dfcg_errmsgs['15'];
 					
 				} else {
 					$image_src = DFCG_ERRORIMGURL;
+					$image_class = "dfcg-auto-error";
 					$image_err = $dfcg_errmsgs['16'];
 				}
 				
@@ -474,21 +500,25 @@ function dfcg_jq_onecategory_method_gallery() {
 				
 				if( $metabox_image ) {
 					$image_src = $baseimgurl . $metabox_image;
-					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+					$image_class = "dfcg-metabox";
+        			$image_err = $dfcg_errmsgs['20'];
+					// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
 			
 				} elseif( file_exists($def_img_path) ) {
 					// Display the "Category" default image
 					$image_src = $def_img_folder_url . $def_img_name;
+					$image_class = "dfcg-metabox-default";
         			$image_err = $dfcg_errmsgs['17'];
 			
 				} else {
 					$image_src = DFCG_ERRORIMGURL;
+					$image_class = "dfcg-metabox-error";
 					$image_err = $dfcg_errmsgs['18'];
 				}
 			}
 			
 			// Output the images
-			$output .= "\n\t\t\t" . '<img class="full" src="'. $image_src .'" alt="'. get_the_title() .'" />';
+			$output .= "\n\t\t\t" . '<img class="full ' . $image_class . '" src="'. $image_src .'" alt="'. get_the_title() .'" />';
 			$output .= $image_err;
 
 			// Get the description
@@ -514,9 +544,7 @@ function dfcg_jq_onecategory_method_gallery() {
 				
 					} else {
 						// We're using Auto custom excerpt as fallback
-						$chars = $dfcg_options['max-char'];
-						$more = $dfcg_options['more-text'];
-						$slide_text = dfcg_the_content_limit( $chars, $more );
+						$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 					}
 				
 				// we have Single cat and category desc exists
@@ -532,16 +560,12 @@ function dfcg_jq_onecategory_method_gallery() {
 				// we have Single cat and no description
 				} else {
 					// We're using Auto custom excerpt as fallback
-					$chars = $dfcg_options['max-char'];
-					$more = $dfcg_options['more-text'];
-					$slide_text = dfcg_the_content_limit( $chars, $more );
+					$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 				}
 				
 			} else {
 				// We're using Auto custom excerpt
-				$chars = $dfcg_options['max-char'];
-				$more = $dfcg_options['more-text'];
-				$slide_text = dfcg_the_content_limit( $chars, $more );
+				$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 			}
 			
 			// Output slide pane description
@@ -559,14 +583,10 @@ function dfcg_jq_onecategory_method_gallery() {
 			$output .= "\n\t\t\t" . '<a href="'. $link .'" title="Read More" rel="bookmark">';
 
 			// Get the thumbnail - uses Post Thumbnails if AUTO images are used
-			if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
-				$thumb = get_the_post_thumbnail( $post->ID, array(100,100), array("class" => "dfcg-thumbnail-auto") );
-			}
-			if( $thumb ) {
-				$output .= "\n\t\t\t" . $thumb;
-			} else {
-				$output .= "\n\t\t\t" . '<img width="100" class="dfcg-thumbnail" src="' . $image_src . '" alt="'. get_the_title() .'" />';
-			}
+			$thumb_html = dfcg_get_thumbnail($post->ID, $image_src, $post->post_title);
+			
+			// Output thumbnail
+			$output .= "\n\t\t\t" . $thumb_html;
 
 			// Close the link XHTML tag
 			$output .= "\n\t\t\t" . '</a>';
@@ -652,10 +672,6 @@ function dfcg_jq_onecategory_method_gallery() {
 * @var string	$ids_found_count		Number of Pages in $wpdb query object
 * @var string	$counter				Incremented variable to add image # in HTML comments markup
 * @var string 	$slide_text				Slide Pane description text
-* @var string	$chars					Stores value of $dfcg_options['max-char'], used as param in dfcg_the_content_limit()
-* @var string	$more					Stores value of $dfcg_options['more-text'], used as param in dfcg_the_content_limit()
-* @var string	$id_content				Stores value of $id_found->post_content, used as param in dfcg_the_content_limit()
-* @var string	$id_id					Stores value of $id_found->ID, used as param in dfcg_the_content_limit()
 * @var string	$link					Image link URL, either to Post/Page or External
 * @var string 	$auto_image				First image attachment in the Post, as URL
 * @var string	$image_src				SRC of gallery image
@@ -676,7 +692,9 @@ function dfcg_jq_id_method_gallery() {
 	
 	// Build array of error messages (NULL if Errors are off)
 	$dfcg_errmsgs = NULL;
-	$dfcg_errmsgs = dfcg_errors_output();
+	if( function_exists( 'dfcg_errors_output' ) ) {
+		$dfcg_errmsgs = dfcg_errors_output();
+	}
 	
 	// Set $baseimgurl variable for image URL
 	$baseimgurl = dfcg_baseimgurl();
@@ -773,32 +791,37 @@ function dfcg_jq_id_method_gallery() {
 			$output .= "\n\t\t" . '<li><!-- DCG Image #' . $counter . ' -->';
 			
 			// Display the page title
-			$output .= "\n\t\t\t" . '<h3>'. $id_found->post_title .'</h3>';
+			$output .= "\n\t\t\t" . '<h3>'. esc_attr($id_found->post_title) .'</h3>';
 			
-			// Get the image
+			// Get the Image
 			if( $dfcg_options['image-url-type'] == "auto" ) {
 				
 				$auto_image = dfcg_grab_post_image($id_found->ID);
 				
 				if( $auto_image ) {
 					$image_src = $auto_image;
+					$image_class = "dfcg-auto";
+					$image_err = $dfcg_errmsgs['19'];
 					// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
 				
 				} elseif( get_post_meta($id_found->ID, $postmeta['image'], true) ) {
 					// For backwards compatibility - see if a DCG Metabox Image URL exists
 					$image_src = $baseimgurl . get_post_meta($id_found->ID, $postmeta['image'], true);
+					$image_class = "dfcg-auto-metabox";
 					$image_err = $dfcg_errmsgs['14'];
-					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+					// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
         		
 				} elseif( !empty($dfcg_options['defimgid']) ) {
 					// Display the "ID" default image
 					$image_src = $dfcg_options['defimgid'];
+					$image_class = "dfcg-auto-default";
         			$image_err = $dfcg_errmsgs['15'];
 					// Note: No Error message will be triggered if defimgid is set but URL is wrong, ie 404.
         		
 				} else {
 					// Display ID Error image
 					$image_src = DFCG_ERRORIMGURL;
+					$image_class = "dfcg-auto-error";
         			$image_err = $dfcg_errmsgs['16'];
 				}
 			
@@ -809,23 +832,27 @@ function dfcg_jq_id_method_gallery() {
 				
 				if( $metabox_image ) {
 					$image_src = $baseimgurl . $metabox_image;
-					// Note: No Error message will be triggered if _dfcg-image is set but URL is wrong, ie 404.
+					$image_class = "dfcg-metabox";
+					$image_err = $dfcg_errmsgs['20'];
+					// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
 				
 				} elseif( !empty($dfcg_options['defimgid']) ) {
 					// Display the "Pages" default image
 					$image_src = $dfcg_options['defimgid'];
+					$image_class = "dfcg-metabox-default";
 					$image_err = $dfcg_errmsgs['17'];
 					// Note: No Error message will be triggered if defimgid is set but URL is wrong, ie 404.
 				
 				} else {
 					// Display Pages Error image
 					$image_src = DFCG_ERRORIMGURL;
+					$image_class = "dfcg-metabox-error";
         			$image_err = $dfcg_errmsgs['18'];
 				}
 			}
 			
 			// Output the images
-			$output .= "\n\t\t\t" . '<img class="full" src="'. $image_src .'" alt="'. $id_found->post_title .'" />';
+			$output .= "\n\t\t\t" . '<img class="full ' . $image_class . '" src="'. $image_src .'" alt="'. esc_attr($id_found->post_title) .'" />';
 			$output .= $image_err;
 
 			// Get the description
@@ -845,20 +872,12 @@ function dfcg_jq_id_method_gallery() {
 
 				} else {
 					// We're using Auto custom excerpt as fallback
-					$id_content = $id_found->post_content;
-					$id_id = $id_found->ID;
-					$chars = $dfcg_options['max-char'];
-					$more = $dfcg_options['more-text'];
-					$slide_text = dfcg_the_content_limit( $chars, $more, $id_content, $id_id );
+					$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'], $id_found->post_content, $id_found->ID );
 				}
 				
 			} else {
 				// We're using Auto custom excerpt
-				$id_content = $id_found->post_content;
-				$id_id = $id_found->ID;
-				$chars = $dfcg_options['max-char'];
-				$more = $dfcg_options['more-text'];
-				$slide_text = dfcg_the_content_limit( $chars, $more, $id_content, $id_id );
+				$slide_text = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'], $id_found->post_content, $id_found->ID );
 			}
 			
 			// Output slide pane description
@@ -876,14 +895,10 @@ function dfcg_jq_id_method_gallery() {
 			$output .= "\n\t\t\t" . '<a href="'. $link .'" title="Read More" rel="bookmark">';
 
 			// Get the thumbnail - uses Post Thumbnails if AUTO images are used
-			if( current_theme_supports('post-thumbnails') && $dfcg_options['image-url-type'] == "auto" ) {
-				$thumb = get_the_post_thumbnail( $id_found->ID, array(100,100), array("class" => "dfcg-thumbnail-auto") );
-			}
-			if( $thumb ) {
-				$output .= "\n\t\t\t" . $thumb;
-			} else {
-				$output .= "\n\t\t\t" . '<img width="100" class="dfcg-thumbnail" src="' . $image_src . '" alt="'. $id_found->post_title .'" />';
-			}
+			$thumb_html = dfcg_get_thumbnail($id_found->ID, $image_src, $id_found->post_title);
+			
+			// Output thumbnail
+			$output .= "\n\t\t\t" . $thumb_html;
 
 			// Close the link XHTML tag
 			$output .= "\n\t\t\t" . '</a>';
