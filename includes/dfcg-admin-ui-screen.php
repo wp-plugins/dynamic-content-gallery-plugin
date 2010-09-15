@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3
+* @version 3.3.1
 *
 * @info Settings page for Wordpress and Wordpress Mu.
 *
@@ -14,7 +14,7 @@
 *	dfcg_on_load_validation()	- defined in dfcg-admin-ui-validation.php
 *
 * @since 3.0
-* @updated 3.3
+* @updated 3.3.1
 */
 
 /* Prevent direct access to this file */
@@ -29,7 +29,11 @@ dfcg_load_textdomain();
 // Load Settings Page JS
 dfcg_options_js();
 
-dfcg_on_load_validation($dfcg_options); // Run Settings validation checks on page load
+// Pull options from db - added in 3.3.1 to solve new options issue
+$dfcg_options = get_option( 'dfcg_plugin_settings');
+
+ // Run Settings validation checks on page load
+dfcg_on_load_validation($dfcg_options);
 ?>
 
 <div class="wrap" id="sgr-style">

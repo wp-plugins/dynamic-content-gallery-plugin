@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3
+* @version 3.3.1
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.

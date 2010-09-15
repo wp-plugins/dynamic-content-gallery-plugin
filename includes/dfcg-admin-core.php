@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3
+* @version 3.3.1
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -94,9 +94,12 @@ function dfcg_options_init() {
 *
 * @return string $dfcg_page_hook, wp page hook
 * @since 3.2
-* @updated 3.3
+* @updated 3.3.1
 */
 function dfcg_add_to_options_menu() {
+	
+	// Populate plugin's options (since 3.3.1, now runs BEFORE settings page is added. Duh!)
+	dfcg_set_gallery_options();
 	
 	// Add Settings Page
 	$dfcg_page_hook = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
@@ -108,9 +111,6 @@ function dfcg_add_to_options_menu() {
 	
 	// Load Admin external scripts and CSS
 	add_action( 'admin_head-settings_page_' . DFCG_FILE_HOOK, 'dfcg_loadjs_admin_head', 20 );
-	
-	// Populate plugin's options
-	dfcg_set_gallery_options();
 	
 	return $dfcg_page_hook; // May need this later
 }
@@ -524,6 +524,8 @@ function dfcg_default_options() {
 * In 3.3 - Change: 'custom-post' value added to 'populate-method' option
 * In 3.3 - Total options = 84 - 6 + 5 = 83
 *
+* In 3.3.1 - Corrected '==' syntax to '=' for new options that should have been added in 3.3. What an idiot,eh?
+*
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
@@ -544,9 +546,39 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.3
+	} elseif( $existing && $existing_version == '3.3' ) {
+	
+		// Sort out 3.3 error
+		if( empty( $existing['thumb-type'] ) || $existing['thumb-type'] == '' )
+			$existing['thumb-type'] = 'legacy';
+		
+		if( empty( $existing['custom-post-type'] ) )
+			$existing['custom-post-type'] = '';
+		
+		if( empty( $existing['custom-post-type-tax'] ) )
+			$existing['custom-post-type-tax'] = '';
+		
+		if( empty( $existing['custom-post-type-number'] ) || $existing['custom-post-type-number'] = '' )
+			$existing['custom-post-type-tax'] = '5';
+		
+		if( empty( $existing['defimgcustompost'] ) )
+			$existing['defimgcustompost'] = '';
+		
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+	
+	
 	// We're upgrading from 3.2.3
 	} elseif( $existing && $existing_version == '3.2.3' ) {
 	
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -567,11 +599,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Delete the old and add the upgraded options
@@ -585,6 +617,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2.2
 	} elseif( $existing && $existing_version == '3.2.2' ) {
 	
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -603,11 +637,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Delete the old and add the upgraded options
@@ -619,6 +653,8 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.2.1
 	} elseif( $existing && $existing_version == '3.2.1' ) {
+		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
@@ -634,11 +670,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -655,6 +691,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2
 	} elseif( $existing && $existing_version == '3.2' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -669,11 +707,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -690,6 +728,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1
 	} elseif( $existing && $existing_version == '3.1' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -704,11 +744,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -728,6 +768,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1 RC1
 	} elseif( $existing && $existing_version == '3.1 RC1' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -742,11 +784,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -766,6 +808,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0
 	} elseif( $existing && $existing_version == '3.0' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -780,11 +824,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -812,6 +856,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0 RC4
 	} elseif( $existing && $existing_version == '3.0 RC4' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Deal with renamed options in 3.3
 		$existing['ids-selected'] = $existing['pages-selected'];
 		$existing['defimgid'] = $existing['defimgpages'];
@@ -826,11 +872,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -858,6 +904,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0 RC3
 	} elseif( $existing && $existing_version == '3.0 RC3' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// 'part' changed to 'partial'
 		if( $existing['image-url-type'] == 'part' ) {
 			$existing['image-url-type'] = 'partial';
@@ -877,11 +925,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -923,6 +971,8 @@ function dfcg_set_gallery_options() {
 	//We're upgrading from 3.0 RC2
 	} elseif( $existing && $existing_version == '3.0 RC2' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// 'part' changed to 'partial'
 		if( $existing['image-url-type'] == 'part' ) {
 			$existing['image-url-type'] = 'partial';
@@ -942,11 +992,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -991,6 +1041,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from pre-RC2 v3 version (which used version number 2.3)
 	} elseif( $existing && $existing_version == '2.3' ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// If NO URL exists, change it to Partial URL (NO URL is deprecated)
 		if( $existing['image-url-type'] == 'nourl' ) {
 			$existing['image-url-type'] = 'partial';
@@ -1014,11 +1066,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2
@@ -1063,6 +1115,8 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from version 2.2
 	} elseif( $existing && $existing_version !== DFCG_VER ) {
 		
+		// Nothing to do for 3.3.1 as 3.3 code is now corrected
+		
 		// Assign old imagepath to new imageurl
 		// imagepath was the URL excluding "Home" and the custom field entry
 		$existing['imageurl'] = $existing['homeurl'] . $existing['imagepath'];
@@ -1089,11 +1143,11 @@ function dfcg_set_gallery_options() {
 			$existing['populate-method'] = 'id-method';
 		}
 		// Add new v3.3 options
-		$existing['thumb-type'] == 'legacy';
-		$existing['custom-post-type'] == '';
-		$existing['custom-post-type-tax'] == '';
-		$existing['custom-post-type-number'] == '5';
-		$existing['defimgcustompost'] == '';
+		$existing['thumb-type'] = 'legacy';
+		$existing['custom-post-type'] = '';
+		$existing['custom-post-type-tax'] = '';
+		$existing['custom-post-type-number'] = '5';
+		$existing['defimgcustompost'] = '';
 		
 		
 		// Added in 3.2.2

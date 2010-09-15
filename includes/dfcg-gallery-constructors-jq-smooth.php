@@ -12,7 +12,7 @@
 *		- Custom Post Type	dfcg_jq_onecategory_method_gallery()
 *		- Pages				dfcg_jq_id_method_gallery()
 *
-* @since 3.3
+* @since 3.3.1
 */
 
 /* Prevent direct access to this file */
@@ -74,7 +74,7 @@ function dfcg_jq_multioption_method_gallery() {
 	// Get the absolute URL to the default "Category" images folder from Settings
 	$def_img_folder_url = $dfcg_options['defimgmulti'];
 
-	// Added 3.1: Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	// Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
 	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	$query_list = dfcg_query_list();

@@ -3,7 +3,7 @@
 *	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 *
 * 	@package	Dynamic Content Gallery
-*	@version	3.3
+*	@version	3.3.1
 *
 *	smoothSlideshow v2.2 jQuery script developed by Maxim Palianytsia.
 *	

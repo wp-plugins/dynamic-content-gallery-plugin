@@ -4,14 +4,15 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3
+* @version 3.3.1
 *
-* @info One function for each of the 3 populate-methods.
+* @info One function for each of the 4 populate-methods.
 *		- Multi Option		dfcg_multioption_method_gallery()
 *		- One Category		dfcg_onecategory_method_gallery()
-*		- Pages				dfcg_pages_method_gallery()
+*		- Custom Post Type	dfcg_onecategory_method_gallery()
+*		- Pages				dfcg_id_method_gallery()
 *
-* @since 3.0
+* @since 3.3
 */
 
 /* Prevent direct access to this file */
@@ -74,7 +75,7 @@ function dfcg_multioption_method_gallery() {
 	// Get the absolute URL to the default "Category" images folder from Settings
 	$def_img_folder_url = $dfcg_options['defimgmulti'];
 
-	// Added 3.1: Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	// Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
 	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	$query_list = dfcg_query_list();
@@ -389,7 +390,7 @@ function dfcg_onecategory_method_gallery() {
 	}
 	
 
-	// Added 3.1: Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	// Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
 	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	// Set a variable for the category default image using the cat ID number for the image name

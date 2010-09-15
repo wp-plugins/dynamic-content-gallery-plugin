@@ -211,8 +211,12 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 == Changelog ==
 
+= 3.3.1 =
+* Released	15 September 2010
+* Bug fix:	Fixed options handling of new 3.3 options in dfcg-admin-core.php and dfcg-admin-ui-screen.php
+
 = 3.3 =
-* Released	
+* Released	14 September 2010
 * Feature:	Support for Custom Post Types added
 * Feature:	New Auto Image Management option - pulls in Post/Page Image Attachment
 * Feature:	Carousel thumbnails now generated using WP Post Thumbnails feature
