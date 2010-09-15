@@ -23,6 +23,8 @@ Compatible with network-enabled (multisite) WordPress 3.0, though available plug
 **Key Features**
 ----------------
 
+NOTE: Version 3.3.1 is bug fix release to sort out an issue with saving the Settings page options for the first time after upgrading to 3.3. If you haven't upgraded to 3.3, don't bother, just upgrade directly to 3.3.1.
+
 Version 3.3 introduces many new features: Auto populate method to automatically pull in Image attachments and thumbnails from relevant Posts/Pages, upgraded javascript scripts, streamlined code, new-look and easier to navigate Settings page, and updated options for image file management.
 
 * NEW in 3.3!
