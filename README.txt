@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 
+Version:
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -9,12 +9,12 @@ Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 3.3.1
 
-Creates a dynamic gallery of images for latest or featured posts selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
+Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
 
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured Posts or Pages using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the first Image Attachment from relevant Posts/Pages, or by specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have an Image Attachment or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
+This plugin creates a dynamic gallery of images for latest and/or featured content using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the first Image Attachment from relevant Posts/Pages, or by specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have an Image Attachment or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
 
 For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
 
@@ -23,11 +23,6 @@ Compatible with network-enabled (multisite) WordPress 3.0, though available plug
 **Key Features**
 ----------------
 
-NOTE: Version 3.3.1 is bug fix release to sort out an issue with saving the Settings page options for the first time after upgrading to 3.3. If you haven't upgraded to 3.3, don't bother, just upgrade directly to 3.3.1.
-
-Version 3.3 introduces many new features: Auto populate method to automatically pull in Image attachments and thumbnails from relevant Posts/Pages, upgraded javascript scripts, streamlined code, new-look and easier to navigate Settings page, and updated options for image file management.
-
-* NEW in 3.3!
 * Auto Image Management option - automatically pulls in first Image Attachment from relevant Posts/Pages
 * Auto Carousel thumbnails, using WP's Post Thumbnail feature.
 * SmoothGallery javascript updated to use latest version of mootools (v1.2.4).
@@ -71,8 +66,8 @@ Note for WordPress Multisite users:
 * In order for this plugin to be visible to Site Admins, the plugin has to be activated for each blog by the Network Admin. Each Site Admin can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3**
----------------------------------------------------
+**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3, 3.3, 3.3.1**
+---------------------------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
 
@@ -130,6 +125,7 @@ The plugin provides four ways to populate the gallery:
 * Multi Option: user-definable combination of categories and Posts to display up to 9 images
 * One Category: display up to 15 images from one selected category
 * ID: designed for Pages, this method can also be used for mixing Pages and Posts in the gallery.
+* Custom Post Type: display up to 15 images from one selected Custom Post Type
 
 Image file management settings provide comprehensive options for how images are referenced, either by Auto, Full URL or Partial URL options.
 
@@ -185,7 +181,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 4. In order to reduce loading time it is recommended to match your image dimensions to the visible dimensions of the gallery and optimise the filesize in your image editor.
 
-5. To benefit from the new Auto Image Management options your theme needs to support Wp's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
+5. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
 
 If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
 
@@ -200,18 +196,16 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 == Screenshots ==
 1. Dynamic Content Gallery
-2. Settings Page (part only)
-3. Settings - At a glance settings info
-4. Settings - Image File Management
-5. Settings - Gallery Method
-6. Settings - Gallery CSS
-7. Settings - Mootools or jQuery scripts
-8. Settings - Gallery javascript options
-9. Settings - Restrict scripts loading
-10. Settings - dfcg-image and dfcg-desc custom columns
+
 
 
 == Changelog ==
+
+= 3.3.2 =
+* Released	
+* Feature:	Added showArrows checkbox for mootools and jQuery, navigation arrows now optional from within Settings
+* Bug fix:	Fixed URL error to loading-bar-black.gif 
+* Bug fix:	Fixed Slide Pane options errors / hidden fields in dfcg-admin-ui-functions.php
 
 = 3.3.1 =
 * Released	15 September 2010
