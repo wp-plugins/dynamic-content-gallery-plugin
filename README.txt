@@ -202,7 +202,7 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 == Changelog ==
 
 = 3.3.2 =
-* Released	
+* Released	21 September 2010
 * Feature:	Added showArrows checkbox for mootools and jQuery, navigation arrows now optional from within Settings
 * Bug fix:	Fixed URL error to loading-bar-black.gif 
 * Bug fix:	Fixed Slide Pane options errors / hidden fields in dfcg-admin-ui-functions.php
