@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.1
+* @version 3.3.2
 *
 * @info These are the functions which produce the contents of the UI tabs and Settings page
 *
@@ -260,6 +260,10 @@ function dfcg_ui_sgr_info() {
 /**
 * Image File Management: box and content
 *
+* 3 options: ['image-url-type'], ['imageurl'], ['thumb-type']
+* WPMS: 1 hidden ['imageurl']
+* Mootools only: ['thumb-type']
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.3
 */
@@ -359,6 +363,8 @@ function dfcg_ui_1_image() {
 /**
 * Gallery Method: box and content
 *
+* 1 options: ['populate-method']
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.3
 */
@@ -445,7 +451,7 @@ function dfcg_ui_2_method() {
 		<p><?php esc_attr_e('Choose this option if you want a static gallery with specific featured Posts and/or Pages, which is not affected by the addition of new Posts and Pages to your site.', DFCG_DOMAIN); ?></p>
 	</div>
 	
-	<?php if( !empty( $post_types ) ) : ?>
+	<?php if( !empty( $post_types ) ) : // Hide if no Custom Post Types registered ?>
 	<div class="dfcg-tip-hidden" id="dfcg-tip-gm-cp">
 		<p><?php esc_attr_e('This is the option to use if you have set up Custom Post Types and wish to display Custom Post Type posts in the gallery.', DFCG_DOMAIN); ?></p>
 	</div>
@@ -455,6 +461,9 @@ function dfcg_ui_2_method() {
 
 /**
 * Multi-Option: box and content
+*
+* 19 options: ['defimgmulti'], ['off01'] -> ['off09'], ['cat01'] -> ['cat09']
+* WPMS: 1 hidden ['defimgmulti']
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
@@ -551,13 +560,19 @@ function dfcg_ui_multi() {
 
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-ps"><p><?php _e('Example: Enter <strong>1</strong> for latest post, <strong>2</strong> for the last-but-one post, etc.', DFCG_DOMAIN); ?></p></div>
 	
+	<?php if ( !function_exists('wpmu_create_blog') ) : // Hide if in WPMS ?>
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-def"><p><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox Image URL field.', DFCG_DOMAIN); ?></p></div>
+	<?php endif; ?>
+	
 <?php }
 
 
 
 /**
 * One Category: box and contents
+*
+* 3 options: ['cat-display'], ['posts-number'], ['defimgonecat']
+* WPMS: 1 hidden ['defimgonecat']
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
@@ -596,6 +611,7 @@ function dfcg_ui_onecat() {
 			</tr>
 		</tbody>
 	</table>
+	
 	<?php if ( !function_exists('wpmu_create_blog') ) : ?>
 	<table class="optiontable form-table">
 		<tbody>
@@ -611,6 +627,7 @@ function dfcg_ui_onecat() {
 	
 	<div class="dfcg-tip-hidden" id="dfcg-tip-oc-def"><p><?php esc_attr_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox Image URL field.', DFCG_DOMAIN); ?></p></div>
 	<?php endif; ?>
+	
 <?php }
 
 
@@ -618,6 +635,9 @@ function dfcg_ui_onecat() {
 * ID Method: box and content
 *
 * This function was named dfcg_ui_pages() in versions < 3.3
+*
+* 3 options: ['ids-selected'], ['id-sort-control'], ['defimgid']
+* WPMS: 1 hidden ['defimgid'] 
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
@@ -671,6 +691,9 @@ function dfcg_ui_id() {
 /**
 * Custom Post Type: box and contents
 *
+* 4 options: ['custom-post-type'], ['custom-post-type-tax'], ['custom-post-type-number'], ['defimgcustompost']
+* WPMS: 1 hidden ['defimgcustompost']
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
 */
@@ -684,7 +707,7 @@ function dfcg_ui_custom_post() {
 	
 	<?php if( empty($post_types) ) : ?>
 	
-	<p><?php esc_attr_e('You have not registered any Custom Post types, therefore this section is disabled.', DFCG_DOMAIN); ?></p>
+		<p><?php esc_attr_e('You have not registered any Custom Post types, therefore this section is disabled.', DFCG_DOMAIN); ?></p>
 	
 	<?php else : ?>
 	
@@ -792,6 +815,8 @@ function dfcg_ui_custom_post() {
 /**
 * Default Desc: box and content
 *
+* 4 options: ['desc-method'], ['max-char'], ['more-text'], ['desc-method']
+* 
 * @global array $dfcg_options plugin options from db
 * @since 3.2.2
 * @updated 3.3
@@ -839,6 +864,10 @@ function dfcg_ui_defdesc() {
 /**
 * Gallery CSS: box and content
 *
+* 24 options: ['gallery-width'],['gallery-height'],['gallery-border-thick'],['gallery-border-colour'],['slide-height'],['slide-overlay-color'],['slide-h2-size'],['slide-h2-weight'],['slide-h2-colour'],['slide-h2-padtb'],['slide-h2-padlr'],['slide-h2-margtb'],['slide-h2-marglr'],['slide-p-size'],['slide-p-colour'],['slide-p-line-height'],['slide-p-padtb'],['slide-p-padlr'],['slide-p-margtb'],['slide-p-marglr'],['slide-p-a-color'],['slide-p-a-weight'],['slide-p-ahover-color'],['slide-p-ahover-weight']
+*
+* Mootools only: ['slide-height']
+* 
 * @global array $dfcg_options plugin options from db
 * @since 3.0
 * @updated 3.3
@@ -847,10 +876,11 @@ function dfcg_ui_css() {
 	global $dfcg_options;
 	?>
 	<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
-	<h3><?php _e('Gallery size and CSS options (Mootools):', DFCG_DOMAIN); ?></h3>
+		<h3><?php _e('Gallery size and CSS options (Mootools):', DFCG_DOMAIN); ?></h3>
 	<?php else : ?>
-	<h3><?php _e('Gallery size and CSS options (jQuery):', DFCG_DOMAIN); ?></h3>
+		<h3><?php _e('Gallery size and CSS options (jQuery):', DFCG_DOMAIN); ?></h3>
 	<?php endif; ?>
+	
 	<p><?php _e('Configure various layout and CSS options for your gallery including the size of the gallery, the height of the Slide Pane, gallery border, and the font sizes, colours and margins for the text displayed in the Slide Pane.', DFCG_DOMAIN); ?></p>	
 			
 	<table class="optiontable form-table">
@@ -871,6 +901,7 @@ function dfcg_ui_css() {
 				<th scope="row"><?php _e('Gallery border colour:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[gallery-border-colour]" id="dfcg-gallery-border-colour" size="8" value="<?php echo $dfcg_options['gallery-border-colour']; ?>" />&nbsp;<span style="padding-left:7px;"><?php _e('Enter color hex code like this #000000.', DFCG_DOMAIN); ?> <em><?php _e('Default is #000000.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
+			
 			<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
 			<tr valign="top">
 				<th scope="row"><?php _e('Slide Pane Height:', DFCG_DOMAIN); ?></th>
@@ -882,6 +913,7 @@ function dfcg_ui_css() {
 				<td><em><?php _e('This setting is not available when using jQuery script.', DFCG_DOMAIN); ?></em></td>
 			</tr>
 			<?php endif; ?>
+			
 			<tr valign="top">
 				<th scope="row"><?php _e('Slide Pane Background:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[slide-overlay-color]" id="dfcg-slide-overlay-color" size="8" value="<?php echo $dfcg_options['slide-overlay-color']; ?>" />&nbsp;<span style="padding-left:7px;"><?php _e('Enter color hex code like this #000000.', DFCG_DOMAIN); ?> <em><?php _e('Default is #000000.', DFCG_DOMAIN); ?></em></span></td>
@@ -976,6 +1008,8 @@ function dfcg_ui_css() {
 /**
 * Select Javascript Framework
 *
+* 1 options: ['scripts']
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
 * @updated 3.3
@@ -1007,18 +1041,27 @@ function dfcg_ui_js_framework() {
 /**
 * Javascript options: box and content
 *
+* 10 options:	[slideInfoZoneSlide],[defaultTransition],[mootools],['showCarousel'],[textShowCarousel],[showInfopane],[slideInfoZoneOpacity],
+*				[timed],[delay],[showArrows]
+* Mootools only: [slideInfoZoneSlide], [defaultTransition], [mootools]
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3
+* @updated 3.3.2
 */
 function dfcg_ui_javascript() {
 	global $dfcg_options;
 	?>
+	
 	<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
 	<h3 class="not-top"><?php _e('Mootools Javascript configuration options (OPTIONAL):', DFCG_DOMAIN); ?></h3>
+	
 	<?php else : ?>
+	
 	<h3 class="not-top"><?php _e('jQuery Javascript configuration options (OPTIONAL):', DFCG_DOMAIN); ?></h3>
+	
 	<?php endif; ?>
+	
 	<p><?php _e("Configure various default javascript settings for your gallery. The inclusion of these options in this Settings page saves you having to customise the plugin's javascript files.", DFCG_DOMAIN); ?></p>
 
 	<table class="optiontable form-table">
@@ -1031,19 +1074,25 @@ function dfcg_ui_javascript() {
 				<th scope="row"><?php _e('Carousel label:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[textShowCarousel]" id="dfcg-textShowCarousel" size="25" value="<?php echo $dfcg_options['textShowCarousel']; ?>" /><span style="padding-left:30px"><em><?php _e('Label for Carousel tab. Only visible if "Show Carousel" is checked. Default is Featured Articles.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
-			<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
 			<tr valign="top">
 				<th scope="row"><?php _e('Show Slide Pane:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[showInfopane]" id="dfcg-showInfopane" type="checkbox" value="1" <?php checked('true', $dfcg_options['showInfopane']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to display Slide Pane. Default is CHECKED.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
+			
+			<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
 			<tr valign="top">
 				<th scope="row"><?php _e('Animate Slide Pane:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[slideInfoZoneSlide]" id="dfcg-slideInfoZoneSlide" type="checkbox" value="1" <?php checked('true', $dfcg_options['slideInfoZoneSlide']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to have Slide Pane slide into view. Default is CHECKED.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
 			<?php endif; ?>
+			
 			<tr valign="top">
 				<th scope="row"><?php _e('Slide Pane Opacity:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[slideInfoZoneOpacity]" id="dfcg-slideInfoZoneOpacity" size="10" value="<?php echo $dfcg_options['slideInfoZoneOpacity']; ?>" /><span style="padding-left:30px"><em><?php _e('Opacity of Slide Pane. 1.0 is fully opaque, 0.0 is fully transparent. Default is 0.7.', DFCG_DOMAIN); ?></em></span></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Show Arrows:', DFCG_DOMAIN); ?></th>
+				<td><input name="dfcg_plugin_settings[showArrows]" id="dfcg-showArrows" type="checkbox" value="true" <?php checked('true', $dfcg_options['showArrows']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to display left and right navigation arrows. Default is CHECKED.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Timed transitions:', DFCG_DOMAIN); ?></th>
@@ -1053,6 +1102,7 @@ function dfcg_ui_javascript() {
 				<th scope="row"><?php _e('Transitions delay:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[delay]" id="dfcg-delay" size="10" value="<?php echo $dfcg_options['delay']; ?>" /><span style="padding-left:30px"><em><?php _e('Enter the delay time (in milliseconds, minimum 1000) between image transitions. Default is 9000.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
+			
 			<?php if( $dfcg_options['scripts'] == 'mootools' ) : ?>
 			<tr valign="top">
 				<th scope="row"><?php _e('Transition type:', DFCG_DOMAIN); ?></th>
@@ -1067,7 +1117,8 @@ function dfcg_ui_javascript() {
 				<th scope="row"><?php _e('Disable Mootools:') ?></th>
 				<td><input name="dfcg_plugin_settings[mootools]" id="dfcg-mootools" type="checkbox" value="1" <?php checked('1', $dfcg_options['mootools']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box ONLY in the event that another plugin is already loading the Mootools Javascript library files in your site. Default is UNCHECKED.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
-			<?php endif; ?>					
+			<?php endif; ?>
+							
 		</tbody>
 	</table>
 <?php }
@@ -1075,6 +1126,8 @@ function dfcg_ui_javascript() {
 
 /**
 * Restrict Scripts loading: box and content
+*
+* 2 options: ['limit-scripts'], ['page-filename']
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.2.2
@@ -1132,6 +1185,8 @@ function dfcg_ui_restrict_scripts() {
 /**
 * Error Messages: box and content
 *
+* 1 options: ['errors']
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
 * @updated 3.3
@@ -1155,6 +1210,8 @@ function dfcg_ui_errors() {
 /**
 * Posts/Pages edit columns: box and content
 *
+* 5 options: [posts-column],[posts-desc-column],[pages-column],['pages-desc-column'],['pages-sort-column']
+* 
 * @global array $dfcg_options plugin options from db
 * @since 3.2.2
 * @updated 3.3
@@ -1190,9 +1247,12 @@ function dfcg_ui_columns() {
 * Form hidden fields
 * WP ONLY
 *
+* 2 options: [homeurl], [just-reset]
+* If mootools not loaded, 4 hidden: [slideInfoZoneSlide],[defaultTransition],[mootools],[thumb-type]
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3
+* @updated 3.3.2
 */
 function dfcg_ui_hidden_wp() {
 	global $dfcg_options;
@@ -1204,9 +1264,8 @@ function dfcg_ui_hidden_wp() {
 	<?php if($dfcg_options['scripts'] == 'mootools' ) : // None Hidden if mootools is loaded ?>
 	<?php endif; ?>
 	
-	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +6 Hidden if jquery is loaded ?>
+	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +5 Hidden if jquery is loaded ?>
 	<input name="dfcg_plugin_settings[slide-height]" id="dfcg-slide-height" type="hidden" value="<?php echo $dfcg_options['slide-height']; ?>" />
-	<input name="dfcg_plugin_settings[showInfopane]" id="dfcg-showInfopane" type="hidden" value="<?php echo $dfcg_options['showInfopane']; ?>" />
 	<input name="dfcg_plugin_settings[slideInfoZoneSlide]" id="dfcg-slideInfoZoneSlide" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneSlide']; ?>" />
 	<input name="dfcg_plugin_settings[defaultTransition]" id="dfcg-defaultTransition" type="hidden" value="<?php echo $dfcg_options['defaultTransition']; ?>" />
 	<input name="dfcg_plugin_settings[mootools]" id="dfcg-mootools" type="hidden" value="<?php echo $dfcg_options['mootools']; ?>" />
@@ -1219,6 +1278,7 @@ function dfcg_ui_hidden_wp() {
 	<input name="dfcg_plugin_settings[custom-post-type]" id="dfcg-custom-post-type" type="hidden" value="<?php echo $dfcg_options['custom-post-type']; ?>" />
 	<input name="dfcg_plugin_settings[custom-post-type-tax]" id="dfcg-custom-post-type-tax" type="hidden" value="<?php echo $dfcg_options['custom-post-type-tax']; ?>" />
 	<input name="dfcg_plugin_settings[custom-post-type-number]" id="custom-post-type-number" type="hidden" value="<?php echo $dfcg_options['custom-post-type-number']; ?>" />
+	<input name="dfcg_plugin_settings[defimgcustompost]" id="dfcg-defimgcustompost" type="hidden" value="<?php echo $dfcg_options['defimgcustompost']; ?>" />
 	<?php endif; ?>
 	
 <?php }
@@ -1228,18 +1288,21 @@ function dfcg_ui_hidden_wp() {
 * Form hidden fields
 * WPMU ONLY
 *
+* 7 options: [homeurl], [just-reset],[imageurl],[defimgmulti],[defimgonecat],[defimgpages],[defimgcustompost] 
+* If mootools not loaded, 4 hidden: [slideInfoZoneSlide],[defaultTransition],[mootools],[thumb-type]
+*
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3 
+* @updated 3.3.2 
 */
 function dfcg_ui_hidden_wpmu() {
 	global $dfcg_options;
 	?>
-	<?php // Always hidden in WP/WPMU ?>
+	<?php // Always hidden in WP/WPMS ?>
 	<input name="dfcg_plugin_settings[homeurl]" id="dfcg-homeurl" type="hidden" value="<?php echo $dfcg_options['homeurl']; ?>" />
 	<input name="dfcg_plugin_settings[just-reset]" id="dfcg-just-reset" type="hidden" value="<?php echo $dfcg_options['just-reset']; ?>" />
 	
-	<?php // Always hidden in WPMU ?>
+	<?php // Always hidden in WPMS ?>
 	<input name="dfcg_plugin_settings[imageurl]" id="dfcg-imageurl" type="hidden" value="<?php echo $dfcg_options['imageurl']; ?>" />
 	<input name="dfcg_plugin_settings[defimgmulti]" id="dfcg-defimgmulti" type="hidden" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
 	<input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" type="hidden" value="<?php echo $dfcg_options['defimgonecat']; ?>" />
@@ -1249,9 +1312,8 @@ function dfcg_ui_hidden_wpmu() {
 	<?php if($dfcg_options['scripts'] == 'mootools' ) : // None Hidden if mootools is loaded ?>
 	<?php endif; ?>
 	
-	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +6 Hidden if jquery is loaded ?>
+	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +5 Hidden if jquery is loaded ?>
 	<input name="dfcg_plugin_settings[slide-height]" id="dfcg-slide-height" type="hidden" value="<?php echo $dfcg_options['slide-height']; ?>" />
-	<input name="dfcg_plugin_settings[showCarousel]" id="dfcg-showCarousel" type="hidden" value="<?php echo $dfcg_options['showCarousel']; ?>" />
 	<input name="dfcg_plugin_settings[slideInfoZoneSlide]" id="dfcg-slideInfoZoneSlide" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneSlide']; ?>" />
 	<input name="dfcg_plugin_settings[defaultTransition]" id="dfcg-defaultTransition" type="hidden" value="<?php echo $dfcg_options['defaultTransition']; ?>" />
 	<input name="dfcg_plugin_settings[mootools]" id="dfcg-mootools" type="hidden" value="<?php echo $dfcg_options['mootools']; ?>" />
@@ -1272,6 +1334,8 @@ function dfcg_ui_hidden_wpmu() {
 
 /**
 * Reset box and form end XHTML
+*
+* 1 options: ['reset']
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0

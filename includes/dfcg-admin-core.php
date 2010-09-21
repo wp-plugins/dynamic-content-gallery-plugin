@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.1
+* @version 3.3.2
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -385,10 +385,10 @@ function dfcg_admin_notice_reset() {
 *
 * Used by the "upgrader" function dfcg_set_gallery_options().
 *
-* 83 options (6 are WP only)
+* 84 options (6 are WP only)
 *
 * @since 3.2.2
-* @updated 3.3
+* @updated 3.3.2
 */
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
@@ -457,7 +457,7 @@ function dfcg_default_options() {
 		'timed' => 'true',										// JS option
 		'delay' => '9000',										// JS option
 		'showCarousel' => 'true',								// JS option
-		'showInfopane' => 'true',								// JS option - mootools only
+		'showInfopane' => 'true',								// JS option 
 		'slideInfoZoneSlide' => 'true',							// JS option - mootools only
 		'slideInfoZoneOpacity' => '0.7',						// JS option
 		'textShowCarousel' => 'Featured Articles',				// JS option
@@ -475,7 +475,8 @@ function dfcg_default_options() {
 		'pages-sort-column' => 'true',							// ID: Show edit pages column _dfcg-sort: bool
 		'id-sort-control' => 'false',							// ID: Allow custom sort of images using _dfcg-sort: bool
 		'page-ids' => '',										// Restrict scripts: ordinary page ID numbers
-		'thumb-type' => 'legacy'								// all methods: post-thumbnails or legacy - mootools only
+		'thumb-type' => 'legacy',								// all methods: post-thumbnails or legacy - mootools only
+		'showArrows' => 'true'									// JS option
 	);
 	
 	// Return options array for use elsewhere
@@ -526,10 +527,12 @@ function dfcg_default_options() {
 *
 * In 3.3.1 - Corrected '==' syntax to '=' for new options that should have been added in 3.3. What an idiot,eh?
 *
+* In 3.3.2 - Added 1: 'showArrows' for mootools and jQuery
+* In 3.3.2 - Total options = 83 + 1 = 84
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
-* @updated 3.3
+* @updated 3.3.2
 */
 function dfcg_set_gallery_options() {
 	
@@ -546,9 +549,29 @@ function dfcg_set_gallery_options() {
 		return;
 	
 	
+	// We're upgrading from 3.3.1
+	} elseif( $existing && $existing_version == '3.3.1' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
+		// Delete the old and add the upgraded options
+		delete_option('dfcg_plugin_settings');
+		add_option( 'dfcg_plugin_settings', $existing );
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+		return;
+	
+	
 	// We're upgrading from 3.3
 	} elseif( $existing && $existing_version == '3.3' ) {
 	
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
+		// Nothing to do re 3.3.1
+		
 		// Sort out 3.3 error
 		if( empty( $existing['thumb-type'] ) || $existing['thumb-type'] == '' )
 			$existing['thumb-type'] = 'legacy';
@@ -577,6 +600,9 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2.3
 	} elseif( $existing && $existing_version == '3.2.3' ) {
 	
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
@@ -617,6 +643,9 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2.2
 	} elseif( $existing && $existing_version == '3.2.2' ) {
 	
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
@@ -653,6 +682,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.2.1
 	} elseif( $existing && $existing_version == '3.2.1' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -691,6 +723,9 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.2
 	} elseif( $existing && $existing_version == '3.2' ) {
 		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
@@ -727,6 +762,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.1
 	} elseif( $existing && $existing_version == '3.1' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -768,6 +806,9 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.1 RC1
 	} elseif( $existing && $existing_version == '3.1 RC1' ) {
 		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
@@ -807,6 +848,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.0
 	} elseif( $existing && $existing_version == '3.0' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -856,6 +900,9 @@ function dfcg_set_gallery_options() {
 	// We're upgrading from 3.0 RC4
 	} elseif( $existing && $existing_version == '3.0 RC4' ) {
 		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
+		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
 		// Deal with renamed options in 3.3
@@ -903,6 +950,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from 3.0 RC3
 	} elseif( $existing && $existing_version == '3.0 RC3' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -970,6 +1020,9 @@ function dfcg_set_gallery_options() {
 	
 	//We're upgrading from 3.0 RC2
 	} elseif( $existing && $existing_version == '3.0 RC2' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -1040,6 +1093,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from pre-RC2 v3 version (which used version number 2.3)
 	} elseif( $existing && $existing_version == '2.3' ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		
@@ -1114,6 +1170,9 @@ function dfcg_set_gallery_options() {
 	
 	// We're upgrading from version 2.2
 	} elseif( $existing && $existing_version !== DFCG_VER ) {
+		
+		// Add new v3.3.2 options
+		$existing['showArrows'] = 'true';
 		
 		// Nothing to do for 3.3.1 as 3.3 code is now corrected
 		

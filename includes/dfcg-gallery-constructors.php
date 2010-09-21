@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.1
+* @version 3.3.2
 *
 * @info One function for each of the 4 populate-methods.
 *		- Multi Option		dfcg_multioption_method_gallery()

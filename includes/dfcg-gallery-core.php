@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.1
+* @version 3.3.2
 *
 * @info These are the 'public' functions which produce the gallery in the browser
 * @info Loads header scripts
@@ -245,6 +245,7 @@ function dfcg_enqueue_jquery() {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 1.0
+* @updated 3.3.2
 */
 function dfcg_mootools_scripts($dfcg_options) {
     
@@ -266,6 +267,7 @@ function dfcg_mootools_scripts($dfcg_options) {
 	echo '<script type="text/javascript">
    function startGallery() {
       var myGallery = new gallery($("myGallery"), {
+	  showArrows: '. $dfcg_options['showArrows'] .',
 	  showCarousel: '. $dfcg_options['showCarousel'] .',
 	  showInfopane: '. $dfcg_options['showInfopane'] .',
 	  timed: '. $dfcg_options['timed'] .',
@@ -318,6 +320,7 @@ function dfcg_jquery_css($dfcg_options) {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 3.3
+* @updated 3.3.2
 */
 function dfcg_jquery_smooth_scripts($dfcg_options) {
 	
@@ -326,7 +329,7 @@ function dfcg_jquery_smooth_scripts($dfcg_options) {
 		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js"></script>' . "\n";
 		echo '<script type="text/javascript">
 			jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
-				showArrows: true,
+				showArrows: '. $dfcg_options['showArrows'] .',
 				showCarousel: '. $dfcg_options['showCarousel'] .',
 				showInfopane: '. $dfcg_options['showInfopane'] .',
 				timed: '. $dfcg_options['timed'] .',

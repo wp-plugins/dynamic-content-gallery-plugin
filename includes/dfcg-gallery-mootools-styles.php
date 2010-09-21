@@ -4,12 +4,13 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.1
+* @version 3.3.2
 *
 * @info Load user defined styles into the header.
 * @info This should ensure XHTML validation.
 *
 * @since 3.2
+* @updated 3.3.2
 */
 ?>
 
@@ -27,7 +28,7 @@ if (!defined('ABSPATH')) {
 	}
 	
 #myGallery, #myGallerySet, #flickrGallery {
-	background: #000 url('<?php echo WP_PLUGIN_URL; ?>/dynamic-content-gallery-plugin/css/img/loading-bar-black.gif') no-repeat center;
+	background: #000 url('<?php echo WP_PLUGIN_URL; ?>/dynamic-content-gallery-plugin/js-mootools/css/img/loading-bar-black.gif') no-repeat center;
 	border: <?php echo $dfcg_options['gallery-border-thick']; ?>px solid <?php echo $dfcg_options['gallery-border-colour']; ?>;
 	height: <?php echo $dfcg_options['gallery-height']; ?>px;
 	width: <?php echo $dfcg_options['gallery-width']; ?>px;
