@@ -9,6 +9,7 @@ Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 3.3.2
 
+TESTING SOMETHING
 Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
 
 
