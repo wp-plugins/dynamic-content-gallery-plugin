@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dynamic Content Gallery
 Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
-Version: 3.3.2
+Version: 3.3.3
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
 Description: Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using mootools or jquery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress. Requires WP version 3.0+.
@@ -32,6 +32,17 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
+	3.3.3		- Feature:	Added option to use Post Excerpt in Slide Pane descriptions
+				- Enhance:	Changed Post Thumbnail support error message from error to warning
+				- Enhance:	Gallery constructor functions now return output rather than echo
+				- Enhance:	Added classes to <p> tags in slide pane descriptions
+				- Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
+				- Bug fix:	Fixed wp_enqueue_scripts error in admin js loading in dfcg-admin-core.php
+				- Bug fix:	CSS: Fixed z-index issue in dfcg-gallery-jquery-smooth-styles.php
+				- Bug fix:	JQS: Fixed missing imgLink in jQuery js when showArrows is off in dfcg-jq-script.js
+				- Bug fix:	CSS: Fixed IE imgLink not working in dfcg-gallery-jquery-smooth-styles.php
+				- Bug fix:	JQS: dfcg-jq-script updated to v2.4 to fix non-centered images in IE, and carousel scrolling issue in Chrome
+	
 	3.3.2		- Feature:	Added showArrows checkbox for mootools and jQuery, navigation arrows now optional from within Settings
 				- Bug fix:	Fixed URL error to loading-bar-black.gif 
 				- Bug fix:	Fixed Slide Pane options errors / hidden fields in dfcg-admin-ui-functions.php
@@ -173,7 +184,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 /* Set constants for plugin */
 define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.3.2' );
+define( 'DFCG_VER', '3.3.3' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '3.0' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
@@ -242,7 +253,7 @@ if( !is_admin() ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
 	}
 	
-	if( $dfcg_options['desc-method'] == 'auto' || $dfcg_options['desc-method'] == 'manual' ) {
+	if( $dfcg_options['desc-method'] !== 'none' ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
 	}
 }
