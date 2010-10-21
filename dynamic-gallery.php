@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.2
+* @version 3.3.3
 *
 * NOTE: This file was updated due to change from Pages Method to ID Method in v3.3
 *
@@ -25,7 +25,7 @@
 *	Plus 2 script options for each gallery method
 *
 * @since 3.0
-* @updated 3.3
+* @updated 3.3.3
 */
 
 /* Prevent direct access to this file */
@@ -39,15 +39,18 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 
 	if($dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
-		dfcg_multioption_method_gallery();
+		$dfcg_output = dfcg_multioption_method_gallery();
+		echo $dfcg_output;
 	
 	} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-		dfcg_onecategory_method_gallery();
+		$dfcg_output = dfcg_onecategory_method_gallery();
+		echo $dfcg_output;
 	
 	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = ID METHOD
-		dfcg_id_method_gallery();
+		$dfcg_output = dfcg_id_method_gallery();
+		echo $dfcg_output;
 	}
 
 
@@ -55,23 +58,26 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 	
 	if($dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
-		dfcg_jq_multioption_method_gallery();
+		$dfcg_output = dfcg_jq_multioption_method_gallery();
+		echo $dfcg_output;
 	
 	} elseif($dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-		dfcg_jq_onecategory_method_gallery();
+		$dfcg_output = dfcg_jq_onecategory_method_gallery();
+		echo $dfcg_output;
 
 	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = PAGES
-		dfcg_jq_id_method_gallery();
+		$dfcg_output = dfcg_jq_id_method_gallery();
+		echo $dfcg_output;
 	}
 
 /* Something has gone horribly wrong and there's no output! */
 } else {
 
-	$output = '';
-	$output .= $dfcg_errmsgs['public'];
-	$output .= "\n" . $dfcg_errmsgs['10'] . "\n";
-	echo $output;
+	$dfcg_output = '';
+	$dfcg_output .= $dfcg_errmsgs['public'];
+	$dfcg_output .= "\n" . $dfcg_errmsgs['10'] . "\n";
+	echo $dfcg_output;
 }
 ?>
