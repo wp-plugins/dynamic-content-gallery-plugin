@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.2
+* @version 3.3.3
 *
 * @info Load user defined styles into the header.
 * @info This should ensure XHTML validation.
@@ -47,6 +47,7 @@ if (!defined('ABSPATH')) {
 	overflow: hidden;
 	padding:0px;
 	position:relative;
+	z-index:1;/* Fix added in v3.3.3 */
 	width:<?php echo $dfcg_options['gallery-width']; ?>px;
 	}
 	
@@ -57,7 +58,7 @@ if (!defined('ABSPATH')) {
 	height:0px;
 	opacity:.7;
 	overflow:hidden;
-	padding-bottom:5px;
+	padding-bottom:1px;/* Fix added in v3.3.3 - was 5px */
 	position:absolute;
 	width:<?php echo $dfcg_options['gallery-width']; ?>px;
 	z-index:200;
@@ -93,7 +94,6 @@ if (!defined('ABSPATH')) {
 	position:absolute;
 	z-index:25;
 	width:auto;
-	/*height:<?php //echo $dfcg_options['gallery-height']; ?>px;/* Added AAW - not sure */
 	}
 
 .dfcg-imgnav {
@@ -116,11 +116,11 @@ if (!defined('ABSPATH')) {
 	
 #dfcg-imglink {
 	position:absolute;
-	/*height:<?php echo $dfcg_options['gallery-height']; ?>px;*/
 	width:100%;
 	z-index:100;
-	opacity:.4;
-	filter:alpha(opacity=40);
+	opacity:.01;/* changed v3.3.3 */
+	filter:alpha(opacity=1);/* changed v3.3.3 */
+	background:#fff;/* added v3.3.3 */
 	}
 	
 .linkhover {
@@ -210,6 +210,3 @@ if (!defined('ABSPATH')) {
     padding-left: 5px;
 	}
 </style>
-<?php
-// CSS option not used
-?>
