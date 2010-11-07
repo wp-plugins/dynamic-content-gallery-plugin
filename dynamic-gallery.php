@@ -25,7 +25,7 @@
 *	Plus 2 script options for each gallery method
 *
 * @since 3.0
-* @updated 3.3.3
+* @updated 3.3
 */
 
 /* Prevent direct access to this file */
@@ -39,18 +39,15 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 
 	if($dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
-		$dfcg_output = dfcg_multioption_method_gallery();
-		echo $dfcg_output;
+		dfcg_multioption_method_gallery();
 	
 	} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-		$dfcg_output = dfcg_onecategory_method_gallery();
-		echo $dfcg_output;
+		dfcg_onecategory_method_gallery();
 	
 	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = ID METHOD
-		$dfcg_output = dfcg_id_method_gallery();
-		echo $dfcg_output;
+		dfcg_id_method_gallery();
 	}
 
 
@@ -58,26 +55,23 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 	
 	if($dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
-		$dfcg_output = dfcg_jq_multioption_method_gallery();
-		echo $dfcg_output;
+		dfcg_jq_multioption_method_gallery();
 	
 	} elseif($dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-		$dfcg_output = dfcg_jq_onecategory_method_gallery();
-		echo $dfcg_output;
+		dfcg_jq_onecategory_method_gallery();
 
 	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = PAGES
-		$dfcg_output = dfcg_jq_id_method_gallery();
-		echo $dfcg_output;
+		dfcg_jq_id_method_gallery();
 	}
 
 /* Something has gone horribly wrong and there's no output! */
 } else {
 
-	$dfcg_output = '';
-	$dfcg_output .= $dfcg_errmsgs['public'];
-	$dfcg_output .= "\n" . $dfcg_errmsgs['10'] . "\n";
-	echo $dfcg_output;
+	$output = '';
+	$output .= $dfcg_errmsgs['public'];
+	$output .= "\n" . $dfcg_errmsgs['10'] . "\n";
+	echo $output;
 }
 ?>
