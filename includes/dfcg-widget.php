@@ -15,7 +15,7 @@
 *
 * Allows for a Title above the DCG and a text box below (can accept HTML as per normal Text Widget)
 *
-* @since 3.2.2
+* @since 3.2.3
 */
 
 /* Prevent direct access to this file */

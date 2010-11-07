@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.2
+* @version 3.3.3
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -530,9 +530,11 @@ function dfcg_default_options() {
 * In 3.3.2 - Added 1: 'showArrows' for mootools and jQuery
 * In 3.3.2 - Total options = 83 + 1 = 84
 *
+* In 3.3.3 - No change. Total options = 84
+*
 * @uses dfcg_default_options()
 * @since 3.2.2
-* @updated 3.3.2
+* @updated 3.3.3
 */
 function dfcg_set_gallery_options() {
 	
@@ -550,7 +552,18 @@ function dfcg_set_gallery_options() {
 	
 	
 	// We're upgrading from 3.3.1
+	} elseif( $existing && $existing_version == '3.3.2' ) {
+	
+		// Nothing to do in 3.3.3
+		
+		// Update version no. in the db
+		update_option('dfcg_version', DFCG_VER );
+		return;
+	
+	// We're upgrading from 3.3.1
 	} elseif( $existing && $existing_version == '3.3.1' ) {
+		
+		// Nothing to do in 3.3.3
 		
 		// Add new v3.3.2 options
 		$existing['showArrows'] = 'true';

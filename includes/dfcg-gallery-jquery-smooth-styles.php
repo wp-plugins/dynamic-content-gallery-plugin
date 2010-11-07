@@ -10,6 +10,7 @@
 * @info This should ensure XHTML validation.
 *
 * @since 3.3
+* @updated 3.3.3
 */
 ?>
 
@@ -94,6 +95,7 @@ if (!defined('ABSPATH')) {
 	position:absolute;
 	z-index:25;
 	width:auto;
+	/*height:<?php //echo $dfcg_options['gallery-height']; ?>px;/* Added AAW - not sure */
 	}
 
 .dfcg-imgnav {
@@ -210,3 +212,6 @@ if (!defined('ABSPATH')) {
     padding-left: 5px;
 	}
 </style>
+<?php
+// CSS option not used
+?>
