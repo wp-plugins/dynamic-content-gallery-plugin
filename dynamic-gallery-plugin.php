@@ -32,16 +32,10 @@ Feature:	means new user functionality has been added
 
 /* Version History
 
-	3.3.3		- Feature:	Added option to use Post Excerpt in Slide Pane descriptions
-				- Enhance:	Changed Post Thumbnail support error message from error to warning
-				- Enhance:	Gallery constructor functions now return output rather than echo
-				- Enhance:	Added classes to <p> tags in slide pane descriptions
-				- Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
-				- Bug fix:	Fixed wp_enqueue_scripts error in admin js loading in dfcg-admin-core.php
-				- Bug fix:	CSS: Fixed z-index issue in dfcg-gallery-jquery-smooth-styles.php
-				- Bug fix:	JQS: Fixed missing imgLink in jQuery js when showArrows is off in dfcg-jq-script.js
-				- Bug fix:	CSS: Fixed IE imgLink not working in dfcg-gallery-jquery-smooth-styles.php
-				- Bug fix:	JQS: dfcg-jq-script updated to v2.4 to fix non-centered images in IE, and carousel scrolling issue in Chrome
+	3.3.3		- Bug fix:	Upgraded jQuery script to v2.5 to fix IE img alignment, and non-linking img when showArrows is off
+				- Bug fix:	Added z-index:1; to #dfcg-fullsize selector in dfcg-gallery-jquery-smooth-styles.php
+				- Bug fix:	Fixed slide pane padding issue in #dfcg-text selector in dfcg-gallery-jquery-smooth-styles.php
+				- Bug fix:	Fixed IE img link disappearing. Changed CSS in #dfcg-imglink in dfcg-gallery-jquery-smooth-styles.php
 	
 	3.3.2		- Feature:	Added showArrows checkbox for mootools and jQuery, navigation arrows now optional from within Settings
 				- Bug fix:	Fixed URL error to loading-bar-black.gif 
@@ -253,7 +247,7 @@ if( !is_admin() ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
 	}
 	
-	if( $dfcg_options['desc-method'] !== 'none' ) {
+	if( $dfcg_options['desc-method'] == 'auto' || $dfcg_options['desc-method'] == 'manual' ) {
 		include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
 	}
 }
