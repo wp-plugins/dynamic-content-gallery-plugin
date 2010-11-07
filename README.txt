@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version:
+Version: 3.3.3
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -9,7 +9,6 @@ Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 3.3.2
 
-TESTING SOMETHING
 Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
 
 
@@ -201,6 +200,13 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 
 == Changelog ==
+
+= 3.3.3 =
+* Released	7 November 2010
+* Bug fix:	Upgraded jQuery script to v2.5 to fix IE img alignment, and non-linking img when showArrows is off
+* Bug fix:	Added z-index:1; to #dfcg-fullsize selector in dfcg-gallery-jquery-smooth-styles.php
+* Bug fix:	Fixed slide pane padding issue in #dfcg-text selector in dfcg-gallery-jquery-smooth-styles.php
+* Bug fix:	Fixed IE img link disappearing. Changed CSS in #dfcg-imglink in dfcg-gallery-jquery-smooth-styles.php
 
 = 3.3.2 =
 * Released	21 September 2010
