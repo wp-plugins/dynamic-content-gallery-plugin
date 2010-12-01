@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/dynamic-content-gallery-"
 "plugin\n"
-"POT-Creation-Date: 2010-09-15 23:23+0000\n"
+"POT-Creation-Date: 2010-12-01 15:43+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dynamic-gallery-plugin.php:153
+#: dynamic-gallery-plugin.php:169
 msgid "Sorry, you are not allowed to access this page directly."
 msgstr ""
 
@@ -31,39 +31,39 @@ msgstr ""
 #: includes/dfcg-gallery-constructors.php:20
 #: includes/dfcg-gallery-content-limit.php:20
 #: includes/dfcg-gallery-core.php:19 includes/dfcg-gallery-errors.php:19
-#: includes/dfcg-gallery-jquery-smooth-styles.php:19
-#: includes/dfcg-gallery-mootools-styles.php:19 includes/dfcg-widget.php:23
+#: includes/dfcg-gallery-jquery-smooth-styles.php:20
+#: includes/dfcg-gallery-mootools-styles.php:20 includes/dfcg-widget.php:23
 msgid "Sorry, you are not allowed to access this file directly."
 msgstr ""
 
 #: includes/dfcg-admin-core.php:232 includes/dfcg-admin-core.php:258
-#: includes/dfcg-admin-ui-functions.php:382
-#: includes/dfcg-admin-ui-functions.php:393
-#: includes/dfcg-admin-ui-functions.php:404
-#: includes/dfcg-admin-ui-functions.php:428
-#: includes/dfcg-admin-ui-functions.php:466
-#: includes/dfcg-admin-ui-functions.php:468
-#: includes/dfcg-admin-ui-functions.php:569
-#: includes/dfcg-admin-ui-functions.php:570
-#: includes/dfcg-admin-ui-functions.php:629
-#: includes/dfcg-admin-ui-functions.php:630
-#: includes/dfcg-admin-ui-functions.php:681
-#: includes/dfcg-admin-ui-functions.php:691
+#: includes/dfcg-admin-ui-functions.php:388
+#: includes/dfcg-admin-ui-functions.php:399
+#: includes/dfcg-admin-ui-functions.php:410
+#: includes/dfcg-admin-ui-functions.php:434
+#: includes/dfcg-admin-ui-functions.php:475
+#: includes/dfcg-admin-ui-functions.php:477
+#: includes/dfcg-admin-ui-functions.php:584
+#: includes/dfcg-admin-ui-functions.php:585
+#: includes/dfcg-admin-ui-functions.php:649
+#: includes/dfcg-admin-ui-functions.php:650
+#: includes/dfcg-admin-ui-functions.php:704
+#: includes/dfcg-admin-ui-functions.php:714
 msgid "Settings"
 msgstr ""
 
-#: includes/dfcg-admin-core.php:259 includes/dfcg-admin-ui-functions.php:1330
+#: includes/dfcg-admin-core.php:259 includes/dfcg-admin-ui-functions.php:1410
 msgid "Configuration Guide"
 msgstr ""
 
 #: includes/dfcg-admin-core.php:260 includes/dfcg-admin-ui-functions.php:250
-#: includes/dfcg-admin-ui-functions.php:1306
-#: includes/dfcg-admin-ui-functions.php:1332
+#: includes/dfcg-admin-ui-functions.php:1386
+#: includes/dfcg-admin-ui-functions.php:1412
 msgid "FAQ"
 msgstr ""
 
 #: includes/dfcg-admin-core.php:261 includes/dfcg-admin-ui-functions.php:249
-#: includes/dfcg-admin-ui-functions.php:1331
+#: includes/dfcg-admin-ui-functions.php:1411
 msgid "Documentation"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 #: includes/dfcg-admin-custom-columns.php:91
 #: includes/dfcg-admin-custom-columns.php:138
 #: includes/dfcg-admin-custom-columns.php:181
-#: includes/dfcg-admin-ui-functions.php:830
+#: includes/dfcg-admin-ui-functions.php:855
 msgid "None"
 msgstr ""
 
@@ -129,65 +129,94 @@ msgstr ""
 msgid "DCG Page Sort"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:41 includes/dfcg-admin-metaboxes.php:46
-#: includes/dfcg-admin-metaboxes.php:47 includes/dfcg-admin-metaboxes.php:54
+#: includes/dfcg-admin-metaboxes.php:43 includes/dfcg-admin-metaboxes.php:48
+#: includes/dfcg-admin-metaboxes.php:49 includes/dfcg-admin-metaboxes.php:56
 msgid "Dynamic Content Gallery Metabox"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:98 includes/dfcg-admin-metaboxes.php:103
+#: includes/dfcg-admin-metaboxes.php:105 includes/dfcg-admin-metaboxes.php:121
 msgid "Image URL"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:100
-msgid ""
-"You are using Auto gallery images. The DCG will automatically grab the first "
-"image attachment from this Post/Page."
+#: includes/dfcg-admin-metaboxes.php:108 includes/dfcg-admin-metaboxes.php:113
+#: includes/dfcg-admin-metaboxes.php:117
+msgid "You are using"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:101
+#: includes/dfcg-admin-metaboxes.php:108
+msgid ""
+"Image Management. The DCG will automatically grab the first image attachment "
+"from this Post/Page."
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:109
 msgid ""
 "If there are no image attachments for this Post/Page, you may specify an "
-"alternative image by entering the Image URL in the box below. Leave blank if "
-"you attach an image via the Media Uploader."
+"alternative image by entering the Image URL in the box below."
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:117 includes/dfcg-admin-metaboxes.php:118
-#: includes/dfcg-admin-metaboxes.php:125
+#: includes/dfcg-admin-metaboxes.php:113 includes/dfcg-admin-metaboxes.php:117
+msgid "Image Management. Enter the URL to your image below."
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:135 includes/dfcg-admin-metaboxes.php:137
+#: includes/dfcg-admin-metaboxes.php:144 includes/dfcg-admin-metaboxes.php:152
 msgid "Slide Pane Description"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:126
+#: includes/dfcg-admin-metaboxes.php:136 includes/dfcg-admin-metaboxes.php:145
 msgid "You are currently using"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:126
-#: includes/dfcg-admin-ui-functions.php:809
-msgid "Auto"
+#: includes/dfcg-admin-metaboxes.php:136
+#: includes/dfcg-admin-ui-functions.php:847
+msgid "Manual"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:126
+#: includes/dfcg-admin-metaboxes.php:136 includes/dfcg-admin-metaboxes.php:145
+#: includes/dfcg-admin-metaboxes.php:153
 msgid "Slide Pane descriptions"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:134 includes/dfcg-admin-metaboxes.php:135
+#: includes/dfcg-admin-metaboxes.php:136
+msgid "Enter your Slide Pane text for this image below."
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:145
+#: includes/dfcg-admin-ui-functions.php:834
+msgid "Auto"
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:153
+msgid "are set to \"None\"."
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:162 includes/dfcg-admin-metaboxes.php:164
 msgid "External link for image"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:143 includes/dfcg-admin-metaboxes.php:144
+#: includes/dfcg-admin-metaboxes.php:163
+msgid ""
+"Enter a link here (including http://) if you want this image to link to "
+"somewhere other than the Post/Page permalink. Leave blank to link to the "
+"Post/Page."
+msgstr ""
+
+#: includes/dfcg-admin-metaboxes.php:173 includes/dfcg-admin-metaboxes.php:174
 msgid "Sort Order"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:146
+#: includes/dfcg-admin-metaboxes.php:176
 msgid ""
 "By default, images are arranged in the DCG in page/post ID number order. You "
 "can override this here by specifying a sort order."
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:164
+#: includes/dfcg-admin-metaboxes.php:194
 msgid "Exclude this Post/Page from gallery?"
 msgstr ""
 
-#: includes/dfcg-admin-metaboxes.php:166
+#: includes/dfcg-admin-metaboxes.php:196
 msgid "Check to exclude"
 msgstr ""
 
@@ -522,7 +551,7 @@ msgid "not defined"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:90
-#: includes/dfcg-admin-ui-functions.php:309
+#: includes/dfcg-admin-ui-functions.php:313
 msgid "Carousel Thumbnails"
 msgstr ""
 
@@ -660,9 +689,9 @@ msgid ""
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:248
-#: includes/dfcg-admin-ui-functions.php:271
-#: includes/dfcg-admin-ui-functions.php:471
-#: includes/dfcg-admin-ui-functions.php:1304
+#: includes/dfcg-admin-ui-functions.php:275
+#: includes/dfcg-admin-ui-functions.php:480
+#: includes/dfcg-admin-ui-functions.php:1384
 msgid "Configuration guide"
 msgstr ""
 
@@ -684,80 +713,80 @@ msgid ""
 "Thank you!"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:270
+#: includes/dfcg-admin-ui-functions.php:274
 msgid "Image management (REQUIRED):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:271
+#: includes/dfcg-admin-ui-functions.php:275
 msgid ""
 "Complete the following settings to set up your gallery image file management "
 "preferences."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:271
+#: includes/dfcg-admin-ui-functions.php:275
 msgid "Further information about these settings can be found in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:277
+#: includes/dfcg-admin-ui-functions.php:281
 msgid "Auto (Default)"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:278
+#: includes/dfcg-admin-ui-functions.php:282
 msgid ""
 "Gallery will automatically pull in the first image attachment from the Post."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:279
+#: includes/dfcg-admin-ui-functions.php:283
 msgid "Select this option if you want automatic images."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:280
+#: includes/dfcg-admin-ui-functions.php:284
 msgid "Tip: Auto"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:285
+#: includes/dfcg-admin-ui-functions.php:289
 msgid "Full URL"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:286
+#: includes/dfcg-admin-ui-functions.php:290
 msgid "DCG Metabox requires the Image URL in this format:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:287
+#: includes/dfcg-admin-ui-functions.php:291
 msgid ""
 "Select this option if you want complete freedom to reference images anywhere "
 "in your site and in multiple locations."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:288
+#: includes/dfcg-admin-ui-functions.php:292
 msgid "Tip: Full URL"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:295
+#: includes/dfcg-admin-ui-functions.php:299
 msgid "Partial URL"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:296
+#: includes/dfcg-admin-ui-functions.php:300
 msgid ""
 "DCG Metabox requires the <strong>Image URL</strong> in this format (for "
 "example): "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:297
+#: includes/dfcg-admin-ui-functions.php:301
 msgid ""
 "Select this option if your images are organised into many sub-folders within "
 "one main folder. The URL to the main folder is entered in the field below."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:298
+#: includes/dfcg-admin-ui-functions.php:302
 msgid "URL to images folder:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:298
+#: includes/dfcg-admin-ui-functions.php:302
 msgid "Tip: Partial URL"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:310
+#: includes/dfcg-admin-ui-functions.php:314
 msgid ""
 "This option only applies if you are using the Mootools javascript framework. "
 "Select \"Post Thumbnails\" to automatically create resized thumbnails from "
@@ -766,30 +795,30 @@ msgid ""
 "the thumbnail."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:315
+#: includes/dfcg-admin-ui-functions.php:319
 msgid "Use Post Thumbnails"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:316
+#: includes/dfcg-admin-ui-functions.php:320
 msgid ""
 "The carousel thumbnail will use a resized version of the Featured Image set "
 "in the Write Posts/Pages screens."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:320
+#: includes/dfcg-admin-ui-functions.php:324
 msgid "Legacy"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:321
+#: includes/dfcg-admin-ui-functions.php:325
 msgid ""
 "The carousel thumbnail will use a cropped version of the main gallery image."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:328
+#: includes/dfcg-admin-ui-functions.php:332
 msgid "Uploading your images"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:329
+#: includes/dfcg-admin-ui-functions.php:333
 msgid ""
 "Use the Media Uploader in the Write Post/Page screen to upload your gallery "
 "images. With the Media Uploader pop-up open, select \"Choose Files to Upload"
@@ -799,7 +828,7 @@ msgid ""
 "the DCG Metabox in the Write Post/Page screen."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:334
+#: includes/dfcg-admin-ui-functions.php:338
 msgid ""
 "Images will be pulled automatically from the selected Posts or Pages. The "
 "image displayed will be the first Image Attachment for the relevent Post or "
@@ -807,165 +836,165 @@ msgid ""
 "to each relevant Post or Page."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:335
+#: includes/dfcg-admin-ui-functions.php:339
 msgid ""
 "This is the default option and best one to use if you are using the plugin "
 "for the first time."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:339
+#: includes/dfcg-admin-ui-functions.php:343
 msgid "This is the best \"manual\" option."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:340
+#: includes/dfcg-admin-ui-functions.php:344
 msgid ""
 "Associate images with the DCG by pasting the relevant image URL into the DCG "
 "Metabox Image URL field in the Write Post/Write Page screen."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:341
+#: includes/dfcg-admin-ui-functions.php:345
 msgid ""
 "Select this option if you keep images in many different directories both "
 "inside and outside of the /wp-content/uploads folder."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:342
+#: includes/dfcg-admin-ui-functions.php:346
 msgid ""
 "This was the default Image Management option for earlier versions of this "
 "plugin (pre version 3.3)."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:343
+#: includes/dfcg-admin-ui-functions.php:347
 msgid ""
 "Note: select this option if your images are stored off-site eg Flickr, "
 "Picasa etc."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:350
+#: includes/dfcg-admin-ui-functions.php:354
 msgid ""
 "This option is no longer recommended, and is only kept for backwards "
 "compatibility for those users who already use this option."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:351
+#: includes/dfcg-admin-ui-functions.php:355
 msgid ""
 "If you selected <strong>Partial URL</strong> you must also specify the URL "
 "to the top-level folder which contains the relevant sub-folders and images."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:351
+#: includes/dfcg-admin-ui-functions.php:355
 msgid "Include your domain name in this URL, for example:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:368
+#: includes/dfcg-admin-ui-functions.php:374
 msgid "Gallery Method (REQUIRED):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:370
+#: includes/dfcg-admin-ui-functions.php:376
 msgid ""
 "The Dynamic Content Gallery offers various methods for populating the "
 "gallery with images. Select the option most appropriate for your needs, then "
 "set up your chosen method's options in the relevant section below."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:378
+#: includes/dfcg-admin-ui-functions.php:384
 msgid "Multi Option"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:379
+#: includes/dfcg-admin-ui-functions.php:385
 msgid "Tip: Multi Option Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:382
+#: includes/dfcg-admin-ui-functions.php:388
 msgid ""
 "Complete freedom to select up to 9 images from a mix of categories. Set up "
 "the relevant options in"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:389
+#: includes/dfcg-admin-ui-functions.php:395
 msgid "One Category"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:390
+#: includes/dfcg-admin-ui-functions.php:396
 msgid "Tip: One Category Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:393
+#: includes/dfcg-admin-ui-functions.php:399
 msgid ""
 "Images are pulled from a user-definable number of Posts from one selected "
 "Category. Set up the relevant options in"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:400
+#: includes/dfcg-admin-ui-functions.php:406
 msgid "ID Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:401
+#: includes/dfcg-admin-ui-functions.php:407
 msgid "Tip: ID Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:404
+#: includes/dfcg-admin-ui-functions.php:410
 msgid ""
 "Images are pulled from specific Pages and/or Posts selected using their ID "
 "numbers. Set up the relevant options in"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:415
-#: includes/dfcg-admin-ui-functions.php:424
+#: includes/dfcg-admin-ui-functions.php:421
+#: includes/dfcg-admin-ui-functions.php:430
 msgid "Custom Post Type"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:416
+#: includes/dfcg-admin-ui-functions.php:422
 msgid ""
 "You do not have any registered Custom Post Types, therefore the Custom Post "
 "Type Gallery method is currently disabled."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:425
+#: includes/dfcg-admin-ui-functions.php:431
 msgid "Tip: Custom Post Type Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:428
+#: includes/dfcg-admin-ui-functions.php:434
 msgid ""
 "Images are pulled from a user-definable number of Posts from a Custom Post "
 "Type. Set up the relevant options in"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:437
+#: includes/dfcg-admin-ui-functions.php:443
 msgid ""
 "This is the original method used in previous versions of the plugin, and the "
 "option to choose if you want to mix posts from different categories."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:441
+#: includes/dfcg-admin-ui-functions.php:447
 msgid ""
 "This is the best option if you use a Featured or News category for "
 "highlighting certain posts."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:441
+#: includes/dfcg-admin-ui-functions.php:447
 msgid ""
 "You can also use this option to display the latest Posts from all categories."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:445
+#: includes/dfcg-admin-ui-functions.php:451
 msgid ""
 "Choose this option if you want a static gallery with specific featured Posts "
 "and/or Pages, which is not affected by the addition of new Posts and Pages "
 "to your site."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:450
+#: includes/dfcg-admin-ui-functions.php:456
 msgid ""
 "This is the option to use if you have set up Custom Post Types and wish to "
 "display Custom Post Type posts in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:468
+#: includes/dfcg-admin-ui-functions.php:477
 msgid "Configure this section if you chose Multi Option in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:468
+#: includes/dfcg-admin-ui-functions.php:477
 msgid ""
 "The Multi Option method of populating the gallery provides up to 9 image "
 "\"slots\", each of which can be configured with its own Category and \"Post "
@@ -974,335 +1003,331 @@ msgid ""
 "post before that, and so on."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:469
-#: includes/dfcg-admin-ui-functions.php:709
-#: includes/dfcg-admin-ui-functions.php:987
+#: includes/dfcg-admin-ui-functions.php:478
+#: includes/dfcg-admin-ui-functions.php:732
+#: includes/dfcg-admin-ui-functions.php:1025
 msgid "Important Note:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:471
+#: includes/dfcg-admin-ui-functions.php:480
 msgid "Further information on the possible schemes can be found in the "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:476
+#: includes/dfcg-admin-ui-functions.php:485
 msgid "Image \"Slots\""
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:477
+#: includes/dfcg-admin-ui-functions.php:486
 msgid "Category Select"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:478
+#: includes/dfcg-admin-ui-functions.php:487
 msgid "Post Select"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:482
+#: includes/dfcg-admin-ui-functions.php:491
 msgid "1st image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:484
+#: includes/dfcg-admin-ui-functions.php:493
 msgid "Tip: Post Select"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:488
+#: includes/dfcg-admin-ui-functions.php:497
 msgid "2nd image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:494
+#: includes/dfcg-admin-ui-functions.php:503
 msgid "3rd image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:500
+#: includes/dfcg-admin-ui-functions.php:509
 msgid "4th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:506
+#: includes/dfcg-admin-ui-functions.php:515
 msgid "5th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:512
+#: includes/dfcg-admin-ui-functions.php:521
 msgid "6th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:518
+#: includes/dfcg-admin-ui-functions.php:527
 msgid "7th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:524
+#: includes/dfcg-admin-ui-functions.php:533
 msgid "8th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:530
+#: includes/dfcg-admin-ui-functions.php:539
 msgid "9th image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:540
+#: includes/dfcg-admin-ui-functions.php:549
 msgid "URL to default \"Category\" images folder:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:542
-#: includes/dfcg-admin-ui-functions.php:604
-#: includes/dfcg-admin-ui-functions.php:765
+#: includes/dfcg-admin-ui-functions.php:551
+#: includes/dfcg-admin-ui-functions.php:620
+#: includes/dfcg-admin-ui-functions.php:788
 msgid ""
 "This must be an <b>absolute</b> URL.  For example, if your default images "
 "are stored in a folder named \"default\" in your <em>wp-content/uploads</em> "
 "folder, the URL entered here will be:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:543
-#: includes/dfcg-admin-ui-functions.php:606
+#: includes/dfcg-admin-ui-functions.php:552
+#: includes/dfcg-admin-ui-functions.php:622
 msgid "Tip: URL to default images folder"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:550
+#: includes/dfcg-admin-ui-functions.php:559
 msgid ""
 "If you want to pull in the latest posts from one category, do not use Multi "
 "Option, use the One Category Gallery Method instead - it is much more "
 "efficient in terms of database queries."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:550
+#: includes/dfcg-admin-ui-functions.php:559
 msgid ""
 "Want to show less than 9 images? Delete the contents of the Post Select "
 "fields for image slots you don't need."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:552
+#: includes/dfcg-admin-ui-functions.php:561
 msgid ""
 "Example: Enter <strong>1</strong> for latest post, <strong>2</strong> for "
 "the last-but-one post, etc."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:554
-#: includes/dfcg-admin-ui-functions.php:612
+#: includes/dfcg-admin-ui-functions.php:564
+#: includes/dfcg-admin-ui-functions.php:628
 msgid ""
 "Enter the URL to the folder which contains the default images.  The default "
 "images will be pulled into the gallery in the event that Posts do not have "
 "an image specified in the Write Post DCG Metabox Image URL field."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:570
+#: includes/dfcg-admin-ui-functions.php:585
 msgid "Configure this section if you chose One Category in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:574
+#: includes/dfcg-admin-ui-functions.php:589
 msgid "Select the Category:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:575
-#: includes/dfcg-admin-ui-functions.php:716
+#: includes/dfcg-admin-ui-functions.php:590
+#: includes/dfcg-admin-ui-functions.php:739
 msgid "All"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:575
+#: includes/dfcg-admin-ui-functions.php:590
 msgid "Posts from this category will be displayed in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:578
+#: includes/dfcg-admin-ui-functions.php:593
 msgid "Number of Posts to display:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:595
+#: includes/dfcg-admin-ui-functions.php:610
 msgid ""
 "The minimum number of Posts is 2, the maximum is 15 (for performance "
 "reasons)."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:603
+#: includes/dfcg-admin-ui-functions.php:619
 msgid "URL to default images folder:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:630
+#: includes/dfcg-admin-ui-functions.php:650
 msgid "Configure this section if you chose ID Method in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:634
+#: includes/dfcg-admin-ui-functions.php:654
 msgid "Page/Post ID numbers:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:636
+#: includes/dfcg-admin-ui-functions.php:656
 msgid "Tip: Page/Post ID numbers"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:640
+#: includes/dfcg-admin-ui-functions.php:660
 msgid "Use Custom Image Order:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:642
+#: includes/dfcg-admin-ui-functions.php:662
 msgid "Tip: Custom Image Order"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:651
+#: includes/dfcg-admin-ui-functions.php:671
 msgid "Specify a default image:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:653
+#: includes/dfcg-admin-ui-functions.php:673
 msgid ""
 "Upload a suitable image to your server and enter the absolute URL to this "
 "default image."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:654
+#: includes/dfcg-admin-ui-functions.php:674
 msgid "For example: "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:655
+#: includes/dfcg-admin-ui-functions.php:675
 msgid "Tip: Default Image"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:662
+#: includes/dfcg-admin-ui-functions.php:682
 msgid ""
 "This image will be displayed in the event that your selected Page/Post ID's "
 "do not have an image specified in the DCG Metabox Image URL field."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:666
+#: includes/dfcg-admin-ui-functions.php:686
 msgid "Enter ID's in a comma separated list with no spaces, eg: 2,7,8,19,21"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:667
+#: includes/dfcg-admin-ui-functions.php:687
 msgid ""
 "Check the box if you want to apply your own ordering to the images in the "
 "Gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:667
+#: includes/dfcg-admin-ui-functions.php:687
 msgid ""
 "This option activates a Sort Order field in the DCG Metabox. This lets you "
 "specify a sort order for the images in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:667
+#: includes/dfcg-admin-ui-functions.php:687
 msgid ""
 "The Sort Order field works in the same way that Pages Order works for "
 "ordering Pages in a menu."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:687
+#: includes/dfcg-admin-ui-functions.php:710
 msgid ""
 "You have not registered any Custom Post types, therefore this section is "
 "disabled."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:691
+#: includes/dfcg-admin-ui-functions.php:714
 msgid "Configure this section if you chose Custom Post Type in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:696
+#: includes/dfcg-admin-ui-functions.php:719
 msgid "Select the Custom Post Type:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:707
+#: includes/dfcg-admin-ui-functions.php:730
 msgid "Posts from this Custom Post Type will be displayed in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:708
+#: includes/dfcg-admin-ui-functions.php:731
 msgid "Tip: Custom Post Type"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:714
+#: includes/dfcg-admin-ui-functions.php:737
 msgid "Select the Taxonomy:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:731
+#: includes/dfcg-admin-ui-functions.php:754
 msgid "Posts from this Taxonomy will be displayed in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:731
+#: includes/dfcg-admin-ui-functions.php:754
 msgid "Tip: Taxonomy"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:736
+#: includes/dfcg-admin-ui-functions.php:759
 msgid "Number of Custom Posts to display:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:753
+#: includes/dfcg-admin-ui-functions.php:776
 msgid ""
 "The minimum number of Custom Posts is 2, the maximum is 15 (for performance "
 "reasons)."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:763
+#: includes/dfcg-admin-ui-functions.php:786
 msgid "URL to default \"Taxonomy\" images folder:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:765
+#: includes/dfcg-admin-ui-functions.php:788
 msgid "Tip: Default Images folder"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:771
+#: includes/dfcg-admin-ui-functions.php:794
 msgid ""
 "Enter the URL to the folder which contains the default images.  The default "
 "images will be pulled into the gallery in the event that Posts do not have "
 "an image specified in the Write Post DCG Metabox Image URL."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:780
+#: includes/dfcg-admin-ui-functions.php:803
 msgid "The dropdown contains a list of all registered Custom Post Types"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:783
+#: includes/dfcg-admin-ui-functions.php:806
 msgid "Select the Taxonomy for your chosen Custom Post Type."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:784
+#: includes/dfcg-admin-ui-functions.php:807
 msgid ""
 "A note about taxonomies: The DCG searches for custom taxonomies (or built-in "
 "taxonomies) which have been associated with the selected Custom Post Type."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:786
+#: includes/dfcg-admin-ui-functions.php:809
 msgid ""
 "If you change this setting, click Save Changes to refresh the Settings Page, "
 "then return to this tab to reconfigure the Custom Post Type options below."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:786
+#: includes/dfcg-admin-ui-functions.php:809
 msgid ""
 "You need to do this because the list of Custom Taxonomies id created "
 "dynamically depending on which Custom Post Type has been selected."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:802
+#: includes/dfcg-admin-ui-functions.php:827
 msgid "Slide Pane Descriptions:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:803
+#: includes/dfcg-admin-ui-functions.php:828
 msgid ""
 "The Slide Pane description appears under the Post/Page Title in the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:803
+#: includes/dfcg-admin-ui-functions.php:828
 msgid ""
 "The Slide Pane has relatively little space. It is recommended to keep the "
 "description short, probably less than 25 words or so."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:810
+#: includes/dfcg-admin-ui-functions.php:835
 msgid ""
 "Descriptions are created automatically as a custom excerpt from your Post/"
 "Page content. The length of this custom excerpt is set in the below input "
 "field."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:814
+#: includes/dfcg-admin-ui-functions.php:839
 msgid "Number of characters to display in the Slide Pane description."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:818
+#: includes/dfcg-admin-ui-functions.php:843
 msgid "Text for \"more\" link added to Auto description."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:822
-msgid "Manual"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:823
+#: includes/dfcg-admin-ui-functions.php:848
 msgid ""
 "With this method the plugin looks for the image description in this sequence:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:823
+#: includes/dfcg-admin-ui-functions.php:848
 msgid ""
 "(1) a manual description entered in the Write Post/Page <strong>DCG Metabox</"
 "strong>, (2) a Category Description if that exists (not applicable to the "
@@ -1310,30 +1335,30 @@ msgid ""
 "(4) the Auto description."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:823
+#: includes/dfcg-admin-ui-functions.php:848
 msgid "Tip: Descriptions"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:824
+#: includes/dfcg-admin-ui-functions.php:849
 msgid "Manual default Description:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:824
+#: includes/dfcg-admin-ui-functions.php:849
 msgid "Allowed XHTML tags are:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:831
+#: includes/dfcg-admin-ui-functions.php:856
 msgid ""
 "With this method no descriptions will be displayed in the Slide Pane, only "
 "the Post/Page title."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:835
+#: includes/dfcg-admin-ui-functions.php:860
 msgid ""
 "Want to use Category Descriptions? Set them up in Dashboard>Posts>Categories."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:835
+#: includes/dfcg-admin-ui-functions.php:860
 msgid ""
 "Even if you have selected Manual, if you intend to use Auto text as a "
 "fallback in the event no manual descriptions have been set for individual "
@@ -1341,358 +1366,384 @@ msgid ""
 "under Auto options below."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:850
+#: includes/dfcg-admin-ui-functions.php:879
 msgid "Gallery size and CSS options (Mootools):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:852
+#: includes/dfcg-admin-ui-functions.php:881
 msgid "Gallery size and CSS options (jQuery):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:854
+#: includes/dfcg-admin-ui-functions.php:884
 msgid ""
 "Configure various layout and CSS options for your gallery including the size "
 "of the gallery, the height of the Slide Pane, gallery border, and the font "
 "sizes, colours and margins for the text displayed in the Slide Pane."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:859
+#: includes/dfcg-admin-ui-functions.php:889
 msgid "Gallery Width:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:860
+#: includes/dfcg-admin-ui-functions.php:890
 msgid "Default is 460px."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:863
+#: includes/dfcg-admin-ui-functions.php:893
 msgid "Gallery Height:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:864
+#: includes/dfcg-admin-ui-functions.php:894
 msgid "Default is 250px."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:867
-msgid "Gallery border width:"
+#: includes/dfcg-admin-ui-functions.php:897
+msgid "Gallery Background:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:868
-msgid "If you don't want a border enter 0 in this box."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:868
-msgid "Default is 1px."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:871
-msgid "Gallery border colour:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:872
-#: includes/dfcg-admin-ui-functions.php:887
-#: includes/dfcg-admin-ui-functions.php:902
-#: includes/dfcg-admin-ui-functions.php:926
-#: includes/dfcg-admin-ui-functions.php:951
+#: includes/dfcg-admin-ui-functions.php:898
+#: includes/dfcg-admin-ui-functions.php:906
+#: includes/dfcg-admin-ui-functions.php:923
+#: includes/dfcg-admin-ui-functions.php:938
 #: includes/dfcg-admin-ui-functions.php:962
+#: includes/dfcg-admin-ui-functions.php:987
+#: includes/dfcg-admin-ui-functions.php:998
 msgid "Enter color hex code like this #000000."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:872
-#: includes/dfcg-admin-ui-functions.php:887
+#: includes/dfcg-admin-ui-functions.php:898
+#: includes/dfcg-admin-ui-functions.php:906
+#: includes/dfcg-admin-ui-functions.php:923
 msgid "Default is #000000."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:876
-#: includes/dfcg-admin-ui-functions.php:881
-msgid "Slide Pane Height:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:877
-msgid "Default is 50px."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:882
-msgid "This setting is not available when using jQuery script."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:886
-msgid "Slide Pane Background:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:890
-msgid "Heading font size:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:891
-msgid "Default is 12px."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:894
-msgid "Heading font weight:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:898
-msgid "Choose Heading font-weight."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:898
-#: includes/dfcg-admin-ui-functions.php:969
-msgid "Default is bold."
-msgstr ""
-
 #: includes/dfcg-admin-ui-functions.php:901
-msgid "Heading font colour:"
+msgid "Gallery border width:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:902
-#: includes/dfcg-admin-ui-functions.php:926
-#: includes/dfcg-admin-ui-functions.php:951
-#: includes/dfcg-admin-ui-functions.php:962
-msgid "Default is #FFFFFF."
+msgid "If you don't want a border enter 0 in this box."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:902
+msgid "Default is 1px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:905
-msgid "Heading Padding top and bottom:"
+msgid "Gallery border colour:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:906
-#: includes/dfcg-admin-ui-functions.php:910
-#: includes/dfcg-admin-ui-functions.php:934
-#: includes/dfcg-admin-ui-functions.php:938
-msgid "Default is 0px."
+#: includes/dfcg-admin-ui-functions.php:911
+#: includes/dfcg-admin-ui-functions.php:916
+msgid "Slide Pane Height:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:909
-msgid "Heading Padding left and right:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:913
-msgid "Heading Margin top and bottom:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:914
-#: includes/dfcg-admin-ui-functions.php:942
-msgid "Default is 2px."
+#: includes/dfcg-admin-ui-functions.php:912
+msgid "Default is 50px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:917
-msgid "Heading Margin left and right:"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:918
-#: includes/dfcg-admin-ui-functions.php:946
-msgid "Default is 5px."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:921
-msgid "Description font size:"
+msgid "This setting is not available when using jQuery script."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:922
-msgid "Default is 11px."
+msgid "Slide Pane Background:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:925
-msgid "Description font colour:"
+#: includes/dfcg-admin-ui-functions.php:926
+msgid "Heading font size:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:929
-msgid "Description line height:"
+#: includes/dfcg-admin-ui-functions.php:927
+msgid "Default is 12px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:930
-msgid "Default is 14px."
+msgid "Heading font weight:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:933
-msgid "Description Padding top and bottom:"
+#: includes/dfcg-admin-ui-functions.php:934
+msgid "Choose Heading font-weight."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:934
+#: includes/dfcg-admin-ui-functions.php:1005
+msgid "Default is bold."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:937
-msgid "Description Padding left and right:"
+msgid "Heading font colour:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:938
+#: includes/dfcg-admin-ui-functions.php:962
+#: includes/dfcg-admin-ui-functions.php:987
+#: includes/dfcg-admin-ui-functions.php:998
+msgid "Default is #FFFFFF."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:941
-msgid "Description Margin top and bottom:"
+msgid "Heading Padding top and bottom:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:942
+#: includes/dfcg-admin-ui-functions.php:946
+#: includes/dfcg-admin-ui-functions.php:970
+#: includes/dfcg-admin-ui-functions.php:974
+msgid "Default is 0px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:945
-msgid "Description Margin left and right:"
+msgid "Heading Padding left and right:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:949
+msgid "Heading Margin top and bottom:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:950
-msgid "Description More link colour:"
+#: includes/dfcg-admin-ui-functions.php:978
+msgid "Default is 2px."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:951
-#: includes/dfcg-admin-ui-functions.php:958
-#: includes/dfcg-admin-ui-functions.php:962
-#: includes/dfcg-admin-ui-functions.php:969
-msgid "Only applicable if you selected"
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:951
-#: includes/dfcg-admin-ui-functions.php:958
-#: includes/dfcg-admin-ui-functions.php:962
-#: includes/dfcg-admin-ui-functions.php:969
-msgid "Auto Descriptions"
+#: includes/dfcg-admin-ui-functions.php:953
+msgid "Heading Margin left and right:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:954
-msgid "Description More link font weight:"
+#: includes/dfcg-admin-ui-functions.php:982
+msgid "Default is 5px."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:957
+msgid "Description font size:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:958
-msgid "Choose More link font-weight."
-msgstr ""
-
-#: includes/dfcg-admin-ui-functions.php:958
-msgid "Default is normal."
+msgid "Default is 11px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:961
-msgid "Description More link hover colour:"
+msgid "Description font colour:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:965
-msgid "Description More link hover font weight:"
+msgid "Description line height:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:966
+msgid "Default is 14px."
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:969
-msgid "Choose More link hover font-weight."
+msgid "Description Padding top and bottom:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:973
+msgid "Description Padding left and right:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:977
+msgid "Description Margin top and bottom:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:981
+msgid "Description Margin left and right:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:986
-msgid "Select Javascript framework (OPTIONAL):"
+msgid "Description More link colour:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:987
-msgid "Select the javascript framework to be used to display the gallery."
+#: includes/dfcg-admin-ui-functions.php:994
+#: includes/dfcg-admin-ui-functions.php:998
+#: includes/dfcg-admin-ui-functions.php:1005
+msgid "Only applicable if you selected"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:987
+#: includes/dfcg-admin-ui-functions.php:994
+#: includes/dfcg-admin-ui-functions.php:998
+#: includes/dfcg-admin-ui-functions.php:1005
+msgid "Auto Descriptions"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:990
+msgid "Description More link font weight:"
 msgstr ""
 
 #: includes/dfcg-admin-ui-functions.php:994
+msgid "Choose More link font-weight."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:994
+msgid "Default is normal."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:997
+msgid "Description More link hover colour:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1001
+msgid "Description More link hover font weight:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1005
+msgid "Choose More link hover font-weight."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1024
+msgid "Select Javascript framework (OPTIONAL):"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1025
+msgid "Select the javascript framework to be used to display the gallery."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1032
 msgid "Use SmoothGallery Mootools script. This is the default setting."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:999
+#: includes/dfcg-admin-ui-functions.php:1037
 msgid ""
 "Use jQuery script. Select this option in the event of javascript conflicts "
 "with other plugins."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1003
+#: includes/dfcg-admin-ui-functions.php:1041
 msgid ""
 "If you change this setting, click Save Changes to refresh the Settings Page, "
 "then return to this tab to configure the Javascript configuration options "
 "below. You may also need to re-configure some of the Gallery CSS options."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1003
+#: includes/dfcg-admin-ui-functions.php:1041
 msgid ""
 "You need to do this because the Javascript configuration and Gallery CSS "
 "options are not identical for both Frameworks."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1018
+#: includes/dfcg-admin-ui-functions.php:1062
 msgid "Mootools Javascript configuration options (OPTIONAL):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1020
+#: includes/dfcg-admin-ui-functions.php:1066
 msgid "jQuery Javascript configuration options (OPTIONAL):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1022
+#: includes/dfcg-admin-ui-functions.php:1070
 msgid ""
 "Configure various default javascript settings for your gallery. The "
 "inclusion of these options in this Settings page saves you having to "
 "customise the plugin's javascript files."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1027
+#: includes/dfcg-admin-ui-functions.php:1075
 msgid "Show Carousel:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1028
+#: includes/dfcg-admin-ui-functions.php:1076
 msgid "Check the box to display thumbnail Carousel. Default is CHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1031
+#: includes/dfcg-admin-ui-functions.php:1079
 msgid "Carousel label:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1032
+#: includes/dfcg-admin-ui-functions.php:1080
 msgid ""
 "Label for Carousel tab. Only visible if \"Show Carousel\" is checked. "
 "Default is Featured Articles."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1036
+#: includes/dfcg-admin-ui-functions.php:1083
 msgid "Show Slide Pane:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1037
+#: includes/dfcg-admin-ui-functions.php:1084
 msgid "Check the box to display Slide Pane. Default is CHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1040
+#: includes/dfcg-admin-ui-functions.php:1089
 msgid "Animate Slide Pane:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1041
+#: includes/dfcg-admin-ui-functions.php:1090
 msgid "Check the box to have Slide Pane slide into view. Default is CHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1045
+#: includes/dfcg-admin-ui-functions.php:1096
+msgid "Do not animate Slide Pane:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1097
+msgid ""
+"Check the box to keep Slide Pane static, ie not animated. Default is "
+"UNCHECKED."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1102
 msgid "Slide Pane Opacity:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1046
+#: includes/dfcg-admin-ui-functions.php:1103
 msgid ""
 "Opacity of Slide Pane. 1.0 is fully opaque, 0.0 is fully transparent. "
 "Default is 0.7."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1049
+#: includes/dfcg-admin-ui-functions.php:1106
+msgid "Show Arrows:"
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1107
+msgid ""
+"Check the box to display left and right navigation arrows. Default is "
+"CHECKED."
+msgstr ""
+
+#: includes/dfcg-admin-ui-functions.php:1110
 msgid "Timed transitions:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1050
+#: includes/dfcg-admin-ui-functions.php:1111
 msgid "Check the box to have timed image transitions. Default is CHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1053
+#: includes/dfcg-admin-ui-functions.php:1114
 msgid "Transitions delay:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1054
+#: includes/dfcg-admin-ui-functions.php:1115
 msgid ""
 "Enter the delay time (in milliseconds, minimum 1000) between image "
 "transitions. Default is 9000."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1058
+#: includes/dfcg-admin-ui-functions.php:1120
 msgid "Transition type:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1064
+#: includes/dfcg-admin-ui-functions.php:1126
 msgid "Select the type of image transition. Default is \"fade\"."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1067
+#: includes/dfcg-admin-ui-functions.php:1129
 msgid "Disable Mootools:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1068
+#: includes/dfcg-admin-ui-functions.php:1130
 msgid ""
 "Check the box ONLY in the event that another plugin is already loading the "
 "Mootools Javascript library files in your site. Default is UNCHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1086
+#: includes/dfcg-admin-ui-functions.php:1151
 msgid "Restrict script loading (REQUIRED):"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1087
+#: includes/dfcg-admin-ui-functions.php:1152
 msgid ""
 "This option lets you restrict the loading of the plugin's javascript to the "
 "page that will actually display the gallery. This prevents the scripts being "
@@ -1702,119 +1753,119 @@ msgid ""
 "\">Javascript Framework settings</a>."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1093
+#: includes/dfcg-admin-ui-functions.php:1158
 msgid "Home page only (Default)"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1094
+#: includes/dfcg-admin-ui-functions.php:1159
 msgid "Select this option to load the plugin's scripts ONLY on the home page."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1095
+#: includes/dfcg-admin-ui-functions.php:1160
 msgid "Tip: Home page"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1099
+#: includes/dfcg-admin-ui-functions.php:1164
 msgid "Pages"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1100
+#: includes/dfcg-admin-ui-functions.php:1165
 msgid ""
 "Select this option to load the plugin's scripts ONLY when a specific Page is "
 "being used to display the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1101
+#: includes/dfcg-admin-ui-functions.php:1166
 msgid "Tip: Pages"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1102
+#: includes/dfcg-admin-ui-functions.php:1167
 msgid "Enter Page ID(s): "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1103
+#: includes/dfcg-admin-ui-functions.php:1168
 msgid "Tip: Page ID's"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1108
+#: includes/dfcg-admin-ui-functions.php:1173
 msgid "Specific Page Template"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1109
+#: includes/dfcg-admin-ui-functions.php:1174
 msgid ""
 "Select this option to load the plugin's scripts ONLY when a specific Page "
 "Template is being used to display the gallery."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1110
+#: includes/dfcg-admin-ui-functions.php:1175
 msgid "Tip: Specific Page Template"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1111
+#: includes/dfcg-admin-ui-functions.php:1176
 msgid "Enter Page Template: "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1112
+#: includes/dfcg-admin-ui-functions.php:1177
 msgid "Tip: Page Template filename"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1117
+#: includes/dfcg-admin-ui-functions.php:1182
 msgid "Other"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1118
+#: includes/dfcg-admin-ui-functions.php:1183
 msgid "Select this option if none of the above apply to your setup."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1118
+#: includes/dfcg-admin-ui-functions.php:1183
 msgid "Tip: Other"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1123
+#: includes/dfcg-admin-ui-functions.php:1188
 msgid ""
 "Best option if the gallery will only be used on the home page of your site. "
 "This is the default."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1123
+#: includes/dfcg-admin-ui-functions.php:1188
 msgid ""
 "Also, select this option if you use a Static Front Page defined in Dashboard "
 "> Settings > Reading and the gallery will only be shown on the home page."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1124
+#: includes/dfcg-admin-ui-functions.php:1189
 msgid "Best option if the gallery is displayed using a Page."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1125
+#: includes/dfcg-admin-ui-functions.php:1190
 msgid ""
 "Enter ID of the Page, eg 42. Multiple pages are also possible, like this: "
 "2,43,17"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1126
+#: includes/dfcg-admin-ui-functions.php:1191
 msgid "Best option if the gallery is displayed using a Page Template."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1127
+#: includes/dfcg-admin-ui-functions.php:1192
 msgid "Filename of the Page Template, eg mypagetemplate.php."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1127
+#: includes/dfcg-admin-ui-functions.php:1192
 msgid ""
 "You can also enter more than one template filename using a comma separated "
 "list, eg template.php,template2.php,template3.php"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1128
+#: includes/dfcg-admin-ui-functions.php:1193
 msgid "The plugin's scripts will be loaded in every page. Not recommended."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1142
+#: includes/dfcg-admin-ui-functions.php:1209
 msgid "Error Message options (OPTIONAL)"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1143
+#: includes/dfcg-admin-ui-functions.php:1210
 msgid ""
 "The plugin produces informative error messages in the event that Posts, "
 "Pages, images and descriptions have not been configured properly, which will "
@@ -1822,35 +1873,35 @@ msgid ""
 "to the Page Source of the gallery as HTML comments."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1143
+#: includes/dfcg-admin-ui-functions.php:1210
 msgid "Error message explanations can be found in the"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1143
-#: includes/dfcg-admin-ui-functions.php:1307
-#: includes/dfcg-admin-ui-functions.php:1333
+#: includes/dfcg-admin-ui-functions.php:1210
+#: includes/dfcg-admin-ui-functions.php:1387
+#: includes/dfcg-admin-ui-functions.php:1413
 msgid "Error Messages"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1143
+#: includes/dfcg-admin-ui-functions.php:1210
 msgid "guide."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1147
+#: includes/dfcg-admin-ui-functions.php:1214
 msgid "Show Error Messages:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1148
+#: includes/dfcg-admin-ui-functions.php:1215
 msgid ""
 "Check box to show Page Source error messages, uncheck the box to hide them. "
 "Default is UNCHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1165
+#: includes/dfcg-admin-ui-functions.php:1234
 msgid "Add Custom Field columns to Posts and Pages Edit screen (OPTIONAL)"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1166
+#: includes/dfcg-admin-ui-functions.php:1235
 msgid ""
 "These settings let you display a column in the Edit Posts and Edit Pages "
 "screens to show the value of the <strong>Image URL</strong> and manual "
@@ -1859,112 +1910,112 @@ msgid ""
 "Slide Pane Descriptions without having to open each individual Post or Page."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1167
+#: includes/dfcg-admin-ui-functions.php:1236
 msgid ""
 "To hide the additional columns in the Edit Posts and Edit Pages screens, "
 "uncheck the boxes then click the \"Save Changes\" button. Default is CHECKED."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1167
+#: includes/dfcg-admin-ui-functions.php:1236
 msgid "Tip: Custom Post Types"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1172
+#: includes/dfcg-admin-ui-functions.php:1241
 msgid "Show columns in Edit Posts:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1174
-#: includes/dfcg-admin-ui-functions.php:1179
+#: includes/dfcg-admin-ui-functions.php:1243
+#: includes/dfcg-admin-ui-functions.php:1248
 msgid "DCG Desc:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1177
+#: includes/dfcg-admin-ui-functions.php:1246
 msgid "Show columns in Edit Pages:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1180
+#: includes/dfcg-admin-ui-functions.php:1249
 msgid "Sort Order:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1185
+#: includes/dfcg-admin-ui-functions.php:1254
 msgid ""
 "Note that by default if \"Show columns in Edit Posts\" options are checked, "
 "these columns will also appear in the Edit screens for any Custom Post Types."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1285
+#: includes/dfcg-admin-ui-functions.php:1365
 msgid "Reset all options to the Default settings"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1286
+#: includes/dfcg-admin-ui-functions.php:1366
 msgid "Check the box, then click the \"Save Changes\" button."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1302
+#: includes/dfcg-admin-ui-functions.php:1382
 msgid "For further information please visit these resources:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1305
+#: includes/dfcg-admin-ui-functions.php:1385
 msgid "Documentation page"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1309
+#: includes/dfcg-admin-ui-functions.php:1389
 msgid ""
 "The Dynamic Content Gallery plugin uses the mootools SmoothGallery script "
 "developed by"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1309
+#: includes/dfcg-admin-ui-functions.php:1389
 msgid "and a custom jQuery script developed by"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1309
+#: includes/dfcg-admin-ui-functions.php:1389
 msgid ""
 "and was forked from the original Featured Content Gallery v1.0 developed by "
 "Jason Schuller. Grateful acknowledgements to Jonathan, Maxim and Jason."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1310
+#: includes/dfcg-admin-ui-functions.php:1390
 msgid "Dynamic Content Gallery plugin for Wordpress and Wordpress MultiSite"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1310
+#: includes/dfcg-admin-ui-functions.php:1390
 #: includes/dfcg-admin-ui-screen.php:44
 msgid "Version: "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1326
+#: includes/dfcg-admin-ui-functions.php:1406
 msgid "Dynamic Content Gallery - Quick Help"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1327
+#: includes/dfcg-admin-ui-functions.php:1407
 msgid ""
 "This Quick Help guide highlights some basic points only. Detailed guides to "
 "Documentation and Configuration can be found on the plugin's site here:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1329
+#: includes/dfcg-admin-ui-functions.php:1409
 msgid "Quick Start"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1336
+#: includes/dfcg-admin-ui-functions.php:1416
 msgid "Understanding the basics"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1337
+#: includes/dfcg-admin-ui-functions.php:1417
 msgid ""
 "Each image in the DCG gallery is linked to a Post or a Page, therefore "
 "providing a dynamic and visually appealing way of highlighting your featured "
 "content to your site vistors."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1338
+#: includes/dfcg-admin-ui-functions.php:1418
 msgid ""
 "Setting up the DCG involves 2 key settings, both of which are configured in "
 "the DCG Settings page:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1340
+#: includes/dfcg-admin-ui-functions.php:1420
 msgid ""
 "The <a class=\"dfcg-panel-gallery-link\" href=\"#dfcg-panel-gallery"
 "\">Gallery method</a> tab options determine which featured content, ie which "
@@ -1972,36 +2023,36 @@ msgid ""
 "available:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1342
+#: includes/dfcg-admin-ui-functions.php:1422
 msgid "Multi Option - Posts from a mix of Categories."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1343
+#: includes/dfcg-admin-ui-functions.php:1423
 msgid "One Category - Posts from one selected Category."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1344
+#: includes/dfcg-admin-ui-functions.php:1424
 msgid "ID Method - Pages, or a mix of Post/Pages, selected by ID number."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1345
+#: includes/dfcg-admin-ui-functions.php:1425
 msgid "Custom Post Type - Posts from a selected Custom Post Type."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1348
+#: includes/dfcg-admin-ui-functions.php:1428
 msgid ""
 "The <a class=\"dfcg-panel-image-link\" href=\"#dfcg-panel-image\">Image "
 "Management</a> tab options determine how the plugin associates images with "
 "the featured Posts/Pages:"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1350
+#: includes/dfcg-admin-ui-functions.php:1430
 msgid ""
 "Auto - which means that the plugin will grab the first Image Attachment from "
 "the relevant Posts/Pages, or"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1352
+#: includes/dfcg-admin-ui-functions.php:1432
 msgid ""
 "Manually - which means you assign images to your posts or pages by entering "
 "an image URL in the Image URL field in the DCG Metabox which is shown in the "
@@ -2011,7 +2062,7 @@ msgid ""
 "field."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1357
+#: includes/dfcg-admin-ui-functions.php:1437
 msgid ""
 "The <a class=\"dfcg-panel-desc-link\" href=\"#dfcg-panel-desc\">Description</"
 "a> tab options determine the text which is displayed in the Slide Pane below "
@@ -2021,7 +2072,7 @@ msgid ""
 "want to display any text in the Slide Pane. "
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1359
+#: includes/dfcg-admin-ui-functions.php:1439
 msgid ""
 "You can also create <a class=\"off-site\" href=\"http://www."
 "studiograsshopper.ch/dynamic-content-gallery/configuration-guide/#default-"
@@ -2030,13 +2081,13 @@ msgid ""
 "Post or Page, a default image will be shown in its place."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1359
+#: includes/dfcg-admin-ui-functions.php:1439
 msgid ""
 "Note: The Custom Post Type gallery method does not currently support default "
 "images."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1361
+#: includes/dfcg-admin-ui-functions.php:1441
 msgid ""
 "There are lots of options for the <a class=\"dfcg-panel-css-link\" href="
 "\"#dfcg-panel-css\">Gallery CSS</a>, as well as various <a class=\"dfcg-"
@@ -2051,39 +2102,39 @@ msgid ""
 "with other plugins."
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1362
+#: includes/dfcg-admin-ui-functions.php:1442
 msgid "Still a bit lost? Find out more in the Configuration Guide =>"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1364
+#: includes/dfcg-admin-ui-functions.php:1444
 msgid "How to choose the correct options for the Gallery Method"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1365
+#: includes/dfcg-admin-ui-functions.php:1445
 msgid "How to select appropriate Image File management preferences"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1366
+#: includes/dfcg-admin-ui-functions.php:1446
 msgid "How to use the Media Uploader to get image URLs for the DCG Metabox"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1367
+#: includes/dfcg-admin-ui-functions.php:1447
 msgid "How to choose the correct theme template when adding the plugin code"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1368
+#: includes/dfcg-admin-ui-functions.php:1448
 msgid "How to configure the Restrict Script loading options"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1369
+#: includes/dfcg-admin-ui-functions.php:1449
 msgid "How to link gallery images to external URLs"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1370
+#: includes/dfcg-admin-ui-functions.php:1450
 msgid "How to organise your default images"
 msgstr ""
 
-#: includes/dfcg-admin-ui-functions.php:1372
+#: includes/dfcg-admin-ui-functions.php:1452
 msgid ""
 "Note for Wordpress Network (Multisite) users: Default images are not "
 "available in Network-enabled WP."
@@ -2175,35 +2226,35 @@ msgid ""
 msgstr ""
 
 #: includes/dfcg-gallery-constructors-jq-smooth.php:322
-#: includes/dfcg-gallery-constructors-jq-smooth.php:637
+#: includes/dfcg-gallery-constructors-jq-smooth.php:638
 #: includes/dfcg-gallery-constructors.php:290
 #: includes/dfcg-gallery-constructors.php:575
 msgid "Number of Posts to display as per DCG Settings = "
 msgstr ""
 
 #: includes/dfcg-gallery-constructors-jq-smooth.php:323
-#: includes/dfcg-gallery-constructors-jq-smooth.php:638
+#: includes/dfcg-gallery-constructors-jq-smooth.php:639
 #: includes/dfcg-gallery-constructors.php:291
 #: includes/dfcg-gallery-constructors.php:576
 msgid "Number of Posts found = "
 msgstr ""
 
 #: includes/dfcg-gallery-constructors-jq-smooth.php:324
-#: includes/dfcg-gallery-constructors-jq-smooth.php:639
+#: includes/dfcg-gallery-constructors-jq-smooth.php:640
 #: includes/dfcg-gallery-constructors.php:292
 #: includes/dfcg-gallery-constructors.php:577
 msgid "Number of Posts excluded by user = "
 msgstr ""
 
-#: includes/dfcg-gallery-constructors-jq-smooth.php:771
-#: includes/dfcg-gallery-constructors-jq-smooth.php:944
+#: includes/dfcg-gallery-constructors-jq-smooth.php:772
+#: includes/dfcg-gallery-constructors-jq-smooth.php:945
 #: includes/dfcg-gallery-constructors.php:715
 #: includes/dfcg-gallery-constructors.php:853
 msgid "Number of Pages selected in DCG Settings = "
 msgstr ""
 
-#: includes/dfcg-gallery-constructors-jq-smooth.php:772
-#: includes/dfcg-gallery-constructors-jq-smooth.php:945
+#: includes/dfcg-gallery-constructors-jq-smooth.php:773
+#: includes/dfcg-gallery-constructors-jq-smooth.php:946
 #: includes/dfcg-gallery-constructors.php:716
 #: includes/dfcg-gallery-constructors.php:854
 msgid "Number of Pages found = "
