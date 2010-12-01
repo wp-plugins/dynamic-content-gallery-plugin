@@ -33,6 +33,7 @@ Feature:	means new user functionality has been added
 /* Version History
 
 	3.3.4		- Enhance:	on/off option for Slide Pane animation added to jQuery script (v2.6)
+				- Enhance:	Tidied up DCG Metabox markup and contents
 				- Bug fix:	jQuery script conflict with Adblock browser add-on fixed (v2.7)
 				- Bug fix:	Fixed PHP warning re undefined $cat_selected variable in dfcg-gallery-constructors-jq-smooth.php
 	
