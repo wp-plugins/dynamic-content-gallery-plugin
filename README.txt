@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version:
+Version: 3.3.4
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -200,6 +200,12 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 
 == Changelog ==
+
+= 3.3.4 =
+* Released	30 November 2010
+* Enhance:	on/off option for Slide Pane animation added to jQuery script (v2.6)
+* Bug fix:	jQuery script conflict with Adblock browser add-on fixed (v2.7)
+* Bug fix:	Fixed PHP warning re undefined $cat_selected variable in dfcg-gallery-constructors-jq-smooth.php
 
 = 3.3.3 =
 * Released	7 November 2010
