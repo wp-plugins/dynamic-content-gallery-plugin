@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 3.0
-Tested up to: 3.0.1
+Tested up to: 3.0.2
 Stable tag: 3.3.3
 
 Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
