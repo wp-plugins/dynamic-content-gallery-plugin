@@ -85,7 +85,7 @@ function dfcg_sanitise($input) {
 	//	Bool options														(15)
 	//	String options - no XHTML allowed									(5)
 	//	String options - some XHTML allowed									(1)
-	//	String options - CSS hexcodes										(6)
+	//	String options - CSS hexcodes										(7)
 	//	String options - numeric comma separated only 						(2)
 	//	String options - filenames											(1)
 	//	Integer options - positive - can be blank, can't be zero 			(9)
@@ -196,9 +196,9 @@ function dfcg_sanitise($input) {
 	} 
 	
 	
-	/***** String options - CSS hexcodes (6) *****/
+	/***** String options - CSS hexcodes () *****/
 	
-	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'slide-p-a-color', 'slide-p-ahover-color' );
+	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'slide-p-a-color', 'slide-p-ahover-color', 'gallery-background' );
 	
 	// TODO: This could be improved - regex doesn't validate whether a valid hex code.
 	

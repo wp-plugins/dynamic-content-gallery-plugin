@@ -385,7 +385,7 @@ function dfcg_admin_notice_reset() {
 *
 * Used by the "upgrader" function dfcg_set_gallery_options().
 *
-* 85 options (6 are WP only)
+* 86 options (6 are WP only)
 *
 * @since 3.2.2
 * @updated 3.3.4
@@ -477,7 +477,8 @@ function dfcg_default_options() {
 		'page-ids' => '',										// Restrict scripts: ordinary page ID numbers
 		'thumb-type' => 'legacy',								// all methods: post-thumbnails or legacy - mootools only
 		'showArrows' => 'true',									// JS option
-		'slideInfoZoneStatic' => 'false'						// JS option (jquery only) added with v2.6 jquery script
+		'slideInfoZoneStatic' => 'false',						// JS option (jquery only) added with v2.6 jquery script
+		'gallery-background' => '#000000'						// all methods: CSS
 	);
 	
 	// Return options array for use elsewhere
@@ -535,8 +536,9 @@ function dfcg_default_options() {
 * In 3.3.3 - Total options = 84
 *
 * In 3.3.4 - Added 'slideInfoZoneStatic' options for fixed or sliding Slide Pane with jQuery
+* In 3.3.4 - Added 'gallery-background' option - mootools and jquery
 *
-* In 3.4.4 - Total options = 84 + 1 = 85
+* In 3.4.4 - Total options = 84 + 2 = 85
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
@@ -920,10 +922,11 @@ function dfcg_set_gallery_options() {
 	
 		// Add new 1 option
 		$new_opts = array(
-			'slideInfoZoneStatic' => 'false'
+			'slideInfoZoneStatic' => 'false',
+			'gallery-background' => '#000000'
 			);
 		
-		// Total options = 84 + 1 = 85
+		// Total options = 84 + 2 = 85
 		$updated = wp_parse_args( $existing_opts, $new_opts );
 		
 		update_option( 'dfcg_plugin_settings', $updated );

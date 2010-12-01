@@ -10,7 +10,7 @@
 * @info This should ensure XHTML validation.
 *
 * @since 3.2
-* @updated 3.3.2
+* @updated 3.3.4
 */
 ?>
 
@@ -63,6 +63,10 @@ if (!defined('ABSPATH')) {
 .jdGallery .slideInfoZone p a:hover {
 	color: <?php echo $dfcg_options['slide-p-ahover-color']; ?> !important;
 	font-weight:<?php echo $dfcg_options['slide-p-ahover-weight']; ?> !important;
+	}
+	
+.jdGallery .slideElement {
+	background-color: <?php echo $dfcg_options['gallery-background']; ?>;
 	}
 
 </style>

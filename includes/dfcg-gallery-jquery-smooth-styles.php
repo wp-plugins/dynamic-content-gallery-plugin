@@ -42,7 +42,7 @@ if (!defined('ABSPATH')) {
 	}
 	
 #dfcg-fullsize {
-	background:#000;
+	background:<?php echo $dfcg_options['gallery-background']; ?>;
 	border:<?php echo $dfcg_options['gallery-border-thick']; ?>px solid <?php echo $dfcg_options['gallery-border-colour']; ?>;
 	height:<?php echo $dfcg_options['gallery-height']; ?>px;
 	overflow: hidden;

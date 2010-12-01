@@ -864,13 +864,13 @@ function dfcg_ui_defdesc() {
 /**
 * Gallery CSS: box and content
 *
-* 24 options: ['gallery-width'],['gallery-height'],['gallery-border-thick'],['gallery-border-colour'],['slide-height'],['slide-overlay-color'],['slide-h2-size'],['slide-h2-weight'],['slide-h2-colour'],['slide-h2-padtb'],['slide-h2-padlr'],['slide-h2-margtb'],['slide-h2-marglr'],['slide-p-size'],['slide-p-colour'],['slide-p-line-height'],['slide-p-padtb'],['slide-p-padlr'],['slide-p-margtb'],['slide-p-marglr'],['slide-p-a-color'],['slide-p-a-weight'],['slide-p-ahover-color'],['slide-p-ahover-weight']
+* 24 options: ['gallery-width'],['gallery-height'],['gallery-border-thick'],['gallery-border-colour'],['slide-height'],['slide-overlay-color'],['slide-h2-size'],['slide-h2-weight'],['slide-h2-colour'],['slide-h2-padtb'],['slide-h2-padlr'],['slide-h2-margtb'],['slide-h2-marglr'],['slide-p-size'],['slide-p-colour'],['slide-p-line-height'],['slide-p-padtb'],['slide-p-padlr'],['slide-p-margtb'],['slide-p-marglr'],['slide-p-a-color'],['slide-p-a-weight'],['slide-p-ahover-color'],['slide-p-ahover-weight'], ['gallery-background']
 *
 * Mootools only: ['slide-height']
 * 
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3
+* @updated 3.3.4
 */
 function dfcg_ui_css() {
 	global $dfcg_options;
@@ -892,6 +892,10 @@ function dfcg_ui_css() {
 			<tr valign="top">
 				<th scope="row"><?php _e('Gallery Height:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[gallery-height]" id="dfcg-gallery-height" size="5" value="<?php echo $dfcg_options['gallery-height']; ?>" />&nbsp;px <span style="padding-left:20px;"><em><?php _e('Default is 250px.', DFCG_DOMAIN); ?></em></span></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Gallery Background:', DFCG_DOMAIN); ?></th>
+				<td><input name="dfcg_plugin_settings[gallery-background]" id="dfcg-gallery-background" size="8" value="<?php echo $dfcg_options['gallery-background']; ?>" />&nbsp;<span style="padding-left:7px;"><em><?php _e('Enter color hex code like this #000000.', DFCG_DOMAIN); ?> <em><?php _e('Default is #000000.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Gallery border width:', DFCG_DOMAIN); ?></th>
