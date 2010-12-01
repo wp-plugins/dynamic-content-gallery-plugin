@@ -1,11 +1,12 @@
 /**	
-*	smoothSlideshow v2.7 jQuery script developed by Maxim Palianytsia.
+*	smoothSlideshow v2.7.5 jQuery script developed by Maxim Palianytsia.
 *
 *	v2.3 fixes issue with thumbnail scrolling in Chrome browsers
 *	v2.4 fixes issue with non-centered images in IE
 *	v2.5 fixes issue with imgLink disappearing when showArrows is off
 *	v2.6 15/11/2010 adds new property slideInfoZoneStatic
 *	v2.7 30/11/2010 fixes Adblock browser add-on conflict
+*	v2.7.5 01/12/2010 fixes vertical image alignment when images are smaller than gallery dimensions
 *
 */
 (function ($) {
@@ -175,6 +176,7 @@
 							var l = Math.floor(w / 2);
 							this.i.style.marginLeft = l + 'px';
 							this.i.style.marginRight = (w - l) + 'px';
+							this.i.style.marginTop = ($(this.f).parent().height() - $(this.i).height())/2 + 'px';
 							m = $(this.f).find('img');
 							if (m.length > 1) {
 								_T.alpha.set(m.get(0), 0, this.options.imgSpeed, function () {
