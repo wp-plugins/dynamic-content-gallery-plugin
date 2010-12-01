@@ -1,17 +1,11 @@
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
-*
-* 	@package	Dynamic Content Gallery
-*	@version	3.3.3
-*
-*	smoothSlideshow v2.5 jQuery script developed by Maxim Palianytsia.
+/**	
+*	smoothSlideshow v2.7 jQuery script developed by Maxim Palianytsia.
 *
 *	v2.3 fixes issue with thumbnail scrolling in Chrome browsers
-*
 *	v2.4 fixes issue with non-centered images in IE
-*
 *	v2.5 fixes issue with imgLink disappearing when showArrows is off
+*	v2.6 15/11/2010 adds new property slideInfoZoneStatic
+*	v2.7 30/11/2010 fixes Adblock browser add-on conflict
 *
 */
 (function ($) {
@@ -28,6 +22,7 @@
                 this.options.thumbScrollSpeed = 5000;
                 this.options.letterbox = '#000';
                 this.options.slideInfoZoneOpacity = 0.7;
+                this.options.slideInfoZoneStatic = false;
                 var _th = this;
                 $.each(options, function (key, val) {
                     _th.options[key] = val
@@ -148,7 +143,7 @@
                     this.is(t, c)
                 },
                 is: function (s, c) {
-                    if (this.options.showInfopane) {
+                    if (this.options.showInfopane && !this.options.slideInfoZoneStatic) {
                         _T.height.set(this.r, 1, this.options.infoSpeed / 2, -1)
                     }
                     this.i = document.createElement('img');
@@ -168,41 +163,50 @@
                 le: function (s, c) {
                     if (this.i.getAttribute('width')) this.i.removeAttribute('width');
                     if (this.i.getAttribute('height')) this.i.removeAttribute('height');
-                    this.f.appendChild(this.i);
-                    var w = this.o - $(this.i).width();
-                    var m = $(this.f).find('img');
-                    var _this = this;
-                    if (m.length > 2) {
-                        this.f.removeChild(m.get(0))
-                    }
-                    if (w > 0) {
-                        var l = Math.floor(w / 2);
-                        this.i.style.marginLeft = l + 'px';
-                        this.i.style.marginRight = (w - l) + 'px';
-                        m = $(this.f).find('img');
-                        if (m.length > 1) {
-                            _T.alpha.set(m.get(0), 0, this.options.imgSpeed, function () {
-                                try {
-                                    _this.f.removeChild(m.get(0))
-                                } catch (e) {}
-                            })
-                        }
-                    }
-                    _T.alpha.set(this.i, 100, this.options.imgSpeed);
-                    var n = new Function(this.n + '.nf(' + s + ')');
-                    this.lt = setTimeout(n, this.options.imgSpeed * 100);
-                    if (!c) {
-                        this.at = setTimeout(new Function(this.n + '.mv(1,0)'), this.options.delay)
-                    }
-                    if (this.a[s].l != '') {
-                        this.q.onclick = new Function('window.location="' + this.a[s].l + '"');
-                        this.q.onmouseover = new Function('this.className="' + this.options.link + '"');
-                        this.q.onmouseout = new Function('this.className=""');
-                        this.q.style.cursor = 'pointer'
-                    } else {
-                        this.q.onclick = this.q.onmouseover = null;
-                        this.q.style.cursor = 'default'
-                    }
+					this.f.appendChild(this.i);
+					if($(this.i).width()>0){
+						var w = this.o - $(this.i).width();
+						var m = $(this.f).find('img');
+						var _this = this;
+						if (m.length > 2) {
+							this.f.removeChild(m.get(0))
+						}
+						if (w > 0) {
+							var l = Math.floor(w / 2);
+							this.i.style.marginLeft = l + 'px';
+							this.i.style.marginRight = (w - l) + 'px';
+							m = $(this.f).find('img');
+							if (m.length > 1) {
+								_T.alpha.set(m.get(0), 0, this.options.imgSpeed, function () {
+									try {
+										_this.f.removeChild(m.get(0))
+									} catch (e) {}
+								})
+							}
+						}
+						_T.alpha.set(this.i, 100, this.options.imgSpeed);
+						var n = new Function(this.n + '.nf(' + s + ')');
+						if(this.options.slideInfoZoneStatic){
+							n();
+						}else{
+							this.lt = setTimeout(n, this.options.imgSpeed * 100);
+						}
+						if (!c) {
+							this.at = setTimeout(new Function(this.n + '.mv(1,0)'), this.options.delay)
+						}
+						if (this.a[s].l != '') {
+							this.q.onclick = new Function('window.location="' + this.a[s].l + '"');
+							this.q.onmouseover = new Function('this.className="' + this.options.link + '"');
+							this.q.onmouseout = new Function('this.className=""');
+							this.q.style.cursor = 'pointer'
+						} else {
+							this.q.onclick = this.q.onmouseover = null;
+							this.q.style.cursor = 'default'
+						}
+					}else{
+						var t = this;
+						setTimeout(function(){t.le(s,c)}, 50);
+					}
                 },
                 nf: function (s) {
                     if (this.options.showInfopane) {
@@ -212,8 +216,12 @@
                         $(this.r).find(this.options.subtitleSelector).html(s.d);
                         this.r.style.height = 'auto';
                         var h = parseInt(this.r.offsetHeight);
-                        this.r.style.height = 0;
-                        _T.height.set(this.r, h, this.options.infoSpeed, 0)
+                        if(!this.options.slideInfoZoneStatic){
+							this.r.style.height = 0;
+							_T.height.set(this.r, h, this.options.infoSpeed, 0);
+						}else{
+							$(this.r).height(h);
+						}
                     }
                 }
             };
