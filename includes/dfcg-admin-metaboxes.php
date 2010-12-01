@@ -6,6 +6,8 @@
 * @package dynamic_content_gallery
 * @version 3.3.4
 *
+* Uses ugly inline styles, unfortunately...
+*
 * @since 3.2
 */
 
@@ -61,12 +63,12 @@ function dfcg_add_metabox() {
 *
 * Called by add_meta_box() in dfcg_add_metabox() function
 *
-* Note: Markup follows WP standards for Post/Page Editor sidebar
+* Note: Markup follows WP standards for Post/Page Editor sidebar plus ugly inline styles, unfortunately...
 *
 * @global array $dfcg_options plugin options from db
 * @param object $post object
 * @since 3.2.2
-* @updated 3.3
+* @updated 3.3.4
 */
 function dfcg_meta_box($post) {
 
@@ -81,69 +83,97 @@ function dfcg_meta_box($post) {
 	// Actual content of metabox - same used for Post and Pages
 	
 	// Variables for use in the metabox
+	if( $dfcg_options['image-url-type'] == 'auto' ) {
+		$link = 'Auto';
+		$url = 'not used';
+	}
 	if( $dfcg_options['image-url-type'] == 'partial' ) {
-		$text = 'Partial URL';
+		$link = 'Partial URL';
 		$url = $dfcg_options['imageurl'];
 		if( $url == '' ) {
 			$url = '<span style="color:#D53131;">Not defined. You must define this in the DCG Settings page.</span>';
 		}
-	} else {
-		$text = 'Full URL';
+	}
+	if( $dfcg_options['image-url-type'] == 'full' ) {
+		$link = 'Full URL';
 		$url = 'not used';
 	}
 	?>
 	
 <?php /* IMAGE BLOCK */ ?>
-	<div class="dfcg-form">
-		<h5><?php _e('Image URL', DFCG_DOMAIN); ?>:</h5>
+	<div class="dfcg-form" style="margin:0px;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Image URL', DFCG_DOMAIN); ?>:</h4>
+		
 		<?php if( $dfcg_options['image-url-type'] == 'auto' ) : ?>
-			<p><em><?php _e('You are using Auto gallery images. The DCG will automatically grab the first image attachment from this Post/Page.', DFCG_DOMAIN); ?></em></p>
-			<p><em><?php _e('If there are no image attachments for this Post/Page, you may specify an alternative image by entering the Image URL in the box below. Leave blank if you attach an image via the Media Uploader.', DFCG_DOMAIN); ?></em></p>
+			<p style="margin:6px 0px 8px;"><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. The DCG will automatically grab the first image attachment from this Post/Page.', DFCG_DOMAIN); ?></em></p>
+			<p style="margin:6px 0px 8px;"><em><?php _e('If there are no image attachments for this Post/Page, you may specify an alternative image by entering the Image URL in the box below.', DFCG_DOMAIN); ?></em></p>
+		
+		<?php elseif( $dfcg_options['image-url-type'] == 'full' ) : ?>
+			
+			<p style="margin:6px 0px 8px;"><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link;; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></em></p>
+		
+		<?php elseif( $dfcg_options['image-url-type'] == 'partial' ) : ?>
+			
+			<p style="margin:6px 0px 8px;"><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></em></p>
+		
 		<?php endif; ?>
+		
 		<label class="screen-reader-text" for="_dfcg-image"><?php _e('Image URL', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;" cols="33" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
-		<p><em>You are using <?php echo $text; ?>.</em>
+		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;width:253px;" cols="2" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
+			
 		<?php if( $url !== 'not used' ) { ?>
-			<br /><em>Images folder is: <?php echo $url; ?></em>
+			<p style="margin:6px 0px 8px;"><em>Images folder is: <?php echo $url; ?></em></p>
 		<?php } ?>
-		</p>
 	</div>
+
 	
 <?php /* DESC BLOCK */ ?>
 	
 	<?php if( $dfcg_options['desc-method'] == 'manual' ) : // Only show dfcg-desc if Slide Pane Description is manual ?>
 
-	<div class="dfcg-form">
-		<h5><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h5>
+	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
+		<p style="margin:6px 0px 8px;"><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Manual', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>. <?php _e('Enter your Slide Pane text for this image below.', DFCG_DOMAIN); ?></em></p>
 		<label class="screen-reader-text" for="_dfcg-desc"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-desc" name="_dfcg-desc" style="font-size:11px;" cols="33" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
+		<textarea id="_dfcg-desc" name="_dfcg-desc" style="font-size:11px;width:253px;" cols="2" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
 	</div>
 	
-	<?php else : // Slide Pane Description is Auto ?>
+	<?php elseif( $dfcg_options['desc-method'] == 'auto' )  : // Slide Pane Description is Auto ?>
 		
-	<div class="dfcg-form">
-		<h5><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h5>
-		<p><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Auto', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>.</em></p>
+	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
+		<p style="margin:6px 0px 8px;"><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Auto', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>.</em></p>
+		<input id="_dfcg-desc" name="_dfcg-desc" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?>" />
+	</div>
+	
+	<?php else : // Slide Pane Description is None ?>
+	
+		<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
+		<p style="margin:6px 0px 8px;"><em><a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?></a> <?php _e('are set to "None".', DFCG_DOMAIN) ; ?></em></p>
 		<input id="_dfcg-desc" name="_dfcg-desc" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?>" />
 	</div>
 	<?php endif; ?>
 	
+
 <?php /* EXTERNAL LINK BLOCK */ ?>
 	
-	<div class="dfcg-form">
-		<h5><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h5>
+	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h4>
+		<p style="margin:6px 0px 8px;"><em><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></p>
 		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link for image', DFCG_DOMAIN ); ?></label>
-		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;width:260px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
+		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;width:253px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
 	</div>
 	
+		
 <?php /* ID METHOD SORT ORDER BLOCK */ ?>
 
 	<?php if( $dfcg_options['populate-method'] == 'id-method' && $dfcg_options['id-sort-control'] == 'true' ) : ?>
-	<div class="dfcg-form">
-		<h5><?php _e('Sort Order', DFCG_DOMAIN); ?>:</h5>
+	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Sort Order', DFCG_DOMAIN); ?>:</h4>
 		<label class="screen-reader-text" for="_dfcg-sort"><?php _e('Sort Order', DFCG_DOMAIN); ?></label>
 		<input name="_dfcg-sort" id="_dfcg-sort" size="3" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
-		<p><em><?php _e('By default, images are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></em></p>
+		<p style="margin:6px 0px 8px;"><em><?php _e('By default, images are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></em></p>
 	</div>
 	<?php else : ?>
 		<input id="_dfcg-sort" name="_dfcg-sort" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
@@ -160,8 +190,8 @@ function dfcg_meta_box($post) {
 			$exclude = false;
 		}
 	?>
-	<div class="dfcg-form">
-		<h5><?php _e('Exclude this Post/Page from gallery?', DFCG_DOMAIN); ?></h5>
+	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
+		<h4 style="margin-top:0px;"><?php _e('Exclude this Post/Page from gallery?', DFCG_DOMAIN); ?></h4>
 		<input type="checkbox" id="_dfcg-exclude" name="_dfcg-exclude" <?php checked($exclude); ?> />
 		<label for="_dfcg-exclude" style="font-size:10px;">&nbsp;<?php _e('Check to exclude', DFCG_DOMAIN ); ?></label>
 	</div>
