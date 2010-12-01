@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.3
+* @version 3.3.4
 *
 * @info These are the 'public' functions which produce the gallery in the browser
 * @info Loads header scripts
@@ -320,7 +320,7 @@ function dfcg_jquery_css($dfcg_options) {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 3.3
-* @updated 3.3.2
+* @updated 3.3.4
 */
 function dfcg_jquery_smooth_scripts($dfcg_options) {
 	
@@ -357,7 +357,8 @@ function dfcg_jquery_smooth_scripts($dfcg_options) {
 				borderActive:"#fff",
 				slideInfoZoneOpacity: '. $dfcg_options['slideInfoZoneOpacity'] .',
 				carouselOpacity: 0.3,
-				thumbSpacing: 5
+				thumbSpacing: 5,
+				slideInfoZoneStatic: '. $dfcg_options['slideInfoZoneStatic'] .'
 			});
 		</script>';
 		echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";

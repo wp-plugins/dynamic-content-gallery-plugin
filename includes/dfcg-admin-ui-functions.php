@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.3
+* @version 3.3.4
 *
 * @info These are the functions which produce the contents of the UI tabs and Settings page
 *
@@ -1041,13 +1041,14 @@ function dfcg_ui_js_framework() {
 /**
 * Javascript options: box and content
 *
-* 10 options:	[slideInfoZoneSlide],[defaultTransition],[mootools],['showCarousel'],[textShowCarousel],[showInfopane],[slideInfoZoneOpacity],
-*				[timed],[delay],[showArrows]
+* 11 options:	[slideInfoZoneSlide],[defaultTransition],[mootools],['showCarousel'],[textShowCarousel],[showInfopane],[slideInfoZoneOpacity],
+*				[timed],[delay],[showArrows],[slideInfoZoneStatic]
 * Mootools only: [slideInfoZoneSlide], [defaultTransition], [mootools]
+* jQuery only: [slideInfoZoneStatic]
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3.2
+* @updated 3.3.4
 */
 function dfcg_ui_javascript() {
 	global $dfcg_options;
@@ -1083,6 +1084,13 @@ function dfcg_ui_javascript() {
 			<tr valign="top">
 				<th scope="row"><?php _e('Animate Slide Pane:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[slideInfoZoneSlide]" id="dfcg-slideInfoZoneSlide" type="checkbox" value="1" <?php checked('true', $dfcg_options['slideInfoZoneSlide']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to have Slide Pane slide into view. Default is CHECKED.', DFCG_DOMAIN); ?></em></span></td>
+			</tr>
+			<?php endif; ?>
+			
+			<?php if( $dfcg_options['scripts'] == 'jquery' ) : ?>
+			<tr valign="top">
+				<th scope="row"><?php _e('Do not animate Slide Pane:', DFCG_DOMAIN); ?></th>
+				<td><input name="dfcg_plugin_settings[slideInfoZoneStatic]" id="dfcg-slideInfoZoneStatic" type="checkbox" value="1" <?php checked('true', $dfcg_options['slideInfoZoneStatic']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to keep Slide Pane static, ie not animated. Default is UNCHECKED.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
 			<?php endif; ?>
 			
@@ -1249,10 +1257,11 @@ function dfcg_ui_columns() {
 *
 * 2 options: [homeurl], [just-reset]
 * If mootools not loaded, 4 hidden: [slideInfoZoneSlide],[defaultTransition],[mootools],[thumb-type]
+* If jquery not loaded, 1 hidden: [slideInfoZoneStatic]
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3.2
+* @updated 3.3.4
 */
 function dfcg_ui_hidden_wp() {
 	global $dfcg_options;
@@ -1261,7 +1270,8 @@ function dfcg_ui_hidden_wp() {
 	<input name="dfcg_plugin_settings[homeurl]" id="dfcg-homeurl" type="hidden" value="<?php echo $dfcg_options['homeurl']; ?>" />
 	<input name="dfcg_plugin_settings[just-reset]" id="dfcg-just-reset" type="hidden" value="<?php echo $dfcg_options['just-reset']; ?>" />
 	
-	<?php if($dfcg_options['scripts'] == 'mootools' ) : // None Hidden if mootools is loaded ?>
+	<?php if($dfcg_options['scripts'] == 'mootools' ) : // 1 Hidden if mootools is loaded ?>
+	<input name="dfcg_plugin_settings[slideInfoZoneStatic]" id="dfcg-slideInfoZoneStatic" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneStatic']; ?>" />
 	<?php endif; ?>
 	
 	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +5 Hidden if jquery is loaded ?>
@@ -1290,10 +1300,11 @@ function dfcg_ui_hidden_wp() {
 *
 * 7 options: [homeurl], [just-reset],[imageurl],[defimgmulti],[defimgonecat],[defimgpages],[defimgcustompost] 
 * If mootools not loaded, 4 hidden: [slideInfoZoneSlide],[defaultTransition],[mootools],[thumb-type]
+* If jquery not loaded, 1 hidden: [slideInfoZoneStatic]
 *
 * @global array $dfcg_options plugin options from db
 * @since 3.0
-* @updated 3.3.2 
+* @updated 3.3.4 
 */
 function dfcg_ui_hidden_wpmu() {
 	global $dfcg_options;
@@ -1309,7 +1320,8 @@ function dfcg_ui_hidden_wpmu() {
 	<input name="dfcg_plugin_settings[defimgpages]" id="dfcg-defimgpages" type="hidden" value="<?php echo $dfcg_options['defimgpages']; ?>" />
 	<input name="dfcg_plugin_settings[defimgcustompost]" id="dfcg-defimgcustompost" type="hidden" value="<?php echo $dfcg_options['defimgcustompost']; ?>" />
 	
-	<?php if($dfcg_options['scripts'] == 'mootools' ) : // None Hidden if mootools is loaded ?>
+	<?php if($dfcg_options['scripts'] == 'mootools' ) : // 1 Hidden if mootools is loaded ?>
+	<input name="dfcg_plugin_settings[slideInfoZoneStatic]" id="dfcg-slideInfoZoneStatic" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneStatic']; ?>" />
 	<?php endif; ?>
 	
 	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +5 Hidden if jquery is loaded ?>

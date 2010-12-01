@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.3
+* @version 3.3.4
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.
@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 * @global array $dfcg_options plugin options from db
 * @return $input Sanitised form input ready for db
 * @since 3.2.2
-* @updated 3.3.2
+* @updated 3.3.4
 */
 function dfcg_sanitise($input) {
 	
@@ -82,7 +82,7 @@ function dfcg_sanitise($input) {
 	//	Whitelist options													(10)	(10)
 	//	Path and URL options												(6)		(1)
 	//	On-off options														(1)
-	//	Bool options														(14)
+	//	Bool options														(15)
 	//	String options - no XHTML allowed									(5)
 	//	String options - some XHTML allowed									(1)
 	//	String options - CSS hexcodes										(6)
@@ -93,7 +93,7 @@ function dfcg_sanitise($input) {
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																84
+	//	Total 																85
 	
 	
 	/***** Whitelist options (10/10) *****/
@@ -156,9 +156,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Bool options (13) *****/
+	/***** Bool options (15) *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control', 'showArrows' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {

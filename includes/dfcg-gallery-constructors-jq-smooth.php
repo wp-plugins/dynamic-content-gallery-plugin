@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.3
+* @version 3.3.4
 *
 * @info One function for each of the 4 populate-methods.
 *		- Multi Option		dfcg_jq_multioption_method_gallery()
@@ -346,7 +346,7 @@ function dfcg_jq_multioption_method_gallery() {
 * @var array	$dfcg_errmsgs			Array of error messages. Output of dfcg_errors_output()
 * @var string 	$baseimgurl				Base URL for images. Empty if FULL URL. Output of dfcg_baseurl()
 * @var string 	$posts_number			DCG option: number of posts to display
-* @var string 	$cat_selected			DCG option: selected category
+* @var string 	$term_selected			DCG option: selected category
 * @var string 	$def_img_folder_url		DCG option: URL to default images folder
 * @var string 	$def_img_folder_path	Absolute path to default images directory
 * @var string	$def_img_name			Default image filename
@@ -366,6 +366,7 @@ function dfcg_jq_multioption_method_gallery() {
 * @global array $post Post object
 *
 * @since 3.3
+* @updated 3.3.4
 */
 function dfcg_jq_onecategory_method_gallery() {
 
@@ -533,7 +534,7 @@ function dfcg_jq_onecategory_method_gallery() {
 					$slide_text = '<p>'. get_post_meta($post->ID, $postmeta['desc'], true) . '</p>';
 			
 				// we have All cats
-				} elseif( $cat_selected == '' ) {
+				} elseif( $term_selected == '' ) {
 				
 					// TODO: Cat descriptions are not used with ALL cats. Get the category ID so that cat descriptions can be displayed for ALL cats
 				
@@ -548,9 +549,9 @@ function dfcg_jq_onecategory_method_gallery() {
 					}
 				
 				// we have Single cat and category desc exists
-				} elseif( category_description($cat_selected) !== '') {
+				} elseif( category_description($term_selected) !== '') {
 					// a category description exists
-					$slide_text = category_description($cat_selected);
+					$slide_text = category_description($term_selected);
 				
 				// we have a Single cat and a default description exists
 				} elseif( $dfcg_options['defimagedesc'] !== '') {

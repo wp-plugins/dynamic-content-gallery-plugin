@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.2
+* @version 3.3.4
 *
 * @info Allows use of DCG in widgets
 * Uses Widget API. Code borrowed from Genesis theme framework (www.studiopress.com)

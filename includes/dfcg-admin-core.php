@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.3
+* @version 3.3.4
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -385,10 +385,10 @@ function dfcg_admin_notice_reset() {
 *
 * Used by the "upgrader" function dfcg_set_gallery_options().
 *
-* 84 options (6 are WP only)
+* 85 options (6 are WP only)
 *
 * @since 3.2.2
-* @updated 3.3.2
+* @updated 3.3.4
 */
 function dfcg_default_options() {
 	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
@@ -476,7 +476,8 @@ function dfcg_default_options() {
 		'id-sort-control' => 'false',							// ID: Allow custom sort of images using _dfcg-sort: bool
 		'page-ids' => '',										// Restrict scripts: ordinary page ID numbers
 		'thumb-type' => 'legacy',								// all methods: post-thumbnails or legacy - mootools only
-		'showArrows' => 'true'									// JS option
+		'showArrows' => 'true',									// JS option
+		'slideInfoZoneStatic' => 'false'						// JS option (jquery only) added with v2.6 jquery script
 	);
 	
 	// Return options array for use elsewhere
@@ -488,6 +489,7 @@ function dfcg_default_options() {
 * Function for loading and upgrading options
 *
 * Loads options on 'admin_menu' hook.
+* Completely re-written - changed to "incremental" upgrading in v3.3.3
 *
 * Called by dfcg_add_page() which is hooked to 'admin_menu'
 *
@@ -530,794 +532,404 @@ function dfcg_default_options() {
 * In 3.3.2 - Added 1: 'showArrows' for mootools and jQuery
 * In 3.3.2 - Total options = 83 + 1 = 84
 *
-* In 3.3.3 - No change. Total options = 84
+* In 3.3.3 - Total options = 84
+*
+* In 3.3.4 - Added 'slideInfoZoneStatic' options for fixed or sliding Slide Pane with jQuery
+*
+* In 3.4.4 - Total options = 84 + 1 = 85
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
-* @updated 3.3.3
+* @updated 3.3.4
 */
 function dfcg_set_gallery_options() {
 	
-	// Get currently stored options - if they exist
-	$existing = get_option( 'dfcg_plugin_settings' );
-	
-	// Get current version number
+	// Get current version number (first introduced in 3.0 beta / 2.3)
 	$existing_version = get_option('dfcg_version');
 	
-	
-	// Existing version is same as this version
-	if( $existing_version == DFCG_VER ) {
-		// Nothing to do here...
+	// Existing version is same as this version - nothing to do here...
+	if( $existing_version == DFCG_VER )
 		return;
 	
 	
-	// We're upgrading from 3.3.1
-	} elseif( $existing && $existing_version == '3.3.2' ) {
+	/***** Ok, we need to do something - let's prepare some stuff *****/
 	
-		// Nothing to do in 3.3.3
+	// Clean up version numbers, otherwise version_compare won't always work as expected
+	if( $existing_version == '3.0 RC2' )
+		$existing_version = '2.3.2';
 		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-		return;
+	if( $existing_version == '3.0 RC3' )
+		$existing_version = '2.3.3';
+		
+	if( $existing_version == '3.0 RC4' )
+		$existing_version = '2.3.4';
 	
-	// We're upgrading from 3.3.1
-	} elseif( $existing && $existing_version == '3.3.1' ) {
+	$postmeta_upgrade = get_option( 'dfcg_plugin_postmeta_upgrade' );
+	$existing_opts = get_option( 'dfcg_plugin_settings' );
+
+
+
+	/***** Clean install - it's a wasteland here *****/
+	if ( empty( $existing_version ) && empty( $postmeta_upgrade ) && empty( $existing_opts ) ) {			
+		
+		$new_opts = dfcg_default_options();
+		
+		add_option( 'dfcg_plugin_settings', $new_opts );
+		add_option( 'dfcg_version', DFCG_VER );
 		
-		// Nothing to do in 3.3.3
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-		return;
-	
-	
-	// We're upgrading from 3.3
-	} elseif( $existing && $existing_version == '3.3' ) {
-	
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do re 3.3.1
-		
-		// Sort out 3.3 error
-		if( empty( $existing['thumb-type'] ) || $existing['thumb-type'] == '' )
-			$existing['thumb-type'] = 'legacy';
-		
-		if( empty( $existing['custom-post-type'] ) )
-			$existing['custom-post-type'] = '';
-		
-		if( empty( $existing['custom-post-type-tax'] ) )
-			$existing['custom-post-type-tax'] = '';
-		
-		if( empty( $existing['custom-post-type-number'] ) || $existing['custom-post-type-number'] = '' )
-			$existing['custom-post-type-tax'] = '5';
-		
-		if( empty( $existing['defimgcustompost'] ) )
-			$existing['defimgcustompost'] = '';
-		
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.2.3
-	} elseif( $existing && $existing_version == '3.2.3' ) {
-	
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		unset($existing['nav-theme']);
-		unset($existing['pause-on-hover']);
-		unset($existing['transition-speed']);
-		unset($existing['fade-panels']);
-		unset($existing['slide-overlay-position']);
-		unset($existing['gallery-background']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-		
-	
-	// We're upgrading from 3.2.2
-	} elseif( $existing && $existing_version == '3.2.2' ) {
-	
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		unset($existing['nav-theme']);
-		unset($existing['pause-on-hover']);
-		unset($existing['transition-speed']);
-		unset($existing['fade-panels']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	// We're upgrading from 3.2.1
-	} elseif( $existing && $existing_version == '3.2.1' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = ''; 	// Restrict scripts: ordinary page ID numbers
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.2
-	} elseif( $existing && $existing_version == '3.2' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.1
-	} elseif( $existing && $existing_version == '3.1' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';	// Pages: Show edit pages column _dfcg-sort: bool
-		$existing['pages-sort-control'] = 'false';	// Pages: Allow custom sort of images using _dfcg-sort: bool
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.1 RC1
-	} elseif( $existing && $existing_version == '3.1 RC1' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.0
-	} elseif( $existing && $existing_version == '3.0' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';			// all methods: Select whether desc is orig manual method or new custom excerpt for auto description
-		$existing['max-char'] = '100';					// all methods: No. of characters for custom excerpt
-		$existing['more-text'] = '[more]';				// all methods: More text for custom excerpt
-		$existing['slide-p-a-color'] = '#FFFFFF';		// all methods: More text CSS
-		$existing['slide-p-ahover-color'] = '#FFFFFF';	// all methods: More text CSS
-		$existing['slide-p-a-weight'] = 'normal';		// all methods: More text CSS
-		$existing['slide-p-ahover-weight'] = 'bold';	// all methods: More text CSS
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.0 RC4
-	} elseif( $existing && $existing_version == '3.0 RC4' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';
-		$existing['max-char'] = '100';
-		$existing['more-text'] = '[more]';
-		$existing['slide-p-a-color'] = '#FFFFFF';
-		$existing['slide-p-ahover-color'] = '#FFFFFF';
-		$existing['slide-p-a-weight'] = 'normal';
-		$existing['slide-p-ahover-weight'] = 'bold';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from 3.0 RC3
-	} elseif( $existing && $existing_version == '3.0 RC3' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// 'part' changed to 'partial'
-		if( $existing['image-url-type'] == 'part' ) {
-			$existing['image-url-type'] = 'partial';
-		}
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';
-		$existing['max-char'] = '100';
-		$existing['more-text'] = '[more]';
-		$existing['slide-p-a-color'] = '#FFFFFF';
-		$existing['slide-p-ahover-color'] = '#FFFFFF';
-		$existing['slide-p-a-weight'] = 'normal';
-		$existing['slide-p-ahover-weight'] = 'bold';
-		// Added in 3.0 RC4
-		$existing['posts-desc-column'] = 'true';
-		$existing['pages-desc-column'] = 'true';
-		$existing['just-reset'] = 'false';
-		$existing['scripts'] = 'mootools';
-		$existing['slide-h2-weight'] = 'bold';
-		$existing['slide-p-line-height'] = '14';
-		$existing['slide-overlay-color'] = '#000000';
-		$existing['slide-overlay-position'] = 'bottom';
-		$existing['transition-speed'] = '1500';
-		$existing['nav-theme'] = 'light';
-		$existing['pause-on-hover'] = 'true';
-		$existing['fade-panels'] = 'true';
-		$existing['gallery-background'] = '#000000';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	//We're upgrading from 3.0 RC2
-	} elseif( $existing && $existing_version == '3.0 RC2' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// 'part' changed to 'partial'
-		if( $existing['image-url-type'] == 'part' ) {
-			$existing['image-url-type'] = 'partial';
-		}
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';
-		$existing['max-char'] = '100';
-		$existing['more-text'] = '[more]';
-		$existing['slide-p-a-color'] = '#FFFFFF';
-		$existing['slide-p-ahover-color'] = '#FFFFFF';
-		$existing['slide-p-a-weight'] = 'normal';
-		$existing['slide-p-ahover-weight'] = 'bold';
-		//Added in 3.0 RC4
-		$existing['posts-desc-column'] = 'true';
-		$existing['pages-desc-column'] = 'true';
-		$existing['just-reset'] = 'false';
-		$existing['scripts'] = 'mootools';
-		$existing['slide-h2-weight'] = 'bold';
-		$existing['slide-p-line-height'] = '14';
-		$existing['slide-overlay-color'] = '#000000';
-		$existing['slide-overlay-position'] = 'bottom';
-		$existing['transition-speed'] = '1500';
-		$existing['nav-theme'] = 'light';
-		$existing['pause-on-hover'] = 'true';
-		$existing['fade-panels'] = 'true';
-		$existing['gallery-background'] = '#000000';
-		// Added in 3.0 RC3
-		$existing['posts-column'] = 'true';
-		$existing['pages-column'] = 'true';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from pre-RC2 v3 version (which used version number 2.3)
-	} elseif( $existing && $existing_version == '2.3' ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// If NO URL exists, change it to Partial URL (NO URL is deprecated)
-		if( $existing['image-url-type'] == 'nourl' ) {
-			$existing['image-url-type'] = 'partial';
-		}
-		// 'part' changed to 'partial'
-		if( $existing['image-url-type'] == 'part' ) {
-			$existing['image-url-type'] = 'partial';
-		}
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';
-		$existing['max-char'] = '100';
-		$existing['more-text'] = '[more]';
-		$existing['slide-p-a-color'] = '#FFFFFF';
-		$existing['slide-p-ahover-color'] = '#FFFFFF';
-		$existing['slide-p-a-weight'] = 'normal';
-		$existing['slide-p-ahover-weight'] = 'bold';
-		// Added in 3.0 RC4
-		$existing['posts-desc-column'] = 'true';
-		$existing['pages-desc-column'] = 'true';
-		$existing['just-reset'] = 'false';
-		$existing['scripts'] = 'mootools';
-		$existing['slide-h2-weight'] = 'bold';
-		$existing['slide-p-line-height'] = '14';
-		$existing['slide-overlay-color'] = '#000000';
-		$existing['slide-overlay-position'] = 'bottom';
-		$existing['transition-speed'] = '1500';
-		$existing['nav-theme'] = 'light';
-		$existing['pause-on-hover'] = 'true';
-		$existing['fade-panels'] = 'true';
-		$existing['gallery-background'] = '#000000';
-		// Added in 3.0 RC3
-		$existing['posts-column'] = 'true';
-		$existing['pages-column'] = 'true';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Update version no. in the db
-		update_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from version 2.2
-	} elseif( $existing && $existing_version !== DFCG_VER ) {
-		
-		// Add new v3.3.2 options
-		$existing['showArrows'] = 'true';
-		
-		// Nothing to do for 3.3.1 as 3.3 code is now corrected
-		
-		// Assign old imagepath to new imageurl
-		// imagepath was the URL excluding "Home" and the custom field entry
-		$existing['imageurl'] = $existing['homeurl'] . $existing['imagepath'];
-		
-		// Assign old defimagepath to defimgmulti and defimgonecat
-		$existing['defimgmulti'] = $existing['homeurl'] . $existing['defimagepath'];
-		$existing['defimgonecat'] = $existing['homeurl'] . $existing['defimagepath'];
-		
-		// Remove old keys from db
-		unset($existing['imagepath']);
-		unset($existing['defimagepath']);
-		
-		// Deal with renamed options in 3.3
-		$existing['ids-selected'] = $existing['pages-selected'];
-		$existing['defimgid'] = $existing['defimgpages'];
-		$existing['id-sort-control'] = $existing['pages-sort-control'];
-		
-		unset($existing['pages-selected']);
-		unset($existing['defimgpages']);
-		unset($existing['pages-sort-control']);
-		
-		// 'pages' changed to 'id-method'
-		if( $existing['populate-method'] == 'pages' ) {
-			$existing['populate-method'] = 'id-method';
-		}
-		// Add new v3.3 options
-		$existing['thumb-type'] = 'legacy';
-		$existing['custom-post-type'] = '';
-		$existing['custom-post-type-tax'] = '';
-		$existing['custom-post-type-number'] = '5';
-		$existing['defimgcustompost'] = '';
-		
-		
-		// Added in 3.2.2
-		$existing['page-ids'] = '';
-		// Added in 3.2
-		$existing['pages-sort-column'] = 'true';
-		$existing['pages-sort-control'] = 'false';
-		// Added in 3.1
-		$existing['desc-method'] = 'manual';
-		$existing['max-char'] = '100';
-		$existing['more-text'] = '[more]';
-		$existing['slide-p-a-color'] = '#FFFFFF';
-		$existing['slide-p-ahover-color'] = '#FFFFFF';
-		$existing['slide-p-a-weight'] = 'normal';
-		$existing['slide-p-ahover-weight'] = 'bold';
-		// Added in 3.0 RC4
-		$existing['posts-desc-column'] = 'true';
-		$existing['pages-desc-column'] = 'true';
-		$existing['just-reset'] = 'false';
-		$existing['scripts'] = 'mootools';
-		$existing['slide-h2-weight'] = 'bold';
-		$existing['slide-p-line-height'] = '14';
-		$existing['slide-overlay-color'] = '#000000';
-		$existing['slide-overlay-position'] = 'bottom';
-		$existing['transition-speed'] = '1500';
-		$existing['nav-theme'] = 'light';
-		$existing['pause-on-hover'] = 'true';
-		$existing['fade-panels'] = 'true';
-		$existing['gallery-background'] = '#000000';
-		// Added in 3.0 RC3
-		$existing['posts-column'] = 'true';
-		$existing['pages-column'] = 'true';
-		// Added in 2.3
-		$existing['populate-method'] = 'multi-option';
-		$existing['cat-display'] = '1';
-		$existing['posts-number'] = '5';
-		$existing['pages-selected'] = '';
-		$existing['image-url-type'] = 'partial';
-		$existing['defimgpages'] = '';
-		$existing['slide-h2-padtb'] = '0';
-		$existing['slide-h2-padlr'] = '0';
-		$existing['slide-p-padtb'] = '0';
-		$existing['slide-p-padlr'] = '0';
-		$existing['limit-scripts'] = 'homepage';
-		$existing['page-filename'] = '';
-		$existing['timed'] = 'true';
-		$existing['delay'] = '9000';
-		$existing['showCarousel'] = 'true';
-		$existing['showInfopane'] = 'true';
-		$existing['slideInfoZoneSlide'] = 'true';
-		$existing['slideInfoZoneOpacity'] = '0.7';
-		$existing['textShowCarousel'] = 'Featured Articles';
-		$existing['defaultTransition'] = 'fade';
-		$existing['cat06'] = '1';
-		$existing['cat07'] = '1';
-		$existing['cat08'] = '1';
-		$existing['cat09'] = '1';
-		$existing['off06'] = '';
-		$existing['off07'] = '';
-		$existing['off08'] = '';
-		$existing['off09'] = '';
-		$existing['errors'] = 'true';
-		
-		// Delete the old and add the upgraded options
-		delete_option('dfcg_plugin_settings');
-		add_option( 'dfcg_plugin_settings', $existing );
-		
-		// Add version no. in the db
-		add_option('dfcg_version', DFCG_VER );
-	
-	
-	// We're upgrading from some unknown earlier version, and settings exist
-	} elseif( $existing ) {
-		
-		// Clear out the old options
-		delete_option('dfcg_plugin_settings');
-		
-		// Add the new. User will have to redo Settings Page setup
-		$default_options = dfcg_default_options();
-		add_option('dfcg_plugin_settings', $default_options );
-		
-		// Add version no. in the db
-		add_option('dfcg_version', DFCG_VER );
-	
-	
-	// It's a clean install
-	} else {
-		
-		// Add the new options
-		$default_options = dfcg_default_options();
-		add_option('dfcg_plugin_settings', $default_options );
-		
-		// Add version to the options db
-		add_option('dfcg_version', DFCG_VER );
-		
-		// Add postmeta upgrade flag
 		$postmeta_upgrade = array();
 		$postmeta_upgrade['upgraded'] = 'completed';
-		add_option('dfcg_plugin_postmeta_upgrade', $postmeta_upgrade);
+		add_option( 'dfcg_plugin_postmeta_upgrade', $postmeta_upgrade );
+				
+		return;
 	}
+	
+	
+	
+	/***** Logic check in case $existing_version exists but there are no $existing_opts - eg bad uninstall *****/
+	
+	if( $existing_version && empty( $existing_opts ) ) {
+		
+		$new_opts = dfcg_default_options(); // Clean reinstall
+		
+		add_option( 'dfcg_plugin_settings', $new_opts );
+		update_option( 'dfcg_version', DFCG_VER );
+		
+		// Check if postmeta was ever run
+		if( $postmeta_upgrade['upgraded'] !== 'completed' ) {
+			delete_option('dfcg_plugin_postmeta_upgrade'); // Force postmeta to be re-run when Settings page is loaded
+		}
+		
+		return;
+	}
+	
+	
+	
+	/***** Logic check in case $existing_version doesn't exist but there are $existing_opts *****/
+	
+	if( empty( $existing_version ) && $existing_opts ) {
+		$existing_version = '2.2'; // Force upgrades to be run
+	}
+	
+	
+	/***** Upgrade to 2.3 from 2.2 *****/
+	if ( version_compare($existing_version, '2.3', '<') ) {
+	
+		// 29 options
+		//$existing = get_option( 'dfcg_plugin_settings' );
+		
+		// Add 1 new option - Assign old imagepath to new imageurl
+		$existing_opts['imageurl'] = $existing_opts['homeurl'] . $existing_opts['imagepath'];
+		
+		// Add 2 new options - Assign old defimagepath to defimgmulti and defimgonecat
+		$existing_opts['defimgmulti'] = $existing_opts['homeurl'] . $existing_opts['defimagepath'];
+		$existing_opts['defimgonecat'] = $existing_opts['homeurl'] . $existing_opts['defimagepath'];
+		
+		// Delete 2 options
+		unset($existing_opts['imagepath']);
+		unset($existing_opts['defimagepath']);
+		
+		
+		// Add new 29 options
+		$new_opts = array(
+			'populate-method' => 'multi-option',
+			'cat-display' => '1',
+			'posts-number' => '5',
+			'pages-selected' => '',
+			'image-url-type' => 'partial',
+			'defimgpages' => '',
+			'slide-h2-padtb' => '0',
+			'slide-h2-padlr' => '0',
+			'slide-p-padtb' => '0',
+			'slide-p-padlr' => '0',
+			'limit-scripts' => 'homepage',
+			'page-filename' => '',
+			'timed' => 'true',
+			'delay' => '9000',
+			'showCarousel' => 'true',
+			'showInfopane' => 'true',
+			'slideInfoZoneSlide' => 'true',
+			'slideInfoZoneOpacity' => '0.7',
+			'textShowCarousel' => 'Featured Articles',
+			'defaultTransition' => 'fade',
+			'cat06' => '1',
+			'cat07' => '1',
+			'cat08' => '1',
+			'cat09' => '1',
+			'off06' => '',
+			'off07' => '',
+			'off08' => '',
+			'off09' => '',
+			'errors' => 'true'
+			);
+		
+		// Total options = 29 + 1 + 2 - 2 + 29 = 59
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.0 RC2 (2.3.2) from 2.3 (aka 3.0 beta) *****/
+	if ( version_compare($existing_version, '2.3.2', '<') ) {
+	
+		// 59 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+		// Value 'nourl' is deprecated
+		if( $existing_opts['image-url-type'] == 'nourl' )
+			$existing_opts['image-url-type'] = 'part';
+
+		// Total options = 59
+		update_option( 'dfcg_plugin_settings', $existing_opts );
+	}
+	
+	
+	
+	/***** Upgrade to 3.0 RC3 (2.3.3) from 3.0 RC2 *****/
+	if ( version_compare($existing_version, '2.3.3', '<') ) {
+	
+		// 59 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+	
+		// Add new 2 options
+		$new_opts = array(
+			'posts-column' => 'true',
+			'pages-column' => 'true'
+			);
+		
+		// Total options = 59 + 2 = 61
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.0 RC4 (2.3.4) from 3.0 RC3 *****/
+	if ( version_compare($existing_version, '2.3.4', '<') ) {
+	
+		// 61 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+		// 'part' changed to 'partial'
+		if( $existing_opts['image-url-type'] == 'part' )
+			$existing_opts['image-url-type'] = 'partial';
+		
+		// Add new 13 options
+		$new_opts = array(
+			'posts-desc-column' => 'true',
+			'pages-desc-column' => 'true',
+			'just-reset' => 'false',
+			'scripts' => 'mootools',
+			'slide-h2-weight' => 'bold',							
+			'slide-p-line-height' => '14',
+			'slide-overlay-color' => '#000000',
+			'slide-overlay-position' => 'bottom',
+			'transition-speed' => '1500',
+			'nav-theme' => 'light',
+			'pause-on-hover' => 'true',
+			'fade-panels' => 'true',
+			'gallery-background' => '#000000'
+		);
+		
+		// Total options = 61 + 13 = 74
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.0 from 3.0 RC4 *****/
+	if ( version_compare($existing_version, '3.0', '<') ) {
+		
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.1 from 3.0 *****/
+	if ( version_compare($existing_version, '3.1', '<') ) {
+	
+		// 74 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+		// Add new 7 options
+		$new_opts = array(
+			'desc-method' => 'manual',
+			'max-char' => '100',
+			'more-text' => '[more]',
+			'slide-p-a-color' => '#FFFFFF',
+			'slide-p-ahover-color' => '#FFFFFF',
+			'slide-p-a-weight' => 'normal',
+			'slide-p-ahover-weight' => 'bold'
+			);
+			
+		// Total options = 74 + 7 = 81
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+		
+	
+	
+	/***** Upgrade to 3.2 from 3.1 *****/
+	if ( version_compare($existing_version, '3.2', '<') ) {
+	
+		// 81 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+		// Add new 2 options
+		$new_opts = array(
+			'pages-sort-column' => 'true',
+			'pages-sort-control' => 'false'
+			);
+		
+		// Total options = 81 + 2 = 83
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.2.1 from 3.2 *****/
+	if ( version_compare($existing_version, '3.2.1', '<') ) {
+		
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.2.2 from 3.2.1 *****/
+	if ( version_compare($existing_version, '3.2.2', '<') ) {
+	
+		// 83 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+		// Add new 1 option
+		$new_opts = array(
+			'page-ids' => ''
+			);
+	
+		// Total options = 83 + 1 = 84
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.2.3 from 3.2.2 *****/
+	if ( version_compare($existing_version, '3.2.3', '<') ) {
+		
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.3 from 3.2.3 *****/
+	if ( version_compare($existing_version, '3.3', '<') ) {
+	
+		// 84 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+		
+				
+		// Add new 3 options = renamed old options
+		$existing_opts['ids-selected'] = $existing_opts['pages-selected'];
+		$existing_opts['defimgid'] = $existing_opts['defimgpages'];
+		$existing_opts['id-sort-control'] = $existing_opts['pages-sort-control'];
+		
+		// 'pages' changed to 'id-method'
+		if( $existing_opts['populate-method'] == 'pages' ) {
+			$existing_opts['populate-method'] = 'id-method';
+		}
+		
+		// Delete 3 deprecated options (renamed in 3.3)
+		unset( $existing_opts['pages-selected'] );
+		unset( $existing_opts['defimgpages'] );
+		unset( $existing_opts['pages-sort-control'] );
+		
+		// Delete 6 deprecated options
+		unset($existing_opts['nav-theme']);
+		unset($existing_opts['pause-on-hover']);
+		unset($existing_opts['transition-speed']);
+		unset($existing_opts['fade-panels']);
+		unset($existing_opts['slide-overlay-position']);
+		unset($existing_opts['gallery-background']);
+		
+		// Add new 5 options
+		$new_opts = array(
+			'thumb-type' => 'legacy',
+			'custom-post-type' => '',
+			'custom-post-type-tax' => '',
+			'custom-post-type-number' => '5',
+			'defimgcustompost' => ''
+			);
+
+		// Total options = 84 + 3 - 3 - 6 + 5 = 83
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+		
+		
+	
+	/***** Upgrade to 3.3.1 from 3.3 *****/
+	if ( version_compare($existing_version, '3.3.1', '<') ) {
+		
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.3.2 from 3.3.1 *****/
+	if ( version_compare($existing_version, '3.3.2', '<') ) {
+	
+		// 83 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+	
+		// Add new 1 options
+		$new_opts = array(
+			'showArrows' => 'true'
+			);
+		
+		// Total options = 83 + 1 = 84
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	
+	/***** Upgrade to 3.3.3 from 3.3.2 *****/
+	if ( version_compare($existing_version, '3.3.3', '<') ) {
+	
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.3.4 from 3.3.3 *****/
+	if ( version_compare($existing_version, '3.3.4', '<') ) {
+	
+		// 84 options
+		$existing_opts = get_option( 'dfcg_plugin_settings' );
+	
+		// Add new 1 option
+		$new_opts = array(
+			'slideInfoZoneStatic' => 'false'
+			);
+		
+		// Total options = 84 + 1 = 85
+		$updated = wp_parse_args( $existing_opts, $new_opts );
+		
+		update_option( 'dfcg_plugin_settings', $updated );
+	}
+	
+	
+	// FINALLY, Update version no. in the db
+	update_option('dfcg_version', DFCG_VER );
 }
