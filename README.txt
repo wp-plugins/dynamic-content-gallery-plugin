@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.3.4
+Version: 3.3.5
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -200,6 +200,10 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 
 == Changelog ==
+
+= 3.3.5 =
+* Released	4 December 2010
+* Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 
 = 3.3.4 =
 * Released	1 December 2010

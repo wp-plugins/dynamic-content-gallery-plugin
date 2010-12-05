@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.4
+* @version 3.3.5
 *
 * @info Core Admin Functions called by various add_filters and add_actions:
 * @info	- Internationalisation
@@ -538,11 +538,13 @@ function dfcg_default_options() {
 * In 3.3.4 - Added 'slideInfoZoneStatic' options for fixed or sliding Slide Pane with jQuery
 * In 3.3.4 - Added 'gallery-background' option - mootools and jquery
 *
-* In 3.4.4 - Total options = 84 + 2 = 85
+* In 3.4.4 - Total options = 84 + 2 = 86
+*
+* In 3.3.5 - No change. Total options = 86
 *
 * @uses dfcg_default_options()
 * @since 3.2.2
-* @updated 3.3.4
+* @updated 3.3.5
 */
 function dfcg_set_gallery_options() {
 	
@@ -931,6 +933,15 @@ function dfcg_set_gallery_options() {
 		
 		update_option( 'dfcg_plugin_settings', $updated );
 	}
+	
+	
+	
+	/***** Upgrade to 3.3.5 from 3.3.4 *****/
+	if ( version_compare($existing_version, '3.3.5', '<') ) {
+	
+		// Nothing to do here...
+	}
+	
 	
 	
 	// FINALLY, Update version no. in the db

@@ -4,7 +4,7 @@
 *
 * @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.4
+* @version 3.3.5
 *
 * Uses ugly inline styles, unfortunately...
 *
@@ -68,7 +68,7 @@ function dfcg_add_metabox() {
 * @global array $dfcg_options plugin options from db
 * @param object $post object
 * @since 3.2.2
-* @updated 3.3.4
+* @updated 3.3.5
 */
 function dfcg_meta_box($post) {
 
@@ -160,7 +160,7 @@ function dfcg_meta_box($post) {
 	
 	<div class="dfcg-form" style="margin:6px 0 0;padding:5px;background:#f7f7f7;border:1px solid #ddd;">
 		<h4 style="margin-top:0px;"><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h4>
-		<p style="margin:6px 0px 8px;"><em><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></p>
+		<p style="margin:6px 0px 8px;"><em><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></em></p>
 		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link for image', DFCG_DOMAIN ); ?></label>
 		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;width:253px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
 	</div>
