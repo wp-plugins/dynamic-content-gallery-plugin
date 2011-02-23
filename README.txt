@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.3.5
+Version: 3.3.6
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -66,7 +66,7 @@ Note for WordPress Multisite users:
 * In order for this plugin to be visible to Site Admins, the plugin has to be activated for each blog by the Network Admin. Each Site Admin can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3, 3.3, 3.3.1**
+**Upgrading from version 3.2+**
 ---------------------------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
@@ -200,6 +200,10 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 
 == Changelog ==
+
+= 3.3.6 =
+* Released	23 February 2011
+* Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 
 = 3.3.5 =
 * Released	4 December 2010
