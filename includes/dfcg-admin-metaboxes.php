@@ -2,9 +2,9 @@
 /**
 * Functions for adding metaboxes to Post and Pages Write screen for display of custom fields
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * Uses ugly inline styles, unfortunately...
 *
@@ -23,12 +23,12 @@ if (!defined('ABSPATH')) {
 *
 * Hooked to 'admin_menu'
 *
-* Note: since 3.3 Post metabox appears for all gallery methods, including ID Method
+* Note: since 3.3.6 DCG metabox appears on all CPTedit screens if ID Method selected
 *
 * @global array $dfcg_options plugin options from db
 * @global array $dfcg_postmeta_upgrade plugin options from db
 * @since 3.2.1
-* @updated 3.3
+* @updated 3.3.6
 */
 function dfcg_add_metabox() {
 
@@ -38,22 +38,37 @@ function dfcg_add_metabox() {
 		return; // No Metaboxes unless upgrade is done!
 	}
 	
+	$name = __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN );
+	$function = 'dfcg_meta_box';
+	
 	if( $dfcg_options['populate-method'] == 'multi-option' || $dfcg_options['populate-method'] == 'one-category' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'post', 'side', 'low' );
 	}
 	
 	if( $dfcg_options['populate-method'] == 'id-method' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'post', 'side', 'low' );
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', 'page', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'post', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'page', 'side', 'low' );
+		
+		$args=array(
+  		'public'   => true,
+  		'_builtin' => false
+		); 
+		$output = 'objects'; // names or objects
+		$operator = 'and'; // 'and' or 'or'
+		$post_types = get_post_types($args, $output, $operator);
+	
+		foreach( $post_types as $post_type ) {
+			add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type, 'side', 'low' );
+		}
 	}
 	
 	if( $dfcg_options['populate-method'] == 'custom-post' ) {
 	
 		// Only show Metabox on Edit Screen for selected Custom Post Type
 		$post_type = $dfcg_options['custom-post-type'];
-		add_meta_box( DFCG_FILE_HOOK . '_box', __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN ), 'dfcg_meta_box', $post_type, 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type, 'side', 'low' );
 	}
 }
 
