@@ -122,13 +122,13 @@ function dfcg_add_to_options_menu() {
 * Hooked to 'admin_print_scripts-settings_page_' in dfcg_add_to_options_menu()
 *
 * @since 3.2
-* @updated 3.3
+* @updated 3.3.6
 */
 function dfcg_loadjs_admin_head() {
 	
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin admin scripts -->' . "\n";
-	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-ui-admin.css" type="text/css" />' . "\n";
-	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/dfcg-tabs-ui.css" type="text/css" />' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/css/dfcg-ui-admin.css" type="text/css" />' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/tabs/dfcg-tabs-ui.css" type="text/css" />' . "\n";
 	
 	echo '<script type="text/javascript">
 			jQuery(document).ready(function($) {
