@@ -127,8 +127,8 @@ function dfcg_add_to_options_menu() {
 function dfcg_loadjs_admin_head() {
 	
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin admin scripts -->' . "\n";
-	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/css/dfcg-ui-admin.css" type="text/css" />' . "\n";
-	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/tabs/dfcg-tabs-ui.css" type="text/css" />' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_LIB_URL . '/admin-css-js/css/dfcg-ui-admin.css" type="text/css" />' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_LIB_URL . '/admin-css-js/tabs/dfcg-tabs-ui.css" type="text/css" />' . "\n";
 	
 	echo '<script type="text/javascript">
 			jQuery(document).ready(function($) {
@@ -175,8 +175,8 @@ function dfcg_loadjs_admin_head() {
 				});
 			});
 		</script>' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/admin-assets/cluetip/jquery.cluetip.min.js"></script>' . "\n";
-	echo '<link rel="stylesheet" href="' . DFCG_URL . '/admin-assets/cluetip/jquery.cluetip.css" type="text/css" />' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.min.js"></script>' . "\n";
+	echo '<link rel="stylesheet" href="' . DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.css" type="text/css" />' . "\n";
 	echo "<script type=\"text/javascript\">
 			jQuery(document).ready(function($) {
 				$('a.load-local').cluetip({local:true, cursor: 'pointer', sticky: true, closePosition: 'title'});
@@ -194,6 +194,7 @@ function dfcg_loadjs_admin_head() {
 *
 * @global array $dfcg_options db main options
 * @since 3.2
+* @updated 3.3.6
 */
 function dfcg_options_page(){
 	
@@ -204,11 +205,11 @@ function dfcg_options_page(){
 	$dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
 	
 	if( $dfcg_postmeta_upgrade['upgraded'] == 'completed' ) {
-		include_once( DFCG_DIR . '/includes/dfcg-admin-ui-screen.php' );
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-screen.php' );
 	
 	} else {
 		// We need to upgrade
-		include_once( DFCG_DIR . '/includes/dfcg-admin-ui-upgrade-screen.php' );
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-upgrade-screen.php' );
 	}
 }
 
