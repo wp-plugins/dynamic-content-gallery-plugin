@@ -245,23 +245,23 @@ function dfcg_enqueue_jquery() {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 1.0
-* @updated 3.3.2
+* @updated 3.3.6
 */
 function dfcg_mootools_scripts($dfcg_options) {
     
 	// Add CSS file
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts -->' . "\n";
-	echo '<link type="text/css" rel="stylesheet" href="' . DFCG_URL . '/js-mootools/css/jd.gallery.css" />' . "\n";
+	echo '<link type="text/css" rel="stylesheet" href="' . DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css" />' . "\n";
 	
 	// Should mootools framework be loaded?
 	if ( $dfcg_options['mootools'] !== '1' ) {
-		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js"></script>' . "\n";
-		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js"></script>' . "\n";
 	}
 	
 	// Add gallery javascript files
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js"></script>' . "\n";
-	echo '<script type="text/javascript" src="' . DFCG_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js"></script>' . "\n";
 	
 	// Add JS function call to gallery
 	echo '<script type="text/javascript">
@@ -282,7 +282,7 @@ function dfcg_mootools_scripts($dfcg_options) {
 </script>' . "\n";
 	
 	// Add user defined CSS
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-mootools-styles.php');
+	include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-mootools-styles.php');
 	
 	// End of scripts
 	echo '<!-- End of Dynamic Content Gallery scripts -->' . "\n\n";
@@ -299,6 +299,7 @@ function dfcg_mootools_scripts($dfcg_options) {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 3.3
+* @updated 3.3.6
 */
 function dfcg_jquery_css($dfcg_options) {
 	
@@ -306,7 +307,7 @@ function dfcg_jquery_css($dfcg_options) {
 	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin jQuery smoothSlideshow scripts -->';
 	
 	// Add user-defined CSS set in Settings page
-	include_once( DFCG_DIR .'/includes/dfcg-gallery-jquery-smooth-styles.php');
+	include_once( DFCG_LIB_DIR .'/includes/dfcg-gallery-jquery-smooth-styles.php');
 	
 	echo '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
 }
@@ -320,13 +321,13 @@ function dfcg_jquery_css($dfcg_options) {
 *
 * @param array $dfcg_options, Plugin options from db
 * @since 3.3
-* @updated 3.3.4
+* @updated 3.3.6
 */
 function dfcg_jquery_smooth_scripts($dfcg_options) {
 	
 	if( $dfcg_options['scripts'] == 'jquery' ) {
 		echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n";
-		echo '<script type="text/javascript" src="' . DFCG_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . DFCG_LIB_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js"></script>' . "\n";
 		echo '<script type="text/javascript">
 			jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
 				showArrows: '. $dfcg_options['showArrows'] .',
