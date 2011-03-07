@@ -35,6 +35,7 @@ Feature:	means new user functionality has been added
 	3.3.6		- Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 				- Enhance:	Added DFCG_LIB_URL constant
 				- Enhance:	Added DFCG_LIB_DIR constant
+				- Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
 	
 	3.3.5		- Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 	
