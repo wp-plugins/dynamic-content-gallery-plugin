@@ -290,37 +290,37 @@ require_once( DFCG_DIR . '/includes/dfcg-widget.php');
 
 /* Front-end - Loads scripts into header where gallery is displayed */
 // Functions defined in dfcg-gallery-core.php
-add_action('wp_head', 'dfcg_load_scripts_header');
-add_action('wp_footer', 'dfcg_load_scripts_footer');
+add_action( 'wp_head', 'dfcg_load_scripts_header' );
+add_action( 'wp_footer', 'dfcg_load_scripts_footer' );
 
 /* Front-end - Enqueue jQuery into header where gallery is displayed */
 // Function defined in dfcg-gallery-core.php
-add_action('template_redirect', 'dfcg_enqueue_jquery');
+add_action( 'template_redirect', 'dfcg_enqueue_jquery' );
 
 if( is_admin() ) {
 	/* Admin - Register Settings as per new API */
 	// Function defined in dfcg-admin-core.php
-	add_action('admin_init', 'dfcg_options_init' );
+	add_action( 'admin_init', 'dfcg_options_init' );
 
 	/* Admin - Adds Settings page */
 	// Function defined in dfcg-admin-core.php
-	add_action('admin_menu', 'dfcg_add_to_options_menu');
+	add_action( 'admin_menu', 'dfcg_add_to_options_menu' );
 
 	/* Admin - Adds Metaboxes to Post/Page Editor */
 	// Function defined in dfcg-admin-metaboxes.php
-	add_action('admin_menu', 'dfcg_add_metabox');
+	add_action( 'admin_menu', 'dfcg_add_metabox' );
 
 	/* Admin - Saves Metabox data in Post/Page Editor */
 	// Function defined in dfcg-admin-metaboxes.php
-	add_action('save_post', 'dfcg_save_metabox_data', 1, 2);
+	add_action( 'save_post', 'dfcg_save_metabox_data', 1, 2 );
 
 	/* Admin - Adds WP version warning on main Plugins screen */
 	// Function defined in dfcg-admin-core.php
-	add_action('after_plugin_row_dynamic-content-gallery-plugin/dynamic-gallery-plugin.php', 'dfcg_wp_version_check');
+	add_action( 'after_plugin_row_dynamic-content-gallery-plugin/dynamic-gallery-plugin.php', 'dfcg_wp_version_check' );
 
 	/* Admin - Adds Admin Notice when resetting Settings */
 	// Function defined in dfcg-admin-core.php
-	add_action('admin_notices', 'dfcg_admin_notice_reset');
+	add_action( 'admin_notices', 'dfcg_admin_notice_reset' );
 
 	/* Admin - Adds additional links in main Plugins page */
 	// Function defined in dfcg-admin-core.php
