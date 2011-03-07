@@ -33,6 +33,8 @@ Feature:	means new user functionality has been added
 /* Version History
 
 	3.3.6		- Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
+				- Enhance:	Added DFCG_LIB_URL constant
+				- Enhance:	Added DFCG_LIB_DIR constant
 	
 	3.3.5		- Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 	
@@ -187,15 +189,17 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 
 
 /* Set constants for plugin */
-define( 'DFCG_URL', WP_PLUGIN_URL.'/dynamic-content-gallery-plugin' );
-define( 'DFCG_DIR', WP_PLUGIN_DIR.'/dynamic-content-gallery-plugin' );
+define( 'DFCG_URL', WP_PLUGIN_URL . '/dynamic-content-gallery-plugin' );
+define( 'DFCG_DIR', WP_PLUGIN_DIR . '/dynamic-content-gallery-plugin' );
 define( 'DFCG_VER', '3.3.6' );
 define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
 define( 'DFCG_WP_VERSION_REQ', '3.0' );
 define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 'dynamic_content_gallery' );
-define( 'DFCG_PAGEHOOK', 'settings_page_'.DFCG_FILE_HOOK );
+define( 'DFCG_PAGEHOOK', 'settings_page_' . DFCG_FILE_HOOK );
 define( 'DFCG_ERRORIMGURL', DFCG_URL . '/error-img/error.jpg' );
+define( 'DFCG_LIB_URL', DFCG_URL . '/lib' );
+define( 'DFCG_LIB_DIR', DFCG_DIR . '/lib' );
 
 
 
