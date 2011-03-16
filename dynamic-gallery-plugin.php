@@ -246,45 +246,45 @@ $dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
 *	@deprecated dfcg-admin-ui-help.php
 *
 *	@since 3.2
-*   @updated 3.3
+*   @updated 3.3.6
 */ 
 // Front-end files
 if( !is_admin() ) {
 	
-	include_once( DFCG_DIR . '/includes/dfcg-gallery-core.php');
+	include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-core.php');
 	
 	if( $dfcg_options['scripts'] == 'mootools' ) {
-		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-constructors.php');
 	} else {
-		include_once( DFCG_DIR . '/includes/dfcg-gallery-constructors-jq-smooth.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-constructors-jq-smooth.php');
 	}
 	
 	if( $dfcg_options['errors'] == 'true' ) {
-		include_once( DFCG_DIR . '/includes/dfcg-gallery-errors.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-errors.php');
 	}
 	
 	if( $dfcg_options['desc-method'] == 'auto' || $dfcg_options['desc-method'] == 'manual' ) {
-		include_once( DFCG_DIR . '/includes/dfcg-gallery-content-limit.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-content-limit.php');
 	}
 }
 
 // Admin-only files
 if( is_admin() ) {
-	require_once( DFCG_DIR . '/includes/dfcg-admin-core.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-functions.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-validation.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-js.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-custom-columns.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-ui-sanitise.php');
-	require_once( DFCG_DIR . '/includes/dfcg-admin-metaboxes.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-core.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-functions.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-validation.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-js.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-custom-columns.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-sanitise.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-metaboxes.php');
 	
 	if( $dfcg_postmeta_upgrade['upgraded'] !== 'completed' ) {
-		require_once( DFCG_DIR . '/includes/dfcg-admin-postmeta-upgrade.php');
+		require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-postmeta-upgrade.php');
 	}
 }
 
 // DCG Widget
-require_once( DFCG_DIR . '/includes/dfcg-widget.php');
+require_once( DFCG_LIB_DIR . '/includes/dfcg-widget.php');
 
 
 /***** Add filters and actions ********************/
