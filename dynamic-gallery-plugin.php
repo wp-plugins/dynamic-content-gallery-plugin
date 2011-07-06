@@ -9,7 +9,7 @@ Description: Creates a dynamic gallery of images for latest or featured content 
 */
 
 
-/*  Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch) */
+/***** Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch) *****/
 
 
 /***** License information *****
@@ -39,7 +39,13 @@ Feature:	means new user functionality has been added
 3.3.6	- Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 		- Enhance:	Added DFCG_LIB_URL constant
 		- Enhance:	Added DFCG_LIB_DIR constant
+		- Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
+		- Enhance:	Added DFCG_LANG_DIR constant for location of plugin's languages folder
+		- Enhance:	Added DFCG_HOME constant
+		- Enhance:	Added DFCG_NAME constant
 		- Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
+		- Enhance:	dfcg-gallery-constructors-jq.php renamed dfcg-constructors-jq-smooth.php
+		- Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
 	
 3.3.5	- Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 	
@@ -190,17 +196,20 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 
 
 /* Set constants for plugin */
-define( 'DFCG_URL', WP_PLUGIN_URL . '/dynamic-content-gallery-plugin' );
-define( 'DFCG_DIR', WP_PLUGIN_DIR . '/dynamic-content-gallery-plugin' );
-define( 'DFCG_VER', '3.3.6' );
-define( 'DFCG_DOMAIN', 'Dynamic_Content_Gallery' );
-define( 'DFCG_WP_VERSION_REQ', '3.0' );
-define( 'DFCG_FILE_NAME', 'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
-define( 'DFCG_FILE_HOOK', 'dynamic_content_gallery' );
-define( 'DFCG_PAGEHOOK', 'settings_page_' . DFCG_FILE_HOOK );
-define( 'DFCG_ERRORIMGURL', DFCG_URL . '/error-img/error.jpg' );
-define( 'DFCG_LIB_URL', DFCG_URL . '/lib' );
-define( 'DFCG_LIB_DIR', DFCG_DIR . '/lib' );
+define( 'DFCG_URL',				WP_PLUGIN_URL . '/dynamic-content-gallery-plugin' );
+define( 'DFCG_DIR',				WP_PLUGIN_DIR . '/dynamic-content-gallery-plugin' );
+define( 'DFCG_LANG_DIR',		'/dynamic-content-gallery-plugin/languages' );
+define( 'DFCG_VER',				'3.3.6' );
+define( 'DFCG_DOMAIN',			'dynamic_content_gallery' );
+define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
+define( 'DFCG_WP_VERSION_REQ',	'3.0' );
+define( 'DFCG_FILE_NAME',		'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
+define( 'DFCG_FILE_HOOK',		'dynamic_content_gallery' );
+define( 'DFCG_PAGEHOOK',		'settings_page_' . DFCG_FILE_HOOK );
+define( 'DFCG_ERRORIMGURL',		DFCG_URL . '/error-img/error.jpg' );
+define( 'DFCG_LIB_URL',			DFCG_URL . '/lib' );
+define( 'DFCG_LIB_DIR',			DFCG_DIR . '/lib' );
+define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
 
 
 
@@ -210,40 +219,41 @@ define( 'DFCG_LIB_DIR', DFCG_DIR . '/lib' );
 $dfcg_text_loaded = false;
 
 // Load plugin options
-$dfcg_options = get_option('dfcg_plugin_settings');
-$dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
+$dfcg_options = get_option( 'dfcg_plugin_settings' );
+$dfcg_postmeta_upgrade = get_option( 'dfcg_plugin_postmeta_upgrade' );
 
 
 /***** Load files needed for plugin to run *****/
 
-/** Load files needed for plugin to run
+/**
+ * Load files needed for plugin to run
  *
- * Required for gallery display				Note conditionals based on user Settings, to minimise script loading
- * dfcg-gallery-core.php					Template tag, header/enqueue scripts functions
- * dfcg-gallery-constructors.php			Three gallery constructor functions - mootools
- * dfcg-gallery-constructors-jq-smooth.php	Three gallery constructor functions - jquery
- * dfcg-gallery-errors.php					Browser and/or Page Source errors.
- * dfcg-gallery-content-limit.php			Auto description for Slide Pane
+ * Required for gallery display			Note conditionals based on user Settings, to minimise script loading
+ * dfcg-constructors-jq-smooth.php		Gallery constructor functions - jquery
+ * dfcg-constructors-mootools.php		Gallery constructor functions - mootools
+ * dfcg-gallery-content-limit.php		Auto description for Slide Pane
+ * dfcg-gallery-core.php				Template tag, header/enqueue scripts functions
+ * dfcg-gallery-errors.php				Browser and/or Page Source errors.
+ * dfcg-widget.php						DCG widget
  *
  * Required for Admin
  * dfcg-admin-core.php					Main Admin Functions: add page and related functions, options handling/upgrading
- * dfcg-admin-ui-functions.php			Functions for outputting Settings Page elements
- * dfcg-admin-ui-validation.php			Functions for validating Settings on load and submit
- * dfcg-admin-ui-js.php					Settings page JS
  * dfcg-admin-custom-columns			Adds custom columns to Edit Posts & Edit Pages screens
- * dfcg-admin-ui-sanitise.php			Sanitisation callback function for register_settings
  * dfcg-admin-metaboxes.php				Adds metabox to Post and Page write screen for access to hidden custom fields
  * dfcg-admin-postmeta-upgrade.php		Functions for upgrading postmeta data in v3.2+
+ * dfcg-admin-ui-functions.php			Functions for outputting Settings Page elements
+ * dfcg-admin-ui-js.php					Settings page JS
+ * dfcg-admin-ui-sanitise.php			Sanitisation callback function for register_settings
+ * dfcg-admin-ui-validation.php			Functions for validating Settings on load and submit
  *
  * Files included elsewhere, within functions
  * dfcg-admin-ui-screen.php					Admin, Settings page	- included by dfcg_options_page() in dfcg-admin-core.php
  * dfcg-admin-ui-upgrade-screen.php			Admin, Upgrade page		- included by dfcg_options_page() in dfcg-admin-core.php
- * dfcg-gallery-jquery-smooth-styles.php	Public, CSS				- included by dfcg_jquery_css() in dfcg-gallery-core.php
- * dfcg-gallery-mootools-styles.php			Public, CSS				- included by dfcg_mootools_scripts() in dfcg-gallery-core.php
+ * dfcg-gallery-jquery-smooth-styles.php	Front, CSS				- included by dfcg_jquery_css() in dfcg-gallery-core.php
+ * dfcg-gallery-mootools-styles.php			Front, CSS				- included by dfcg_mootools_scripts() in dfcg-gallery-core.php
  *
- * @deprecated dfcg-gallery-constructors-jq.php
- * @deprecated dfcg-gallery-jquery-styles.php
- * @deprecated dfcg-admin-ui-help.php
+ * Note: dfcg-gallery-constructors-jq.php renamed dfcg-constructors-jq-smooth.php
+ * Note: dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
  *
  * @since 3.2
  * @updated 3.3.6
@@ -251,12 +261,12 @@ $dfcg_postmeta_upgrade = get_option('dfcg_plugin_postmeta_upgrade');
 // Front-end files
 if( !is_admin() ) {
 	
-	include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-core.php');
+	include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-core.php' );
 	
 	if( $dfcg_options['scripts'] == 'mootools' ) {
-		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-constructors.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-constructors-mootools.php' );
 	} else {
-		include_once( DFCG_LIB_DIR . '/includes/dfcg-gallery-constructors-jq-smooth.php');
+		include_once( DFCG_LIB_DIR . '/includes/dfcg-constructors-jq-smooth.php' );
 	}
 	
 	if( $dfcg_options['errors'] == 'true' ) {
@@ -270,16 +280,16 @@ if( !is_admin() ) {
 
 // Admin-only files
 if( is_admin() ) {
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-core.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-functions.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-validation.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-js.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-custom-columns.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-sanitise.php');
-	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-metaboxes.php');
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-core.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-functions.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-validation.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-js.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-custom-columns.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-ui-sanitise.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-metaboxes.php' );
 	
 	if( $dfcg_postmeta_upgrade['upgraded'] !== 'completed' ) {
-		require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-postmeta-upgrade.php');
+		require_once( DFCG_LIB_DIR . '/includes/dfcg-admin-postmeta-upgrade.php' );
 	}
 }
 
