@@ -1,29 +1,33 @@
 <?php
 /**
-* Functions and filters for adding custom columns to Edit Posts & Edit Pages screens
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @since 3.2
-*/
+ * Functions and filters for adding custom columns to Edit Posts & Edit Pages screens
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @since 3.2
+ */
 
-/* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
+
+/**
+ * Prevent direct access to this file
+ */
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( 'Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
 }
 
 
 /**
-* Add columns to Posts and Pages Edit screen to display dfcg-image custom field contents.
-*
-* This can be turned off in the DCG Settings Page. 
-*
-* @uses	manage_posts_column filter
-* @uses	manage_posts_custom_column action
-* @since 3.2
-*/
+ * Add columns to Posts and Pages Edit screen to display dfcg-image custom field contents.
+ *
+ * This can be turned off in the DCG Settings Page. 
+ *
+ * @uses	manage_posts_column filter
+ * @uses	manage_posts_custom_column action
+ * @since 3.2
+ */
 // Filters and Actions to add the dfcg-image columns
 if( isset($dfcg_options['posts-column']) && $dfcg_options['posts-column'] == "true" ) {
 	add_filter('manage_posts_columns', 'dfcg_posts_columns');
