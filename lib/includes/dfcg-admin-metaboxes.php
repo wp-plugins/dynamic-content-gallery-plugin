@@ -64,7 +64,7 @@ function dfcg_add_metabox() {
 		$post_types = get_post_types($args, $output, $operator);
 	
 		foreach( $post_types as $post_type ) {
-			add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type, 'side', 'low' );
+			add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type->name, 'side', 'low' );
 		}
 	}
 	
