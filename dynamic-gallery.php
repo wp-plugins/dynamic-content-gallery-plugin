@@ -29,16 +29,20 @@
  * @updated 3.3
  */
 
-/* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit(__( "Sorry, you are not allowed to access this file directly.", DFCG_DOMAIN ));
+/**
+ * Prevent direct access to this file
+ */
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( "Sorry, you are not allowed to access this file directly.", DFCG_DOMAIN ) );
 }
 
 
-/*	Determine which scripts are being loaded */
+/**
+ * Generate DCG output based on which scripts are being loaded
+ */
 if( $dfcg_options['scripts'] == 'mootools' ) {
 
-	if($dfcg_options['populate-method'] == 'multi-option' ) {
+	if( $dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
 		dfcg_multioption_method_gallery();
 	
@@ -46,7 +50,7 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
 		dfcg_onecategory_method_gallery();
 	
-	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
+	} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = ID METHOD
 		dfcg_id_method_gallery();
 	}
@@ -54,15 +58,15 @@ if( $dfcg_options['scripts'] == 'mootools' ) {
 
 } elseif( $dfcg_options['scripts'] == 'jquery' ) {
 	
-	if($dfcg_options['populate-method'] == 'multi-option' ) {
+	if( $dfcg_options['populate-method'] == 'multi-option' ) {
 		// Populate method = MULTI-OPTION
 		dfcg_jq_multioption_method_gallery();
 	
-	} elseif($dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+	} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
 		// Populate method = ONE CATEGORY or CUSTOM POST TYPE
 		dfcg_jq_onecategory_method_gallery();
 
-	} elseif($dfcg_options['populate-method'] == 'id-method' ) {
+	} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
 		// Populate method = PAGES
 		dfcg_jq_id_method_gallery();
 	}
