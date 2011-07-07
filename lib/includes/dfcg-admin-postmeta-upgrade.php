@@ -1,37 +1,41 @@
 <?php
 /**
-* Functions for the version 3.2 wp_postmeta meta_key name upgrade
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Functions to upgrade wp_postmeta, and display upgrade admin screens
-*
-* @info The upgrade converts existing custom fields: dfcg-image, dfcg-desc, dfcg-link to _dfcg-image, _dfcg-desc, _dfcg-link.
-* @info From 3.2+ DCG custom fields will be handled by DCG metabox, and won't appear in custom field edit boxes
-*
-* This is all quite complicated thanks to different functions/behaviour when upgrading in WPMU.
-* Upgrade screens are handled in dfcg-admin-ui-upgrade-screen.php
-*
-* Decision to run upgrade or not is based on existence of $dfcg_postmeta_upgrade['upgraded'] == 'completed'
-* This decision is made in dfcg_options_page() via dfcg_add_to_options_menu() which is hooked to 'admin_menu'
-* If !== 'completed', dfcg-admin-ui-upgrade-screen.php is loaded, which calls the functions in this file.
-* In WP - upgrade is run via 2 Settings screens
-* In WPMU - upgrade is run using Site Admin Upgrade screen (Settings screen is info only, and doesn't do anything)
-*
-* Database postmeta function
-* WPMU Site Admin Upgrade function
-* WPMU Site Admin Upgrade page function
-* Admin Notices function
-* Functions for displaying upgrade screen contents
-*
-* @since 3.2
-*/
+ * Functions for the version 3.2 wp_postmeta meta_key name upgrade
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Functions to upgrade wp_postmeta, and display upgrade admin screens
+ *
+ * @info The upgrade converts existing custom fields: dfcg-image, dfcg-desc, dfcg-link to _dfcg-image, _dfcg-desc, _dfcg-link.
+ * @info From 3.2+ DCG custom fields will be handled by DCG metabox, and won't appear in custom field edit boxes
+ *
+ * This is all quite complicated thanks to different functions/behaviour when upgrading in WPMU.
+ * Upgrade screens are handled in dfcg-admin-ui-upgrade-screen.php
+ *
+ * Decision to run upgrade or not is based on existence of $dfcg_postmeta_upgrade['upgraded'] == 'completed'
+ * This decision is made in dfcg_options_page() via dfcg_add_to_options_menu() which is hooked to 'admin_menu'
+ * If !== 'completed', dfcg-admin-ui-upgrade-screen.php is loaded, which calls the functions in this file.
+ * In WP - upgrade is run via 2 Settings screens
+ * In WPMU - upgrade is run using Site Admin Upgrade screen (Settings screen is info only, and doesn't do anything)
+ *
+ * Database postmeta function
+ * WPMU Site Admin Upgrade function
+ * WPMU Site Admin Upgrade page function
+ * Admin Notices function
+ * Functions for displaying upgrade screen contents
+ *
+ * @since 3.2
+ */
 
-/* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit("Sorry, you are not allowed to access this file directly.");
+
+/**
+ * Prevent direct access to this file
+ */
+if( !defined( 'ABSPATH' ) ) {
+	exit( "Sorry, you are not allowed to access this file directly." );
 }
 
 
