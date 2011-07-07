@@ -1,19 +1,23 @@
 <?php
 /**
-* Functions for adding metaboxes to Post and Pages Write screen for display of custom fields
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* Uses ugly inline styles, unfortunately...
-*
-* @since 3.2
-*/
+ * Functions for adding metaboxes to Post and Pages Write screen for display of custom fields
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * Uses ugly inline styles, unfortunately...
+ *
+ * @since 3.2
+ */
 
-/* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit("Sorry, you are not allowed to access this file directly.");
+
+/**
+ * Prevent direct access to this file
+ */
+if( !defined( 'ABSPATH' ) ) {
+	exit( "Sorry, you are not allowed to access this file directly." );
 }
 
 
