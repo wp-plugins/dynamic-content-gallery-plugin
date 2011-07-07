@@ -1,59 +1,70 @@
 <?php
 /**
-* Admin Core functions - all the main stuff needed to run the backend
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Core Admin Functions called by various add_filters and add_actions:
-* @info	- Internationalisation
-* @info	- Register Settings
-* @info	- Add Settings Page
-* @info	- Plugin action links
-* @info	- Plugin row meta
-* @info	- WP Version check
-* @info	- Admin Notices for Settings reset
-* @info	- Options handling and upgrading
-*
-* @since 3.0
-*/
-
-/* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.') );
+ * Admin Core functions - all the main stuff needed to run the backend
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Core Admin Functions called by various add_filters and add_actions:
+ * @info	- Internationalisation
+ * @info	- Register Settings
+ * @info	- Add Settings Page
+ * @info 	- Load admin js and CSS
+ * @info	- Plugin action links
+ * @info	- Plugin row meta
+ * @info	- Admin Notices for WP Version and Post Thumbnails check
+ * @info	- Admin Notices for Settings reset
+ * @info	- Options handling and upgrading
+ *
+ * @since 3.0
+ */
+ 
+ 
+/**
+ * Prevent direct access to this file
+ */
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( 'Sorry, you are not allowed to access this file directly.') );
 }
 
 
 /***** Internationalisation *****/
 
 /**
-* Function to load textdomain for Internationalisation functionality
-*
-* Loads textdomain if $dfcg_text_loaded is false
-*
-* Note: .mo file should be named dynamic-content-gallery-plugin-xx_XX.mo and placed in the DCG plugin's languages folder.
-* xx_XX is the language code, eg fr_FR for French etc.
-*
-* @global $dfcg_text_loaded bool defined in dynamic-gallery-plugin.php
-* @uses load_plugin_textdomain()
-* @since 3.2
-*/
+ * Function to load textdomain for Internationalisation functionality
+ *
+ * Loads textdomain if $dfcg_text_loaded is false
+ *
+ * Called by dfcg-admin-ui-screen.php and dfcg-admin-ui-upgrade-screen.php
+ *
+ * Note: .mo file should be named dynamic_content_gallery-xx_XX.mo and placed in the DCG plugin's languages folder.
+ * xx_XX is the language code
+ * For example, for French, file should be named: dynamic_content_gallery-fr_FR.mo
+ *
+ * WP_LANG constant must also be defined in wp-config.php.
+ *
+ * @global $dfcg_text_loaded bool defined in dynamic-gallery-plugin.php
+ * @uses load_plugin_textdomain()
+ * @since 3.2
+ * @updated 3.3.6
+ */
 function dfcg_load_textdomain() {
 	
 	global $dfcg_text_loaded;
    	
 	// If textdomain is already loaded, do nothing
-	if( $dfcg_text_loaded ) {
+	if( $dfcg_text_loaded )
    		return;
-   	}
 	
 	// Textdomain isn't already loaded, let's load it
-   	load_plugin_textdomain(DFCG_DOMAIN, false, dirname(plugin_basename(__FILE__)). '/languages');
-   	
+   	load_plugin_textdomain( DFCG_DOMAIN, false, DFCG_LANG_DIR );
+
 	// Change variable to prevent loading textdomain again
 	$dfcg_text_loaded = true;
 }
+
 
 
 
