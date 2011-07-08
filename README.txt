@@ -6,7 +6,7 @@ Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 3.0
-Tested up to: 3.2 RC3
+Tested up to: 3.2
 Stable tag: 3.3.5
 
 Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
@@ -202,11 +202,17 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 == Changelog ==
 
 = 3.3.6 =
-* Released	7 March 2011
+* Released	10 July 2011
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Enhance:	Added DFCG_LIB_URL constant
 * Enhance:	Added DFCG_LIB_DIR constant
+* Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
+* Enhance:	Added DFCG_LANG_DIR constant for location of plugin's languages folder
+* Enhance:	Added DFCG_HOME constant
+* Enhance:	Added DFCG_NAME constant
 * Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
+* Enhance:	dfcg-gallery-constructors-jq.php renamed dfcg-constructors-jq-smooth.php
+* Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
 
 = 3.3.5 =
 * Released	4 December 2010
