@@ -1,15 +1,16 @@
 <?php
 /**
-* Uninstall file as per WP 2.7+
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* Removes options from db when plugin is deleted via Dashboard
-*
-* @since 3.2
-*/
+ * Uninstall file as per WP 2.7+
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * Removes options from db when plugin is deleted via Dashboard
+ *
+ * @since 3.2
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
