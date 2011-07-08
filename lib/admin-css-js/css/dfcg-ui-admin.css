@@ -1,14 +1,15 @@
-/** This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-*
-* 	@package	dynamic_content_gallery
-*	@version	3.3.6
-*
-*	Loaded by dfcg_loadjs_admin_head, which is hooked to admin_print_scripts-
-*
-*	CSS for admin Settings pages
-*/
+/**
+ * This file is part of the DYNAMIC CONTENT GALLERY Plugin
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ *	Loaded by dfcg_loadjs_admin_head, which is hooked to admin_print_scripts-
+ *
+ *	CSS for admin Settings pages
+ */
 
 /* Postmeta upgrade screen */
 .metabox-holder {margin:0;padding:0;}
