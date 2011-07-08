@@ -1,18 +1,19 @@
 <?php
 /**
-* Front-end - These are the core functions for loading scripts, creating template tag, etc
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info These are the 'public' functions which produce the gallery in the browser
-* @info Loads header scripts
-* @info Defines template tag
-* @info Various helper functions used by the gallery constructor functions
-*
-* @since 3.0
-*/
+ * Front-end - These are the core functions for loading scripts, creating template tag, etc
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info These are the 'public' functions which produce the gallery in the browser
+ * @info Loads header scripts
+ * @info Defines template tag
+ * @info Various helper functions used by the gallery constructor functions
+ *
+ * @since 3.0
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
