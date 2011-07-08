@@ -1,15 +1,16 @@
 <?php
 /**
-* Settings Page options validation functions
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Validates certain key Settings and produces validation messages after Settings Page form is submitted
-*
-* @since 3.0
-*/
+ * Settings Page options validation functions
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Validates certain key Settings and produces validation messages after Settings Page form is submitted
+ *
+ * @since 3.0
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
