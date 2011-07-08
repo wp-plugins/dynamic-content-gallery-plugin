@@ -1,19 +1,20 @@
 <?php
 /**
-* Front-end - Function to generate auto text for Slide Pane
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
-* @info further enhanced by Charles Clarkson and Nathan Rice, to deal with caption shortcodes etc,
-* @info modified by me for use with DCG.
-*
-* @info Used to generate a custom excerpt from Post/Page content for display in the Slide Pane.
-*
-* @since 3.1
-*/
+ * Front-end - Function to generate auto text for Slide Pane
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Based on Limit Post plugin ( the_content_limit() ) function by Alfonso Sanchez-Paus Diaz y Julian Simon de Castro,
+ * @info further enhanced by Charles Clarkson and Nathan Rice, to deal with caption shortcodes etc,
+ * @info modified by me for use with DCG.
+ *
+ * @info Used to generate a custom excerpt from Post/Page content for display in the Slide Pane.
+ *
+ * @since 3.1
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
