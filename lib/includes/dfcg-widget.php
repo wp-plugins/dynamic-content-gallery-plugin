@@ -1,22 +1,23 @@
 <?php
 /**
-* DCG Widget
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Allows use of DCG in widgets
-* Uses Widget API. Code borrowed from Genesis theme framework (www.studiopress.com)
-* and WP core Text Widget.
-*
-* Although this gives multi-widget capability, DCG can only exist once on a page.
-* Remove/comment out any dynamic_content_gallery() template tag in relevant template file.
-*
-* Allows for a Title above the DCG and a text box below (can accept HTML as per normal Text Widget)
-*
-* @since 3.2.3
-*/
+ * DCG Widget
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Allows use of DCG in widgets
+ * Uses Widget API. Code borrowed from Genesis theme framework (www.studiopress.com)
+ * and WP core Text Widget.
+ *
+ * Although this gives multi-widget capability, DCG can only exist once on a page.
+ * Remove/comment out any dynamic_content_gallery() template tag in relevant template file.
+ *
+ * Allows for a Title above the DCG and a text box below (can accept HTML as per normal Text Widget)
+ *
+ * @since 3.2.3
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
