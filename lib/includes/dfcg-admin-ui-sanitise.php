@@ -1,16 +1,17 @@
 <?php
 /**
-* Settings API Callback Function - to sanitise Settings page input
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Sanitise Settings screen Options input.
-* @info register_settings() callback function.
-*
-* @since 3.2
-*/
+ * Settings API Callback Function - to sanitise Settings page input
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Sanitise Settings screen Options input.
+ * @info register_settings() callback function.
+ *
+ * @since 3.2
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
