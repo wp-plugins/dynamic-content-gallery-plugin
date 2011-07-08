@@ -1,19 +1,20 @@
 <?php
 /**
-* Front-end - These are the constructor functions which produce the XHTML output when using jQuery smoothSlideshow script
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info One function for each of the 4 populate-methods.
-*		- Multi Option		dfcg_jq_multioption_method_gallery()
-*		- One Category		dfcg_jq_onecategory_method_gallery()
-*		- Custom Post Type	dfcg_jq_onecategory_method_gallery()
-*		- Pages				dfcg_jq_id_method_gallery()
-*
-* @since 3.3.1
-*/
+ * Front-end - These are the constructor functions which produce the XHTML output when using jQuery smoothSlideshow script
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info One function for each of the 4 populate-methods.
+ *		- Multi Option		dfcg_jq_multioption_method_gallery()
+ *		- One Category		dfcg_jq_onecategory_method_gallery()
+ *		- Custom Post Type	dfcg_jq_onecategory_method_gallery()
+ *		- Pages				dfcg_jq_id_method_gallery()
+ *
+ * @since 3.3.1
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
