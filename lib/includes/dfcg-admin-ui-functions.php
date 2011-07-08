@@ -1,18 +1,19 @@
 <?php
 /**
-* Functions for displaying contents of Settings page
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info These are the functions which produce the contents of the UI tabs and Settings page
-*
-* @info Functions ending _wp are only used for Wordpress
-* @info Functions ending _wpmu are only used for WPMU
-*
-* @since 3.0
-*/
+ * Functions for displaying contents of Settings page
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info These are the functions which produce the contents of the UI tabs and Settings page
+ *
+ * @info Functions ending _wp are only used for Wordpress
+ * @info Functions ending _wpmu are only used for WPMU
+ *
+ * @since 3.0
+ */
 
 
 /* Prevent direct access to this file */
