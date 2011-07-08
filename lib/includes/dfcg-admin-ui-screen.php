@@ -1,21 +1,22 @@
 <?php
 /**
-* Displays Settings Page
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Settings page for Wordpress and Wordpress Mu.
-*
-* 	All UI functions on this page are defined in dfcg-admin-ui-functions.php
-*	dfcg_load_textdomain()		- defined in dfcg-admin-core.php
-*	dfcg_options_js()			- defined in dfcg-admin-ui-js.php
-*	dfcg_on_load_validation()	- defined in dfcg-admin-ui-validation.php
-*
-* @since 3.0
-* @updated 3.3.1
-*/
+ * Displays Settings Page
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Settings page for Wordpress and Wordpress Mu.
+ *
+ * 	All UI functions on this page are defined in dfcg-admin-ui-functions.php
+ *	dfcg_load_textdomain()		- defined in dfcg-admin-core.php
+ *	dfcg_options_js()			- defined in dfcg-admin-ui-js.php
+ *	dfcg_on_load_validation()	- defined in dfcg-admin-ui-validation.php
+ *
+ * @since 3.0
+ * @updated 3.3.1
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
