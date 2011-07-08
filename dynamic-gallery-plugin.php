@@ -122,7 +122,7 @@ Feature:	means new user functionality has been added
 		- Enhance:	jd.gallery.css modified to remove open.gif (looked rubbish in IE and not much better in FF)
 		- Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
 		- Bug fix:	Fixed non-fatal wp_errors in dfcg-gallery-errors.php
-		- Bug fix:	Corrected path error for .mo files in load_textdomain() in plugin main file
+		- Bug fix:	Corrected path error for .mo files in load_plugin_textdomain() in plugin main file
 		- Bug fix:	Fixed Settings Page Donate broken link
 		- Bug fix:	Increased sanitisation cat-display limit to 4 characters
 		- Bug fix:	Increased sanitisation Carousel text limit to 50 characters
