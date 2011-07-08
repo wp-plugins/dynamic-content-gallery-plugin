@@ -1,18 +1,19 @@
 <?php
 /**
-* Front-end - Error Messages
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Error messages generated in the event that Settings are not correct.
-* @info Messages are printed to the browser and/or Page Source.
-* @info This should help users get the gallery working.
-* @info Note: Admin related error messages are handled in dfcg-admin-ui-validation.php
-*
-* @since 3.0
-*/
+ * Front-end - Error Messages
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Error messages generated in the event that Settings are not correct.
+ * @info Messages are printed to the browser and/or Page Source.
+ * @info This should help users get the gallery working.
+ * @info Note: Admin related error messages are handled in dfcg-admin-ui-validation.php
+ *
+ * @since 3.0
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
