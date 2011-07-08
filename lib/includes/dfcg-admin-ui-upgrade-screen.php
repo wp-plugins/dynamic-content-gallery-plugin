@@ -1,22 +1,23 @@
 <?php
 /**
-* Displays the special Settings pages for the version 3.2 wp_postmeta meta_key name upgrade
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.3.6
-*
-* @info Special upgrade screen for one-off upgrade of postmeta data.
-* @info Included by dfcg_options_page()
-*
-*	All UI functions on this page are defined in dfcg-admin-postmeta_upgrade.php
-*	dfcg_load_textdomain() is defined in dynamic-admin-core.php
-*	dfcg_options_js() is defined in dfcg-admin-ui-js.php
-*
-*	This file is included if upgrade completed option !== completed
-*
-* @since 3.2
-*/
+ * Displays the special Settings pages for the version 3.2 wp_postmeta meta_key name upgrade
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 3.3.6
+ *
+ * @info Special upgrade screen for one-off upgrade of postmeta data.
+ * @info Included by dfcg_options_page()
+ *
+ *	All UI functions on this page are defined in dfcg-admin-postmeta_upgrade.php
+ *	dfcg_load_textdomain() is defined in dynamic-admin-core.php
+ *	dfcg_options_js() is defined in dfcg-admin-ui-js.php
+ *
+ *	This file is included if upgrade completed option !== completed
+ *
+ * @since 3.2
+ */
 
 /* Prevent direct access to this file */
 if (!defined('ABSPATH')) {
