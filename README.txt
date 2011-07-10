@@ -205,6 +205,8 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 Fixes the DCG Metabox so that it now appears on all CPT edit screens when using the ID Method.
 Some minor tidy up of code.
 
+= 3.3.5 =
+Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 
 
 == Changelog ==
