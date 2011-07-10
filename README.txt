@@ -4,12 +4,14 @@ Version: 3.3.6
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
+Contributors: studiograsshopper
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10131319
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 3.0
 Tested up to: 3.2
 Stable tag: 3.3.5
 
-Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Highly configurable options for customising the look and behaviour of the gallery, and choice of using Mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) WordPress. Requires WP version 3.0+.
+Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts. 
 
 
 == Description==
@@ -78,6 +80,10 @@ Version 3.2 introduced some changes to the handling of Custom Fields dfcg-desc, 
 
 
 
+== Configuration and set-up ==
+
+Only basic information is shown here. Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch/dynamic-content-gallery/
+
 **Instructions for use**
 ------------------------
 
@@ -107,12 +113,6 @@ Slide Pane text can be configured in three ways - Manual, Auto or None
 * Select None if you don't want to display a Slide Pane Description. (Post/Page title will still display with this option)
 
 *Note for WP Multisite users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Write Post/Page screen DCG Metabox Image URL field. See the Settings page for further information on how to do this. This tip is good for WordPress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings. An even better tip for Multisite setups is to use the Auto Image Management option to automatically pull in post attachments.
-
-
-
-== Configuration and set-up ==
-
-Comprehensive information on installing, configuring and using the plugin can be found at http://www.studiograsshopper.ch/dynamic-content-gallery/
 
 
 
@@ -196,6 +196,14 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 == Screenshots ==
 1. Dynamic Content Gallery
+
+
+
+== Upgrade Notice ==
+
+= 3.3.6 =
+Fixes the DCG Metabox so that it now appears on all CPT edit screens when using the ID Method.
+Some minor tidy up of code.
 
 
 
