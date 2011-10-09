@@ -1,0 +1,63 @@
+/**
+ * CSS for admin Settings pages
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 4.0
+ *
+ * Loaded by dfcg_load_admin_styles() which is hooked to admin_print_styles-
+ *
+ */
+
+/* Settings Page */
+.form-table {width:98% !important; margin:0;border-collapse: separate;}
+.form-table th {font-size:12px;background: #f6f6f6;}
+.form-table td {padding:10px;background: #f6f6f6;}
+
+/* Tabs panels and content */
+div.dfcg-panel {padding: 0px 10px 10px 10px;margin:0px;}
+.off-site {background: url(images/link.png) top left no-repeat; padding:0 0 0 20px;}
+.dfcg-panel a:hover {color: #D54E21;}
+.dfcg-panel table p {margin:0;padding:0;}
+.dfcg-panel ul {list-style-type:disc;margin-left:20px;}
+.dfcg-panel ul.links {list-style-type:none;}
+.dfcg-panel ol {list-style-type:decimal;margin-left:20px;margin-top:6px;}
+.dfcg-panel li {line-height:20px;}
+.dfcg-panel h3 {font-size:0.83em; padding:12px 0 0; color:#005170;margin:0;}
+.dfcg-panel h3.not-top {padding:30px 0 0;}
+.dfcg-panel a img {vertical-align:middle; margin:0 15px 0 0;}
+
+/* Key Settings stuff */
+.dfcg-key-settings {margin:0; padding:30px 0 20px 0;}
+.dfcg-key-settings table {width:78%;}
+.dfcg-key-settings table td {background:#f6f6f6;padding:5px 10px;color:#666666;}
+.dfcg-key-settings table td.first {width:200px;vertical-align:top;}
+.dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 3px 6px #f6f6f6;vertical-align:top;}
+.dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 3px 6px #f6f6f6;vertical-align:top;}
+
+.error {color:#cc6600;}
+.bold-italic {font-weight:bold;font-style:italic;}
+
+/* sgr info stuff */
+#sgr-info {float:right;width:260px;background:#f6f6f6;padding:0px 20px 10px 20px;margin:0px 0px 10px 0px;display:inline;}
+#sgr-info ul {list-style-type:none;margin-left:0px;}
+#sgr-info img {float:left;margin:0px 10px 8px 0px;border:none;}
+#sgr-info input {float:right;margin:0px 0px 10px 10px;}
+#sgr-info h4 {font-size:12px;margin:1em 0 1em;}
+
+/* Reset checkbox */
+.reset-sgr {padding:0px 10px;margin:0px;}
+
+/* Footer credits */
+.sgr-credits {border-top:1px solid #dfdfdf;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left; color:#777777;}
+
+/* cluetips */
+.load-local img {margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}
+.dfcg-tip-hidden p {margin:0 0 10px 0; padding:0;}
+
+/* Form elements */
+textarea, input, select {padding:2px;}
+
+/* Image Management - sliding div */
+.dfcg-panel-image-opts {margin:0;padding:5px 0 0 0;}
