@@ -24,5 +24,4 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 // Delete options from database
 delete_option( 'dfcg_plugin_settings' );
 delete_option( 'dfcg_version' );
-delete_option( 'dfcg_plugin_postmeta_upgrade' );
-?>
+delete_option( 'dfcg_utilities' );
