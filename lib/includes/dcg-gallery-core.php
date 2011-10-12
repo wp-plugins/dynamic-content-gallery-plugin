@@ -191,7 +191,7 @@ function dfcg_scripts_css_loader() {
  * @since 4.0
  */
 function dfcg_load_mootools_css() {
-	wp_enqueue_style( 'dfcg_mootools_css', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
+	wp_enqueue_style( 'dcg_mootools_css', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
 }
 
 
@@ -203,10 +203,10 @@ function dfcg_load_mootools_css() {
  * @since 4.0
  */
 function dfcg_load_mootools_js() {
-	wp_enqueue_script( 'dfcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
-	wp_enqueue_script( 'dfcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
-	wp_enqueue_script( 'dfcg_mootools_js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
-	wp_enqueue_script( 'dfcg_mootools_trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg_mootools_js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg_mootools_trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
 }
 
 
@@ -257,7 +257,7 @@ function dfcg_load_mootools_user_js_css() {
  * @since 4.0
  */
 function dfcg_load_jquery_css() {
-	wp_enqueue_style( 'dfcg_jquery_css', DFCG_LIB_URL . '/js-jquery-smooth/css/dfcg-jquery-smooth.css', false, DFCG_VER, 'all' );
+	wp_enqueue_style( 'dcg_jquery_css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
 }
 
 
@@ -272,7 +272,7 @@ function dfcg_load_jquery_css() {
  */
 function dfcg_load_jquery_js() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'dfcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js', false, DFCG_VER, true );	
+	wp_enqueue_script( 'dcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js', false, DFCG_VER, true );	
 
 }
 
