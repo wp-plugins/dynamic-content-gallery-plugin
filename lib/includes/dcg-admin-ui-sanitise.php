@@ -17,8 +17,8 @@
 /**
  * Prevent direct access to this file
  */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( 'Sorry, you are not allowed to access this file directly.' ) );
 }
 
 
@@ -31,13 +31,13 @@ if (!defined('ABSPATH')) {
  * @since 3.2.2
  * @updated 4.0
  */
-function dfcg_sanitise($input) {
+function dfcg_sanitise( $input ) {
 	
 	global $dfcg_options;
 	
 	// Is the user allowed to do this? Probably not needed...
-	if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
-		die( __('Sorry. You do not have permission to do this.', DFCG_DOMAIN) );
+	if ( function_exists( 'current_user_can' ) && !current_user_can( 'manage_options' ) ) {
+		die( __( 'Sorry. You do not have permission to do this.', DFCG_DOMAIN ) );
 	}
 	
 	
@@ -90,7 +90,7 @@ function dfcg_sanitise($input) {
 	}
 	
 	// Deal with Custom Post types / Taxonomy data in normal cases
-	if( !empty($input['cpt-name'] ) && $input['cpt-tax-and-term'] !== 'all' ) {
+	if( !empty( $input['cpt-name'] ) && $input['cpt-tax-and-term'] !== 'all' ) {
 	
 		// Split cpt-tax-and-term into assoc. array
 		$temp = wp_parse_args( $input['cpt-tax-and-term'] );
@@ -100,7 +100,7 @@ function dfcg_sanitise($input) {
 		$term_name = $temp[$tax_name];
 		
 		// Get term object, get_term_by($field, $value, $taxonomy)
-		$term = get_term_by( 'name', $term_name, $tax_name);
+		$term = get_term_by( 'name', $term_name, $tax_name );
 		
 		$input['cpt-tax-name'] = $tax_name;
 		$input['cpt-term-name'] = $term_name;
@@ -114,7 +114,7 @@ function dfcg_sanitise($input) {
 	//	Whitelist options													(10)
 	//	Path and URL options												(6)		(1)
 	//	On-off options														(1)
-	//	Bool options														(19)
+	//	Bool options														(20)
 	//	String options - no XHTML allowed									(6)
 	//	String options - small - no XHTML allowed							(2)
 	//	String options - some XHTML allowed									(1)
@@ -126,40 +126,45 @@ function dfcg_sanitise($input) {
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																94
+	//	Total 																95
 	
 	
 	/***** Whitelist options (10/10) *****/
 	
-	if ( function_exists('wpmu_create_blog') ) {
-		// We're in WPMU
-		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight', 'thumb-type' );
-	} else {
-		// We're in WP
-		$whitelist_opts = array( 'image-url-type', 'populate-method', 'defaultTransition', 'limit-scripts', 'scripts', 'slide-h2-weight', 'desc-method', 'slide-p-a-weight', 'slide-p-ahover-weight', 'thumb-type' );
-	}
+	$whitelisted_opts = array(
+							'image-url-type',			// 'full', 'partial'
+							'populate-method',			// 'multi-option', 'one-category', 'id-method', 'custom-post'
+							'defaultTransition',		// 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal'
+							'limit-scripts',			// 'homepage', 'pagetemplate', 'other', 'page'
+							'scripts',					// 'mootools', 'jquery'
+							'slide-h2-weight',			// 'bold', 'normal'
+							'desc-method',				// 'manual', 'auto', 'none', 'excerpt'
+							'slide-p-a-weight',			// 'bold', 'normal'
+							'slide-p-ahover-weight',	// 'bold', 'normal'
+							'thumb-type'				// 'featured-image', 'legacy'
+						);
 	
-	// Define whitelist of known values
+	// Define whitelist
 	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'manual', 'auto', 'none', 'page', 'featured-image', 'legacy', 'excerpt' );
 	
 	// sanitise
-	foreach( $whitelist_opts as $key ) {
-		// If option value is not in whitelist
+	foreach( $whitelisted_opts as $key ) {
+		
+		// If option value is not in whitelist, die with error message
 		if( !in_array( $input[$key], $dfcg_whitelist ) ) {
+			
 			//Used for testing: $input[$key] = 'dodgy';
 			//var_dump($key, $input[$key]);
-			wp_die( "Dynamic Content Gallery Message #20: " . $dfcg_sanitise_error . "<br />Error with option: " . $key . "<br />Value: " . $input[$key] );
+			wp_die( "Dynamic Content Gallery Message #99: " . $dfcg_sanitise_error . "<br />Error with option: " . $key . "<br />Value: " . $input[$key] );
 		}
 	}
 	
 	
 	/***** Path and URL options (6/1) *****/
 	
-	if ( function_exists('wpmu_create_blog') ) {
-		// We're in WPMU
+	if ( is_multisite() ) {
 		$abs_url_opts = array( 'homeurl' );
 	} else {
-		// We're in WP
 		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgid', 'defimgcustompost', 'homeurl' );
 	}
 	
@@ -189,9 +194,9 @@ function dfcg_sanitise($input) {
 	}
 	
 	
-	/***** Bool options (19) *****/
+	/***** Bool options (20) *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {
@@ -428,12 +433,7 @@ function dfcg_sanitise($input) {
 			$input[$key] = 1000;
 		}
 	}
-	
-	
-	/***** String options (2) *****/
-	
-	
-	
+		
 	
 	// Return sanitised options array ready for db
 	return $input;
