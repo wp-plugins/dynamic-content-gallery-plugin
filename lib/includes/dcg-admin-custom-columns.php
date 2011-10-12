@@ -24,45 +24,45 @@ if( !defined( 'ABSPATH' ) ) {
 
 // Filters and Actions to add the dfcg-image columns
 // Only loaded if the relevant DCG Setting option is checked
-if( isset($dfcg_options['posts-column']) && $dfcg_options['posts-column'] == "true" ) {
-	add_filter('manage_posts_columns', 'dfcg_image_column');
-	add_action('manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2);
+if( isset( $dfcg_options['posts-column']) && $dfcg_options['posts-column'] == "true" ) {
+	add_filter( 'manage_posts_columns', 'dfcg_image_column' );
+	add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
 }
 if( isset($dfcg_options['pages-column']) && $dfcg_options['pages-column'] == "true" ) {
-	add_filter('manage_pages_columns', 'dfcg_image_column');
-	add_action('manage_pages_custom_column', 'dfcg_image_column_contents', 10, 2);
+	add_filter( 'manage_pages_columns', 'dfcg_image_column' );
+	add_action( 'manage_pages_custom_column', 'dfcg_image_column_contents', 10, 2 );
 }
 
 // Filters and Actions to add the dfcg-desc columns
 // Only loaded if the relevant DCG Setting option is checked
-if( isset($dfcg_options['posts-desc-column']) && $dfcg_options['posts-desc-column'] == "true" ) {
-	add_filter('manage_posts_columns', 'dfcg_desc_column');
-	add_action('manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2);
+if( isset( $dfcg_options['posts-desc-column']) && $dfcg_options['posts-desc-column'] == "true" ) {
+	add_filter( 'manage_posts_columns', 'dfcg_desc_column' );
+	add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
 }
-if( isset($dfcg_options['pages-desc-column']) && $dfcg_options['pages-desc-column'] == "true" ) {
-	add_filter('manage_pages_columns', 'dfcg_desc_column');
-	add_action('manage_pages_custom_column', 'dfcg_desc_column_contents', 10, 2);
+if( isset( $dfcg_options['pages-desc-column']) && $dfcg_options['pages-desc-column'] == "true" ) {
+	add_filter( 'manage_pages_columns', 'dfcg_desc_column' );
+	add_action( 'manage_pages_custom_column', 'dfcg_desc_column_contents', 10, 2 );
 }
 
 // Filters and Actions to add the dfcg-sort columns - only ever used on Edit Pages screen
-if( isset($dfcg_options['pages-sort-column']) && $dfcg_options['pages-sort-column'] == "true" ) {
-	add_filter('manage_pages_columns', 'dfcg_pages_sort_column');
-	add_action('manage_pages_custom_column', 'dfcg_pages_sort_column_contents', 10, 2);
+if( isset( $dfcg_options['pages-sort-column']) && $dfcg_options['pages-sort-column'] == "true" ) {
+	add_filter( 'manage_pages_columns', 'dfcg_pages_sort_column' );
+	add_action( 'manage_pages_custom_column', 'dfcg_pages_sort_column_contents', 10, 2 );
 }
 
 // Filters and Actions to add the Featured Image column
-if( isset($dfcg_options['posts-featured-image-column']) && $dfcg_options['posts-featured-image-column'] == "true" ) {
-	add_filter('manage_posts_columns', 'dfcg_featured_image_column');
-	add_action('manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+if( isset( $dfcg_options['posts-featured-image-column']) && $dfcg_options['posts-featured-image-column'] == "true" ) {
+	add_filter( 'manage_posts_columns', 'dfcg_featured_image_column');
+	add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
 }
-if( isset($dfcg_options['pages-featured-image-column']) && $dfcg_options['pages-featured-image-column'] == "true" ) {
-	add_filter('manage_pages_columns', 'dfcg_featured_image_column');
-	add_action('manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+if( isset( $dfcg_options['pages-featured-image-column']) && $dfcg_options['pages-featured-image-column'] == "true" ) {
+	add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
+	add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
 }
 
 
 /**
- * Function to add dfcg-image column
+ * Function to add DCG Image column
  *
  * Column to display _dfcg-image custom field, ie DCG Metabox Image URL
  *
@@ -71,14 +71,14 @@ if( isset($dfcg_options['pages-featured-image-column']) && $dfcg_options['pages-
  * @since 3.3.3
  * @updated 4.0
  */
-function dfcg_image_column($defaults) {
-    $defaults['dfcg_image_column'] = __('DCG Image');
+function dfcg_image_column( $defaults ) {
+    $defaults['dfcg_image_column'] = __( 'DCG Image' );
     return $defaults;
 }
 
 
 /**
- * Function to populate new dfcg-image column
+ * Function to populate new DCG Image column
  *
  * Displays DCG Metabox Image URL as a link (with thickbox class to display actual image on click)
  * Displays "Use as Main" and "Use as Thumb" if these have been checked. Useful for troubleshooting image issues.
@@ -90,7 +90,7 @@ function dfcg_image_column($defaults) {
  * @since 3.3.3
  * @updated 4.0
  */
-function dfcg_image_column_contents($column_name, $post_id) {
+function dfcg_image_column_contents( $column_name, $post_id ) {
     
 	global $dfcg_baseimgurl, $dfcg_options, $dfcg_postmeta;
     
@@ -128,7 +128,7 @@ function dfcg_image_column_contents($column_name, $post_id) {
         	
         	echo '<br />Featured image.';
         	if( has_post_thumbnail( $post_id ) ) {
-				the_post_thumbnail( array(80,80) );
+				the_post_thumbnail( array(100,100) );
 			}
 		
 		// We're using FULL or Partial manual images

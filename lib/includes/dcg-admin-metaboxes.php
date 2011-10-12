@@ -84,10 +84,9 @@ function dfcg_add_metabox() {
  * @since 3.2.2
  * @updated 4.0
  */
-function dfcg_meta_box($post) {
+function dfcg_meta_box( $post ) {
 
 	global $dfcg_options;
-	
 	
 	// Use nonce for verification
 	echo '<input type="hidden" name="dfcg_metabox_noncename" id="dfcg_metabox_noncename" value="' . 
@@ -120,8 +119,8 @@ function dfcg_meta_box($post) {
 		
 	<?php if( $dfcg_options['image-url-type'] == 'auto' ) : ?>
 		
-		<p><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. The DCG will use the Featured Image set for this Post/Page.', DFCG_DOMAIN); ?></em></p>
-		<p><em><strong><?php _e('Manual override (optional):', DFCG_DOMAIN); ?></strong><br /><?php _e('To override the Featured Image enter the URL (including http://) to the alternative image in the box below.', DFCG_DOMAIN); ?></em></p>
+		<p class="howto"><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. The DCG will use the Featured Image set for this Post/Page.', DFCG_DOMAIN); ?></p>
+		<p class="howto"><strong><?php _e('Manual override (optional):', DFCG_DOMAIN); ?></strong><br /><?php _e('To override the Featured Image enter the URL (including http://) to the alternative image in the box below.', DFCG_DOMAIN); ?></p>
 			
 		<?php // Deal with Main/Thumb checkboxes
 		$main_override = false;
@@ -158,11 +157,11 @@ function dfcg_meta_box($post) {
 		
 	<?php elseif( $dfcg_options['image-url-type'] == 'full' ) : ?>
 			
-		<p><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link;; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></em></p>
+		<p class="howto"><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link;; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></p>
 		
 	<?php elseif( $dfcg_options['image-url-type'] == 'partial' ) : ?>
 			
-		<p><em><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></em></p>
+		<p class="howto"><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. Enter the URL to your image below.', DFCG_DOMAIN); ?></p>
 		
 	<?php endif; ?>
 		
@@ -184,7 +183,7 @@ function dfcg_meta_box($post) {
 	<?php if( $dfcg_options['desc-method'] == 'manual' ) : // Only show dfcg-desc if Slide Pane Description is manual ?>
 
 	<h4><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
-	<p><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Manual', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>. <?php _e('Enter your Slide Pane text for this image below.', DFCG_DOMAIN); ?></em></p>
+	<p class="howto"><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Manual', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>. <?php _e('Enter your Slide Pane text for this image below.', DFCG_DOMAIN); ?></p>
 	<p>
 		<label class="screen-reader-text" for="_dfcg-desc"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?></label>
 		<textarea id="_dfcg-desc" name="_dfcg-desc" class="large-text" cols="2" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
@@ -193,7 +192,7 @@ function dfcg_meta_box($post) {
 	<?php elseif( $dfcg_options['desc-method'] == 'auto' )  : // Slide Pane Description is Auto ?>
 		
 	<h4><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
-	<p><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Auto', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>.</em></p>
+	<p class="howto"><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Auto', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>.</p>
 	
 	<input id="_dfcg-desc" name="_dfcg-desc" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?>" />
 	
@@ -201,7 +200,7 @@ function dfcg_meta_box($post) {
 	<?php else : // Slide Pane Description is None ?>
 	
 	<h4><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
-	<p><em><a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?></a> <?php _e('are set to "None".', DFCG_DOMAIN) ; ?></em></p>
+	<p class="howto"><a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?></a> <?php _e('are set to "None".', DFCG_DOMAIN) ; ?></p>
 	
 	<input id="_dfcg-desc" name="_dfcg-desc" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?>" />
 	
@@ -213,15 +212,16 @@ function dfcg_meta_box($post) {
 	<hr class="div" />
 	
 	<h4><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h4>
-	<p><em><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></em></p>
-	<p>
-		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link for image', DFCG_DOMAIN ); ?></label>
+	<p class="howto"><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></p>
+	
+	<p><strong><em><?php _e('External link URL', DFCG_DOMAIN ); ?>:</em></strong><br />
+		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link URL', DFCG_DOMAIN ); ?></label>
 		<input id="_dfcg-link" name="_dfcg-link" class="large-text" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />
 	</p>
 	
 	<p><strong><em><?php _e('Title attribute of external link', DFCG_DOMAIN ); ?>:</em></strong><br />
 	
-		<label class="screen-reader-text" for="_dfcg-link-title-attr"><?php _e('Title attribute for external link', DFCG_DOMAIN ); ?></label>
+		<label class="screen-reader-text" for="_dfcg-link-title-attr"><?php _e('Title attribute of external link', DFCG_DOMAIN ); ?></label>
 		<input id="_dfcg-link-title-attr" name="_dfcg-link-title-attr" class="large-text" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link-title-attr', true); ?>" />
 	</p>		
 	
@@ -237,7 +237,7 @@ function dfcg_meta_box($post) {
 		<label class="screen-reader-text" for="_dfcg-sort"><?php _e('Sort Order', DFCG_DOMAIN); ?></label>
 		<input name="_dfcg-sort" id="_dfcg-sort" size="3" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
 	</p>
-	<p><em><?php _e('By default, images are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></em></p>
+	<p class="howto"><?php _e('By default, images are arranged in the DCG in page/post ID number order. You can override this here by specifying a sort order.', DFCG_DOMAIN); ?></p>
 	
 	<?php else : ?>
 		<input id="_dfcg-sort" name="_dfcg-sort" type="hidden" value="<?php echo get_post_meta($post->ID, '_dfcg-sort', true); ?>" />
@@ -278,7 +278,7 @@ function dfcg_meta_box($post) {
  * @since 3.2.1
  * @updated 4.0
  */
-function dfcg_save_metabox_data($post_id, $post) {
+function dfcg_save_metabox_data( $post_id, $post ) {
 	
 	// Check referrer is from DCG metabox
 	if ( !wp_verify_nonce( isset( $_POST['dfcg_metabox_noncename'] ), DFCG_FILE_HOOK ) ) {
@@ -303,7 +303,7 @@ function dfcg_save_metabox_data($post_id, $post) {
 	
 	
 	// Deal with checkboxes
-	$newdata['_dfcg-main-override'] = isset( $_POST['_dfcg-main-override'] ) ? 'true' : NULL;
+	$newdata['_dfcg-main-override'] = $_POST['_dfcg-main-override'] ? 'true' : NULL;
 	
 	$newdata['_dfcg-thumb-override'] = $_POST['_dfcg-thumb-override'] ? 'true' : NULL;
 	
@@ -315,7 +315,7 @@ function dfcg_save_metabox_data($post_id, $post) {
 	
 	// trim whitespace - all options
 	foreach( $newdata as $key => $value ) {
-		$input[$key] = trim($value);
+		$input[$key] = trim( $value );
 	}
 	
 	
@@ -331,7 +331,7 @@ function dfcg_save_metabox_data($post_id, $post) {
 		$newdata['_dfcg-image'] = esc_attr( $newdata['_dfcg-image'] );
 	} 
 	
-	// If manual override isn't used, we set up an Admin Notice to advise of error
+	// If override is checked, but Image URL is empty, we set up an Admin Notice to advise of error
 	if( empty( $newdata['_dfcg-image'] ) && $newdata['_dfcg-main-override'] == 'true' ) {
 		$msg['main-override'] = 'true';
 	} else {

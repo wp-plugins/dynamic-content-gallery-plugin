@@ -307,7 +307,7 @@ function dfcg_post_thumbnail_messages() {
 function dfcg_checks() {
 
 	global $current_screen;
-	
+
 	if( $current_screen->id !== "plugins" )
 		return;
 	
@@ -348,7 +348,7 @@ function dfcg_checks() {
  * Function to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
  * DCG v3.0 requires WP 3.0+ to run.
- * This function prints Admin Notices warning messages at top of DCG and main Plugins pages.
+ * This function prints Admin Notices warning messages at top of DCG Settings page.
  *
  * Hooked to 'admin_notices'
  *
@@ -360,7 +360,7 @@ function dfcg_checks() {
 function dfcg_admin_notices() {	
 	global $current_screen;
 	
-	if( $current_screen->id !== DFCG_PAGEHOOK && $current_screen->id !== "plugins" )
+	if( $current_screen->id !== DFCG_PAGEHOOK )
 		return;
 	
 	$wp_valid = version_compare(get_bloginfo("version"), DFCG_WP_VERSION_REQ, '>=');
