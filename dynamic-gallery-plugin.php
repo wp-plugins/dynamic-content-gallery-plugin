@@ -423,6 +423,7 @@ $dfcg_baseimgurl = dfcg_baseimgurl();
 // New image management introduced in version 4.0
 // Creates a new image size based on the gallery width and height CSS settings
 // Note that Regenerate Thumbnails, or equivalent plugin, must be run whenever these values are changed
+// in the DCG Settings page.
 
 // Set main gallery image sizes
 $dfcg_main_hard = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_true';
@@ -452,4 +453,4 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	//var_dump($sizes);
 	return $sizes;
 }
-add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 11, 1 );
+//add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 100, 1 );
