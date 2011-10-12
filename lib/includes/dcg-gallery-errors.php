@@ -1,19 +1,19 @@
 <?php
 /**
-* Front-end - Error Messages
-*
-* @copyright Copyright 2008-2011
-* @author Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 4.0
-*
-* @info Error/Info messages generated in the event that Settings are not correct.
-* @info Messages are printed to the browser and/or Page Source.
-* @info This should help users get the gallery working.
-* @info Note: Admin notices error messages are handled in dfcg-admin-ui-validation.php
-*
-* @since 3.0
-*/
+ * Front-end - Error Messages
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 4.0
+ *
+ * @info Error/Info messages generated in the event that Settings are not correct.
+ * @info Messages are printed to the browser and/or Page Source.
+ * @info This should help users get the gallery working.
+ * @info Note: Admin notices error messages are handled in dfcg-admin-ui-validation.php
+ *
+ * @since 3.0
+ */
 
 /* Prevent direct access to this file */
 if( !defined( 'ABSPATH' ) ) {
@@ -23,14 +23,14 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 /**
-* Function to control Error Reporting
-*
-* @uses	dfcg_errors()
-*
-* @global array $dfcg_options Array of plugin options from db
-* @return array $errmsgs Array of error messages, if Errors have been turned on in settings
-* @since 3.2
-*/
+ * Function to control Error Reporting
+ *
+ * @uses	dfcg_errors()
+ *
+ * @global array $dfcg_options Array of plugin options from db
+ * @return array $errmsgs Array of error messages, if Errors have been turned on in settings
+ * @since 3.2
+ */
 function dfcg_errors_output() {
 	
 	global $dfcg_options;
@@ -46,30 +46,30 @@ function dfcg_errors_output() {
 
 
 /**
-* Function which manages Error Message content and builds the array of messages
-*
-* Error 1x = Validation of source data input
-* 10
-* 11
-* 12	Multi	Only 1 posr select defined
-*
-* Error 2x = Validation of data output
-* 20
-* 21
-* 22
-* 23
-* 24
-* 25
-* 26
-* 29
-*
-* Error 3x = Image messages
-* Error 4x = Desc messages
-*
-* @return $dfcg_errmsgs	Array of all Error Messages
-* @since 3.2.2
-* @updated 4.0
-*/
+ * Function which manages Error Message content and builds the array of messages
+ *
+ * Error 1x = Validation of source data input
+ * 10
+ * 11
+ * 12	Multi	Only 1 posr select defined
+ *
+ * Error 2x = Validation of data output
+ * 20
+ * 21
+ * 22
+ * 23
+ * 24
+ * 25
+ * 26
+ * 29
+ *
+ * Error 3x = Image messages
+ * Error 4x = Desc messages
+ *
+ * @return $dfcg_errmsgs	Array of all Error Messages
+ * @since 3.2.2
+ * @updated 4.0
+ */
 function dfcg_errors() {
 
 	global $dfcg_options;
