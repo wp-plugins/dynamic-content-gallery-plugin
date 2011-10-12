@@ -5,7 +5,7 @@ Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Version: 4.0
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Configurable options and choice of using mootools or jquery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress. Requires WP version 3.0+.
+Description: Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Configurable options and choice of using mootools or jquery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress. Requires WP version 3.3+.
 */
 
 
@@ -47,10 +47,9 @@ Feature:	means new user functionality has been added
 * Enhance:	V3.2 postmeta upgrade functionality has been removed completely
 * Enhance:	New global $dfcg_utilities db option added, used for misc admin stuff
 * Enhance:	Added dfcg_metabox_notices() hooked to Admin Notices to validate DCG Metabox input
-* Enhance:	Removed inline styles from dfcg-admin-metaboxes.php to match WP3.2 default admin styles
+* Enhance:	Removed inline styles from dfcg-admin-metaboxes.php to match WP3.3 default admin styles
 * Enhance:	Image link title attribute uses post/page title or external link title, for accessibility
 * Enhance:	Changed Post Thumbnail support error message from error to warning
-* Enhance:	Gallery constructor functions now return output rather than echo
 * Enhance:	Added classes to <p> tags in slide pane descriptions
 * Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
 * Enhance:	dfcg_set_gallery_options() completely re-written
@@ -75,17 +74,17 @@ Feature:	means new user functionality has been added
 * Enhance:	Added DFCG_HOME constant
 * Enhance:	Added DFCG_NAME constant
 * Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
-* Enhance:	All file prefixes cahnged to dcg- from dfcg-
-* Enhance:	dfcg-gallery-constructors-jq.php renamed dcg-constructors-jq-smooth.php
+* Enhance:	All file prefixes changed to dcg- from dfcg-
 * Enhance:	dfcg-gallery-constructors.php renamed dcg-constructors-mootools.php
-* Enhance:	dfcg-gallery-constructors.php renamed dcg-constructors-mootools.php
-* Enhance:	dcg-gallery-constructors-jq-smooth.php renamed dcg-constructors-jq-smooth.php
+* Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed dcg-constructors-jq-smooth.php
+* Enhance:	Gallery constructor functions now return output rather than echo
 * Enhance:	WPMS now tested with is_multisite() rather than function_exists('wpmu_create_blog')
 * Enhance:	Script/styles enqueuing is reworked and now always uses wp_enqueue_script() and wp_enqueue_style()
 * Bug fix:	Removed deprecated -moz-opacity CSS from jdgallery.css
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
 * Bug fix:	Fixed PHP warnings in dfcg-widget.php
+* Bug fix:	Fixed CSS errors in jQuery CSS files
 				
 = 3.3.5 =
 * Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
