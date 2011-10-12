@@ -11,7 +11,7 @@
  * Code borrowed from Genesis theme framework (www.studiopress.com) and WP core Text Widget.
  *
  * Although this gives multi-widget capability, DCG can only exist once on a page.
- * Remove/comment out any dynamic_content_gallery() template tag in relevant template file.
+ * Remove/comment out any dynamic_content_gallery() template tag in relevant template file (if already used)
  *
  * Allows for a Title above the DCG and a text box below (can accept HTML as per normal Text Widget)
  * Additionally, there are two hooks provided so that you can programmatically add other content
