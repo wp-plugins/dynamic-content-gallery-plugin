@@ -1,23 +1,24 @@
 <?php
 /**
-* Front-end - CSS for jQuery smoothSlideshow script
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 4.0
-*
-* @info Load user defined styles into the header.
-* @info This should ensure XHTML validation.
-*
-* @since 3.3
-* @updated 4.0
-*/
+ * Front-end - CSS for jQuery smoothSlideshow script
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 4.0
+ *
+ * @info Load user-defined, ie dynamic, styles into the header.
+ * @info This should ensure XHTML validation.
+ *
+ * @since 3.3
+ * @updated 4.0
+ */
 ?>
 
 <?
 /* Prevent direct access to this file */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( 'Sorry, you are not allowed to access this file directly.' ) );
 }
 ?>
 <style type="text/css">	
@@ -60,6 +61,14 @@ if (!defined('ABSPATH')) {
 	
 .dfcg-imgnav {
 	height:<?php echo $dfcg_options['gallery-height']; ?>px;
+	}
+	
+#dfcg-imgprev {
+	background:url(<?php echo DFCG_LIB_URL . '/js-jquery-smooth/css/images/fleche1.png'; ?>) left center no-repeat;
+	}
+	
+#dfcg-imgnext {
+	background:url(<?php echo DFCG_LIB_URL . '/js-jquery-smooth/css/images/fleche2.png'; ?>) right center no-repeat;
 	}
 		
 #dfcg-slidearea {

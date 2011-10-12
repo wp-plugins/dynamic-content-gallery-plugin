@@ -1,13 +1,14 @@
 /**
-* Front-end - CSS for jQuery smoothSlideshow script
-*
-* @copyright Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-* @package dynamic_content_gallery
-* @version 3.4
-*
-*
-* @since 3.4
-*/
+ * Front-end - CSS for jQuery smoothSlideshow script
+ *
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2011
+ * @package dynamic_content_gallery
+ * @version 4.0
+ *
+ *
+ * @since 3.4
+ */
 
 
 #dfcg-slideshow {
@@ -27,22 +28,17 @@
 #dfcg-wrapper * {
 	margin:0;
 	padding:0;
-	/*overflow:hidden;Added AW */
 	}
 	
 #dfcg-fullsize {
 	background:#000;
-	border:<?php echo $dfcg_options['gallery-border-thick']; ?>px solid <?php echo $dfcg_options['gallery-border-colour']; ?>;
-	height:<?php echo $dfcg_options['gallery-height']; ?>px;
 	overflow: hidden;
 	padding:0px;
 	position:relative;
 	z-index:1;/* Fix added in v3.3.3 */
-	width:<?php echo $dfcg_options['gallery-width']; ?>px;
 	}
 	
 #dfcg-text {
-	background-color:<?php echo $dfcg_options['slide-overlay-color']; ?> !important;
 	bottom:0;
 	filter:alpha(opacity=70);
 	height:0px;
@@ -50,24 +46,13 @@
 	overflow:hidden;
 	padding-bottom:1px;/* Fix added in v3.3.3 - was 5px */
 	position:absolute;
-	width:<?php echo $dfcg_options['gallery-width']; ?>px;
 	z-index:200;
 	}
 
 #dfcg-text h3 {
-	color:<?php echo $dfcg_options['slide-h2-colour']; ?> !important;
-	margin:<?php echo $dfcg_options['slide-h2-margtb']; ?>px <?php echo $dfcg_options['slide-h2-marglr']; ?>px !important;
-	padding:<?php echo $dfcg_options['slide-h2-padtb']; ?>px <?php echo $dfcg_options['slide-h2-padlr']; ?>px !important;
-	font-size:<?php echo $dfcg_options['slide-h2-size']; ?>px !important;
-	font-weight:<?php echo $dfcg_options['slide-h2-weight']; ?> !important;
 	}
 
 #dfcg-text p {
-	color:<?php echo $dfcg_options['slide-p-colour']; ?> !important;
-	font-size: <?php echo $dfcg_options['slide-p-size']; ?>px !important;
-	line-height:<?php echo $dfcg_options['slide-p-line-height']; ?>px !important;
-	margin:<?php echo $dfcg_options['slide-p-margtb']; ?>px <?php echo $dfcg_options['slide-p-marglr']; ?>px !important;
-	padding:<?php echo $dfcg_options['slide-p-padtb']; ?>px <?php echo $dfcg_options['slide-p-padlr']; ?>px !important;
 	}
 	
 #dfcg-text p a, #dfcg-text p a:link, #dfcg-text p a:visited {
@@ -76,15 +61,12 @@
 	}
 
 #dfcg-text p a:hover {
-	color: <?php echo $dfcg_options['slide-p-ahover-color']; ?> !important;
-	font-weight:<?php echo $dfcg_options['slide-p-ahover-weight']; ?> !important;
 	}
 	
 #dfcg-image img {
 	position:absolute;
 	z-index:25;
 	width:auto;
-	/*height:<?php //echo $dfcg_options['gallery-height']; ?>px;/* Added AAW - not sure */
 	}
 
 .dfcg-imgnav {
@@ -97,12 +79,10 @@
 
 #dfcg-imgprev {
 	left:0;
-	background:url(<?php echo DFCG_URL . '/js-jquery-smooth/css/images/fleche1.png'; ?>) left center no-repeat;
 	}
 	
 #dfcg-imgnext {
 	right:0;
-	background:url(<?php echo DFCG_URL . '/js-jquery-smooth/css/images/fleche2.png'; ?>) right center no-repeat;
 	}
 	
 #dfcg-imglink {
@@ -114,10 +94,6 @@
 	background:#fff;/* added v3.3.3 */
 	}
 	
-.linkhover {
-	background:url(images/link.gif) center center no-repeat;
-	}
-	
 #dfcg-thumbnails {
 	position: absolute;
 	top: -110px;
@@ -125,33 +101,10 @@
 	z-index: 999;
 	height: 130px;
 	}
-
-#slideleft {
-	float:left;
-	width:20px;
-	height:81px;
-	background:url(images/scroll-left.gif) center center no-repeat;
-	background-color:#222;
-	}
-	
-#slideleft:hover {
-	background-color:#333;
-	}
-	
-#slideright {float:right;
-	width:20px;
-	height:81px;
-	background:#222 url(images/scroll-right.gif) center center no-repeat;
-	}
-	
-#slideright:hover {
-	background-color:#333;
-	}
 	
 #dfcg-slidearea {
 	float:left;
 	position:relative;
-	width:<?php echo $dfcg_options['gallery-width']; ?>px;
 	height:81px;
 	overflow:hidden;
 	padding-top: 6px;
@@ -190,7 +143,6 @@
 #dfcg-thumbnails .dfcg-sliderContainer {
     height: 110px;
     position: relative;
-    width: <?php echo $dfcg_options['gallery-width']; ?>px;
     padding: 0 5px;
 	}
 	
