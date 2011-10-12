@@ -16,6 +16,7 @@
  * @info - Plugin row meta
  * @info - Admin Notices for WP Version and Post Thumbnails check
  * @info - Admin Notices for Settings reset
+ * @info - Add image sizes to Media Uploader
  * @info - Options handling and upgrading
  *
  * @since 3.0
@@ -502,6 +503,42 @@ function dfcg_upgrade_nag() {
 
 
 
+/**
+ * Filter callback to add image sizes to Media Uploader
+ *
+ * Hooked to 'image_size_names_choose'
+ *
+ * WP 3.3 adds a new filter 'image_size_names_choose' to
+ * the list of image sizes which are displayed in the Media Uploader
+ * after an image has been uploaded.
+ *
+ * See image_size_input_fields() in wp-admin/includes/media.php
+ *
+ * @param $sizes array of default image sizes (associative array)
+ * @global $dfcg_main_hard string registered image size name for DCG Main image with hard crop
+ * @global $dfcg_main_boxr string registered image size name for DCG Main image with box resize
+ * @global $dfcg_options array,Êdb main plugin options
+ * @return $sizes array of default image sizes plus DCG Main sizes (associative array)
+ *
+ * @since 4.0
+ */
+function dfcg_filter_image_size_names_muploader( $sizes ) {
+	
+	global $dfcg_main_hard, $dfcg_main_boxr, $dfcg_options;
+	
+	if( $dfcg_options['add-media-sizes'] == 'false' ) return $sizes;
+	
+	$hard = str_replace('_', ' ', $dfcg_main_hard);
+	$sizes[$dfcg_main_hard] = $hard;
+	
+	$boxr = str_replace('_', ' ', $dfcg_main_boxr);
+	$sizes[$dfcg_main_boxr] = $boxr;
+	
+	return $sizes;
+}
+
+
+
 /***** Options handling and upgrading *****/
 
 /**
@@ -513,13 +550,13 @@ function dfcg_upgrade_nag() {
  *
  * Used by the "upgrader" function dfcg_set_gallery_options().
  *
- * 94 options (5 are WP only)
+ * 95 options (5 are WP only)
  *
  * @since 3.2.2
  * @updated 4.0
  */
 function dfcg_default_options() {
-	// Add WP/WPMU options - we'll deal with the differences in the Admin screens
+	// Add WP/WPMS options - we'll deal with the differences in the Admin screens
 	$default_options = array(
 		'homeurl' => get_option('home'),			// Stored, but not currently used...
 		'image-url-type' => 'auto',					// Image Management: URL type for images: [full], [partial], [auto] (added 3.3)
@@ -614,7 +651,8 @@ function dfcg_default_options() {
 		'pages-featured-image-column' => 'true',	// Tools: Show edit pages column Featured Image
 		'thumb-type' => 'legacy',					// Thumbs: [featured-image] or [legacy] - mootools only
 		'crop' => 'true',							// Feat Image crop hard/box resize [true],[false]
-		'desc-man-link' => 'true'					// Append Read More link to manual descriptions
+		'desc-man-link' => 'true',					// Append Read More link to manual descriptions
+		'add-media-sizes' => 'false'				// Tools: add DCG image sizes to Media Uploader
 	);
 	
 	// Return options array for use elsewhere
@@ -679,7 +717,8 @@ function dfcg_default_options() {
  * In 4.0 - Added 6: 'posts-featured-image-colum', 'pages-featured-image-column', 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id', 'crop'
  * In 4.0 - Added 1: 'carouselMinimizedOpacity'
  * In 4.0 - Added 1: 'desc-man-link'
- * In 4.0 - Total options = 86 + 6 + 1 = 93
+ * In 4.0 - Added 1: 'add-media-sizes'
+ * In 4.0 - Total options = 86 + 6 + 1 + 1 + 1 = 95
  *
  * @uses dfcg_default_options()
  * @since 3.2.2
@@ -1123,7 +1162,7 @@ function dfcg_set_gallery_options() {
 		if( $existing_opts['thumb-type'] == "post-thumbnails" )
 			$existing_opts['thumb-type'] = "featured-image";
 	
-		// Add new 8 options
+		// Add new 9 options
 		if( $existing_opts['cpt-tax-and-term'] == 'all' || empty( $existing_opts['cpt-tax-and-term'] ) ) {
 			
 			$new_opts['cpt-term-name'] = '';
@@ -1147,24 +1186,23 @@ function dfcg_set_gallery_options() {
 			$new_opts['cpt-term-id'] = $term->term_id;
 		
 		}
-			
-				
+					
 		$new_opts['posts-featured-image-column'] = 'true';
 		$new_opts['pages-featured-image-column'] = 'true';
 		$new_opts['crop'] = 'true';
 		$new_opts['carouselMinimizedOpacity'] = '0.4';
 		$new_opts['desc-man-link'] = 'true';
+		$new_opts['add-media-sizes'] = 'false';
 		
-		// Total options = 86 + 3 - 3 + 8 = 94
+		// Total options = 86 + 3 - 3 + 9 = 95
 		$updated = wp_parse_args( $existing_opts, $new_opts );
 		
 		update_option( 'dfcg_plugin_settings', $updated );
 		
 		// Deal with deprecated $dfcg_postmeta_upgrade
-		// Transfer values to new db option
-		$postmeta = get_option( 'dfcg_plugin_postmeta_upgrade' );
 		delete_option( 'dfcg_plugin_postmeta_upgrade' );
 		
+		// Add new db option for dealing with DCG metabox validation
 		$utilities = array();
 		
 		$utilities['main-override'] = 'false';
@@ -1172,7 +1210,6 @@ function dfcg_set_gallery_options() {
 		add_option( 'dfcg_utilities', $utilities );
 		
 	}
-	
 	
 	// FINALLY, Update version no. in the db
 	update_option('dfcg_version', DFCG_VER );
