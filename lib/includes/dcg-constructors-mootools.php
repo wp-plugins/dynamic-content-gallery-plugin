@@ -13,6 +13,32 @@
  *		- Custom Post Type	dfcg_onecategory_method_gallery()
  *		- ID Method			dfcg_id_method_gallery()
  *
+ * MOOTOOLS Markup
+ * ---------------
+ * <div id="dfcg-outer-wrap"><!-- Start of Dynamic Content Gallery -->
+ *
+ *	dfcg_before() hook
+ *
+ * 	<div id="myGallery"><!-- Start of DCG Mootools output -->
+ *
+ *		<div class="imageElement"><!-- DCG Image #' . $counter . ' -->
+ *			<h3> Title </h3>
+ *			<p> Slide Pane Text </p>
+ *			<a href="Post or External link" title="Link Title Attribute" class="open"></a>
+ *			<img width="" height="" src="Main image" class"full ..." alt="" title"" />
+ *			<img width="" height="" src="Main image" class"full ..." alt="" title"" />
+ *		</div>
+ *
+ *		<div class="imageElement"><!-- DCG Image #' . $counter . ' -->
+ *			Next item markup, etc
+ *		</div>
+ *
+ * 	</div><!-- end #myGallery and end of DCG Mootools output -->
+ *
+ *	dfcg_after() hook
+ *
+ * </div><!-- end #dfcg-outer-wrap and end of Dynamic Content Gallery output -->
+ *
  * @since 3.3
  */
 

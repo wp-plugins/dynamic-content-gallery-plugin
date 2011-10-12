@@ -46,13 +46,77 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Note: DCG Widget uses this function too.
  *
- * @uses dynamic-gallery.php
+ * @uses dfcg_multioption_method_gallery()
+ * @uses dfcg_onecategory_method_gallery()
+ * @uses dfcg_id_method_gallery()
+ * @uses dfcg_jq_multioption_method_gallery()
+ * @uses dfcg_jq_onecategory_method_gallery()
+ * @uses dfcg_jq_id_method_gallery()
+ *
  * @global array $dfcg_options Plugin options from db
  * @since 2.1
+ * @updated 4.0
  */
 function dynamic_content_gallery() {
 	global $dfcg_options;
-	include_once( DFCG_DIR . '/dynamic-gallery.php' );
+	
+	if( $dfcg_options['scripts'] == 'mootools' ) {
+
+		if( $dfcg_options['populate-method'] == 'multi-option' ) {
+			// Populate method = MULTI-OPTION
+			$output = dfcg_multioption_method_gallery();
+	
+		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
+			$output = dfcg_onecategory_method_gallery();
+	
+		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
+			// Populate method = ID METHOD
+			$output = dfcg_id_method_gallery();
+		}
+
+	} elseif( $dfcg_options['scripts'] == 'jquery' ) {
+	
+		if( $dfcg_options['populate-method'] == 'multi-option' ) {
+			// Populate method = MULTI-OPTION
+			$output = dfcg_jq_multioption_method_gallery();
+	
+		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
+			$output = dfcg_jq_onecategory_method_gallery();
+
+		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
+			// Populate method = PAGES
+			$output = dfcg_jq_id_method_gallery();
+		}
+
+	} else {
+	
+		// Something has gone horribly wrong and there's no output!
+		$output = '';
+		$output .= "\n" . __('<p>Dynamic Content Gallery Error: View page source for details.</p>', DFCG_DOMAIN); . "\n";
+		$output .= "\n" . '<!-- ' . __('DCG Error: The plugin is unable to generate any output.', DFCG_DOMAIN) .' -->';
+		$output .= "\n" . '<!-- ' . __('Rating: Critical. Fix error in order to display gallery.', DFCG_DOMAIN);
+		$output .= "\n" . '<!-- ' . __('Fix: Check that the plugin has been installed properly and that all files contained within the download ZIP file have been uploaded to your server.', DFCG_DOMAIN) .' -->';
+
+	}
+
+	/* Output the gallery and markup */
+
+	// Open wrapper div
+	echo "\n" . '<div id="dfcg-outer-wrap"><!-- Start of Dynamic Content Gallery output -->';
+
+	// Run hook
+	do_action( 'dfcg_before' );
+
+	// Gallery output
+	echo $output;
+
+	// Run hook
+	do_action( 'dfcg_after' );
+
+	// Close wrapper div
+	echo "\n\n" . '</div><!-- end #dfcg-outer-wrap and Dynamic Content Gallery output -->' . "\n";
 }
 
 
