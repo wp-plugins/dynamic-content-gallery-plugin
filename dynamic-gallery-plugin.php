@@ -29,7 +29,7 @@ http://www.gnu.org/licenses/gpl-2.0.html
 
 /***** About Version History info *****
 Bug fix:	means that something was broken and has been fixed
-Enhance:	means code has been improved either for better optimisation, code organisation, compatibility with wider use cases
+Enhance:	means code has been improved either for better optimisation, code organisation, or compatibility with wider use cases
 Feature:	means new user functionality has been added
 */
 
@@ -406,6 +406,10 @@ if( is_admin() ) {
 	/* Admin - Adds additional Settings link in main Plugin page */
 	// Function defined in dcg-admin-core.php
 	add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+	
+	/* Admin - Adds list of DCG image sizes to Media Uploader */
+	// Function defined in dcg-admin-core.php
+	add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 100, 1 );
 }
 
 /**** Added in version 4.0 *****/
@@ -432,24 +436,3 @@ $dfcg_main_boxr = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_opt
 add_image_size('DCG_Thumb_100x75_true', 100, 75, true);
 add_image_size($dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true);
 add_image_size($dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false);
-
-
-
-
-// New WP 3.3
-
-// This function only adds DCG Main sizes to the array
-function dfcg_filter_image_size_names_muploader( $sizes ) {
-	
-	global $dfcg_main_hard, $dfcg_main_boxr;
-	
-	$hard = str_replace('_', ' ', $dfcg_main_hard);
-	$sizes[$dfcg_main_hard] = $hard;
-	
-	$boxr = str_replace('_', ' ', $dfcg_main_boxr);
-	$sizes[$dfcg_main_boxr] = $boxr;
-	
-	//var_dump($sizes);
-	return $sizes;
-}
-//add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 100, 1 );
