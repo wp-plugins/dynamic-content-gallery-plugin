@@ -1255,7 +1255,7 @@ function dfcg_ui_errors() {
 /**
  * Posts/Pages edit columns: box and content
  *
- * 7 options: [posts-column],[posts-desc-column],[pages-column],['pages-desc-column'],['pages-sort-column'], ['posts-featured-image-column'], ['pages-featured-image-column']
+ * 7 options: [posts-column],[posts-desc-column],[pages-column],['pages-desc-column'],['pages-sort-column'], ['posts-featured-image-column'], ['pages-featured-image-column'], ['add-media-sizes']
  * 
  * @global array $dfcg_options plugin options from db
  * @since 3.2.2
@@ -1283,9 +1283,14 @@ function dfcg_ui_columns() {
 				<td><?php _e('DCG Image:', DFCG_DOMAIN); ?> <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?> />
 				<span style="padding-left:50px;"><?php _e('DCG Desc:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?> />
 				<span style="padding-left:50px;"><?php _e('Sort Order:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-sort-column]" id="dfcg-pages-sort-column" value="1" <?php checked('true', $dfcg_options['pages-sort-column']); ?> />
-				<?php if( current_theme_supports('post-thumbnails') ) : ?>
+				<?php if( current_theme_supports( 'post-thumbnails' ) ) : ?>
 				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-featured-image-column]" id="dfcg-pages-featured-image-column" value="1" <?php checked('true', $dfcg_options['pages-featured-image-column']); ?> />
 				<?php endif; ?></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Add DCG Image sizes to Media Uploader:', DFCG_DOMAIN); ?></th>
+				<td><?php _e('Yes:', DFCG_DOMAIN); ?> <input type="checkbox" name="dfcg_plugin_settings[add-media-sizes]" id="dfcg-add-media-sizes" value="1" <?php checked('true', $dfcg_options['add-media-sizes']); ?> />
+				</td>
 			</tr>
 		</tbody>
 	</table>
