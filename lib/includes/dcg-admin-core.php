@@ -104,11 +104,14 @@ function dfcg_options_init() {
  * @uses dfcg_load_admin_scripts()
  * @uses dfcg_load_admin_styles()
  *
- * @return string $dfcg_page_hook, the wp page hook
+ * @global $dfcg_page_hook - need to declare as global for scope purposes in other functions
+ * @return $dfcg_page_hook string, the wp page hook
  * @since 3.2
  * @updated 4.0
  */
 function dfcg_add_to_options_menu() {
+	
+	global $dfcg_page_hook;
 	
 	// Populate plugin's options (since 3.3.1, now runs BEFORE settings page is added. Duh!)
 	dfcg_set_gallery_options();
@@ -138,7 +141,7 @@ function dfcg_load_admin_scripts() {
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	wp_enqueue_script( 'jquery-ui-draggable' );
-	wp_enqueue_script( 'dfcg_admin_js', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dfcg-ui-admin.js' );
+	wp_enqueue_script( 'dfcg_admin_js', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.js' );
 	wp_enqueue_script( 'dfcg_cluetip_js', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.min.js' );
 }
 
@@ -152,8 +155,8 @@ function dfcg_load_admin_scripts() {
  */
 function dfcg_load_admin_styles() {
 	
-	wp_enqueue_style( 'dfcg_admin_css', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dfcg-ui-admin.css' );
-	wp_enqueue_style( 'dfcg_tabs_css', DFCG_LIB_URL . '/admin-css-js/tabs/dfcg-tabs-ui.css' );
+	wp_enqueue_style( 'dfcg_admin_css', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.css' );
+	wp_enqueue_style( 'dfcg_tabs_css', DFCG_LIB_URL . '/admin-css-js/tabs/dcg-tabs-ui.css' );
 	wp_enqueue_style( 'dfcg_cluetip_css', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.css' );
 }
 
@@ -180,7 +183,7 @@ function dfcg_options_page(){
 
 
 /**
- * Display a Settings link in main Plugin page in Dashboard
+ * Filter callback to display a Settings link in main Plugin page in Dashboard
  *
  * Puts the Settings link in with Deactivate/Activate links in Plugins Settings page
  *
@@ -203,7 +206,7 @@ function dfcg_filter_plugin_actions($links, $file){
 
 
 /**
- * Display Plugin Meta Links in main Plugin page in Dashboard
+ * Filter callback to display Plugin Meta Links in main Plugin page in Dashboard
  *
  * Adds additional meta links in the plugin's info section in main Plugins Settings page
  *
