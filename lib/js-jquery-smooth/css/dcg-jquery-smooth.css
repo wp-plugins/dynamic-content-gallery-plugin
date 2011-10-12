@@ -56,8 +56,6 @@
 	}
 	
 #dfcg-text p a, #dfcg-text p a:link, #dfcg-text p a:visited {
-	color: <?php echo $dfcg_options['slide-p-a-color']; ?> !important;
-	font-weight:<?php echo $dfcg_options['slide-p-a-weight']; ?> !important;
 	}
 
 #dfcg-text p a:hover {
@@ -72,7 +70,6 @@
 .dfcg-imgnav {
 	position:absolute;
 	width:25%;
-	height:<?php echo $dfcg_options['gallery-height']; ?>px;
 	cursor:pointer;
 	z-index:150;
 	}
