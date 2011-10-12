@@ -1,6 +1,6 @@
 === Dynamic Content Gallery ===
 
-Version: 3.3.6
+Version: 4.0
 Author: Ade Walker
 Author page: http://www.studiograsshopper.ch
 Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
@@ -11,22 +11,38 @@ Requires at least: 3.0
 Tested up to: 3.2
 Stable tag: 3.3.5
 
-Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts. 
+Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts.
 
 
 == Description==
 
-This plugin creates a dynamic gallery of images for latest and/or featured content using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the first Image Attachment from relevant Posts/Pages, or by specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have an Image Attachment or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
+This plugin creates a dynamic gallery of images for latest and/or featured content using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the Featured Image from relevant Posts/Pages, or by manually specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have Featured Image or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
 
 For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
 
 Compatible with network-enabled (multisite) WordPress 3.0, though available plugin options are slightly reduced.
 
+**New in Version 4.0**
+----------------------
+Version 4.0 is a major release with lots of rewriting and reorganisation of the plugin. Key NEW features are:
+
+* Auto Image Management using WP's built-in Featured Image
+* Auto resizing of images to fit your chosen gallery dimensions
+* Slide descriptions can now use the Excerpt
+* Enhanced custom columns in the All Pages and All Posts screens to show Featured Image in use, etc.
+* Major reorganisation of the code
+* Lots of little bug fixes
+
+This release represents a significant improvement and enhancement of the DCG. Enjoy!
+
+
+
 **Key Features**
 ----------------
 
-* Auto Image Management option - automatically pulls in first Image Attachment from relevant Posts/Pages
+* Auto Image Management option - automatically pulls in the Featured Image from relevant Posts/Pages
 * Auto Carousel thumbnails, using WP's Post Thumbnail feature.
+* Auto image resizing to fit gallery dimensions (with help from Regenerate Thumbnails plugin)
 * SmoothGallery javascript updated to use latest version of mootools (v1.2.4).
 * New custom jQuery script - now much closer in look and feel to the mootools version
 * A choice of 4 different methods for populating the gallery -  Multi Option, One Category, ID Method or Custom Post Type.
@@ -68,7 +84,7 @@ Note for WordPress Multisite users:
 * In order for this plugin to be visible to Site Admins, the plugin has to be activated for each blog by the Network Admin. Each Site Admin can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2+**
+**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3, 3.3, 3.3.1**
 ---------------------------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
@@ -175,13 +191,9 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 1. Javascript conflicts.  By default the plugin uses SmoothGallery which is built on the Mootools javascript framework.  This framework may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, and you are unable to resolve the conflict, try using the supplied jQuery script instead, which you can select in the plugin's Settings page.
 
-2. Known conflicts: A list of plugins which are known to conflict with the mootools gallery script can be found at http://www.studiograsshopper.ch/forum/
+2. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
 
-3. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
-
-4. In order to reduce loading time it is recommended to match your image dimensions to the visible dimensions of the gallery and optimise the filesize in your image editor.
-
-5. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
+3. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
 
 If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
 
@@ -209,11 +221,37 @@ Some minor tidy up of code.
 Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 
 
+
 == Changelog ==
 
-= 3.3.6 =
-* Released	10 July 2011
-* Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
+= 4.0 =
+* Released
+* Feature:	Added carouselMinimizedOpacity option for mootools = carousel label minimised opacity
+* Feature:	Added dfcg_before and dfcg_after hooks to dynamic_content_gallery() output
+* Feature:	Added dfcg_widget_before and dfcg_widget_after hooks to DCG Widget
+* Feature:	Added option to use Post Excerpt in Slide Pane descriptions
+* Feature:	Added manual link title attr for external links in DCG Metabox
+* Feature: 	Added Featured Image column in posts/pages Edit screen
+* Enhance:	Image link title attribute uses post/page title or external link title, for accessibility
+* Enhance:	Changed Post Thumbnail support error message from error to warning
+* Enhance:	Gallery constructor functions now return output rather than echo
+* Enhance:	Added classes to <p> tags in slide pane descriptions
+* Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
+* Enhance:	dfcg_set_gallery_options() completely re-written
+* Enhance:	UI JS moved to new dfcg-ui-admin.js file
+* Enhance:	dfcg-admin-ui-js.php and contents deprecated
+* Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading admin JS and CSS
+* Enhance:	Added DCG upgrade nag to DCG Settings page
+* Enhance:	Added new helper functions for admin messages - dfcg_version_messages() and dfcg_post_thumbnail_messages()
+* Enhance:	dfcg_admin_notice_reset() deprecated, replaced by dfcg_settings_reset()
+* Enhance:	dfcg_wp_version_check() deprecated, replaced by dfcg_checks()
+* Enhance:	dfcg_admin_notices() added - deals with version/post thumbnail messages
+* Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
+* Enhance:	Rewritten Help tab content in Settings page
+* Enhance:	Added new file dfcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
+* Enhance:	Settings page > General Tab, Key Settings output improved
+* Enhance:	Renamed the filters in dfcg_get_the_content_limit() function (added dfcg_ prefix)
+* Enhance:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
 * Enhance:	Added DFCG_LIB_URL constant
 * Enhance:	Added DFCG_LIB_DIR constant
 * Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
@@ -223,6 +261,11 @@ Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in Extern
 * Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
 * Enhance:	dfcg-gallery-constructors-jq.php renamed dfcg-constructors-jq-smooth.php
 * Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
+* Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
+* Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed dfcg-constructors-jq-smooth.php
+* Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
+* Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
+* Bug fix:	Fixed PHP warnings in dfcg-widget.php
 
 = 3.3.5 =
 * Released	4 December 2010
@@ -319,7 +362,7 @@ Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in Extern
 * Enhance:	jd.gallery.css modified to remove open.gif (looked rubbish in IE and not much better in FF)
 * Enhance:	Moved Admin CSS to external stylesheet and added dfcg_loadjs_admin_head() function hooked to admin_print_scripts_$plugin
 * Bug fix:	Fixed non-fatal wp_errors in dfcg-gallery-errors.php
-* Bug fix:	Corrected path error for .mo files in load_plugin_textdomain() in plugin main file
+* Bug fix:	Corrected path error for .mo files in load_textdomain() in plugin main file
 * Bug fix:	Fixed Settings Page Donate broken link
 * Bug fix:	Increased sanitisation cat-display limit to 4 characters
 * Bug fix:	Increased sanitisation Carousel text limit to 50 characters
