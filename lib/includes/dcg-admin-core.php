@@ -340,6 +340,8 @@ function dfcg_check_post_thumbnails() {
  * This function prints warning messages in the relevant row of the table in main Plugins screen.
  * This function replaces dfcg_wp_version_check() deprecated in v4.0
  *
+ * @uses dfcg_check_version()
+ * @uses dfcg_check_post_thumbnails
  * @uses dfcg_do_version_messages()
  * @uses dfcg_do_post_thumbnail_messages()
  * @uses dfcg_do_messages_wpms()
@@ -349,7 +351,7 @@ function dfcg_check_post_thumbnails() {
  * @since 3.2
  * @updated 4.0
  */	
-function dfcg_checks() {
+function dfcg_checks_plugins_page() {
 
 	global $current_screen;
 
@@ -399,26 +401,33 @@ function dfcg_checks() {
 
 
 /**
- * Function to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
+ * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
  * Hooked to 'admin_notices'
  *
  * This function prints Admin Notices warning messages at top of DCG Settings page.
  *
- * Uses dfcg_version_messages() and dfcg_post_thumbnail_messages()
+ * @uses dfcg_check_version()
+ * @uses dfcg_check_post_thumbnails
+ * @uses dfcg_do_version_messages()
+ * @uses dfcg_do_post_thumbnail_messages()
+ * @uses dfcg_do_messages_wpms()
  *
- * @global $current_screen, current admin screen object
+ * @global $current_screen object, current admin screen object
+ * @return displays messages for checks which are false
  * @since 4.0
  */	
-function dfcg_admin_notices() {	
+function dfcg_checks_settings_page() {	
 	global $current_screen;
 	
 	if( $current_screen->id !== DFCG_PAGEHOOK )
 		return;
 	
-	$wp_valid = version_compare(get_bloginfo("version"), DFCG_WP_VERSION_REQ, '>=');
+	// Do the checks
+	$check = dfcg_check_version();
+	$thumbs = dfcg_check_post_thumbnails();
 	
-	if( $wp_valid && current_theme_supports('post-thumbnails') )
+	if( $check && $thumbs )
 		return; // Nothing to do here...
 		
 	
@@ -428,18 +437,23 @@ function dfcg_admin_notices() {
 	$msg_end = '</p></div>';
 		
 	
-	if( !$wp_valid ) {
+	if( !$check ) {
 		
-		$msg = dfcg_version_messages();
+		$msg = dfcg_do_version_messages();
+		
+		if( is_multisite() )
+			$msg .= dfcg_do_messages_wpms();
 					
 		echo $err_start . $msg . $msg_end;
 	}
 	
 	
-	// Need to check for Theme Support for Post Thumbnails, introduced in WP2.9 and required by DCG v3.3
-	if( !current_theme_supports('big feet') ) {
+	if( !$thumbs ) {
 		
-		$msg = dfcg_post_thumbnail_messages();
+		$msg = dfcg_do_post_thumbnail_messages();
+		
+		if( is_multisite() )
+			$msg .= dfcg_do_messages_wpms();
 		
 		echo $notice_start . $msg . $msg_end;
 	}
@@ -474,42 +488,53 @@ function dfcg_settings_reset() {
 
 
 /**
- * Function to display Admin Notices if DCG Metabox validation errors
+ * Filter callback to display messages if DCG Metabox validation errors
  *
- * Hooked to 'admin_notices' action
+ * Hooked to 'post_updated_messages' action
  *
- * Displays Admin Notices after DCG Metabox is saved
+ * For details of $messages array see wp-admin/edit-form-advanced.php
  *
- * @global array $dfcg_metabox_validate db metabox validate option 
+ * @param $messages array, messages when post/page updated/published
+ *
+ * @global $dfcg_utilities array, db metabox validate options 
  * @since 4.0
- * @updated 4.0
  */	
-function dfcg_metabox_notices() {
+function dfcg_metabox_save_notices( $messages ) {
 	
-	global $dfcg_utilities;
+	global $dfcg_utilities, $post
 	
 	if( $dfcg_utilities['main-override'] !== 'true' && $dfcg_utilities['thumb-override'] !== 'true' )
-		return; // Nothing to do here
+		return $messages; // Nothing to do here
 		
 	if( $dfcg_utilities['main-override'] == 'true' ) {
 	
-		echo '<div class="error"><p><strong>' . __('DCG Metabox error with Main Override', DFCG_DOMAIN) . '</strong></p></div>';
-
 		// Reset main-override to false and update db options
 		$dfcg_utilities['main-override'] = 'false';
+		
+		update_option( 'dfcg_utilities', $dfcg_utilities );
+		
+		$messages[$post->post_type][1] = "Post updated, but you haven't entered a value for blah. Please enter one and update the post.";
+		$messages[$post->post_type][6] = "Post published, but you haven't entered a value for blah. Please enter one and update the post.";
+		//echo '<div class="error"><p><strong>' . __('DCG Metabox error with Main Override', DFCG_DOMAIN) . '</strong></p></div>';
+
+		return $messages;
 		
 	}
 	
 	if( $dfcg_utilities['thumb-override'] == 'true' ) {
 	
-		echo '<div class="error"><p><strong>' . __('DCG Metabox error with Thumb Override.', DFCG_DOMAIN) . '</strong></p></div>';
-
 		// Reset just-reset to false and update db options
 		$dfcg_utilities['thumb-override'] = 'false';
 		
+		update_option( 'dfcg_utilities', $dfcg_utilities );
+		
+		echo '<div class="error"><p><strong>' . __('DCG Metabox error with Thumb Override.', DFCG_DOMAIN) . '</strong></p></div>';
+
+		
+		
 	}
 	
-	update_option( 'dfcg_utilities', $dfcg_utilities );
+	
 }
 
 
