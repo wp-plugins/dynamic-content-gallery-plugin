@@ -501,7 +501,7 @@ function dfcg_settings_reset() {
  */	
 function dfcg_metabox_save_notices( $messages ) {
 	
-	global $dfcg_utilities, $post
+	global $dfcg_utilities, $post;
 	
 	if( $dfcg_utilities['main-override'] !== 'true' && $dfcg_utilities['thumb-override'] !== 'true' )
 		return $messages; // Nothing to do here
