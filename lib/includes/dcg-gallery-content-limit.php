@@ -19,8 +19,8 @@
 /**
  * Prevent direct access to this file
  */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.', DFCG_DOMAIN) );
+if( !defined( 'ABSPATH' ) ) {
+	exit( __( 'Sorry, you are not allowed to access this file directly.' ) );
 }
 
 
@@ -38,7 +38,7 @@ if (!defined('ABSPATH')) {
  * @param	string	$stripteaser
  * @return	Text excerpt
  *
- * Note that when dealing with non-Loop/WP_Query, ie when using the custom db query in the Pages Method, we don't have access
+ * Note that when dealing with non-Loop/WP_Query, ie when using the custom db query in the ID Method, we don't have access
  * to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $page_id
  * arguments for passing the Page content and ID to this function.
  *

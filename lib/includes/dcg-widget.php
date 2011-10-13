@@ -27,7 +27,8 @@ if( !defined( 'ABSPATH' ) ) {
 }
 
 
-add_action('widgets_init', create_function('', "register_widget('Dynamic_Content_Gallery_Widget');"));
+add_action( 'widgets_init', create_function( '', "register_widget('Dynamic_Content_Gallery_Widget');" ) );
+
 class Dynamic_Content_Gallery_Widget extends WP_Widget {
 
 	function Dynamic_Content_Gallery_Widget() {

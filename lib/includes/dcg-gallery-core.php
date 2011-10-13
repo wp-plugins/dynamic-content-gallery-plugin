@@ -2,14 +2,14 @@
 /**
  * Front-end - These are the core front end functions for producing the gallery in the browser
  *
- * - Defines template tag
- * - Loads gallery scripts and CSS
- * - Various helper functions used by the gallery constructor functions
- *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
  * @copyright Copyright 2008-2011
  * @package dynamic_content_gallery
  * @version 4.0
+ *
+ * - Defines template tag
+ * - Loads gallery scripts and CSS
+ * - Various helper functions used by the gallery constructor functions
  *
  *
  * NOTES about new script handling introduced in DCG v4.0:
@@ -336,7 +336,7 @@ function dfcg_load_jquery_css() {
  */
 function dfcg_load_jquery_js() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'dcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dfcg-jq-script.min.js', false, DFCG_VER, true );	
+	wp_enqueue_script( 'dcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
 
 }
 
