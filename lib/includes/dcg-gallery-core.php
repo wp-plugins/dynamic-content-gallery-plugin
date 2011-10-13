@@ -94,9 +94,9 @@ function dynamic_content_gallery() {
 	
 		// Something has gone horribly wrong and there's no output!
 		$output = '';
-		$output .= "\n" . __('<p>Dynamic Content Gallery Error: View page source for details.</p>', DFCG_DOMAIN); . "\n";
+		$output .= "\n" . __('<p>Dynamic Content Gallery Error: View page source for details.</p>', DFCG_DOMAIN) . "\n";
 		$output .= "\n" . '<!-- ' . __('DCG Error: The plugin is unable to generate any output.', DFCG_DOMAIN) .' -->';
-		$output .= "\n" . '<!-- ' . __('Rating: Critical. Fix error in order to display gallery.', DFCG_DOMAIN);
+		$output .= "\n" . '<!-- ' . __('Rating: Critical. Fix error in order to display gallery.', DFCG_DOMAIN) .' -->';
 		$output .= "\n" . '<!-- ' . __('Fix: Check that the plugin has been installed properly and that all files contained within the download ZIP file have been uploaded to your server.', DFCG_DOMAIN) .' -->';
 
 	}
