@@ -297,6 +297,25 @@ function dfcg_post_thumbnail_messages() {
 }
 
 
+function dfcg_check_version() {
+
+	$wp_valid = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
+	
+	if( $wp_valid )
+		return true;
+	else
+		return false;
+}
+
+
+function dfcg_check_post_thumbnails() {
+
+	if( current_theme_supports( 'post-thumbnails' ) )
+		return true;
+	else
+		return false;
+}
+
 /**
  * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
@@ -321,9 +340,11 @@ function dfcg_checks() {
 	if( $current_screen->id !== "plugins" )
 		return;
 	
-	$wp_valid = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
+	$check = dfcg_check_version();
+	$thumbs = dfcg_check_post_thumbnails();
 	
-	if( $wp_valid && current_theme_supports( 'post-thumbnails' ) )
+	
+	if( $check && $thumbs )
 		return; // Nothing to do here...
 	
 	// Define markup
@@ -337,17 +358,23 @@ function dfcg_checks() {
 	
 	
 	// WP Version is not valid
-	if( !$wp_valid ) {
+	if( !$check ) {
 	
 		$msg = dfcg_version_messages();
+		
+		if( is_multisite() )
+			$msg .= dfcg_messages_wpms();
 			
 		echo $msg_tr . $msg_div_red . $msg . $msg_end;
 	}
 	
-	// Check for Theme Support for Post Thumbnails, introduced in WP2.9 and required by DCG v3.3+
-	if( !current_theme_supports('bigfeet') ) {
+	// Post Thumbnails not enabled
+	if( !$thumbs ) {
 		
 		$msg = dfcg_post_thumbnail_messages();
+		
+		if( is_multisite() )
+			$msg .= dfcg_messages_wpms();
 		
 		echo $msg_tr . $msg_div_def . $msg . $msg_end;
 	}
