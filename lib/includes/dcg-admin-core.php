@@ -505,38 +505,22 @@ function dfcg_metabox_save_notices( $messages ) {
 	
 	if( $dfcg_utilities['main-override'] !== 'true' && $dfcg_utilities['thumb-override'] !== 'true' )
 		return $messages; // Nothing to do here
-		
-	var_dump($post);
 	
-	if( $dfcg_utilities['main-override'] == 'true' ) {
+	if( $dfcg_utilities['main-override'] == 'true' || $dfcg_utilities['thumb-override'] == 'true' ) {
 	
-		// Reset main-override to false and update db options
+		// Reset override flags to false and update db options
+		// We do both because it doesn't matter which one triggered the error
 		$dfcg_utilities['main-override'] = 'false';
-		
+		$dfcg_utilities['thumb-override'] = 'false';
 		update_option( 'dfcg_utilities', $dfcg_utilities );
 		
-		$messages[$post->post_type][1] = "Post updated, but you haven't entered a value for blah. Please enter one and update the post.";
-		$messages[$post->post_type][6] = "Post published, but you haven't entered a value for blah. Please enter one and update the post.";
-		//echo '<div class="error"><p><strong>' . __('DCG Metabox error with Main Override', DFCG_DOMAIN) . '</strong></p></div>';
+		$msg = ' <span class="dfcg-message" style="margin-left:20px;"><strong>DCG Metabox warning</strong>: You have checked the Override checkbox(es) but you have not entered a URL in the Image URL field.</span>';
+		
+		$messages[$post->post_type][1] = $messages[$post->post_type][1] . $msg;
+		$messages[$post->post_type][6] = $messages[$post->post_type][6] . $msg;
 
 		return $messages;
-		
 	}
-	
-	if( $dfcg_utilities['thumb-override'] == 'true' ) {
-	
-		// Reset just-reset to false and update db options
-		$dfcg_utilities['thumb-override'] = 'false';
-		
-		update_option( 'dfcg_utilities', $dfcg_utilities );
-		
-		echo '<div class="error"><p><strong>' . __('DCG Metabox error with Thumb Override.', DFCG_DOMAIN) . '</strong></p></div>';
-
-		
-		
-	}
-	
-	
 }
 
 
@@ -624,7 +608,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 /***** Options handling and upgrading *****/
 
 /**
- * Function for building default options
+ * Build default options
  *
  * Contains the latest version's default options.
  * Populates the options on first install (not upgrade) and
@@ -638,7 +622,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
  * @updated 4.0
  */
 function dfcg_default_options() {
-	// Add WP/WPMS options - we'll deal with the differences in the Admin screens
+	
 	$default_options = array(
 		'homeurl' => get_option('home'),			// Stored, but not currently used...
 		'image-url-type' => 'auto',					// Image Management: URL type for images: [full], [partial], [auto] (added 3.3)
@@ -750,23 +734,23 @@ function dfcg_default_options() {
  *
  * Called by dfcg_add_page() which is hooked to 'admin_menu'
  *
- * In 2.3 - "imagepath" is deprecated, replaced by "imageurl" in 2.3
- * In 2.3 - "defimagepath" is deprecated, replaced by "defimgmulti" and "defimgonecat"
- * In 2.3 - 29 orig options + 30 new options added , total now is 59
+ * In 2.3 - Change 'imagepath' is deprecated, replaced by 'imageurl'
+ * In 2.3 - Change 'defimagepath' is deprecated, replaced by 'defimgmulti' and 'defimgonecat'
+ * In 2.3 - Total options = 29 orig options + 30 new options added = 59
  *
- * In RC2 - Change: "nourl" value of "image-url-type" is deprecated
+ * In RC2 - Change: nourl value of 'image-url-type' is deprecated
  *
- * In RC3 - Added 2: "posts-column", "pages-column" added
- * In RC3 - Total options is 59 + 2 = 61
+ * In RC3 - Added 2: 'posts-column', 'pages-column'
+ * In RC3 - Total options = 59 + 2 = 61
  *
- * In RC4 - Added 13: "posts-desc-column", "pages-desc-column", "just-reset", "scripts", 9 jQuery options
- * In RC4 - Change: "part" value of "image-url-type" is changed to "partial"
- * In RC4 - Total options is 61 + 13 = 74
+ * In RC4 - Added 13: 'posts-desc-column', 'pages-desc-column', 'just-reset', 'scripts', +9 jQuery options
+ * In RC4 - Change: 'part' value of 'image-url-type' to 'partial'
+ * In RC4 - Total options = 61 + 13 = 74
  *
- * In 3.1 - Added 7: "desc-method", "max-char", "more-text", "slide-p-a-color", "slide-p-ahover-color", "slide-p-a-weight", "slide-p-ahover-weight"
+ * In 3.1 - Added 7: 'desc-method','max-char','more-text','slide-p-a-color','slide-p-ahover-color','slide-p-a-weight','slide-p-ahover-weight'
  * In 3.1 - Total options = 74 + 7 = 81
  *
- * In 3.2 - Change: "desc-method" can now have three values - auto, manual, none
+ * In 3.2 - Change: 'desc-method' can now have three values - auto, manual, none
  * In 3.2 - Added 2: 'pages-sort-column', 'pages-sort-control'
  * In 3.2 - Total options = 81 + 2 = 83
  *
@@ -797,10 +781,8 @@ function dfcg_default_options() {
  *
  * In 4.0 - Added "excerpt" value to "desc-method" option
  * In 4.0 - Added 6: 'posts-featured-image-colum', 'pages-featured-image-column', 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id', 'crop'
- * In 4.0 - Added 1: 'carouselMinimizedOpacity'
- * In 4.0 - Added 1: 'desc-man-link'
- * In 4.0 - Added 1: 'add-media-sizes'
- * In 4.0 - Total options = 86 + 6 + 1 + 1 + 1 = 95
+ * In 4.0 - Added 3: 'carouselMinimizedOpacity', 'desc-man-link', 'add-media-sizes'
+ * In 4.0 - Total options = 86 + 6 + 3 = 95
  *
  * @uses dfcg_default_options()
  * @since 3.2.2
