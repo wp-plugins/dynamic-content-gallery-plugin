@@ -7,9 +7,9 @@
  * @package dynamic_content_gallery
  * @version 4.0
  *
- * @info Uses new screens API introduced in WP 3.3
+ * @info Uses new Screens API introduced in WP 3.3
  *
- * @since 3.0
+ * @since 4.0
  */
 
 /**
@@ -20,29 +20,56 @@ if( !defined( 'ABSPATH' ) ) {
 }
 
 
-add_action('add_screen_help_and_options', 'dfcg_plugin_help');
+/**
+ * @TODO Clean this up!
+ * @since 4.0
+ */
+add_action('load-' . DFCG_PAGEHOOK, 'dfcg_plugin_help');
 function dfcg_plugin_help( $screen ) {
 	
-	global $dfcg_page_hook;
+	$screen = get_current_screen();
 
-	if ($screen->id != $dfcg_page_hook)
+	if ($screen->id != DFCG_PAGEHOOK)
 		return;
 		
 	$screen->add_help_tab( array(
-		'id'      => 'sfc-base',
-		'title'   => __('Connecting to Facebook', 'sfc'),
-		'content' => "HTML for help content",
+		'id'      => 'dfcg-help-general',
+		'title'   => __('General info', 'sfc'),
+		'callback' => 'dfcg_help_general'
 	));
 
 	$screen->add_help_tab( array(
-		'id'      => 'sfc-modules',
-		'title'   => __('SFC Modules', 'sfc'),
-		'content' => "HTML for help content",
+		'id'      => 'dfcg-help-images',
+		'title'   => __('Image Management', 'sfc'),
+		//'content' => "HTML for help content",
+		'callback' => 'dfcg_help_general'
 	));
 
 	$screen->add_help_tab( array(
-		'id'      => 'sfc-login',
-		'title'   => __('Login and Register', 'sfc'),
+		'id'      => 'dfcg-help-gallery',
+		'title'   => __('Gallery Method', 'sfc'),
 		'content' => "HTML for help content",
-	));	
+	));
+	
+	$screen->add_help_tab( array(
+		'id'      => 'dfcg-help-desc',
+		'title'   => __('Descriptions', 'sfc'),
+		'content' => "HTML for help content",
+	));
+}
+
+
+
+function dfcg_help_general() {
+?>
+	<h3><?php esc_html_e('Dynamic Content Gallery - Quick Help', DFCG_DOMAIN); ?></h3>
+	<p><?php esc_html_e('This Quick Help guide highlights some basic points only. Detailed guides to Documentation and Configuration can be found on the plugin\'s site here:', DFCG_DOMAIN); ?></p>
+	<p>
+		<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>quick-start-guide/"><?php esc_html_e('Quick Start', DFCG_DOMAIN); ?></a> | 
+		<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>configuration-guide/"><?php esc_html_e('Configuration Guide', DFCG_DOMAIN); ?></a> | 
+		<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>documentation/"><?php esc_html_e('Documentation', DFCG_DOMAIN); ?></a> | 
+		<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>faq/"><?php esc_html_e('FAQ', DFCG_DOMAIN); ?></a> | 
+		<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>error-messages/"><?php esc_html_e('Error Messages', DFCG_DOMAIN); ?></a>
+	</p>
+<?php
 }
