@@ -40,9 +40,6 @@ if( !defined( 'ABSPATH' ) ) {
  */
 function dfcg_on_load_validation( $options_array ) {
 
-	// Run WP version check - will display warning if WP version is less than 2.8+
-	//dfcg_checks();
-
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'partial' && empty( $options_array['imageurl'] ) ) {
 		echo '<div class="error"><p><strong>' . __('DCG Warning! You have selected the "Partial" URL option but you have not defined the URL to your images folder in the Image Management tab.', DFCG_DOMAIN) . '</strong></p></div>';
