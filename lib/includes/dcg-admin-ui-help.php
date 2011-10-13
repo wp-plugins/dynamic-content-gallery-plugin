@@ -25,11 +25,11 @@ if( !defined( 'ABSPATH' ) ) {
  * @since 4.0
  */
 add_action('load-' . DFCG_PAGEHOOK, 'dfcg_plugin_help');
-function dfcg_plugin_help( $screen ) {
+function dfcg_plugin_help() {
 	
 	$screen = get_current_screen();
 
-	if ($screen->id != DFCG_PAGEHOOK)
+	if( $screen->id != DFCG_PAGEHOOK )
 		return;
 		
 	$screen->add_help_tab( array(
