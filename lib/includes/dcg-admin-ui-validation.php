@@ -41,7 +41,7 @@ if( !defined( 'ABSPATH' ) ) {
 function dfcg_on_load_validation( $options_array ) {
 
 	// Run WP version check - will display warning if WP version is less than 2.8+
-	dfcg_checks();
+	//dfcg_checks();
 
 	// If Partial URL is selected, imageurl must be defined
 	if( $options_array['image-url-type'] == 'partial' && empty( $options_array['imageurl'] ) ) {
