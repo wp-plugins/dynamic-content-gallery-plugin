@@ -1,15 +1,15 @@
 <?php
 /**
- * Admin Core functions - all the main stuff needed to run the backend
+ * Admin Core functions - this is the parent file that handles all the backend
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
  * @copyright Copyright 2008-2011
  * @package dynamic_content_gallery
  * @version 4.0
  *
- * @info Core Admin Functions called by various add_filters and add_actions:
+ * @info Core Admin functions called by various add_filters and add_actions:
  * @info - Internationalisation
- * @info - Register Settings
+ * @info - Register Settings API
  * @info - Add Settings Page
  * @info - Load admin js and CSS
  * @info - Plugin action links
@@ -17,7 +17,7 @@
  * @info - Admin Notices for WP Version and Post Thumbnails check
  * @info - Admin Notices for Settings reset
  * @info - Add image sizes to Media Uploader
- * @info - Options handling and upgrading
+ * @info - DCG options handling and upgrading
  *
  * @since 3.0
  */
@@ -34,20 +34,20 @@ if( !defined( 'ABSPATH' ) ) {
 /***** Internationalisation *****/
 
 /**
- * Function to load textdomain for Internationalisation functionality
+ * Load textdomain for Internationalisation functionality
  *
- * Loads textdomain if $dfcg_text_loaded is false
+ * Loads textdomain if $dfcg_text_loaded (global variable) is false
  *
- * Called by dfcg-admin-ui-screen.php and dfcg-admin-ui-upgrade-screen.php
+ * Called by dcg-admin-ui-screen.php
  *
  * Note: .mo file should be named dynamic_content_gallery-xx_XX.mo and placed in the DCG plugin's languages folder.
  * xx_XX is the language code
  * For example, for French, file should be named: dynamic_content_gallery-fr_FR.mo
  *
- * WP_LANG constant must also be defined in wp-config.php.
+ * WP_LANG constant must also be defined correctly in wp-config.php.
  *
- * @global $dfcg_text_loaded bool defined in dynamic-gallery-plugin.php
  * @uses load_plugin_textdomain()
+ * @global $dfcg_text_loaded, bool, defined in dynamic-gallery-plugin.php
  * @since 3.2
  * @updated 3.3.6
  */
@@ -71,12 +71,12 @@ function dfcg_load_textdomain() {
 /***** Admin Init *****/
 
 /**
- * Register Settings as per new Settings API, 2.7+
+ * Register Settings as per Settings API, 2.7+
  *
  * Hooked to 'admin_init'
  *
- * dfcg_plugin_settings_options 	= Options Group name
- * dfcg_plugin_settings 			= Option Name in db
+ * dfcg_plugin_settings_options	= Options Group name
+ * dfcg_plugin_settings 		= Option Name in db
  *
  * @uses dfcg_sanitise(), callback function for sanitising options
  *
@@ -99,8 +99,8 @@ function dfcg_options_init() {
  * Renamed in 3.2, was dfcg_add_page()
  * No need to check credentials - already built in to core wp function
  *
- * @uses dfcg_options_page()
  * @uses dfcg_set_gallery_options()
+ * @uses dfcg_options_page()
  * @uses dfcg_load_admin_scripts()
  * @uses dfcg_load_admin_styles()
  *
@@ -128,7 +128,7 @@ function dfcg_add_to_options_menu() {
 
 
 /**
- * Function to load Admin JS
+ * Callback to load Admin JS
  *
  * Hooked to 'admin_print_scripts-$page_hook' in dfcg_add_to_options_menu()
  *
@@ -147,7 +147,7 @@ function dfcg_load_admin_scripts() {
 
 
 /**
- * Function to load Admin CSS
+ * Callback to load Admin CSS
  *
  * Hooked to 'admin_print_styles-$page_hook' in dfcg_add_to_options_menu()
  *
@@ -162,17 +162,17 @@ function dfcg_load_admin_styles() {
 
 
 /**
- * Display the Settings page
+ * Callback to display the Settings page
  *
- * Used by dfcg_add_to_options_menu()
+ * Called by add_options_page() in dfcg_add_to_options_menu()
  *
- * @global array $dfcg_options db main options
+ * @global $dfcg_options array, db main options
  * @since 3.2
  * @updated 4.0
  */
 function dfcg_options_page(){
 	
-	// Needed because this is passed to dfcg_on_load_validation() in dfcg-admin-ui-screen.php
+	// Needed because this is passed to dfcg_on_load_validation() in dcg-admin-ui-screen.php
 	global $dfcg_options;
 	
 	// Need to get these back from the db because they may have been updated since page was last loaded
@@ -189,7 +189,10 @@ function dfcg_options_page(){
  *
  * Hooked to 'plugin_action_links' filter
  *
- * @return array $links Array of links shown in first column, main Dashboard Plugins page
+ * @param $links array, default links shown in first column, main Dashboard Plugins page
+ * @param $file string, file name of main plugin file
+ *
+ * @return $links array, modified array of links to be shown in first column, main Dashboard Plugins page
  * @since 1.0
  */
 function dfcg_filter_plugin_actions($links, $file){
@@ -209,13 +212,14 @@ function dfcg_filter_plugin_actions($links, $file){
  * Filter callback to display Plugin Meta Links in main Plugin page in Dashboard
  *
  * Adds additional meta links in the plugin's info section in main Plugins Settings page
+ * Note: these links will only appear if plugin is activated
  *
  * Hooked to 'plugin_row_meta filter' so only works for WP 2.8+
  *
- * @param array $links Default links for each plugin row
- * @param string $file plugins.php filehook
+ * @param $links array, default links for each plugin row
+ * @param $file string, plugins.php filehook
  *
- * @return array $links Array of customised links shown in plugin row after activation
+ * @return $links array, modified links for the DCG's plugin row
  * @since 3.0
  * @updated 4.0
  */
@@ -244,67 +248,69 @@ function dfcg_plugin_meta( $links, $file ) {
 
 /***** Admin Notices and other warnings *****/
 
+
 /**
- * Helper function for WP Version checks
+ * Check message for WPMS
  *
  * Used by dfcg_checks() and dfcg_admin_notices()
  *
+ * @return $msg string, additional message for WPMS when WP version is insufficient
  * @since 4.0
  */
-function dfcg_version_messages() {
+function dfcg_messages_wpms() {
 	
-	if( !is_multisite() ) {
+	$msg = __('Please contact your Network Administrator.', DFCG_DOMAIN);
 			
-		// We're in WP
-		$msg = __('<strong>DCG Warning!</strong> This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+ ' . __('Please upgrade WordPress to run this plugin.', DFCG_DOMAIN);
-		
-	} else {
-			
-		// We're in WPMS
-		$msg = __('<strong>DCG Warning!</strong> This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+ ' . __('Please contact your Network Administrator.', DFCG_DOMAIN);
-			
-	}
-	
 	return $msg;
 }
 
 
 /**
- * Helper function for WP Post Thumbnail checks
+ * WP Version check message
+ *
+ * Used by dfcg_checks() and dfcg_admin_notices()
+ *
+ * @return $msg string, message when WP version is insufficient
+ * @since 4.0
+ */
+function dfcg_version_messages() {
+			
+	$msg = __('<strong>DCG Warning!</strong> This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+';
+		
+	return $msg;
+}
+
+
+/**
+ * WP Post Thumbnail check message
  * 
  * Used by dfcg_checks() and dfcg_admin_notices()
  *
+ * @return $msg string, message when WP Post Thumbnails is not enabled
  * @since 4.0
  */
 function dfcg_post_thumbnail_messages() {
 
-	if( !is_multisite() ) {
-			
-		// We're in WP
-		$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . 'faq/" target="_blank" title="DCG FAQ">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
-	
-	} else {
-		$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . '&nbsp;' . __('Please contact your Network Administrator.', DFCG_DOMAIN);
-	
-	}
+	$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . 'faq/" target="_blank" title="DCG FAQ">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
 	
 	return $msg;
 }
 
 
 /**
- * Function to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
+ * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
- * DCG v3.0 requires WP 3.0+ to run. This function prints warning
- * messages in the relevant row of the table in main Plugins screen.
+ * This function prints warning messages in the relevant row of the table in main Plugins screen.
+ * This function replaces dfcg_wp_version_check() deprecated in v4.0
  *
  * Hooked to 'after_action_row_$plugin' filter
  *
- * Uses dfcg_version_messages() and dfcg_post_thumbnail_messages()
- *
- * This function replaces dfcg_wp_version_check() deprecated in v4.0
+ * @uses dfcg_version_messages()
+ * @uses dfcg_post_thumbnail_messages()
+ * @uses dfcg_messages_wpms()
  *
  * @global $current_screen, current admin screen object
+ * @return echos messages wrapped in necessary XHTML markup for display in Plugins table
  * @since 3.2
  * @updated 4.0
  */	
@@ -474,7 +480,7 @@ function dfcg_metabox_notices() {
  * Checks plugin API response for DCG file name then prints admin notice if new version is available
  * Only shows nag on DCG Settings page - let's be polite!
  *
- * @global $current_screen, current admin screen object
+ * @global $current_screen object, current admin screen object
  * @since 4.0
  */
 function dfcg_upgrade_nag() {
@@ -495,7 +501,7 @@ function dfcg_upgrade_nag() {
 	
 	echo '<div class="error"><p><strong>DCG Notice: Please upgrade!</strong> ';
 	
-	if ( !current_user_can('update_plugins') )
+	if ( !current_user_can( 'update_plugins' ) )
 		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a>.'), $r->new_version, DFCG_NAME, esc_url($details_url) );
 	
 	else
@@ -514,14 +520,18 @@ function dfcg_upgrade_nag() {
  * WP 3.3 adds a new filter 'image_size_names_choose' to
  * the list of image sizes which are displayed in the Media Uploader
  * after an image has been uploaded.
- *
  * See image_size_input_fields() in wp-admin/includes/media.php
  *
+ * This callback needs to return an associative array ($sizes) containing 'name' = > 'label'
+ * Unfortunately, add_image_size only creates a 'name' not a 'label', therefore we take
+ * the DCG image 'name' and remove the underscores to create a a nice looking 'label'.
+ *
  * @param $sizes array of default image sizes (associative array)
- * @global $dfcg_main_hard string registered image size name for DCG Main image with hard crop
- * @global $dfcg_main_boxr string registered image size name for DCG Main image with box resize
- * @global $dfcg_options array,Êdb main plugin options
- * @return $sizes array of default image sizes plus DCG Main sizes (associative array)
+ *
+ * @global $dfcg_main_hard string, registered image size name for DCG Main image with hard crop
+ * @global $dfcg_main_boxr string, registered image size name for DCG Main image with box resize
+ * @global $dfcg_options array, db main plugin options
+ * @return $sizes array, default image sizes plus DCG Main sizes (associative array)
  *
  * @since 4.0
  */
