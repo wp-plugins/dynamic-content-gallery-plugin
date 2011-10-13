@@ -370,7 +370,39 @@ if( is_admin() ) {
 	/* Admin - Adds Settings page */
 	// Function defined in dcg-admin-core.php
 	add_action( 'admin_menu', 'dfcg_add_to_options_menu' );
+	
+	/* Admin - Adds additional Settings link in main Plugin page */
+	// Function defined in dcg-admin-core.php
+	add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
+	
+	/* Admin - Adds additional links in main Plugins page */
+	// Function defined in dcg-admin-core.php
+	add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
 
+	/* Admin - Adds WP version warning and Post Thumbnail warning in Plugins table */
+	// Function defined in dcg-admin-core.php
+	add_action( 'after_plugin_row_' . DFCG_FILE_NAME, 'dfcg_checks_plugins_page' );
+	
+	/* Admin - Adds WP version and Post Thumbnail warning in DCG Settings page */
+	// Function defined in dcg-admin-core.php
+	add_action( 'admin_notices', 'dfcg_checks_settings_page' );
+
+	/* Admin - Adds Admin Notice when resetting Settings */
+	// Function defined in dcg-admin-core.php
+	add_action( 'admin_notices', 'dfcg_settings_reset' );
+	
+	/* Admin - Adds Upgrade nag to DCG Settings page */
+	// Function defined in dcg-admin-core.php
+	add_action( 'admin_notices', 'dfcg_upgrade_nag', 9 );
+	
+	/* Admin - Filters Post Updated/Published message on savere */
+	// Function defined in dcg-admin-core.php
+	add_filter( 'post_updated_messages', 'dfcg_metabox_save_notices' );
+	
+	/* Admin - Adds list of DCG image sizes to Media Uploader */
+	// Function defined in dcg-admin-core.php
+	add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 100, 1 );
+	
 	/* Admin - Adds Metaboxes to Post/Page Editor */
 	// Function defined in dcg-admin-metaboxes.php
 	add_action( 'admin_menu', 'dfcg_add_metabox' );
@@ -378,38 +410,6 @@ if( is_admin() ) {
 	/* Admin - Saves Metabox data in Post/Page Editor */
 	// Function defined in dcg-admin-metaboxes.php
 	add_action( 'save_post', 'dfcg_save_metabox_data', 1, 2 );
-
-	/* Admin - Adds WP version warning and Post Thumbnail warning in Plugins table */
-	// Function defined in dcg-admin-core.php
-	add_action( 'after_plugin_row_' . DFCG_FILE_NAME, 'dfcg_checks' );
-
-	/* Admin - Adds Upgrade nag to DCG Settings page */
-	// Function defined in dcg-admin-core.php
-	add_action( 'admin_notices', 'dfcg_upgrade_nag', 9 );
-	
-	/* Admin - Adds Admin Notice when resetting Settings */
-	// Function defined in dcg-admin-core.php
-	add_action( 'admin_notices', 'dfcg_settings_reset' );
-	
-	/* Admin - Adds WP version and Post Thumbnail warning to relevant admin pages */
-	// Function defined in dcg-admin-core.php
-	add_action( 'admin_notices', 'dfcg_admin_notices' );
-	
-	/* Admin - Adds WP version and Post Thumbnail warning to relevant admin pages */
-	// Function defined in dcg-admin-core.php
-	add_action( 'admin_notices', 'dfcg_metabox_notices', 20 );
-
-	/* Admin - Adds additional links in main Plugins page */
-	// Function defined in dcg-admin-core.php
-	add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
-
-	/* Admin - Adds additional Settings link in main Plugin page */
-	// Function defined in dcg-admin-core.php
-	add_filter( 'plugin_action_links', 'dfcg_filter_plugin_actions', 10, 2 );
-	
-	/* Admin - Adds list of DCG image sizes to Media Uploader */
-	// Function defined in dcg-admin-core.php
-	add_filter( 'image_size_names_choose', 'dfcg_filter_image_size_names_muploader', 100, 1 );
 }
 
 /**** Added in version 4.0 *****/
