@@ -36,9 +36,9 @@ if( !defined( 'ABSPATH' ) ) {
 /**
  * Load textdomain for Internationalisation functionality
  *
- * Loads textdomain if $dfcg_text_loaded (global variable) is false
- *
  * Called by dcg-admin-ui-screen.php
+ *
+ * Loads textdomain if $dfcg_text_loaded (global variable) is false
  *
  * Note: .mo file should be named dynamic_content_gallery-xx_XX.mo and placed in the DCG plugin's languages folder.
  * xx_XX is the language code
@@ -185,9 +185,9 @@ function dfcg_options_page(){
 /**
  * Filter callback to display a Settings link in main Plugin page in Dashboard
  *
- * Puts the Settings link in with Deactivate/Activate links in Plugins Settings page
- *
  * Hooked to 'plugin_action_links' filter
+ *
+ * Puts the 'Settings' link in with Deactivate/Activate links in Plugins page
  *
  * @param $links array, default links shown in first column, main Dashboard Plugins page
  * @param $file string, file name of main plugin file
@@ -211,10 +211,10 @@ function dfcg_filter_plugin_actions($links, $file){
 /**
  * Filter callback to display Plugin Meta Links in main Plugin page in Dashboard
  *
+ * Hooked to 'plugin_row_meta filter' so only works for WP 2.8+
+ *
  * Adds additional meta links in the plugin's info section in main Plugins Settings page
  * Note: these links will only appear if plugin is activated
- *
- * Hooked to 'plugin_row_meta filter' so only works for WP 2.8+
  *
  * @param $links array, default links for each plugin row
  * @param $file string, plugins.php filehook
@@ -257,7 +257,7 @@ function dfcg_plugin_meta( $links, $file ) {
  * @return $msg string, additional message for WPMS when WP version is insufficient
  * @since 4.0
  */
-function dfcg_messages_wpms() {
+function dfcg_do_messages_wpms() {
 	
 	$msg = __('Please contact your Network Administrator.', DFCG_DOMAIN);
 			
@@ -273,7 +273,7 @@ function dfcg_messages_wpms() {
  * @return $msg string, message when WP version is insufficient
  * @since 4.0
  */
-function dfcg_version_messages() {
+function dfcg_do_version_messages() {
 			
 	$msg = __('<strong>DCG Warning!</strong> This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+';
 		
@@ -289,7 +289,7 @@ function dfcg_version_messages() {
  * @return $msg string, message when WP Post Thumbnails is not enabled
  * @since 4.0
  */
-function dfcg_post_thumbnail_messages() {
+function dfcg_do_post_thumbnail_messages() {
 
 	$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . 'faq/" target="_blank" title="DCG FAQ">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
 	
@@ -297,6 +297,14 @@ function dfcg_post_thumbnail_messages() {
 }
 
 
+/**
+ * Check WP version installed
+ * 
+ * Used by dfcg_checks() and dfcg_admin_notices()
+ *
+ * @return bool
+ * @since 4.0
+ */
 function dfcg_check_version() {
 
 	$wp_valid = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
@@ -308,6 +316,14 @@ function dfcg_check_version() {
 }
 
 
+/**
+ * Check if theme supports 'post-thumbnails'
+ * 
+ * Used by dfcg_checks() and dfcg_admin_notices()
+ *
+ * @return bool
+ * @since 4.0
+ */
 function dfcg_check_post_thumbnails() {
 
 	if( current_theme_supports( 'post-thumbnails' ) )
@@ -319,14 +335,14 @@ function dfcg_check_post_thumbnails() {
 /**
  * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
+ * Hooked to 'after_action_row_$plugin' filter
+ *
  * This function prints warning messages in the relevant row of the table in main Plugins screen.
  * This function replaces dfcg_wp_version_check() deprecated in v4.0
  *
- * Hooked to 'after_action_row_$plugin' filter
- *
- * @uses dfcg_version_messages()
- * @uses dfcg_post_thumbnail_messages()
- * @uses dfcg_messages_wpms()
+ * @uses dfcg_do_version_messages()
+ * @uses dfcg_do_post_thumbnail_messages()
+ * @uses dfcg_do_messages_wpms()
  *
  * @global $current_screen, current admin screen object
  * @return echos messages wrapped in necessary XHTML markup for display in Plugins table
@@ -340,6 +356,7 @@ function dfcg_checks() {
 	if( $current_screen->id !== "plugins" )
 		return;
 	
+	// Do the checks
 	$check = dfcg_check_version();
 	$thumbs = dfcg_check_post_thumbnails();
 	
@@ -360,10 +377,10 @@ function dfcg_checks() {
 	// WP Version is not valid
 	if( !$check ) {
 	
-		$msg = dfcg_version_messages();
+		$msg = dfcg_do_version_messages();
 		
 		if( is_multisite() )
-			$msg .= dfcg_messages_wpms();
+			$msg .= dfcg_do_messages_wpms();
 			
 		echo $msg_tr . $msg_div_red . $msg . $msg_end;
 	}
@@ -371,10 +388,10 @@ function dfcg_checks() {
 	// Post Thumbnails not enabled
 	if( !$thumbs ) {
 		
-		$msg = dfcg_post_thumbnail_messages();
+		$msg = dfcg_do_post_thumbnail_messages();
 		
 		if( is_multisite() )
-			$msg .= dfcg_messages_wpms();
+			$msg .= dfcg_do_messages_wpms();
 		
 		echo $msg_tr . $msg_div_def . $msg . $msg_end;
 	}
@@ -384,10 +401,9 @@ function dfcg_checks() {
 /**
  * Function to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
  *
- * DCG v3.0 requires WP 3.0+ to run.
- * This function prints Admin Notices warning messages at top of DCG Settings page.
- *
  * Hooked to 'admin_notices'
+ *
+ * This function prints Admin Notices warning messages at top of DCG Settings page.
  *
  * Uses dfcg_version_messages() and dfcg_post_thumbnail_messages()
  *
@@ -433,13 +449,12 @@ function dfcg_admin_notices() {
 /**
  * Function to display Admin Notices after Settings Page reset
  *
- * Displays Admin Notices after Settings are reset
- *
  * Hooked to 'admin_notices' action
  *
- * This function replaces dfcg_admin_notice_reset() deprecated in v3.4
+ * Echos the message, resets 'just-reset' to false and updates db options
+ * This function replaces dfcg_admin_notice_reset() deprecated in v4.0
  *
- * @global array $dfcg_options db main plugin options
+ * @global $dfcg_options array, db main plugin options
  * @since 3.0
  * @updated 4.0
  */	
@@ -451,9 +466,9 @@ function dfcg_settings_reset() {
 	
 		echo '<div id="message" class="updated fade" style="background-color:#ecfcde; border:1px solid #a7c886;"><p><strong>' . __('Dynamic Content Gallery Settings have been reset to default settings.', DFCG_DOMAIN) . '</strong></p></div>';
 
-		// Reset just-reset to false and update db options
 		$dfcg_options['just-reset'] = 'false';
-		update_option('dfcg_plugin_settings', $dfcg_options);
+		
+		update_option( 'dfcg_plugin_settings', $dfcg_options );
 	}
 }
 
@@ -461,9 +476,9 @@ function dfcg_settings_reset() {
 /**
  * Function to display Admin Notices if DCG Metabox validation errors
  *
- * Displays Admin Notices after DCG Metabox is saved
- *
  * Hooked to 'admin_notices' action
+ *
+ * Displays Admin Notices after DCG Metabox is saved
  *
  * @global array $dfcg_metabox_validate db metabox validate option 
  * @since 4.0
