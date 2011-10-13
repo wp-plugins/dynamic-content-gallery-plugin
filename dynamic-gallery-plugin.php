@@ -350,6 +350,7 @@ if( is_admin() ) {
 	require_once( DFCG_LIB_DIR . '/includes/dcg-admin-ui-sanitise.php' );
 	require_once( DFCG_LIB_DIR . '/includes/dcg-admin-metaboxes.php' );
 	require_once( DFCG_LIB_DIR . '/includes/dcg-admin-key-settings.php' );
+	require_once( DFCG_LIB_DIR . '/includes/dcg-admin-ui-help.php' );
 }
 
 // DCG Widget
