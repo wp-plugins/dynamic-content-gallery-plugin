@@ -490,7 +490,7 @@ function dfcg_settings_reset() {
 /**
  * Filter callback to display messages if DCG Metabox validation errors
  *
- * Hooked to 'post_updated_messages' action
+ * Hooked to 'post_updated_messages' filter
  *
  * For details of $messages array see wp-admin/edit-form-advanced.php
  *
@@ -506,6 +506,8 @@ function dfcg_metabox_save_notices( $messages ) {
 	if( $dfcg_utilities['main-override'] !== 'true' && $dfcg_utilities['thumb-override'] !== 'true' )
 		return $messages; // Nothing to do here
 		
+	var_dump($post);
+	
 	if( $dfcg_utilities['main-override'] == 'true' ) {
 	
 		// Reset main-override to false and update db options
