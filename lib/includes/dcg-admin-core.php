@@ -141,8 +141,8 @@ function dfcg_load_admin_scripts() {
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	wp_enqueue_script( 'jquery-ui-draggable' );
-	wp_enqueue_script( 'dfcg_admin_js', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.js' );
-	wp_enqueue_script( 'dfcg_cluetip_js', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.min.js' );
+	wp_enqueue_script( 'dfcg_admin_js', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.js', false, DFCG_VER );
+	wp_enqueue_script( 'dfcg_cluetip_js', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.min.js', false, DFCG_VER );
 }
 
 
@@ -155,9 +155,9 @@ function dfcg_load_admin_scripts() {
  */
 function dfcg_load_admin_styles() {
 	
-	wp_enqueue_style( 'dfcg_admin_css', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.css' );
-	wp_enqueue_style( 'dfcg_tabs_css', DFCG_LIB_URL . '/admin-css-js/tabs/dcg-tabs-ui.css' );
-	wp_enqueue_style( 'dfcg_cluetip_css', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.css' );
+	wp_enqueue_style( 'dfcg_admin_css', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.css', false, DFCG_VER );
+	wp_enqueue_style( 'dfcg_tabs_css', DFCG_LIB_URL . '/admin-css-js/tabs/dcg-tabs-ui.css', false, DFCG_VER );
+	wp_enqueue_style( 'dfcg_cluetip_css', DFCG_LIB_URL . '/admin-css-js/cluetip/jquery.cluetip.css', false, DFCG_VER );
 }
 
 
