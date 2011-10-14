@@ -283,7 +283,7 @@ function dfcg_ui_gallery() {
 	?>
 	<h3 class="top" id="gallery-method"><?php _e('Gallery Method (REQUIRED):', DFCG_DOMAIN); ?></h3>
 	
-	<p><?php _e('The Dynamic Content Gallery offers various methods for populating the gallery with images. Select the option most appropriate for your needs, then set up your chosen method\'s options.', DFCG_DOMAIN); ?></p>
+	<p><?php _e('The Dynamic Content Gallery offers various methods for populating the gallery with images. Select the option most appropriate for your needs, then set up your chosen method\'s options below.', DFCG_DOMAIN); ?></p>
 
 	<table class="optiontable form-table">
 		<tbody>
@@ -345,7 +345,7 @@ function dfcg_ui_gallery() {
 				<td><?php _e('Images are pulled from a user-definable number of Posts from a Custom Post Type. Select this option then set up the Custom Post Type settings below.', DFCG_DOMAIN); ?></td>
 			</tr>
 			
-			<?php endif; ?>
+			<?php endif; // End Custom Post Type check ?>
 			
 		</tbody>
 	</table>
@@ -411,7 +411,7 @@ function dfcg_ui_multi() {
 			<tr valign="top">
 				<th scope="row"><?php _e('1st image', DFCG_DOMAIN); ?></th>
 				<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat01'], 'name' => 'dfcg_plugin_settings[cat01]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1, 'id' => 'cat01' )); ?></td>
-				<td><input name="dfcg_plugin_settings[off01]" size="5" value="<?php echo $dfcg_options['off01']; ?>" /><a class="load-local" href="#dfcg-tip-mo-ps" rel="#dfcg-tip-mo-ps" title="<?php esc_attr_e('Tip: Post Select', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[off01]" size="5" value="<?php echo $dfcg_options['off01']; ?>" /><a class="load-local" href="#dfcg-tip-mo-ps" rel="#dfcg-tip-mo-ps" title="<?php esc_attr_e('Tip: Post Select', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
 			</tr>
 			
 			<tr valign="top">
@@ -461,26 +461,23 @@ function dfcg_ui_multi() {
 				<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat09'], 'name' => 'dfcg_plugin_settings[cat09]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1, 'id' => 'cat09' )); ?></td>
 				<td><input name="dfcg_plugin_settings[off09]" size="5" value="<?php echo $dfcg_options['off09']; ?>" /></td>
 			</tr>
-		</tbody>
-	</table>
+		
+			<?php if ( !is_multisite() ) : ?>
 	
-	<?php if ( !is_multisite() ) : ?>
-	<table class="optiontable form-table">
-		<tbody>
 			<tr valign="top">
 				<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[defimgmulti]" size="75" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
-				<a class="load-local" href="#dfcg-tip-mo-def" rel="#dfcg-tip-mo-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-				<br />
-				<?php _e('This must be an <b>absolute</b> URL.', DFCG_DOMAIN); ?></td>
+				<td colspan="2">
+					<input name="dfcg_plugin_settings[defimgmulti]" size="75" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
+					<a class="load-local" href="#dfcg-tip-mo-def" rel="#dfcg-tip-mo-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
+				</td>
 			</tr>
-			
+			<?php endif; // End if MS ?>
 		</tbody>
 	</table>
-	<?php endif; ?>
 	
 	</div><!-- end .dfcg-panel-multi-opts -->
 	
+	<!-- Tool tips -->
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-1">
 		<p><?php esc_attr_e('If you want to pull in the latest posts from one category, do not use Multi Option, use the One Category Gallery Method instead - it is much more efficient in terms of database queries.', DFCG_DOMAIN); ?></p><p><?php esc_attr_e("Want to show less than 9 images? Delete the contents of the Post Select fields for image slots you don't need.", DFCG_DOMAIN); ?></p>
 	</div>
@@ -490,7 +487,6 @@ function dfcg_ui_multi() {
 	</div>
 	
 	<?php if ( !is_multisite() ) : // Hide if in WPMS ?>
-	
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-def">
 		<p><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
 		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
@@ -524,10 +520,12 @@ function dfcg_ui_onecat() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row"><?php _e('Select the Category:', DFCG_DOMAIN); ?></th>
+				<td></td>
 				<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat-display'], 'name' => 'dfcg_plugin_settings[cat-display]', 'orderby' => 'Name' , 'id' => 'cat-display', 'hierarchical' => 0, 'hide_empty' => 1, 'show_option_all' => __('All', DFCG_DOMAIN) )); ?><span style="padding-left:30px"><em><?php _e('Posts from this category will be displayed in the gallery.', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Number of Posts to display:', DFCG_DOMAIN); ?></th>
+				<td></td>
 				<td><select name="dfcg_plugin_settings[posts-number]">
 					<option style="padding-right:10px;" value="2" <?php selected('2', $dfcg_options['posts-number']); ?>>2</option>
 					<option style="padding-right:10px;" value="3" <?php selected('3', $dfcg_options['posts-number']); ?>>3</option>
@@ -546,24 +544,22 @@ function dfcg_ui_onecat() {
 					</select>
 					<span style="padding-left:30px"><em><?php _e('The minimum number of Posts is 2, the maximum is 15 (for performance reasons).', DFCG_DOMAIN); ?></em></span></td>
 			</tr>
-		</tbody>
-	</table>
 	
-	<?php if ( !is_multisite() ) : ?>
-	<table class="optiontable form-table">
-		<tbody>
+			<?php if ( !is_multisite() ) : ?>
+	
 			<tr valign="top">
 				<th scope="row"><?php _e('URL to default images folder:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" />
-				<a class="load-local" href="#dfcg-tip-oc-def" rel="#dfcg-tip-oc-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-				<br /><?php _e('This must be an <b>absolute</b> URL.', DFCG_DOMAIN); ?></td>
+				<td><a class="load-local" href="#dfcg-tip-oc-def" rel="#dfcg-tip-oc-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" /></td>
 			</tr>
-			
+			<?php endif; // End if MS ?>
 		</tbody>
 	</table>
 	
 	</div><!-- end .dfcg-panel-onecat-opts -->
 	
+	<!-- Tool tips -->
+	<?php if ( !is_multisite() ) : ?>
 	<div class="dfcg-tip-hidden" id="dfcg-tip-oc-def">
 		<p><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
 		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
@@ -598,38 +594,38 @@ function dfcg_ui_id() {
 		<tbody>
 			<tr>
 				<th scope="row"><?php _e('Page/Post ID numbers:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[ids-selected]" id="dfcg-ids-selected" size="75" value="<?php echo $dfcg_options['ids-selected']; ?>" />
-				<a class="load-local" href="#dfcg-tip-id-numbers" rel="#dfcg-tip-id-numbers" title="<?php esc_attr_e('Tip: Page/Post ID numbers', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-				</td>
+				<td><a class="load-local" href="#dfcg-tip-id-numbers" rel="#dfcg-tip-id-numbers" title="<?php esc_attr_e('Tip: Page/Post ID numbers', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[ids-selected]" id="dfcg-ids-selected" size="75" value="<?php echo $dfcg_options['ids-selected']; ?>" /></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Use Custom Image Order:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[id-sort-control]" id="dfcg-id-sort-control" type="checkbox" value="1" <?php checked('true', $dfcg_options['id-sort-control']); ?> />
-				<a class="load-local" href="#dfcg-tip-id-sort" rel="#dfcg-tip-id-sort" title="<?php esc_attr_e('Tip: Custom Image Order', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><a class="load-local" href="#dfcg-tip-id-sort" rel="#dfcg-tip-id-sort" title="<?php esc_attr_e('Tip: Custom Image Order', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[id-sort-control]" id="dfcg-id-sort-control" type="checkbox" value="1" <?php checked('true', $dfcg_options['id-sort-control']); ?> /></td>
 			</tr>
-		</tbody>
-	</table>
+		
+			<?php if ( !is_multisite() ) : ?>
 	
-	<?php if ( !is_multisite() ) : ?>
-	<table class="optiontable form-table">
-		<tbody>
 			<tr>
 				<th scope="row"><?php _e('Specify a default image:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[defimgid]" id="dfcg-defimgid" size="75" value="<?php echo $dfcg_options['defimgid']; ?>" />
-				<br /><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?>
-				<br /><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em>
-				<a class="load-local" href="#dfcg-tip-id-def" rel="#dfcg-tip-id-def" title="<?php esc_attr_e('Tip: Default Image', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-				</td>
+				<td><a class="load-local" href="#dfcg-tip-id-def" rel="#dfcg-tip-id-def" title="<?php esc_attr_e('Tip: Default Image', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[defimgid]" id="dfcg-defimgid" size="75" value="<?php echo $dfcg_options['defimgid']; ?>" /></td>
 			</tr>
+			
+			<?php endif; // End if MS ?>
 			
 		</tbody>
 	</table>
 	
-	<div class="dfcg-tip-hidden" id="dfcg-tip-id-def"><p><?php esc_attr_e("This image will be displayed in the event that your selected Page/Post ID's do not have an image specified in the DCG Metabox Image URL field.", DFCG_DOMAIN); ?></p></div>
-
-	<?php endif; ?>
-	
 	</div><!-- end .dfcg-panel-id-opts -->
+	
+	<!-- Tool tips -->
+	<?php if ( !is_multisite() ) : ?>
+	<div class="dfcg-tip-hidden" id="dfcg-tip-id-def">
+		<p><?php esc_attr_e("This image will be displayed in the event that your selected Page/Post ID's do not have an image specified in the DCG Metabox Image URL field.", DFCG_DOMAIN); ?></p>
+		<p><?php _e('Upload a suitable image to your server and enter the absolute URL to this default image.', DFCG_DOMAIN); ?></p>
+		<p><?php _e('For example: ', DFCG_DOMAIN); ?><em>http://www.yourdomain.com/somefolder/anotherfolder/mydefaultimage.jpg</em></p>
+	</div>
+	<?php endif; // End if MS ?>
 
 	<div class="dfcg-tip-hidden" id="dfcg-tip-id-numbers">
 		<p><?php esc_attr_e("Enter ID's in a comma separated list with no spaces, eg: 2,7,8,19,21", DFCG_DOMAIN); ?></p>
@@ -675,6 +671,7 @@ function dfcg_ui_custom_post() {
 		<tbody>
 			<tr valign="top">
 				<th scope="row"><?php _e('Select the Custom Post Type:', DFCG_DOMAIN); ?></th>
+				<td><a class="load-local" href="#dfcg-tip-cpt-type" rel="#dfcg-tip-cpt-type" title="<?php esc_attr_e('Tip: Custom Post Type', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
 				<td><select name="dfcg_plugin_settings[cpt-name]">
 						 
   						<?php
@@ -686,14 +683,15 @@ function dfcg_ui_custom_post() {
 					</select>
 					
 					<span style="padding-left:30px"><em><?php _e('Posts from this Custom Post Type will be displayed in the gallery.', DFCG_DOMAIN); ?></em></span>
-					<a class="load-local" href="#dfcg-tip-cpt-type" rel="#dfcg-tip-cpt-type" title="<?php esc_attr_e('Tip: Custom Post Type', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-					<a class="load-local" href="#dfcg-tip-cpt-warn" rel="#dfcg-tip-cpt-warn" title="<?php esc_attr_e('Important Note:', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/exclamation.png'; ?>" alt="" /></a>
+					
+					<a class="load-local" href="#dfcg-tip-cpt-warn" rel="#dfcg-tip-cpt-warn" title="<?php esc_attr_e('Important Note:', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/exclamation.png'; ?>" alt="" /></a>
 				</td>
 			</tr>
 					
 			<tr valign="top">
 			
 				<th scope="row"><?php _e('Select the Taxonomy Term:', DFCG_DOMAIN); ?></th>
+				<td><a class="load-local" href="#dfcg-tip-cpt-tax" rel="#dfcg-tip-cpt-tax" title="<?php esc_attr_e('Tip: Taxonomy', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
 				<td><select name="dfcg_plugin_settings[cpt-tax-and-term]">
 					<option value="all" <?php selected('all', $dfcg_options['cpt-tax-and-term']); ?>><?php esc_attr_e('All', DFCG_DOMAIN); ?></option>
 					
@@ -717,12 +715,13 @@ function dfcg_ui_custom_post() {
 				<?php endforeach; endforeach; ?>
 								
 					</select>
-					<span style="padding-left:30px"><em><?php _e('Posts from this Taxonomy Term will be displayed in the gallery.', DFCG_DOMAIN); ?></em></span><a class="load-local" href="#dfcg-tip-cpt-tax" rel="#dfcg-tip-cpt-tax" title="<?php esc_attr_e('Tip: Taxonomy', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
+					<span style="padding-left:30px"><em><?php _e('Posts from this Taxonomy Term will be displayed in the gallery.', DFCG_DOMAIN); ?></em></span>
 				</td>
 			</tr>
 				
 			<tr valign="top">
 				<th scope="row"><?php _e('Number of Custom Posts to display:', DFCG_DOMAIN); ?></th>
+				<td></td>
 				<td><select name="dfcg_plugin_settings[cpt-posts-number]">
 					<option style="padding-right:10px;" value="2" <?php selected('2', $dfcg_options['cpt-posts-number']); ?>>2</option>
 					<option style="padding-right:10px;" value="3" <?php selected('3', $dfcg_options['cpt-posts-number']); ?>>3</option>
@@ -742,34 +741,31 @@ function dfcg_ui_custom_post() {
 					<span style="padding-left:70px"><em><?php _e('The minimum number of Custom Posts is 2, the maximum is 15 (for performance reasons).', DFCG_DOMAIN); ?></em></span>
 				</td>
 			</tr>
-		</tbody>
-	</table>
-			
-	<?php if ( !is_multisite() ) : ?>
-	<table class="optiontable form-table">
-		<tbody>
+		
+			<?php if ( !is_multisite() ) : ?>
+	
 			<tr valign="top">
 				<th scope="row"><?php _e('URL to default "Taxonomy" images folder:', DFCG_DOMAIN); ?></th>
-				<td><input name="dfcg_plugin_settings[defimgcustompost]" id="dfcg-defimgcustompost" size="75" value="<?php echo $dfcg_options['defimgcustompost']; ?>" />
-				<a class="load-local" href="#dfcg-tip-cpt-def" rel="#dfcg-tip-cpt-def" title="<?php esc_attr_e('Tip: Default Images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
-				<br />
-				<?php _e('This must be an <b>absolute</b> URL.', DFCG_DOMAIN); ?></td>
+				<td><a class="load-local" href="#dfcg-tip-cpt-def" rel="#dfcg-tip-cpt-def" title="<?php esc_attr_e('Tip: Default Images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[defimgcustompost]" id="dfcg-defimgcustompost" size="75" value="<?php echo $dfcg_options['defimgcustompost']; ?>" /></td>
 			</tr>
+			<?php endif; // In MS or not ?>
 			
 		</tbody>
 	</table>
-	
-	<div class="dfcg-tip-hidden" id="dfcg-tip-cpt-def">
-		<p><?php esc_attr_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox Image URL.', DFCG_DOMAIN); ?></p>
-		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
-	</div>
-			
-	<?php endif; // In MS or not ?>
 	
 	<?php endif; // Custom Post types exist ?>
 	
 	</div><!-- end .dfcg-panel-cpt-opts -->
 	
+	<!-- Tool tips -->
+	<?php if ( !is_multisite() ) : ?>
+	<div class="dfcg-tip-hidden" id="dfcg-tip-cpt-def">
+		<p><?php esc_attr_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox Image URL.', DFCG_DOMAIN); ?></p>
+		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
+	</div>
+	<?php endif; // In MS or not ?>
+			
 	<?php if( !empty( $post_types ) ) : ?>
 	
 	<div class="dfcg-tip-hidden" id="dfcg-tip-cpt-type">
@@ -827,13 +823,13 @@ function dfcg_ui_desc() {
 				<label for="desc-method-manual"><?php _e('Manual', DFCG_DOMAIN); ?></label></th>
 				<td>
 					<p><?php _e('Descriptions must be created manually in the in-post DCG Metabox.', DFCG_DOMAIN); ?>
-					<a class="load-local" href="#dfcg-tip-desc-man" rel="#dfcg-tip-desc-man" title="<?php esc_attr_e('Tip: Manual Descriptions', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></p>
+					<a class="load-local" href="#dfcg-tip-desc-man" rel="#dfcg-tip-desc-man" title="<?php esc_attr_e('Tip: Manual Descriptions', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></p>
 					
 					<!-- start .dfcg-panel-desc-man-opts -->
 					<div class="dfcg-panel-desc-man-opts <?php if( $dfcg_options['desc-method'] !== 'manual' ) echo 'hidden'; ?>">
 					
 				<label for="dfcg-defimagedesc"><?php _e('Manual default Description:', DFCG_DOMAIN); ?> <em><?php _e('Allowed XHTML tags are:', DFCG_DOMAIN); ?></em> &lt;a href=" " title=" "&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br /&gt;</label>
-				<a class="load-local" href="#dfcg-tip-desc-man-fback" rel="#dfcg-tip-desc-man-fback" title="<?php esc_attr_e('Tip: Manual default Description', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
+				<a class="load-local" href="#dfcg-tip-desc-man-fback" rel="#dfcg-tip-desc-man-fback" title="<?php esc_attr_e('Tip: Manual default Description', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a>
 				<br />
 				<textarea name="dfcg_plugin_settings[defimagedesc]" id="dfcg-defimagedesc" cols="85" rows="2"><?php echo stripslashes( $dfcg_options['defimagedesc'] ); ?></textarea>
 				<p><input name="dfcg_plugin_settings[desc-man-link]" id="dfcg-desc-man-link" type="checkbox" value="1" <?php checked('true', $dfcg_options['desc-man-link']); ?> /><span style="padding-left:20px"><em>Append "Read More" link to manual descriptions</em></span></p>
@@ -1029,7 +1025,7 @@ function dfcg_ui_js_framework() {
 	global $dfcg_options;
 	?>
 	<h3><?php _e('Select Javascript framework (OPTIONAL):', DFCG_DOMAIN); ?></h3>
-	<p><?php _e('Select the javascript framework to be used to display the gallery.', DFCG_DOMAIN); ?><a class="load-local" href="#dfcg-tip-js-warn" rel="#dfcg-tip-js-warn" title="<?php esc_attr_e('Important Note:', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/exclamation.png'; ?>" alt="" /></a></p>
+	<p><?php _e('Select the javascript framework to be used to display the gallery.', DFCG_DOMAIN); ?><a class="load-local" href="#dfcg-tip-js-warn" rel="#dfcg-tip-js-warn" title="<?php esc_attr_e('Important Note:', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/exclamation.png'; ?>" alt="" /></a></p>
 		
 	<table class="optiontable form-table">
 		<tbody>
@@ -1172,34 +1168,40 @@ function dfcg_ui_restrict_scripts() {
 
 	<table class="optiontable form-table">
 		<tbody>
+		
 			<tr valign="top">
 				<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-home" type="radio" style="margin-right:5px;" value="homepage" <?php checked('homepage', $dfcg_options['limit-scripts']); ?> />
 				<label for="limit-scripts-home"><?php _e('Home page only (Default)', DFCG_DOMAIN); ?></label></th>
-				<td><?php _e("Select this option to load the plugin's scripts ONLY on the home page.", DFCG_DOMAIN); ?>
-				<a class="load-local" href="#dfcg-tip-script-home" rel="#dfcg-tip-script-home" title="<?php esc_attr_e('Tip: Home page', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><a class="load-local" href="#dfcg-tip-script-home" rel="#dfcg-tip-script-home" title="<?php esc_attr_e('Tip: Home page', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><?php _e("Select this option to load the plugin's scripts ONLY on the home page.", DFCG_DOMAIN); ?></td>
 			</tr>
+			
 			<tr valign="top">
 				<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-pages" type="radio" style="margin-right:5px;" value="page" <?php checked('page', $dfcg_options['limit-scripts']); ?> />
 				<label for="limit-scripts-pages"><?php _e('Pages', DFCG_DOMAIN); ?></label></th>
+				<td><a class="load-local" href="#dfcg-tip-script-page" rel="#dfcg-tip-script-page" title="<?php esc_attr_e('Tip: Pages', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
 				<td><?php _e("Select this option to load the plugin's scripts ONLY when a specific Page is being used to display the gallery.", DFCG_DOMAIN); ?>
-				<a class="load-local" href="#dfcg-tip-script-page" rel="#dfcg-tip-script-page" title="<?php esc_attr_e('Tip: Pages', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a><br />
+				<br />
 				<?php esc_attr_e('Enter Page ID(s): ', DFCG_DOMAIN); ?>
-				<input name="dfcg_plugin_settings[page-ids]" id="dfcg-page-ids" size="45" value="<?php echo $dfcg_options['page-ids']; ?>" /><a class="load-local" href="#dfcg-tip-script-pid" rel="#dfcg-tip-script-pid" title="<?php esc_attr_e('Tip: Page ID\'s', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<input name="dfcg_plugin_settings[page-ids]" id="dfcg-page-ids" size="45" value="<?php echo $dfcg_options['page-ids']; ?>" />
+				</td>
 			</tr>
 			
 			<tr valign="top">
 				<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-page" type="radio" style="margin-right:5px;" value="pagetemplate" <?php checked('pagetemplate', $dfcg_options['limit-scripts']); ?> />
 				<label for="limit-scripts-page"><?php _e('Specific Page Template', DFCG_DOMAIN); ?></label></th>
+				<td><a class="load-local" href="#dfcg-tip-script-ptemp" rel="#dfcg-tip-script-ptemp" title="<?php esc_attr_e('Tip: Specific Page Template', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
 				<td><?php _e("Select this option to load the plugin's scripts ONLY when a specific Page Template is being used to display the gallery.", DFCG_DOMAIN); ?>
-				<a class="load-local" href="#dfcg-tip-script-ptemp" rel="#dfcg-tip-script-ptemp" title="<?php esc_attr_e('Tip: Specific Page Template', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a><br />
+				<br />
 				<?php esc_attr_e('Enter Page Template: ', DFCG_DOMAIN); ?>
-				<input name="dfcg_plugin_settings[page-filename]" id="dfcg-page-filename" size="45" value="<?php echo $dfcg_options['page-filename']; ?>" /><a class="load-local" href="#dfcg-tip-script-ptemp-file" rel="#dfcg-tip-script-ptemp-file" title="<?php esc_attr_e('Tip: Page Template filename', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<input name="dfcg_plugin_settings[page-filename]" id="dfcg-page-filename" size="45" value="<?php echo $dfcg_options['page-filename']; ?>" /></td>
 			</tr>
 			
 			<tr valign="top">
 				<th scope="row"><input name="dfcg_plugin_settings[limit-scripts]" id="limit-scripts-other" style="margin-right:5px;" type="radio" value="other" <?php checked('other', $dfcg_options['limit-scripts']); ?> />
 				<label for="limit-scripts-other"><?php _e('Other', DFCG_DOMAIN); ?></label></th>
-				<td><?php _e('Select this option if none of the above apply to your setup.', DFCG_DOMAIN); ?><a class="load-local" href="#dfcg-tip-script-other" rel="#dfcg-tip-script-other" title="<?php esc_attr_e('Tip: Other', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><a class="load-local" href="#dfcg-tip-script-other" rel="#dfcg-tip-script-other" title="<?php esc_attr_e('Tip: Other', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></td>
+				<td><?php _e('Select this option if none of the above apply to your setup.', DFCG_DOMAIN); ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -1210,14 +1212,10 @@ function dfcg_ui_restrict_scripts() {
 	</div>
 	<div class="dfcg-tip-hidden" id="dfcg-tip-script-page">
 		<p><?php esc_attr_e('Best option if the gallery is displayed using a Page.', DFCG_DOMAIN); ?></p>
-	</div>
-	<div class="dfcg-tip-hidden" id="dfcg-tip-script-pid">
 		<p><?php esc_attr_e('Enter ID of the Page, eg 42. Multiple pages are also possible, like this: 2,43,17', DFCG_DOMAIN); ?></p>
 	</div>
 	<div class="dfcg-tip-hidden" id="dfcg-tip-script-ptemp">
 		<p><?php esc_attr_e('Best option if the gallery is displayed using a Page Template.', DFCG_DOMAIN); ?></p>
-	</div>
-	<div class="dfcg-tip-hidden" id="dfcg-tip-script-ptemp-file">
 		<p><?php esc_attr_e('Filename of the Page Template, eg mypagetemplate.php.', DFCG_DOMAIN); ?></p>
 		<p><?php esc_attr_e('You can also enter more than one template filename using a comma separated list, eg template.php,template2.php,template3.php', DFCG_DOMAIN); ?></p>
 	</div>
@@ -1266,10 +1264,11 @@ function dfcg_ui_columns() {
 	?>
 	<h3 class="not-top"><?php _e('Add DCG information columns to Posts and Pages Edit screen (OPTIONAL)', DFCG_DOMAIN); ?></h3>
 	<p><?php _e('These settings let you display additional columns in the Edit Posts and Edit Pages screens to show the gallery <strong>Image URL</strong>, Slide Pane description, and current Featured Image.', DFCG_DOMAIN); ?></p>
-	<p><em><?php _e('To hide the additional columns in the Edit Posts and Edit Pages screens, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="load-local" href="#dfcg-tip-col-cpt" rel="#dfcg-tip-col-cpt" title="<?php esc_attr_e('Tip: Custom Post Types', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></p>
+	<p><em><?php _e('To hide the additional columns in the Edit Posts and Edit Pages screens, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="load-local" href="#dfcg-tip-col-cpt" rel="#dfcg-tip-col-cpt" title="<?php esc_attr_e('Tip: Custom Post Types', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_LIB_URL . '/admin-css-js/cluetip/images/help.png'; ?>" alt="" /></a></p>
 	
 	<table class="optiontable form-table">
 		<tbody>
+			
 			<tr valign="top">
 				<th scope="row"><?php _e('Show columns in Edit Posts:', DFCG_DOMAIN); ?></th>
 				<td>DCG Image: <input type="checkbox" name="dfcg_plugin_settings[posts-column]" id="dfcg-posts-column" value="1" <?php checked('true', $dfcg_options['posts-column']); ?> />
@@ -1278,6 +1277,7 @@ function dfcg_ui_columns() {
 				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[posts-featured-image-column]" id="dfcg-posts-featured-image-column" value="1" <?php checked('true', $dfcg_options['posts-featured-image-column']); ?> />
 				<?php endif; ?></td>
 			</tr>
+			
 			<tr valign="top">
 				<th scope="row"><?php _e('Show columns in Edit Pages:', DFCG_DOMAIN); ?></th>
 				<td><?php _e('DCG Image:', DFCG_DOMAIN); ?> <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?> />
@@ -1287,6 +1287,14 @@ function dfcg_ui_columns() {
 				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-featured-image-column]" id="dfcg-pages-featured-image-column" value="1" <?php checked('true', $dfcg_options['pages-featured-image-column']); ?> />
 				<?php endif; ?></td>
 			</tr>
+		</tbody>
+	</table>
+	
+	<h3 class="not-top"><?php _e('Add DCG Image sizes to Media Uploader (OPTIONAL)', DFCG_DOMAIN); ?></h3>
+	<p><?php _e('Check the box if you want to add the DCG Image sizes to the Media Uploader and access these sizes for insertion into posts, etc.', DFCG_DOMAIN); ?></p>
+			
+	<table class="optiontable form-table">
+		<tbody>	
 			<tr valign="top">
 				<th scope="row"><?php _e('Add DCG Image sizes to Media Uploader:', DFCG_DOMAIN); ?></th>
 				<td><?php _e('Yes:', DFCG_DOMAIN); ?> <input type="checkbox" name="dfcg_plugin_settings[add-media-sizes]" id="dfcg-add-media-sizes" value="1" <?php checked('true', $dfcg_options['add-media-sizes']); ?> />

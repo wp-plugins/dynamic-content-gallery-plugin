@@ -27,15 +27,15 @@
 /*.dfcg-panel h3 {padding:12px 0 0; color:#005170;margin:0;}*/
 .dfcg-panel h3.not-top {padding:30px 0 0;}
 .dfcg-panel a img {vertical-align:middle; margin:0 15px 0 0;}/*ok*/
-.dfcg-panel td a img {display:block; margin:0 auto;}/*ok*/
+.dfcg-panel td a.load-local img {display:block; margin:0 auto;}/*ok*/
 
 /* Key Settings stuff */
 .dfcg-key-settings {margin:0; padding:12px 0 20px 0;}/*ok*/
 .dfcg-key-settings table {width:78%;}/*ok*/
 .dfcg-key-settings table td {background:#f6f6f6;padding:5px 10px;color:#666666;}/*ok*/
 .dfcg-key-settings table td.first {width:200px;vertical-align:top;}/*ok*/
-.dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 3px 6px #f6f6f6;vertical-align:top;}
-.dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 3px 6px #f6f6f6;vertical-align:top;}
+.dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
+.dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
 
 /*.error {color:#cc6600;}*/
 .bold-italic {font-weight:bold;font-style:italic;}
@@ -54,7 +54,7 @@
 .sgr-credits {border-top:1px solid #dfdfdf;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left; color:#777777;}
 
 /* cluetips */
-.load-local img {margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
+.dfcg-panel td a.load-local img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
 .dfcg-tip-hidden p {margin:0 0 10px 0; padding:0;}
 
 /* Form elements */
