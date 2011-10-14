@@ -166,7 +166,7 @@ function dfcg_ui_image() {
 			<td><?php esc_html_e('Manual option (no longer recommended). Enter Image URLs (absolute URL) directly into the DCG Metabox in the Write Post/Page Editor.', DFCG_DOMAIN); ?></td>
 		</tr>			
 			
-		<?php if ( !function_exists('wpmu_create_blog') ) : // we're in normal WP ?>
+		<?php if ( !is_multisite() ) : // we're in normal WP ?>
 		
 		<tr valign="top">
 			<th scope="row">
@@ -219,7 +219,7 @@ function dfcg_ui_image() {
 </div><!-- end #dfcg-panel-image-bottom -->
 <?php endif; ?>
 	
-<?php if ( function_exists('wpmu_create_blog') ) : // we're in WPMS ?>
+<?php if ( is_multisite() ) : // we're in WPMS ?>
 
 <h3><?php esc_attr_e('Uploading your images', DFCG_DOMAIN); ?></h3>
 <p><?php esc_attr_e('Use the Media Uploader in the Write Post/Page screen to upload your gallery images. With the Media Uploader pop-up open, select "Choose Files to Upload" and browse to your chosen image. Once the Media Uploader screen has uploaded your file and finished "crunching", copy the URL shown in the "File URL" box and paste it in to the <strong>Image URL</strong> field in the DCG Metabox in the Write Post/Page screen.', DFCG_DOMAIN); ?></p>
@@ -251,7 +251,7 @@ function dfcg_ui_image() {
 </div>
 
 <?php // Need to hide these tool-tips if in WPMS
-if ( !function_exists('wpmu_create_blog') ) : ?>
+if ( !is_multisite() ) : ?>
 	
 <div class="dfcg-tip-hidden" id="dfcg-tip-im-part">
 	<p><?php esc_attr_e('This option is no longer recommended, and is only kept for backwards compatibility for those users who already use this option.', DFCG_DOMAIN); ?></p>
@@ -464,7 +464,7 @@ function dfcg_ui_multi() {
 		</tbody>
 	</table>
 	
-	<?php if ( !function_exists('wpmu_create_blog') ) : ?>
+	<?php if ( !is_multisite() ) : ?>
 	<table class="optiontable form-table">
 		<tbody>
 			<tr valign="top">
@@ -489,7 +489,7 @@ function dfcg_ui_multi() {
 		<p><?php _e('Example: Enter <strong>1</strong> for latest post, <strong>2</strong> for the last-but-one post, etc.', DFCG_DOMAIN); ?></p>
 	</div>
 	
-	<?php if ( !function_exists('wpmu_create_blog') ) : // Hide if in WPMS ?>
+	<?php if ( !is_multisite() ) : // Hide if in WPMS ?>
 	
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-def">
 		<p><?php _e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
@@ -549,7 +549,7 @@ function dfcg_ui_onecat() {
 		</tbody>
 	</table>
 	
-	<?php if ( !function_exists('wpmu_create_blog') ) : ?>
+	<?php if ( !is_multisite() ) : ?>
 	<table class="optiontable form-table">
 		<tbody>
 			<tr valign="top">
@@ -610,7 +610,7 @@ function dfcg_ui_id() {
 		</tbody>
 	</table>
 	
-	<?php if ( !function_exists('wpmu_create_blog') ) : ?>
+	<?php if ( !is_multisite() ) : ?>
 	<table class="optiontable form-table">
 		<tbody>
 			<tr>
@@ -745,7 +745,7 @@ function dfcg_ui_custom_post() {
 		</tbody>
 	</table>
 			
-	<?php if ( !function_exists('wpmu_create_blog') ) : ?>
+	<?php if ( !is_multisite() ) : ?>
 	<table class="optiontable form-table">
 		<tbody>
 			<tr valign="top">

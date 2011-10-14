@@ -11,10 +11,9 @@
  *
  * @info Settings page for Wordpress and Wordpress Mu.
  *
- * All UI functions on this page are defined in dfcg-admin-ui-functions.php
- * dfcg_load_textdomain()		- defined in dfcg-admin-core.php
- * dfcg_options_js()			- defined in dfcg-admin-ui-js.php (Deprecated v3.4)
- * dfcg_on_load_validation()	- defined in dfcg-admin-ui-validation.php
+ * All UI functions on this page are defined in dcg-admin-ui-functions.php
+ * dfcg_load_textdomain()		- defined in dcg-admin-core.php
+ * dfcg_on_load_validation()	- defined in dcg-admin-ui-validation.php
  *
  * @since 3.0
  * @updated 4.0
@@ -54,8 +53,8 @@ dfcg_on_load_validation($dfcg_options);
 	<div id="dfcg-tabs">
 		<ul id="dfcg-tab-titles">
 			<li id="dfcg-tab-general"><a href="#dfcg-panel-general"><?php _e('General', DFCG_DOMAIN) ?></a></li>
-			<li id="dfcg-tab-image"><a href="#dfcg-panel-image"><?php _e('Image Management', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-gallery"><a href="#dfcg-panel-gallery"><?php _e('Gallery Method', DFCG_DOMAIN) ?></a></li>
+			<li id="dfcg-tab-image"><a href="#dfcg-panel-image"><?php _e('Image Management', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-desc"><a href="#dfcg-panel-desc"><?php _e('Descriptions', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-css"><a href="#dfcg-panel-css"><?php _e('Gallery CSS', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-javascript"><a href="#dfcg-panel-javascript"><?php _e('Javascript Options', DFCG_DOMAIN) ?></a></li>
@@ -68,10 +67,6 @@ dfcg_on_load_validation($dfcg_options);
 			<?php dfcg_ui_general(); ?>
 		</div>
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-image">
-			<?php dfcg_ui_image(); // Image File management ?>
-		</div>
-	
 		<div class="dfcg-panel form-table" id="dfcg-panel-gallery">
 			<?php dfcg_ui_gallery(); // Gallery Method ?>
 			<?php dfcg_ui_multi(); // Multi-Option ?>
@@ -80,6 +75,10 @@ dfcg_on_load_validation($dfcg_options);
 			<?php dfcg_ui_custom_post(); // Custom Post type ?>
 		</div>
 	
+		<div class="dfcg-panel form-table" id="dfcg-panel-image">
+			<?php dfcg_ui_image(); // Image File management ?>
+		</div>		
+
 		<div class="dfcg-panel form-table" id="dfcg-panel-desc">
 			<?php dfcg_ui_desc(); // Descriptions ?>
 		</div>
@@ -106,7 +105,7 @@ dfcg_on_load_validation($dfcg_options);
 			<?php dfcg_ui_help(); // Help stuff ?>
 		</div>
 	
-		<?php if ( function_exists('wpmu_create_blog') ) {
+		<?php if ( is_multisite() ) {
 				// Hidden fields - WPMU ONLY
 				dfcg_ui_hidden_wpmu();
 			} else {
