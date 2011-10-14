@@ -8,7 +8,7 @@
 ----------------------------------*/
 .ui-helper-hidden { display: none; }
 .ui-helper-hidden-accessible { position: absolute; left: -99999999px; }
-.ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }
+.ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }/*ok*/
 .ui-helper-clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 .ui-helper-clearfix { display: inline-block; }
 /* required comment for clearfix to work in Opera \*/
@@ -48,20 +48,20 @@
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { background: transparent; color: #222222; }/*AW*/
-.ui-widget-content a { color: #21759b; }
+/*.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }*/
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }/*ok?*/
+/*.ui-widget-content { background: transparent; color: #222222; }*//*AW*/
+/*.ui-widget-content a { color: #21759b; }*/
 .ui-widget-header { background: transparent; color: #222222; font-weight: bold; }/*AW*/
-.ui-widget-header a { color: #222222; }
+.ui-widget-header a { color: #222222; }/*ok*/
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid #d3d3d3; background: #dfdfdf url(images/ui-bg_highlight-soft_100_dfdfdf_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #21759b; outline: none; }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #21759b; text-decoration: none; outline: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid #999999; background: #dadada url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #d54e21; outline: none; }
-.ui-state-hover a, .ui-state-hover a:hover { color: #d54e21; text-decoration: none; outline: none; }
-.ui-state-active, .ui-widget-content .ui-state-active { border: 1px solid #aaaaaa; background: #777777 url(images/ui-bg_glass_65_777777_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; outline: none; }
+.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid #d3d3d3; background: #dfdfdf url(images/ui-bg_highlight-soft_100_dfdfdf_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #21759b; outline: none; }/*ok*/
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #21759b; text-decoration: none; outline: none; }/*ok*/
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid #999999; background: #dadada url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #d54e21; outline: none; }/*ok*/
+.ui-state-hover a, .ui-state-hover a:hover { color: #d54e21; text-decoration: none; outline: none; }/*ok*/
+.ui-state-active, .ui-widget-content .ui-state-active { border: 1px solid #aaaaaa; background: #777777; font-weight: normal; color: #ffffff; outline: none; }/*ok*/
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #ffffff; outline: none; text-decoration: none; }
 
 /* Interaction Cues
@@ -272,11 +272,11 @@
 .ui-corner-tr { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; }
 .ui-corner-bl { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; }
 .ui-corner-br { -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; }
-.ui-corner-top { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; }
-.ui-corner-bottom { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; }
+.ui-corner-top { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; }/*ok*/
+.ui-corner-bottom { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; }/*ok*/
 .ui-corner-right {  -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; }
 .ui-corner-left { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; }
-.ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+.ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; }/*ok*/
 
 /* Overlays */
 .ui-widget-overlay { background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
@@ -284,12 +284,12 @@
 
 /* Tabs
 ----------------------------------*/
-.ui-tabs { padding: 0; zoom: 1; }
-.ui-tabs .ui-tabs-nav { list-style: none; position: relative; padding: 0; }
-.ui-tabs .ui-tabs-nav li { position: relative; float: left; border-bottom-width: 0 !important; margin: 0 .2em -1px 0; padding: 0; }
-.ui-tabs .ui-tabs-nav li a { float: left; text-decoration: none; padding: .5em 1em; font-size: 12px; }
+.ui-tabs { padding: 0; zoom: 1; }/*ok*/
+.ui-tabs .ui-tabs-nav { list-style: none; position: relative; padding: 0; }/*ok*/
+.ui-tabs .ui-tabs-nav li { position: relative; float: left; border-bottom-width: 0 !important; margin: 0 .2em -1px 0; padding: 0; }/*ok*/
+.ui-tabs .ui-tabs-nav li a { float: left; text-decoration: none; padding: .5em 1em; font-size: 12px; }/*ok*/
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 1px; border-bottom-width: 0; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
-.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel { padding: 10px 10px; display: block; border: 1px solid #dfdfdf; background: none; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */ /*ok*/
+.ui-tabs .ui-tabs-panel { padding: 10px 10px; display: block; border: 1px solid #dfdfdf; background: none; }/*ok*/
 .ui-tabs .ui-tabs-hide { display: none !important; }
