@@ -21,6 +21,8 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 /**
+ * Add contextual help the new 3.3 way
+ *
  * @TODO Clean this up!
  * @since 4.0
  */
