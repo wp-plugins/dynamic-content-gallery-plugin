@@ -18,16 +18,16 @@
 /* Tabs panels and content */
 .dfcg-panel {margin:0px;}/*ok*/
 .off-site {background: url(images/link.png) top left no-repeat; padding:0 0 0 20px;}/*ok*/
-/*.dfcg-panel a:hover {color: #D54E21;}*/
+
 .dfcg-panel table p {margin:0;padding:0;}
 .dfcg-panel ul {list-style-type:disc;margin-left:20px;}
 .dfcg-panel ul.links {list-style-type:none;}
 .dfcg-panel ol {list-style-type:decimal;margin-left:20px;margin-top:6px;}
 .dfcg-panel li {line-height:20px;}
-/*.dfcg-panel h3 {padding:12px 0 0; color:#005170;margin:0;}*/
+
 .dfcg-panel h3.not-top {padding:30px 0 0;}
-.dfcg-panel a img {vertical-align:middle; margin:0 15px 0 0;}/*ok*/
-.dfcg-panel td a.load-local img {display:block; margin:0 auto;}/*ok*/
+.dfcg-panel a img {vertical-align:text-bottom; margin:0 15px 0 10px;}/*ok*/
+
 
 /* Key Settings stuff */
 .dfcg-key-settings {margin:0; padding:12px 0 20px 0;}/*ok*/
@@ -54,8 +54,10 @@
 .sgr-credits {border-top:1px solid #dfdfdf;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left; color:#777777;}
 
 /* cluetips */
-.dfcg-panel td a.load-local img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
 .dfcg-tip-hidden p {margin:0 0 10px 0; padding:0;}
+.dfcg-panel td a.load-local img {display:block; margin:0 auto;}/*ok*/
+.dfcg-panel td a.load-local img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
+
 
 /* Form elements */
 textarea, input, select {padding:2px;}

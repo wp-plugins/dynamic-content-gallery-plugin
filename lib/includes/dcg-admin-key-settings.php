@@ -33,7 +33,7 @@ function dfcg_ui_active_settings() {
 	
 	$output = '<h3>' . __('Your current Key Settings: ', DFCG_DOMAIN) . '</h3>';
 	
-	$output .= '<p>' . __('Please provide the information shown below if posting a question on the <a href="http://www.studiograsshopper.ch/forum/">Support Forum</a>.', DFCG_DOMAIN) . '</p>';
+	$output .= '<p>' . __('Please provide the information shown below if posting a question on the <a href="http://www.studiograsshopper.ch/forum/" target="_blank">Support Forum</a>.', DFCG_DOMAIN) . '</p>';
 	
 	
 	// Start the table
