@@ -64,3 +64,8 @@ textarea, input, select {padding:2px;}
 
 /* Image Management - sliding div */
 .dfcg-panel-image-opts {margin:0;padding:5px 0 0 0;}
+
+/* WP 3.3 Contextual help overrides */
+#contextual-help-wrap h3 {margin: 1em 0 0;}
+#contextual-help-wrap p {margin: 0 0 1em;}
+.help-tab-content {height:274px;}
