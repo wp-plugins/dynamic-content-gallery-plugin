@@ -57,6 +57,7 @@
 .dfcg-tip-hidden p {margin:0 0 10px 0; padding:0;}
 .dfcg-panel td a.load-local img {display:block; margin:0 auto;}/*ok*/
 .dfcg-panel td a.load-local img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
+.inline {vertical-align: text-bottom;}
 
 
 /* Form elements */
@@ -66,6 +67,7 @@ textarea, input, select {padding:2px;}
 .dfcg-panel-image-opts {margin:0;padding:5px 0 0 0;}
 
 /* WP 3.3 Contextual help overrides */
-#contextual-help-wrap h3 {margin: 1em 0 0;}
+/*#contextual-help-wrap h3 {margin: 1em 0 0;}*/
+#contextual-help-wrap h4 {margin: 1em 0 0;}
 #contextual-help-wrap p {margin: 0 0 1em;}
 .help-tab-content {height:274px;}
