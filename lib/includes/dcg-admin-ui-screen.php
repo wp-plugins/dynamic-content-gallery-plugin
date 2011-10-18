@@ -71,7 +71,7 @@ dfcg_on_load_validation($dfcg_options);
 			<?php dfcg_ui_gallery(); // Gallery Method ?>
 			<?php dfcg_ui_multi(); // Multi-Option ?>
 			<?php dfcg_ui_onecat(); // One Category ?>
-			<?php dfcg_ui_id(); // Pages ?>
+			<?php dfcg_ui_id(); // ID Method ?>
 			<?php dfcg_ui_custom_post(); // Custom Post type ?>
 		</div>
 	
@@ -98,7 +98,7 @@ dfcg_on_load_validation($dfcg_options);
 	
 		<div class="dfcg-panel form-table" id="dfcg-panel-tools">
 			<?php dfcg_ui_errors(); // Error Messages ?>
-			<?php dfcg_ui_columns(); // Add Edit Posts/Pages columns ?>
+			<?php dfcg_ui_tools(); // Add Edit Posts/Pages columns, etc ?>
 		</div>
 	
 		<div class="dfcg-panel form-table" id="dfcg-panel-help">

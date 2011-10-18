@@ -30,9 +30,6 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Updated for new Custom Post type Gallery Method in 3.3
  *
- * @uses dfcg_checks()
- * @uses dfcg_query_list()
- *
  * @param array $options_array, Options from db
  *
  * @since 3.0

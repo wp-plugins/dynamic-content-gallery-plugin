@@ -15,7 +15,6 @@
  * @info - Plugin action links
  * @info - Plugin row meta
  * @info - Admin Notices for WP Version and Post Thumbnails check
- * @info - Admin Notices for Settings reset
  * @info - Add image sizes to Media Uploader
  * @info - DCG options handling and upgrading
  *
@@ -252,7 +251,7 @@ function dfcg_plugin_meta( $links, $file ) {
 /**
  * Check message for WPMS
  *
- * Used by dfcg_checks() and dfcg_admin_notices()
+ * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
  * @return $msg string, additional message for WPMS when WP version is insufficient
  * @since 4.0
@@ -268,7 +267,7 @@ function dfcg_do_messages_wpms() {
 /**
  * WP Version check message
  *
- * Used by dfcg_checks() and dfcg_admin_notices()
+ * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
  * @return $msg string, message when WP version is insufficient
  * @since 4.0
@@ -284,7 +283,7 @@ function dfcg_do_version_messages() {
 /**
  * WP Post Thumbnail check message
  * 
- * Used by dfcg_checks() and dfcg_admin_notices()
+ * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
  * @return $msg string, message when WP Post Thumbnails is not enabled
  * @since 4.0
@@ -300,7 +299,7 @@ function dfcg_do_post_thumbnail_messages() {
 /**
  * Check WP version installed
  * 
- * Used by dfcg_checks() and dfcg_admin_notices()
+ * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
  * @return bool
  * @since 4.0
@@ -319,7 +318,7 @@ function dfcg_check_version() {
 /**
  * Check if theme supports 'post-thumbnails'
  * 
- * Used by dfcg_checks() and dfcg_admin_notices()
+ * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
  * @return bool
  * @since 4.0
@@ -461,33 +460,6 @@ function dfcg_checks_settings_page() {
 
 
 /**
- * Function to display Admin Notices after Settings Page reset
- *
- * Hooked to 'admin_notices' action
- *
- * Echos the message, resets 'just-reset' to false and updates db options
- * This function replaces dfcg_admin_notice_reset() deprecated in v4.0
- *
- * @global $dfcg_options array, db main plugin options
- * @since 3.0
- * @updated 4.0
- */	
-function dfcg_settings_reset() {
-	
-	global $dfcg_options;
-	
-	if( $dfcg_options['just-reset'] == 'true' ) {
-	
-		echo '<div id="message" class="updated fade" style="background-color:#ecfcde; border:1px solid #a7c886;"><p><strong>' . __('Dynamic Content Gallery Settings have been reset to default settings.', DFCG_DOMAIN) . '</strong></p></div>';
-
-		$dfcg_options['just-reset'] = 'false';
-		
-		update_option( 'dfcg_plugin_settings', $dfcg_options );
-	}
-}
-
-
-/**
  * Filter callback to display messages if DCG Metabox validation errors
  *
  * Hooked to 'post_updated_messages' filter
@@ -616,7 +588,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
  *
  * Used by the "upgrader" function dfcg_set_gallery_options().
  *
- * 95 options (5 are WP only)
+ * 94 options (5 are WP only)
  *
  * @since 3.2.2
  * @updated 4.0
@@ -661,7 +633,7 @@ function dfcg_default_options() {
 		'defimgid' => '',							// WP ONLY. ID Method: URL for a default image
 		'defimgcustompost' => '',					// WP ONLY. Post-type: URL for default custom category image folder
 		'defimagedesc' => '',						// Desc: default description - only works if [manual]
-		'desc-method' => 'manual',					// Desc: Select how to display descriptions: [manual],[auto],[none],[excerpt]
+		'desc-method' => 'auto',					// Desc: Select how to display descriptions: [manual],[auto],[none],[excerpt]
 		'max-char' => '100',						// Desc: No. of characters for custom excerpt
 		'more-text' => '[more]',					// Desc: 'More' text for custom excerpt
 		'gallery-width' => '460',					// all methods: CSS
@@ -690,7 +662,6 @@ function dfcg_default_options() {
 		'slide-p-ahover-weight' => 'bold',			// all methods: More text CSS: [bold], [normal]
 		'gallery-background' => '#000000',			// all methods: CSS (added 3.3.4)
 		'reset' => '0',								// Reset: Reset options state
-		'just-reset' => 'false',					// Reset: Used for controlling admin_notices messages
 		'limit-scripts' => 'homepage',				// Load Scripts: Select scripts loading: [homepage],[pagetemplate],[page],[other]
 		'page-filename' => '',						// Load Scripts: Specify a Page Template filename, for loading scripts
 		'page-ids' => '',							// Load Scripts: ordinary page ID numbers
@@ -715,7 +686,7 @@ function dfcg_default_options() {
 		'pages-sort-column' => 'true',				// Tools: Show edit pages column _dfcg-sort: bool
 		'posts-featured-image-column' => 'true',	// Tools: Show edit pages column Featured Image
 		'pages-featured-image-column' => 'true',	// Tools: Show edit pages column Featured Image
-		'thumb-type' => 'legacy',					// Thumbs: [featured-image] or [legacy] - mootools only
+		'thumb-type' => 'featured-image',			// Thumbs: [featured-image] or [legacy] - mootools only
 		'crop' => 'true',							// Feat Image crop hard/box resize [true],[false]
 		'desc-man-link' => 'true',					// Append Read More link to manual descriptions
 		'add-media-sizes' => 'false'				// Tools: add DCG image sizes to Media Uploader
@@ -782,7 +753,8 @@ function dfcg_default_options() {
  * In 4.0 - Added "excerpt" value to "desc-method" option
  * In 4.0 - Added 6: 'posts-featured-image-colum', 'pages-featured-image-column', 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id', 'crop'
  * In 4.0 - Added 3: 'carouselMinimizedOpacity', 'desc-man-link', 'add-media-sizes'
- * In 4.0 - Total options = 86 + 6 + 3 = 95
+ * In 4.0 - Removed 1: 'just-reset'
+ * In 4.0 - Total options = 86 + 6 + 3 -1 = 94
  *
  * @uses dfcg_default_options()
  * @since 3.2.2
@@ -1257,6 +1229,10 @@ function dfcg_set_gallery_options() {
 		$new_opts['carouselMinimizedOpacity'] = '0.4';
 		$new_opts['desc-man-link'] = 'true';
 		$new_opts['add-media-sizes'] = 'false';
+		$new_opts['size-change'] = 'false';
+		
+		// Remove 1 option
+		unset( $existing_opts['just-reset'] );
 		
 		// Total options = 86 + 3 - 3 + 9 = 95
 		$updated = wp_parse_args( $existing_opts, $new_opts );

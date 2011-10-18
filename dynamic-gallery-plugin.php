@@ -44,6 +44,8 @@ Feature:	means new user functionality has been added
 * Feature:	Added manual link title attr for external links in DCG Metabox
 * Feature: 	Added Featured Image column in posts/pages Edit screen
 * Feature:	Added option to append Read More link to manual descriptions
+* Feature:	Added option to add DCG Image sizes to Media Uploader screen
+* Enhance:	Settings page messages now use Settings Error API
 * Enhance:	V3.2 postmeta upgrade functionality has been removed completely
 * Enhance:	New global $dfcg_utilities db option added, used for misc admin stuff
 * Enhance:	Added dfcg_metabox_notices() hooked to Admin Notices to validate DCG Metabox input
@@ -57,29 +59,24 @@ Feature:	means new user functionality has been added
 * Enhance:	dfcg-admin-ui-js.php and contents deprecated
 * Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading admin JS and CSS
 * Enhance:	Added DCG upgrade nag to DCG Settings page
-* Enhance:	Added new helper functions for admin messages - dfcg_version_messages() and dfcg_post_thumbnail_messages()
-* Enhance:	dfcg_admin_notice_reset() deprecated, replaced by dfcg_settings_reset()
-* Enhance:	dfcg_wp_version_check() deprecated, replaced by dfcg_checks()
-* Enhance:	dfcg_admin_notices() added - deals with version/post thumbnail messages
 * Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
 * Enhance:	Rewritten Help tab content in Settings page
 * Enhance:	Added new file dcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
 * Enhance:	Settings page > General Tab, Key Settings output improved
 * Enhance:	Renamed the filters in dfcg_get_the_content_limit() function (added dfcg_ prefix)
 * Enhance:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
+* Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
 * Enhance:	Added DFCG_LIB_URL constant
 * Enhance:	Added DFCG_LIB_DIR constant
-* Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
 * Enhance:	Added DFCG_LANG_DIR constant for location of plugin's languages folder
 * Enhance:	Added DFCG_HOME constant
 * Enhance:	Added DFCG_NAME constant
-* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
-* Enhance:	All file prefixes changed to dcg- from dfcg-
 * Enhance:	dfcg-gallery-constructors.php renamed dcg-constructors-mootools.php
 * Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed dcg-constructors-jq-smooth.php
 * Enhance:	Gallery constructor functions now return output rather than echo
 * Enhance:	WPMS now tested with is_multisite() rather than function_exists('wpmu_create_blog')
-* Enhance:	Script/styles enqueuing is reworked and now always uses wp_enqueue_script() and wp_enqueue_style()
+* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
+* Enhance:	All file prefixes changed to dcg- from dfcg-
 * Bug fix:	Removed deprecated -moz-opacity CSS from jdgallery.css
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
@@ -258,7 +255,7 @@ define( 'DFCG_LANG_DIR', 		'/dynamic-content-gallery-plugin/languages' );
 define( 'DFCG_VER', 			'4.0' );
 define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
 define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
-define( 'DFCG_WP_VERSION_REQ', 	'4.0' );
+define( 'DFCG_WP_VERSION_REQ', 	'3.3-beta1' );
 define( 'DFCG_FILE_NAME', 		'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 		'dynamic_content_gallery' );
 define( 'DFCG_PAGEHOOK', 		'settings_page_' . DFCG_FILE_HOOK );
@@ -387,10 +384,6 @@ if( is_admin() ) {
 	/* Admin - Adds WP version and Post Thumbnail warning in DCG Settings page */
 	// Function defined in dcg-admin-core.php
 	add_action( 'admin_notices', 'dfcg_checks_settings_page' );
-
-	/* Admin - Adds Admin Notice when resetting Settings */
-	// Function defined in dcg-admin-core.php
-	add_action( 'admin_notices', 'dfcg_settings_reset' );
 	
 	/* Admin - Adds Upgrade nag to DCG Settings page */
 	// Function defined in dcg-admin-core.php

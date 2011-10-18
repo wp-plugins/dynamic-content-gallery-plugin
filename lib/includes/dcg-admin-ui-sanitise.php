@@ -25,16 +25,18 @@ if( !defined( 'ABSPATH' ) ) {
 /**
  * Settings API callback function
  *
+ * Settings Error API functions added in v4.0
+ *
  * @param array $input $_POST input from form
  * @global array $dfcg_options plugin options from db
- * @return $input Sanitised form input ready for db
+ * @return array $input Sanitised form input ready for db
  * @since 3.2.2
  * @updated 4.0
  */
 function dfcg_sanitise( $input ) {
 	
 	global $dfcg_options;
-	
+	//print_r($dfcg_options);
 	// Is the user allowed to do this? Probably not needed...
 	if ( function_exists( 'current_user_can' ) && !current_user_can( 'manage_options' ) ) {
 		die( __( 'Sorry. You do not have permission to do this.', DFCG_DOMAIN ) );
@@ -42,24 +44,42 @@ function dfcg_sanitise( $input ) {
 	
 	
 	
-	/* If RESET is checked, reset the options, and don't bother sanitising */
+	/* If RESET box is checked, reset the options, and don't bother sanitising */
 	
 	if ( $input['reset'] == "1" ) {
 		
-		// put back the defaults
+		// See wp-admin/includes/template.php
+		$setting = 'dfcg_plugin_settings_options';
+		$code = 'dfcg-reset';
+		$message = __('Dynamic Content Gallery Settings have been reset to default settings.', DFCG_DOMAIN);
+		$type = 'updated';
+
+		add_settings_error($settings, $code, $message, $type);
+		
+		// put back the defaults -> also resets ['reset'] to '0'
 		$input = dfcg_default_options();
 		
-		// we need this for use in add_action('admin_notices', 'dfcg_notice_reset')
-		$input['just-reset'] = esc_attr('true');
-		
 		return $input;
+	}
+	
+	
+	/* If gallery-width or gallery-height has changed, trigger DCG Notice */
+	if( intval( $input['gallery-width'] ) !== $dfcg_options['gallery-width'] ) {
+		
+		// See wp-admin/includes/template.php
+		add_settings_error(
+			'dfcg_plugin_size-change', 	// $setting
+			'dfcg-size-change',			// $code
+			__('DCG Notice: Image sizes have changed. Run Regenerate Thumbnails to generate new sizes for existing images.', DFCG_DOMAIN),
+			'updated'					// $type
+			);
 	}
 	
 	
 	/***** Some error messages for later *****/
 	
 	// Generic error message - triggered by wp_die
-	$dfcg_sanitise_error = esc_attr__('An error has occurred. Go back and try again.', DFCG_DOMAIN);
+	$dfcg_sanitise_error = __('An error has occurred. Go back and try again.', DFCG_DOMAIN);
 	
 	
 	/***** Now correct certain options *****/
@@ -70,7 +90,7 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	// deal with just-reset option, overwrite it in case it's 'true'
+	// deal with just-reset option, overwrite it in case it's 'true' (Should never happen...)
 	$input['just-reset'] = '0';
 	
 	// deal with One Category Method "All" option to suppress WP_Class Error if category_description() is passed a '0'.
@@ -114,7 +134,7 @@ function dfcg_sanitise( $input ) {
 	//	Whitelist options													(10)
 	//	Path and URL options												(6)		(1)
 	//	On-off options														(1)
-	//	Bool options														(20)
+	//	Bool options														(19)
 	//	String options - no XHTML allowed									(6)
 	//	String options - small - no XHTML allowed							(2)
 	//	String options - some XHTML allowed									(1)
@@ -126,7 +146,7 @@ function dfcg_sanitise( $input ) {
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																95
+	//	Total 																94
 	
 	
 	/***** Whitelist options (10/10) *****/
@@ -194,9 +214,9 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	/***** Bool options (20) *****/
+	/***** Bool options (19) *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'just-reset', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {
@@ -252,24 +272,21 @@ function dfcg_sanitise( $input ) {
 	
 	$str_opts_hexcode = array( 'gallery-border-colour', 'slide-h2-colour', 'slide-p-colour', 'slide-overlay-color', 'slide-p-a-color', 'slide-p-ahover-color', 'gallery-background' );
 	
-	// TODO: This could be improved - regex doesn't validate whether a valid hex code.
-	
-	// deal with String options - CSS hexcodes
+	// deal with String options - CSS hexcodes - will accept valid 3 or 6 char codes
 	foreach( $str_opts_hexcode as $key ) {
 		
-		// Strip out any whitespace within list
-		$input[$key] = str_replace( " ", "", $input[$key] );
-		
-		// If first character in string is not a #
-		if( !substr( $input[$key], 0, 1 ) == '#' ) {
-			// Add one
-			$input[$key] = substr_replace( $input[$key], '#', 0, 0 );
-		}
-		// Extract first 7 characters
-		$input[$key] = substr( $input[$key], 0, 7 );
-		
 		// Make sure value contains only allowed numbers and characters
-		if( !preg_match_all( '/^[#A-Za-z0-9]+$/i', $input[$key], $result ) ) {
+		if( !preg_match_all('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$', $input[$key] ) ) {
+			
+			// See wp-admin/includes/template.php
+			/*$setting = 'dfcg_plugin_settings_options';
+			$code = 'dfcg-hex-code' . $key;
+			$message = __('DCG Settings error: ', DFCG_DOMAIN);
+			$message .= $key . ' : ' . $input[$key] . __(' This is not a valid hex code for CSS.', DFCG_DOMAIN);
+			$type = 'error';*/
+
+			//add_settings_error($settings, $code, $message, $type);
+			
 			// If not, revert to existing value
 			$input[$key] = $dfcg_options[$key];
 		}
@@ -433,7 +450,8 @@ function dfcg_sanitise( $input ) {
 			$input[$key] = 1000;
 		}
 	}
-		
+	//print_r($input);
+	//exit;	
 	
 	// Return sanitised options array ready for db
 	return $input;

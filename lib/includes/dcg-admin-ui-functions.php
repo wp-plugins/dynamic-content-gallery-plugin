@@ -63,15 +63,15 @@ function dfcg_ui_general() {
 	global $dfcg_options;
 	?>
 	
-<h3><?php esc_html_e("General Information:", DFCG_DOMAIN); ?></h3>
+<h3><?php _e("General Information:", DFCG_DOMAIN); ?></h3>
 
 <?php if( dfcg_check_version() ) : ?>	
-<p><?php esc_html_e('Please go through the options in each tab and configure the plugin Settings. To get a general overview of how the plugin works, click the Help link in the Admin Bar.', DFCG_DOMAIN); ?></p>
+<p><?php _e('Please go through the options in each tab and configure the plugin Settings. To get a general overview of how the plugin works, click the Help link in the Admin Bar.', DFCG_DOMAIN); ?></p>
 <?php else : ?>
-<p><?php esc_html_e('Please go through the options in each tab and configure the plugin Settings. To get a general overview of how the plugin works, read the', DFCG_DOMAIN); ?> <a class="dfcg-panel-help-link" href="#dfcg-panel-help"><?php esc_html_e('Help tab', DFCG_DOMAIN); ?></a>.</p>
+<p><?php _e('Please go through the options in each tab and configure the plugin Settings. To get a general overview of how the plugin works, read the', DFCG_DOMAIN); ?> <a class="dfcg-panel-help-link" href="#dfcg-panel-help"><?php esc_html_e('Help tab', DFCG_DOMAIN); ?></a>.</p>
 <?php endif; ?>
 	
-<p><?php esc_html_e('If you have found this plugin useful, please consider making a', DFCG_DOMAIN); ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=10131319" target="_blank"><?php esc_html_e('donation', DFCG_DOMAIN); ?></a> <?php esc_html_e('to help support future development. Your support will be much appreciated. Thank you!', DFCG_DOMAIN); ?></p>
+<p><?php _e('If you have found this plugin useful, please consider making a', DFCG_DOMAIN); ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=10131319" target="_blank"><?php _e('donation', DFCG_DOMAIN); ?></a> <?php esc_html_e('to help support future development. Your support will be much appreciated. Thank you!', DFCG_DOMAIN); ?></p>
 						
 <div class="dfcg-key-settings"><!-- start .dfcg-key-settings -->
 		
@@ -1262,7 +1262,7 @@ function dfcg_ui_errors() {
  * @since 3.2.2
  * @updated 4.0
  */
-function dfcg_ui_columns() {
+function dfcg_ui_tools() {
 	global $dfcg_options;
 	?>
 	<h3 class="not-top"><?php _e('Add DCG information columns to Posts and Pages Edit screen (OPTIONAL)', DFCG_DOMAIN); ?></h3>
@@ -1317,7 +1317,7 @@ function dfcg_ui_columns() {
  * Form hidden fields
  * WP ONLY
  *
- * Always, 5 hidden: [homeurl], [just-reset],[cpt-tax-name],[cpt-term-name],[cpt-term-id]
+ * Always, 4 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id]
  * If jquery loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
  * If mootools loaded, hide jquery-only = 1 hidden: [slideInfoZoneStatic]
  * If no registered custom post types, 4 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number],[defimgcustompost]
@@ -1332,7 +1332,6 @@ function dfcg_ui_hidden_wp() {
 	?>
 	<?php // Always hidden in WP/WPMS ?>
 	<input name="dfcg_plugin_settings[homeurl]" type="hidden" value="<?php echo $dfcg_options['homeurl']; ?>" />
-	<input name="dfcg_plugin_settings[just-reset]" type="hidden" value="<?php echo $dfcg_options['just-reset']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-tax-name]" type="hidden" value="<?php echo $dfcg_options['cpt-tax-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-name]" type="hidden" value="<?php echo $dfcg_options['cpt-term-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-id]" type="hidden" value="<?php echo $dfcg_options['cpt-term-id']; ?>" />
@@ -1371,7 +1370,7 @@ function dfcg_ui_hidden_wp() {
  * Form hidden fields
  * WPMS ONLY
  *
- * Always, 5 hidden: [homeurl], [just-reset],[cpt-tax-name],[cpt-term-name],[cpt-term-id] 
+ * Always, 4 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id] 
  * WPMS, 5 options: [imageurl],[defimgmulti],[defimgonecat],[defimgpages],[defimgcustompost] 
  * If jquery loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
  * If mootools loaded, hide jquery-only = 1 hidden: [slideInfoZoneStatic]
@@ -1387,7 +1386,6 @@ function dfcg_ui_hidden_wpmu() {
 	?>
 	<?php // Always hidden in WP/WPMS ?>
 	<input name="dfcg_plugin_settings[homeurl]" type="hidden" value="<?php echo $dfcg_options['homeurl']; ?>" />
-	<input name="dfcg_plugin_settings[just-reset]" type="hidden" value="<?php echo $dfcg_options['just-reset']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-tax-name]" type="hidden" value="<?php echo $dfcg_options['cpt-tax-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-name]" type="hidden" value="<?php echo $dfcg_options['cpt-term-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-id]" type="hidden" value="<?php echo $dfcg_options['cpt-term-id']; ?>" />
