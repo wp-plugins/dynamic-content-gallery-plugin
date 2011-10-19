@@ -59,7 +59,8 @@ function dfcg_load_textdomain() {
    		return;
 	
 	// Textdomain isn't already loaded, let's load it
-   	load_plugin_textdomain( DFCG_DOMAIN, false, DFCG_LANG_DIR );
+	// $domain = DFCG_DOMAIN, $abs_rel_path = false, $plugin_rel_path = DFCG_LANG_DIR_REL )
+   	load_plugin_textdomain( DFCG_DOMAIN, false, DFCG_LANG_DIR_REL );
 
 	// Change variable to prevent loading textdomain again
 	$dfcg_text_loaded = true;
@@ -67,23 +68,50 @@ function dfcg_load_textdomain() {
 
 
 
-/***** Admin Init *****/
+/***** Settings API handling *****/
+
+
+/**
+ * Helper function to define key variables used by Settings API functions
+ *
+ * Useful for portability to other plugins as only this function needs updating
+ *
+ * @since 4.0
+ * @return array $output Array containing base variables used by Settings API
+ */
+function dfcg_base_settings() {
+
+	$output = array();
+
+	$output['dfcg_option_group'] =	'dfcg_plugin_settings_group';
+	$output['dfcg_option_name'] =	'dfcg_plugin_settings';
+	$output['dfcg_page_title'] =	'Dynamic Content Gallery Configuration'; 
+	$output['dfcg_menu_title'] =	'Dynamic Content Gallery'; 
+	
+	return $output;
+}
+
 
 /**
  * Register Settings as per Settings API, 2.7+
  *
  * Hooked to 'admin_init'
  *
- * dfcg_plugin_settings_options	= Options Group name
- * dfcg_plugin_settings 		= Option Name in db
- *
+ * @uses dfcg_base_settings(), helper function for naming variables
  * @uses dfcg_sanitise(), callback function for sanitising options
  *
- * @since 3.0
+ * @return calls register_setting() WP function
+ * @since 4.0
  */
-function dfcg_options_init() {
-
-	register_setting( 'dfcg_plugin_settings_options', 'dfcg_plugin_settings', 'dfcg_sanitise' );
+function dfcg_register_settings() {
+	
+	// Grab base settings using helper function
+	$base_settings = dfcg_base_settings();
+	$option_group = $base_settings['dfcg_option_group'];
+	$option_name = $base_settings['dfcg_option_name'];
+	
+	// register_setting($option_group, $option_name, $sanitize_callback)
+	register_setting( $option_group, $option_name, 'dfcg_sanitise' );
 }
 
 
@@ -95,16 +123,15 @@ function dfcg_options_init() {
  *
  * Hooked to 'admin_menu'
  *
- * Renamed in 3.2, was dfcg_add_page()
  * No need to check credentials - already built in to core wp function
  *
  * @uses dfcg_set_gallery_options()
- * @uses dfcg_options_page()
+ * @uses dfcg_do_settings_page()
  * @uses dfcg_load_admin_scripts()
  * @uses dfcg_load_admin_styles()
  *
  * @global $dfcg_page_hook - need to declare as global for scope purposes in other functions
- * @return $dfcg_page_hook string, the wp page hook
+ * @return nothing
  * @since 3.2
  * @updated 4.0
  */
@@ -115,14 +142,18 @@ function dfcg_add_to_options_menu() {
 	// Populate plugin's options (since 3.3.1, now runs BEFORE settings page is added. Duh!)
 	dfcg_set_gallery_options();
 	
+	// Grab base settings using helper function
+	$base_settings = dfcg_base_settings();
+	$page_title = $base_settings['dfcg_page_title'];
+	$menu_title = $base_settings['dfcg_menu_title'];
+	
 	// Add Settings Page
-	$dfcg_page_hook = add_options_page('Dynamic Content Gallery Options', 'Dynamic Content Gallery', 'manage_options', DFCG_FILE_HOOK, 'dfcg_options_page');
+	// add_options_page($page_title, $menu_title, $capability, $menu_slug, $function)
+	$dfcg_page_hook = add_options_page( $page_title, $menu_title, 'manage_options', DFCG_FILE_HOOK, 'dfcg_do_settings_page' );
 	
 	// Load Admin external scripts and CSS
 	add_action( 'admin_print_scripts-' . $dfcg_page_hook, 'dfcg_load_admin_scripts', 100 );
 	add_action( 'admin_print_styles-' . $dfcg_page_hook, 'dfcg_load_admin_styles', 100 );
-	
-	return $dfcg_page_hook; // May need this later
 }
 
 
@@ -169,9 +200,10 @@ function dfcg_load_admin_styles() {
  * @since 3.2
  * @updated 4.0
  */
-function dfcg_options_page(){
+function dfcg_do_settings_page(){
 	
 	// Needed because this is passed to dfcg_on_load_validation() in dcg-admin-ui-screen.php
+	// @TODO Not sure about this as options are pulled from db again in screen file. Why global?
 	global $dfcg_options;
 	
 	// Need to get these back from the db because they may have been updated since page was last loaded
@@ -249,7 +281,7 @@ function dfcg_plugin_meta( $links, $file ) {
 
 
 /**
- * Check message for WPMS
+ * WPMS check message
  *
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
@@ -297,7 +329,7 @@ function dfcg_do_post_thumbnail_messages() {
 
 
 /**
- * Check WP version installed
+ * Check if required WP version is installed
  * 
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
@@ -505,7 +537,9 @@ function dfcg_metabox_save_notices( $messages ) {
  * Checks plugin API response for DCG file name then prints admin notice if new version is available
  * Only shows nag on DCG Settings page - let's be polite!
  *
- * @global $current_screen object, current admin screen object
+ * @uses dfcg_base_settings()
+ *
+ * @global $current_screen object The current admin screen object
  * @since 4.0
  */
 function dfcg_upgrade_nag() {
@@ -519,6 +553,9 @@ function dfcg_upgrade_nag() {
 	
 	if ( !isset( $current->response[ DFCG_FILE_NAME ] ) )
 		return;
+
+	$settings = dfcg_base_settings();
+	$name = $settings['dfcg_menu_title'];
 		
 	$r = $current->response[ DFCG_FILE_NAME ];
 	
@@ -527,10 +564,10 @@ function dfcg_upgrade_nag() {
 	echo '<div class="error"><p><strong>DCG Notice: Please upgrade!</strong> ';
 	
 	if ( !current_user_can( 'update_plugins' ) )
-		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a>.'), $r->new_version, DFCG_NAME, esc_url($details_url) );
+		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a>.'), $r->new_version, $name, esc_url($details_url) );
 	
 	else
-		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a> or <a href="%4$s">upgrade automatically</a>.'), $r->new_version, DFCG_NAME, esc_url($details_url), wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . DFCG_FILE_NAME, 'upgrade-plugin_' . DFCG_FILE_NAME) );
+		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a> or <a href="%4$s">upgrade automatically</a>.'), $r->new_version, $name, esc_url($details_url), wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . DFCG_FILE_NAME, 'upgrade-plugin_' . DFCG_FILE_NAME) );
 	
 	echo '</p></div>';
 }
@@ -553,10 +590,10 @@ function dfcg_upgrade_nag() {
  *
  * @param $sizes array of default image sizes (associative array)
  *
- * @global $dfcg_main_hard string, registered image size name for DCG Main image with hard crop
- * @global $dfcg_main_boxr string, registered image size name for DCG Main image with box resize
- * @global $dfcg_options array, db main plugin options
- * @return $sizes array, default image sizes plus DCG Main sizes (associative array)
+ * @global string $dfcg_main_hard registered image size name for DCG Main image with hard crop
+ * @global string $dfcg_main_boxr registered image size name for DCG Main image with box resize
+ * @global array $dfcg_options db main plugin options
+ * @return array $sizes default image sizes plus DCG Main sizes (associative array)
  *
  * @since 4.0
  */
@@ -574,6 +611,8 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	
 	return $sizes;
 }
+
+
 
 
 
@@ -689,7 +728,7 @@ function dfcg_default_options() {
 		'thumb-type' => 'featured-image',			// Thumbs: [featured-image] or [legacy] - mootools only
 		'crop' => 'true',							// Feat Image crop hard/box resize [true],[false]
 		'desc-man-link' => 'true',					// Append Read More link to manual descriptions
-		'add-media-sizes' => 'false'				// Tools: add DCG image sizes to Media Uploader
+		'add-media-sizes' => 'true'					// Tools: add DCG image sizes to Media Uploader
 	);
 	
 	// Return options array for use elsewhere

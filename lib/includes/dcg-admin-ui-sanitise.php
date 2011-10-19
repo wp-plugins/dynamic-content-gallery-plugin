@@ -36,7 +36,7 @@ if( !defined( 'ABSPATH' ) ) {
 function dfcg_sanitise( $input ) {
 	
 	global $dfcg_options;
-	//print_r($dfcg_options);
+
 	// Is the user allowed to do this? Probably not needed...
 	if ( function_exists( 'current_user_can' ) && !current_user_can( 'manage_options' ) ) {
 		die( __( 'Sorry. You do not have permission to do this.', DFCG_DOMAIN ) );
@@ -90,7 +90,7 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	// deal with just-reset option, overwrite it in case it's 'true' (Should never happen...)
+	// deal with just-reset option, overwrite it in case it's 'true' (Should never be the case...)
 	$input['just-reset'] = '0';
 	
 	// deal with One Category Method "All" option to suppress WP_Class Error if category_description() is passed a '0'.
@@ -276,19 +276,15 @@ function dfcg_sanitise( $input ) {
 	foreach( $str_opts_hexcode as $key ) {
 		
 		// Make sure value contains only allowed numbers and characters
-		if( !preg_match_all('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$', $input[$key] ) ) {
+		if( !preg_match_all('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $input[$key], $result ) ) {
 			
 			// See wp-admin/includes/template.php
-			/*$setting = 'dfcg_plugin_settings_options';
-			$code = 'dfcg-hex-code' . $key;
-			$message = __('DCG Settings error: ', DFCG_DOMAIN);
-			$message .= $key . ' : ' . $input[$key] . __(' This is not a valid hex code for CSS.', DFCG_DOMAIN);
-			$type = 'error';*/
-
-			//add_settings_error($settings, $code, $message, $type);
-			
-			// If not, revert to existing value
-			$input[$key] = $dfcg_options[$key];
+			add_settings_error(
+				'dfcg_plugin_settings_options',
+				$key,
+				 __('DCG Settings error: Gallery CSS tab. ', DFCG_DOMAIN) . $key . ' : ' . $input[$key] . __(' This is not a valid hex code for CSS.', DFCG_DOMAIN),
+				 'error'
+				 );
 		}
 	}
 	

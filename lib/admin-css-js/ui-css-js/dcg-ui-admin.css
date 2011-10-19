@@ -10,14 +10,13 @@
  *
  */
 
-/* Settings Page */
+/* Settings Page tables*/
 .form-table {width:98% !important; margin:0;border-collapse: separate;}/*ok*/
 .form-table th {background: #f6f6f6;}/*ok*/
 .form-table td {background: #f6f6f6;}/*ok*/
 
 /* Tabs panels and content */
 .dfcg-panel {margin:0px;}/*ok*/
-.off-site {background: url(images/link.png) top left no-repeat; padding:0 0 0 20px;}/*ok*/
 
 .dfcg-panel table p {margin:0;padding:0;}
 .dfcg-panel ul {list-style-type:disc;margin-left:20px;}
@@ -37,27 +36,22 @@
 .dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
 .dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
 
-/*.error {color:#cc6600;}*/
+/* Misc Settings page stuff */
+.off-site {background: url(images/link.png) top left no-repeat; padding:0 0 0 20px;}/*ok*/
 .bold-italic {font-weight:bold;font-style:italic;}
 #setting-error-dfcg-reset {background-color:#ecfcde; border:1px solid #a7c886;}
 
-/* sgr info stuff */
-#sgr-info {float:right;width:260px;background:#f6f6f6;padding:0px 20px 10px 20px;margin:0px 0px 10px 0px;display:inline;}
-#sgr-info ul {list-style-type:none;margin-left:0px;}
-#sgr-info img {float:left;margin:0px 10px 8px 0px;border:none;}
-#sgr-info input {float:right;margin:0px 0px 10px 10px;}
-#sgr-info h4 {font-size:12px;margin:1em 0 1em;}
-
 /* Reset checkbox */
-.reset-sgr {padding:0px 10px;margin:0px;}
+.dfcg-reset {padding:0px 10px;margin:0px;}
+.dfcg-reset input[type="checkbox"] {vertical-align:text-bottom;}
 
 /* Footer credits */
-.sgr-credits {border-top:1px solid #dfdfdf;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left; color:#777777;}
+.dfcg-credits {border-top:1px solid #dfdfdf;margin:10px 0px 0px 0px;padding:10px 10px 0px 0px;float:left; color:#777777;}
 
 /* cluetips */
 .dfcg-tip-hidden p {margin:0 0 10px 0; padding:0;}
-.dfcg-panel td a.load-local img {display:block; margin:0 auto;}/*ok*/
-.dfcg-panel td a.load-local img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
+.dfcg-panel td a.dfcg-local-tip img {display:block; margin:0 auto;}/*ok*/
+.dfcg-panel td a.dfcg-local-tip img.inline {display:inline;margin:0 0 0 10px;padding:0;vertical-align:text-bottom;}/*ok*/
 .inline {vertical-align: text-bottom;}
 
 

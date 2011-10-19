@@ -37,6 +37,9 @@ Feature:	means new user functionality has been added
 /***** Version History *****
 
 = 4.0 =
+* Feature:	Added Featured Image capability for Image Management (main image and thumbnails)
+* Feature:	Custom DCG image sizes using add_image_size()
+* Feature:	Added option to add DCG Image sizes to Media Uploader screen
 * Feature:	Added carouselMinimizedOpacity option for mootools = carousel label minimised opacity
 * Feature:	Added dfcg_before and dfcg_after hooks to dynamic_content_gallery() output
 * Feature:	Added dfcg_widget_before and dfcg_widget_after hooks to DCG Widget
@@ -44,8 +47,9 @@ Feature:	means new user functionality has been added
 * Feature:	Added manual link title attr for external links in DCG Metabox
 * Feature: 	Added Featured Image column in posts/pages Edit screen
 * Feature:	Added option to append Read More link to manual descriptions
-* Feature:	Added option to add DCG Image sizes to Media Uploader screen
 * Enhance:	Settings page messages now use Settings Error API
+* Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
+* Enhance:	Settings page > General Tab, Key Settings output improved
 * Enhance:	V3.2 postmeta upgrade functionality has been removed completely
 * Enhance:	New global $dfcg_utilities db option added, used for misc admin stuff
 * Enhance:	Added dfcg_metabox_notices() hooked to Admin Notices to validate DCG Metabox input
@@ -55,33 +59,29 @@ Feature:	means new user functionality has been added
 * Enhance:	Added classes to <p> tags in slide pane descriptions
 * Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
 * Enhance:	dfcg_set_gallery_options() completely re-written
-* Enhance:	UI JS moved to new dfcg-ui-admin.js file
-* Enhance:	dfcg-admin-ui-js.php and contents deprecated
-* Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading admin JS and CSS
+* Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading all JS and CSS
 * Enhance:	Added DCG upgrade nag to DCG Settings page
-* Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
 * Enhance:	Rewritten Help tab content in Settings page
-* Enhance:	Added new file dcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
-* Enhance:	Settings page > General Tab, Key Settings output improved
 * Enhance:	Renamed the filters in dfcg_get_the_content_limit() function (added dfcg_ prefix)
-* Enhance:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
 * Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
 * Enhance:	Added DFCG_LIB_URL constant
 * Enhance:	Added DFCG_LIB_DIR constant
-* Enhance:	Added DFCG_LANG_DIR constant for location of plugin's languages folder
+* Enhance:	Added DFCG_LANG_DIR_REL constant for location of plugin's languages folder
 * Enhance:	Added DFCG_HOME constant
 * Enhance:	Added DFCG_NAME constant
+* Enhance:	Added new file dcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
 * Enhance:	dfcg-gallery-constructors.php renamed dcg-constructors-mootools.php
 * Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed dcg-constructors-jq-smooth.php
 * Enhance:	Gallery constructor functions now return output rather than echo
 * Enhance:	WPMS now tested with is_multisite() rather than function_exists('wpmu_create_blog')
-* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
+* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder - some files deprecated
 * Enhance:	All file prefixes changed to dcg- from dfcg-
 * Bug fix:	Removed deprecated -moz-opacity CSS from jdgallery.css
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
 * Bug fix:	Fixed PHP warnings in dfcg-widget.php
 * Bug fix:	Fixed CSS errors in jQuery CSS files
+* Bug fix:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
 				
 = 3.3.5 =
 * Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
@@ -249,20 +249,27 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) )
 
 
 /* Set constants for plugin */
+define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
 define( 'DFCG_URL', 			WP_PLUGIN_URL . '/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', 			WP_PLUGIN_DIR . '/dynamic-content-gallery-plugin' );
-define( 'DFCG_LANG_DIR', 		'/dynamic-content-gallery-plugin/languages' );
+define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
+define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
+define( 'DFCG_LANG_DIR_REL', 		'/dynamic-content-gallery-plugin/languages' );
+
+define( 'DFCG_ERRORIMGURL', 		DFCG_LIB_URL . '/error-img/error.jpg' );
+define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
+
 define( 'DFCG_VER', 			'4.0' );
-define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
-define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
 define( 'DFCG_WP_VERSION_REQ', 	'3.3-beta1' );
+
+define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
+define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
 define( 'DFCG_FILE_NAME', 		'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
 define( 'DFCG_FILE_HOOK', 		'dynamic_content_gallery' );
 define( 'DFCG_PAGEHOOK', 		'settings_page_' . DFCG_FILE_HOOK );
-define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
-define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
-define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
-define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
+
+define( 'DFCG_SHORTNAME',		'dfcg' );
+
 
 
 
@@ -363,7 +370,7 @@ add_action( 'template_redirect', 'dfcg_scripts_css_loader' );
 if( is_admin() ) {
 	/* Admin - Register Settings as per new API */
 	// Function defined in dcg-admin-core.php
-	add_action( 'admin_init', 'dfcg_options_init' );
+	add_action( 'admin_init', 'dfcg_register_settings' );
 
 	/* Admin - Adds Settings page */
 	// Function defined in dcg-admin-core.php
@@ -410,6 +417,7 @@ if( is_admin() ) {
 
 
 /**** Set some global variables *****/
+
 // Can't set these until all necessary files have been included
 // These functions are defined in dcg-common-core.php
 $dfcg_postmeta = dfcg_postmeta_info();
@@ -417,6 +425,7 @@ $dfcg_baseimgurl = dfcg_baseimgurl();
 
 
 /***** Add DCG Image Sizes *****/
+
 // New image management introduced in version 4.0
 // Creates a new image size based on the gallery width and height CSS settings
 // Note that Regenerate Thumbnails, or equivalent plugin, must be run whenever these values are changed

@@ -9,10 +9,14 @@
  * @package dynamic_content_gallery
  * @version 4.0
  *
- * @info Settings page for Wordpress and Wordpress Mu.
+ * @info Settings page for Wordpress and Wordpress MS.
+ *
+ * Note that Help tab is only loaded if not in WP 3.3+
+ * Note that local scope applies because this page is included by a function
  *
  * All UI functions on this page are defined in dcg-admin-ui-functions.php
  * dfcg_load_textdomain()		- defined in dcg-admin-core.php
+ * dfcg_base_settings()			- defined in dcg-admin-core.php
  * dfcg_on_load_validation()	- defined in dcg-admin-ui-validation.php
  *
  * @since 3.0
@@ -31,24 +35,27 @@ if( !defined( 'ABSPATH' ) ) {
 // Load text domain
 dfcg_load_textdomain();
 
+// Grab base settings using helper function
+$base_settings = dfcg_base_settings();
+
 // Pull options from db - added in 3.3.1 to solve new options issue
-$dfcg_options = get_option( 'dfcg_plugin_settings');
+$dfcg_options = get_option( $base_settings['dfcg_option_name'] );
 
  // Run Settings validation checks on page load
 dfcg_on_load_validation($dfcg_options);
 ?>
 
-<div class="wrap" id="sgr-style">
+<div class="wrap" id="dfcg-settings-page-wrap">
 
 	<?php screen_icon('options-general');// Display icon next to title ?>
 	
-	<h2><?php _e('Dynamic Content Gallery Configuration', DFCG_DOMAIN); ?></h2>
+	<h2><?php echo $base_settings['dfcg_page_title']?></h2>
 	
 	<p><strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>
 		
 	<form method="post" action="options.php">
 
-	<?php settings_fields('dfcg_plugin_settings_options'); // Settings API, nonces etc ?>
+	<?php settings_fields( $base_settings['dfcg_option_group'] ); // Settings API, nonces etc ?>
 	
 	<div id="dfcg-tabs">
 		<ul id="dfcg-tab-titles">
@@ -60,60 +67,66 @@ dfcg_on_load_validation($dfcg_options);
 			<li id="dfcg-tab-javascript"><a href="#dfcg-panel-javascript"><?php _e('Javascript Options', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-scripts"><a href="#dfcg-panel-scripts"><?php _e('Load Scripts', DFCG_DOMAIN) ?></a></li>
 			<li id="dfcg-tab-tools"><a href="#dfcg-panel-tools"><?php _e('Tools', DFCG_DOMAIN) ?></a></li>
+
+			<?php if( !dfcg_check_version() ) : ?>
 			<li id="dfcg-tab-help" class="last"><a href="#dfcg-panel-help"><?php _e('Help', DFCG_DOMAIN) ?></a></li>
+			<?php endif; ?>
 		</ul>
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-general">
+		<div class="dfcg-panel" id="dfcg-panel-general">
 			<?php dfcg_ui_general(); ?>
-		</div>
+		</div><!-- end #dfcg-panel-general -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-gallery">
+		<div class="dfcg-panel" id="dfcg-panel-gallery">
 			<?php dfcg_ui_gallery(); // Gallery Method ?>
 			<?php dfcg_ui_multi(); // Multi-Option ?>
 			<?php dfcg_ui_onecat(); // One Category ?>
 			<?php dfcg_ui_id(); // ID Method ?>
 			<?php dfcg_ui_custom_post(); // Custom Post type ?>
-		</div>
+		</div><!-- end #dfcg-panel-gallery -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-image">
+		<div class="dfcg-panel" id="dfcg-panel-image">
 			<?php dfcg_ui_image(); // Image File management ?>
-		</div>		
+		</div><!-- end #dfcg-panel-image -->		
 
-		<div class="dfcg-panel form-table" id="dfcg-panel-desc">
+		<div class="dfcg-panel" id="dfcg-panel-desc">
 			<?php dfcg_ui_desc(); // Descriptions ?>
-		</div>
+		</div><!-- end #dfcg-panel-desc -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-css">
+		<div class="dfcg-panel" id="dfcg-panel-css">
 			<?php dfcg_ui_css(); // Gallery CSS ?>
-		</div>
+		</div><!-- end #dfcg-panel-css -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-javascript">
+		<div class="dfcg-panel" id="dfcg-panel-javascript">
 			<?php dfcg_ui_js_framework(); // Javascript Framework options ?>
 			<?php dfcg_ui_javascript(); // Javascript configuration options ?>
-		</div>
+		</div><!-- end #dfcg-panel-javascript -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-scripts">
+		<div class="dfcg-panel" id="dfcg-panel-scripts">
 			<?php dfcg_ui_restrict_scripts(); // Restrict Scripts ?>
-		</div>
+		</div><!-- end #dfcg-panel-scripts -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-tools">
+		<div class="dfcg-panel" id="dfcg-panel-tools">
 			<?php dfcg_ui_errors(); // Error Messages ?>
 			<?php dfcg_ui_tools(); // Add Edit Posts/Pages columns, etc ?>
-		</div>
+		</div><!-- end #dfcg-panel-tools -->
 	
-		<div class="dfcg-panel form-table" id="dfcg-panel-help">
+		<?php if( !dfcg_check_version() ) : ?>
+		
+		<div class="dfcg-panel" id="dfcg-panel-help">
 			<?php dfcg_ui_help(); // Help stuff ?>
-		</div>
+		</div><!-- end #dfcg-panel-help -->
+
+		<?php endif; ?>
 	
-		<?php if ( is_multisite() ) {
-				// Hidden fields - WPMU ONLY
-				dfcg_ui_hidden_wpmu();
-			} else {
-				// Hidden fields - WP ONLY
-				dfcg_ui_hidden_wp();
-			}
-?>
-	</div><!-- end #tabs -->
+		<?php dfcg_ui_hidden_wp(); // Hidden fields WP and WPMS
+
+		if ( is_multisite() ) {
+			// Additional hidden fields - WPMS ONLY
+			dfcg_ui_hidden_wpms();
+		} ?>
+
+	</div><!-- end #dfcg-tabs -->
 	
 	<?php dfcg_ui_reset_end(); // Reset and End ?>
 	
@@ -123,4 +136,4 @@ dfcg_on_load_validation($dfcg_options);
 	
 	<?php dfcg_ui_credits(); // Credits ?>	
 	
-</div><!-- end #sgr-style .wrap -->
+</div><!-- end #dfcg-settings-page-wrap .wrap -->
