@@ -27,11 +27,11 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Settings Error API functions added in v4.0
  *
+ * @since 3.2.2
+ * @updated 4.0
  * @param array $input $_POST input from form
  * @global array $dfcg_options plugin options from db
  * @return array $input Sanitised form input ready for db
- * @since 3.2.2
- * @updated 4.0
  */
 function dfcg_sanitise( $input ) {
 	
@@ -46,7 +46,7 @@ function dfcg_sanitise( $input ) {
 	
 	/* If RESET box is checked, reset the options, and don't bother sanitising */
 	
-	if ( $input['reset'] == "1" ) {
+	if ( isset( $input['reset'] ) == "1" ) {
 		
 		// See wp-admin/includes/template.php
 		$setting = 'dfcg_plugin_settings_options';
@@ -54,7 +54,7 @@ function dfcg_sanitise( $input ) {
 		$message = __('Dynamic Content Gallery Settings have been reset to default settings.', DFCG_DOMAIN);
 		$type = 'updated';
 
-		add_settings_error($settings, $code, $message, $type);
+		add_settings_error($setting, $code, $message, $type);
 		
 		// put back the defaults -> also resets ['reset'] to '0'
 		$input = dfcg_default_options();
@@ -133,8 +133,7 @@ function dfcg_sanitise( $input ) {
 	
 	//	Whitelist options													(10)
 	//	Path and URL options												(6)		(1)
-	//	On-off options														(1)
-	//	Bool options														(19)
+	//	Bool options														(20)
 	//	String options - no XHTML allowed									(6)
 	//	String options - small - no XHTML allowed							(2)
 	//	String options - some XHTML allowed									(1)
@@ -203,24 +202,16 @@ function dfcg_sanitise( $input ) {
 		}
 	}
 	
-	
-	/***** On-off options (1) *****/
-	
-	$onoff_opts = array( 'mootools' );
-	
-	// sanitise, cast as 1 or 0, eg MOOTOOLS checkbox
-	foreach( $onoff_opts as $key ) {
-		$input[$key] = $input[$key] ? '1' : '0';
-	}
+
 	
 	
-	/***** Bool options (19) *****/
+	/***** Bool options (20) Checkboxes *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'mootools', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {
-		$input[$key] = $input[$key] ? 'true' : 'false';
+		$input[$key] = isset( $input[$key] ) ? 'true' : 'false';
 	}
 	
 	
@@ -446,8 +437,10 @@ function dfcg_sanitise( $input ) {
 			$input[$key] = 1000;
 		}
 	}
-	//print_r($input);
-	//exit;	
+	
+	/*global $wp_settings_errors;
+	var_dump($wp_settings_errors);
+	exit;*/
 	
 	// Return sanitised options array ready for db
 	return $input;

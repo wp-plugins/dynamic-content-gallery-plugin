@@ -53,9 +53,10 @@ if( !defined( 'ABSPATH' ) ) {
  * @uses dfcg_jq_onecategory_method_gallery()
  * @uses dfcg_jq_id_method_gallery()
  *
- * @global array $dfcg_options Plugin options from db
  * @since 2.1
  * @updated 4.0
+ * @global array $dfcg_options Plugin options from db
+ * @return echos out gallery markup and content
  */
 function dynamic_content_gallery() {
 	global $dfcg_options;
@@ -147,8 +148,8 @@ function dynamic_content_gallery() {
  * @uses dfcg_load_jquery_user_css()
  * @uses dfcg_load_jquery_user_js()
  *
- * @global array $dfcg_options Plugin options from db
  * @since 4.0
+ * @global array $dfcg_options Plugin options from db
  */
 function dfcg_scripts_css_loader() {
 	
@@ -267,8 +268,13 @@ function dfcg_load_mootools_css() {
  * @since 4.0
  */
 function dfcg_load_mootools_js() {
+
+	global $dfcg_options;
+	
+	if( $dfcg_options['mootools'] !== '1' ) {
 	wp_enqueue_script( 'dcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
 	wp_enqueue_script( 'dcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
+	}
 	wp_enqueue_script( 'dcg_mootools_js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
 	wp_enqueue_script( 'dcg_mootools_trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
 }
@@ -279,8 +285,8 @@ function dfcg_load_mootools_js() {
  *
  * Hooked to 'wp_head'
  *
- * @global $dfcg_options array DCG options from database
  * @since 4.0
+ * @global $dfcg_options array DCG options from database
  */
 function dfcg_load_mootools_user_js_css() {
 
@@ -345,8 +351,8 @@ function dfcg_load_jquery_js() {
  * 
  * Hooked to 'wp_head'
  *
- * @global $dfcg_options array DCG options from database
  * @since 4.0
+ * @global $dfcg_options array DCG options from database
  */
 function dfcg_load_jquery_user_css() {
 
@@ -367,8 +373,8 @@ function dfcg_load_jquery_user_css() {
  *
  * Hooked to 'wp_footer' with very low priority to make sure it loads after the main js file
  *
- * @global $dfcg_options array DCG options from database
  * @since 4.0
+ * @global $dfcg_options array DCG options from database
  */
 function dfcg_load_jquery_user_js() {
 	
@@ -426,13 +432,12 @@ function dfcg_load_jquery_user_js() {
  * Grabs the DCG Metabox External Link URL and title attribute (held as post_meta)
  * and returns these, or permalink and post/page title if they don't exist.
  *
- * @param $id (integer) (required) post/page ID
- * @param $title (string) - post/page title used for link title attr
+ * @param int $id (required) post/page ID
+ * @param string $title (required) post/page title used for link title attr
  *
- * @global $dfcg_postmeta (array) - array containing dfcg custom field keys
- *
- * @return $link (array) containing Link URL and link title attribute
  * @since 4.0
+ * @global array $dfcg_postmeta Array containing dfcg custom field keys
+ * @return array $link Array containing Link URL and link title attribute
  */
 function dfcg_get_link( $id, $title ) {
 

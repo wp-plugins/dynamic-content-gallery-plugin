@@ -27,10 +27,11 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Note: since 4.0 DCG metabox appears on all CPT edit screens if ID Method selected
  *
- * @global array $dfcg_options plugin options from db
- * @global array $dfcg_utilities plugin options from db
  * @since 3.2.1
  * @updated 4.0
+ * @global array $dfcg_options plugin options from db
+ * @global array $dfcg_utilities plugin options from db
+ * @return nothing Calls add_meta_box() function
  */
 function dfcg_add_metabox() {
 
@@ -79,10 +80,11 @@ function dfcg_add_metabox() {
  *
  * Note: Markup follows WP standards for Post/Page Editor sidebar
  *
- * @global array $dfcg_options plugin options from db
- * @param object $post object
  * @since 3.2.2
  * @updated 4.0
+ * @param object $post object
+ * @global array $dfcg_options plugin options from db
+ * @return echos the XHTML for the Metabox
  */
 function dfcg_meta_box( $post ) {
 
@@ -273,10 +275,11 @@ function dfcg_meta_box( $post ) {
  *
  * Adapted from Write Panel plugin by Nathan Rice
  *
- * @param mixed $post_id Post ID
- * @param object $post object
  * @since 3.2.1
  * @updated 4.0
+ * @param mixed $post_id Post ID
+ * @param object $post object
+ * @return nothing Calls add_ update_ delete_option functions to save validated data to db
  */
 function dfcg_save_metabox_data( $post_id, $post ) {
 	
@@ -333,15 +336,15 @@ function dfcg_save_metabox_data( $post_id, $post ) {
 	
 	// If override is checked, but Image URL is empty, we set up an Admin Notice to advise of error
 	if( empty( $newdata['_dfcg-image'] ) && $newdata['_dfcg-main-override'] == 'true' ) {
-		$msg['main-override'] = 'true';
+		$msg['main-override-error'] = 'true';
 	} else {
-		$msg['main-override'] = 'false';
+		$msg['main-override-error'] = 'false';
 	}
 	
 	if( empty( $newdata['_dfcg-image'] ) && $newdata['_dfcg-thumb-override'] == 'true' ) {
-		$msg['thumb-override'] = 'true';
+		$msg['thumb-override-error'] = 'true';
 	} else {
-		$msg['thumb-override'] = 'false';
+		$msg['thumb-override-error'] = 'false';
 	}
 	
 	// Deal with URLs

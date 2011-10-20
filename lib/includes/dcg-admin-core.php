@@ -46,9 +46,11 @@ if( !defined( 'ABSPATH' ) ) {
  * WP_LANG constant must also be defined correctly in wp-config.php.
  *
  * @uses load_plugin_textdomain()
- * @global $dfcg_text_loaded, bool, defined in dynamic-gallery-plugin.php
+ *
  * @since 3.2
- * @updated 3.3.6
+ * @updated 4.0
+ * @global bool $dfcg_text_loaded Defined in dynamic-gallery-plugin.php
+ * @return bool $dfcg_text_loaded True on success, NULL on failure
  */
 function dfcg_load_textdomain() {
 	
@@ -74,7 +76,9 @@ function dfcg_load_textdomain() {
 /**
  * Helper function to define key variables used by Settings API functions
  *
- * Useful for portability to other plugins as only this function needs updating
+ * All functions which need these variables run this function first,
+ * which makes it much easier for maintenance, etc.
+ * Also, useful for portability to other plugins as only this function needs updating
  *
  * @since 4.0
  * @return array $output Array containing base variables used by Settings API
@@ -86,7 +90,7 @@ function dfcg_base_settings() {
 	$output['dfcg_option_group'] =	'dfcg_plugin_settings_group';
 	$output['dfcg_option_name'] =	'dfcg_plugin_settings';
 	$output['dfcg_page_title'] =	'Dynamic Content Gallery Configuration'; 
-	$output['dfcg_menu_title'] =	'Dynamic Content Gallery'; 
+	$output['dfcg_nice_name'] =	'Dynamic Content Gallery'; 
 	
 	return $output;
 }
@@ -100,8 +104,8 @@ function dfcg_base_settings() {
  * @uses dfcg_base_settings(), helper function for naming variables
  * @uses dfcg_sanitise(), callback function for sanitising options
  *
- * @return calls register_setting() WP function
  * @since 4.0
+ * @return calls register_setting() WP function
  */
 function dfcg_register_settings() {
 	
@@ -130,10 +134,10 @@ function dfcg_register_settings() {
  * @uses dfcg_load_admin_scripts()
  * @uses dfcg_load_admin_styles()
  *
- * @global $dfcg_page_hook - need to declare as global for scope purposes in other functions
- * @return nothing
  * @since 3.2
  * @updated 4.0
+ * @global $dfcg_page_hook - need to declare as global for scope purposes in other functions
+ * @return calls add_options_page() and add_actions
  */
 function dfcg_add_to_options_menu() {
 	
@@ -145,7 +149,7 @@ function dfcg_add_to_options_menu() {
 	// Grab base settings using helper function
 	$base_settings = dfcg_base_settings();
 	$page_title = $base_settings['dfcg_page_title'];
-	$menu_title = $base_settings['dfcg_menu_title'];
+	$menu_title = $base_settings['dfcg_nice_name'];
 	
 	// Add Settings Page
 	// add_options_page($page_title, $menu_title, $capability, $menu_slug, $function)
@@ -164,6 +168,7 @@ function dfcg_add_to_options_menu() {
  *
  * @since 3.2
  * @updated 4.0
+ * @return calls wp_enqueue_script functions
  */
 function dfcg_load_admin_scripts() {
 	
@@ -182,6 +187,7 @@ function dfcg_load_admin_scripts() {
  * Hooked to 'admin_print_styles-$page_hook' in dfcg_add_to_options_menu()
  *
  * @since 4.0
+ * @return calls wp_enqueue_style functions
  */
 function dfcg_load_admin_styles() {
 	
@@ -196,9 +202,10 @@ function dfcg_load_admin_styles() {
  *
  * Called by add_options_page() in dfcg_add_to_options_menu()
  *
- * @global $dfcg_options array, db main options
  * @since 3.2
  * @updated 4.0
+ * @global $dfcg_options array, db main options
+ * @return includes settings page file for display
  */
 function dfcg_do_settings_page(){
 	
@@ -220,11 +227,10 @@ function dfcg_do_settings_page(){
  *
  * Puts the 'Settings' link in with Deactivate/Activate links in Plugins page
  *
- * @param $links array, default links shown in first column, main Dashboard Plugins page
- * @param $file string, file name of main plugin file
- *
- * @return $links array, modified array of links to be shown in first column, main Dashboard Plugins page
  * @since 1.0
+ * @param array $links Default links shown in first column, main Dashboard Plugins page
+ * @param string $file File name of main plugin file
+ * @return array $links Modified array of links to be shown in first column, main Dashboard Plugins page
  */
 function dfcg_filter_plugin_actions($links, $file){
 	static $this_plugin;
@@ -247,12 +253,11 @@ function dfcg_filter_plugin_actions($links, $file){
  * Adds additional meta links in the plugin's info section in main Plugins Settings page
  * Note: these links will only appear if plugin is activated
  *
- * @param $links array, default links for each plugin row
- * @param $file string, plugins.php filehook
- *
- * @return $links array, modified links for the DCG's plugin row
  * @since 3.0
  * @updated 4.0
+ * @param array $links Default links for each plugin row
+ * @param string $file Plugins.php filehook, ie the plugin's file name
+ * @return array $links Modified array of links for the DCG's plugin row
  */
 function dfcg_plugin_meta( $links, $file ) {
  
@@ -283,10 +288,11 @@ function dfcg_plugin_meta( $links, $file ) {
 /**
  * WPMS check message
  *
+ * Helper function for WPMS warning message 
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
- * @return $msg string, additional message for WPMS when WP version is insufficient
  * @since 4.0
+ * @return string $msg Additional message for WPMS when WP version is insufficient
  */
 function dfcg_do_messages_wpms() {
 	
@@ -299,10 +305,11 @@ function dfcg_do_messages_wpms() {
 /**
  * WP Version check message
  *
+ * Helper function for WP version warning message 
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
- * @return $msg string, message when WP version is insufficient
  * @since 4.0
+ * @return string $msg Message when WP version is insufficient
  */
 function dfcg_do_version_messages() {
 			
@@ -314,11 +321,12 @@ function dfcg_do_version_messages() {
 
 /**
  * WP Post Thumbnail check message
- * 
+ *
+ * Helper function for post-thumbnails warning message  
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
- * @return $msg string, message when WP Post Thumbnails is not enabled
  * @since 4.0
+ * @return string $msg Message when WP Post Thumbnails is not enabled
  */
 function dfcg_do_post_thumbnail_messages() {
 
@@ -333,14 +341,14 @@ function dfcg_do_post_thumbnail_messages() {
  * 
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
- * @return bool
  * @since 4.0
+ * @return bool Returns true if WP minimum required version is installed
  */
 function dfcg_check_version() {
 
-	$wp_valid = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
+	$ver_ok = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
 	
-	if( $wp_valid )
+	if( $ver_ok )
 		return true;
 	else
 		return false;
@@ -352,8 +360,8 @@ function dfcg_check_version() {
  * 
  * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
  *
- * @return bool
  * @since 4.0
+ * @return bool Returns true if post-thumbnails support exists
  */
 function dfcg_check_post_thumbnails() {
 
@@ -377,10 +385,10 @@ function dfcg_check_post_thumbnails() {
  * @uses dfcg_do_post_thumbnail_messages()
  * @uses dfcg_do_messages_wpms()
  *
- * @global $current_screen, current admin screen object
- * @return echos messages wrapped in necessary XHTML markup for display in Plugins table
  * @since 3.2
  * @updated 4.0
+ * @global object(array) $current_screen The current admin screen object
+ * @return echos messages wrapped in necessary XHTML markup for display in Plugins table
  */	
 function dfcg_checks_plugins_page() {
 
@@ -444,9 +452,9 @@ function dfcg_checks_plugins_page() {
  * @uses dfcg_do_post_thumbnail_messages()
  * @uses dfcg_do_messages_wpms()
  *
- * @global $current_screen object, current admin screen object
- * @return displays messages for checks which are false
  * @since 4.0
+ * @global object(array) $current_screen The current admin screen object
+ * @return echos messages for checks which are false
  */	
 function dfcg_checks_settings_page() {	
 	global $current_screen;
@@ -498,27 +506,27 @@ function dfcg_checks_settings_page() {
  *
  * For details of $messages array see wp-admin/edit-form-advanced.php
  *
- * @param $messages array, messages when post/page updated/published
- *
- * @global $dfcg_utilities array, db metabox validate options 
  * @since 4.0
+ * @param array $messages Array of messages accessed when post/page updated/published
+ * @global array $dfcg_utilities, DCG metabox validation error flags
+ * @return array $messages Modified array of post updated messages 
  */	
 function dfcg_metabox_save_notices( $messages ) {
 	
 	global $dfcg_utilities, $post;
 	
-	if( $dfcg_utilities['main-override'] !== 'true' && $dfcg_utilities['thumb-override'] !== 'true' )
+	if( $dfcg_utilities['main-override-error'] !== 'true' && $dfcg_utilities['thumb-override-error'] !== 'true' )
 		return $messages; // Nothing to do here
 	
-	if( $dfcg_utilities['main-override'] == 'true' || $dfcg_utilities['thumb-override'] == 'true' ) {
+	if( $dfcg_utilities['main-override-error'] == 'true' || $dfcg_utilities['thumb-override-error'] == 'true' ) {
 	
-		// Reset override flags to false and update db options
+		// Reset override error flags to false and update db options
 		// We do both because it doesn't matter which one triggered the error
-		$dfcg_utilities['main-override'] = 'false';
-		$dfcg_utilities['thumb-override'] = 'false';
-		update_option( 'dfcg_utilities', $dfcg_utilities );
+		$dfcg_utilities['main-override-error'] = 'false';
+		$dfcg_utilities['thumb-override-error'] = 'false';
+		update_option( 'dfcg_utilities-error', $dfcg_utilities );
 		
-		$msg = ' <span class="dfcg-message" style="margin-left:20px;"><strong>DCG Metabox warning</strong>: You have checked the Override checkbox(es) but you have not entered a URL in the Image URL field.</span>';
+		$msg = ' <span class="dfcg-message" style="margin-left:20px;"><strong>DCG Metabox warning: You have checked the Override Main and/or Thumb checkbox(es) but you have not entered a URL in the Image URL field.</strong></span>';
 		
 		$messages[$post->post_type][1] = $messages[$post->post_type][1] . $msg;
 		$messages[$post->post_type][6] = $messages[$post->post_type][6] . $msg;
@@ -539,8 +547,9 @@ function dfcg_metabox_save_notices( $messages ) {
  *
  * @uses dfcg_base_settings()
  *
- * @global $current_screen object The current admin screen object
  * @since 4.0
+ * @global object(array) $current_screen The current admin screen object
+ * @return echos nag message with XHTML markup
  */
 function dfcg_upgrade_nag() {
 	
@@ -555,7 +564,7 @@ function dfcg_upgrade_nag() {
 		return;
 
 	$settings = dfcg_base_settings();
-	$name = $settings['dfcg_menu_title'];
+	$name = $settings['dfcg_nice_name'];
 		
 	$r = $current->response[ DFCG_FILE_NAME ];
 	
@@ -573,7 +582,6 @@ function dfcg_upgrade_nag() {
 }
 
 
-
 /**
  * Filter callback to add image sizes to Media Uploader
  *
@@ -588,14 +596,12 @@ function dfcg_upgrade_nag() {
  * Unfortunately, add_image_size only creates a 'name' not a 'label', therefore we take
  * the DCG image 'name' and remove the underscores to create a a nice looking 'label'.
  *
- * @param $sizes array of default image sizes (associative array)
- *
- * @global string $dfcg_main_hard registered image size name for DCG Main image with hard crop
- * @global string $dfcg_main_boxr registered image size name for DCG Main image with box resize
- * @global array $dfcg_options db main plugin options
- * @return array $sizes default image sizes plus DCG Main sizes (associative array)
- *
  * @since 4.0
+ * @param array $sizes Default image sizes (associative array)
+ * @global string $dfcg_main_hard Registered image size name for DCG Main image with hard crop
+ * @global string $dfcg_main_boxr Registered image size name for DCG Main image with box resize
+ * @global array $dfcg_options db main plugin options
+ * @return array $sizes Default image sizes plus DCG Main sizes (associative array)
  */
 function dfcg_filter_image_size_names_muploader( $sizes ) {
 	
@@ -631,6 +637,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
  *
  * @since 3.2.2
  * @updated 4.0
+ * @return array $default_options Array of default options for the plugin
  */
 function dfcg_default_options() {
 	
@@ -796,8 +803,10 @@ function dfcg_default_options() {
  * In 4.0 - Total options = 86 + 6 + 3 -1 = 94
  *
  * @uses dfcg_default_options()
+ *
  * @since 3.2.2
  * @updated 4.0
+ * @return if DCG version up to date, returns NULL, otherwise upgrades plugin's options in the db
  */
 function dfcg_set_gallery_options() {
 	
