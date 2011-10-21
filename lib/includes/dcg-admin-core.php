@@ -90,7 +90,7 @@ function dfcg_base_settings() {
 	$output['dfcg_option_group'] =	'dfcg_plugin_settings_group';
 	$output['dfcg_option_name'] =	'dfcg_plugin_settings';
 	$output['dfcg_page_title'] =	'Dynamic Content Gallery Configuration'; 
-	$output['dfcg_nice_name'] =	'Dynamic Content Gallery'; 
+	$output['dfcg_nice_name'] =		'Dynamic Content Gallery'; 
 	
 	return $output;
 }
