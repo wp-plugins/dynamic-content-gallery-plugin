@@ -512,48 +512,7 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
 }
 
 
-/**
- * Gets Featured Image "DCG_Main_wxh_true" sized image from the post/page
- *
- * Used by dfcg_get_image() function
- *
- * This assumes that the image has been uploaded since the last time the gallery height and width
- * DCG options were set. If not, the new image size may not exist and a "soft" resized version may be
- * displayed instead (ie, relies on browser resizing).
- * To avoid this, users should
- * re-run the Regenerate Thumbnails plugin to create the new image sizes.
- *
- * @uses current_theme_supports() WP function
- * @uses wp_get_attachment_image_src() WP function
- * @uses get_post_thumbnail() WP function
- *
- * @param $id (int|string) post ID
- * @global $dfcg_options (array) DCG Settings from db
- * @return $image (array) = src, w(idth), h(eight), class, or returns false
- *
- * @since 4.0
- */
-function dfcg_get_featured_image( $id ) {
 
-	if( !current_theme_supports( 'post-thumbnails' ) ) return false;
-	
-	global $dfcg_options;
-		
-	// Eg: 'DCG_Main_588x350_true'
-	$size = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_' . $dfcg_options['crop'];
-	
-	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), $size );
-	
-	// Set up the array elements to be sent back to the calling function
-	if( $image ) {
-		$image['src'] = $image[0];
-		$image['w'] = $image[1];
-		$image['h'] = $image[2];
-		$image['class'] = 'dfcg-auto full';
-		unset( $image[0], $image[1], $image[2], $image[3] );
-	}	
-	return $image;
-}
 
 
 
@@ -600,56 +559,43 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 	
 	/***** Using Featured Images *****/
 	if( $dfcg_options['image-url-type'] == "auto" ) {
+			
+		// Metabox image may override Auto Featured Image
+		if( $image['src'] = get_post_meta( $id, $dfcg_postmeta['image'], true ) ) {
 		
-		// Metabox image may override Auto Featured Image - If box isn't checked, override is ignored!
-		if( $override = get_post_meta( $id, $dfcg_postmeta['override-main'], true ) ) {
-			
-			if( $image['src'] = get_post_meta( $id, $dfcg_postmeta['image'], true ) ) {
-		
-				$image['src'] = $dfcg_baseimgurl . $image['src'];
+			$image['src'] = $dfcg_baseimgurl . $image['src'];
 				
-				/*$image_path = str_replace( get_bloginfo('url'), ABSPATH, $image['src'] );
-				@list( $image['w'], $image['h'] ) = getimagesize( $image_path );
-				// Note: this will throw a PHP error if image is hosted in a different domain!
-				// May need to re-think this...
-				*/
+			/*$image_path = str_replace( get_bloginfo('url'), ABSPATH, $image['src'] );
+			@list( $image['w'], $image['h'] ) = getimagesize( $image_path );
+			// Note: this will throw a PHP error if image is hosted in a different domain!
+			// May need to re-think this...
+			*/
 				
-				// Assume that size of any manual image is same as gallery dimensions
-				// This might not be true, but users should do their own resizing!
-				$image['w'] = $dfcg_options['gallery-width'];
-				$image['h'] = $dfcg_options['gallery-height'];
-				
-				$image['class'] = 'dfcg-auto-metabox full';
-        		$image['msg'] = '31'; // Info: DCG metabox image URL overrides Featured Image.
-        		// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
+			// Assume that size of any manual image is same as gallery dimensions
+			// This might not be true, but users should do their own resizing!
+			$image['w'] = $dfcg_options['gallery-width'];
+			$image['h'] = $dfcg_options['gallery-height'];
 			
-				return $image;
-			}
+			$image['class'] = 'dfcg-auto-metabox full';
+        	$image['msg'] = '31'; // Info: DCG metabox image URL overrides Featured Image.
+        	// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie 404.
 			
-			// Error: override is checked, but Metabox URL is empty
-			$msg = '32';
-			
+			return $image;
 		}
+
 		
 		// No override, let's get the Featured Image
 		$image = dfcg_get_featured_image( $id );
 		
 		if( $image['src'] ) {
 			
-			if( isset( $msg ) )
-				$image['msg'] = $msg; // 32. Manual override image not found, Featured Image used instead
-			else
-				$image['msg'] = '30'; // Featured image found, Override not set
-			
+			$image['msg'] = '30'; // Featured image found, no Override
 			// Note: No Error message will be triggered if the attachment has been physically removed/moved by FTP for example, ie 404.
 			
 			return $image;
 		}
 		
-		if( isset( $msg) ) 
-			$msg = '33'; // Override: No metabox URL, Featured image not set
-		else
-			$msg = '34'; // No Override: Featured image not set
+		$msg = '34'; // Featured image not set (nor was there a Metabox URL)
 		
 	} // End of if( Auto )
 	
@@ -660,8 +606,12 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 		if( $image['src'] = get_post_meta( $id, $dfcg_postmeta['image'], true ) ) {
 						
 			$image['src'] = $dfcg_baseimgurl . $image['src'];
-			$image_path = str_replace( get_bloginfo( 'url' ), ABSPATH, $image['src'] );
-			@list( $image['w'], $image['h'] ) = getimagesize( $image_path );
+			//$image_path = str_replace( get_bloginfo( 'url' ), ABSPATH, $image['src'] );
+			//@list( $image['w'], $image['h'] ) = getimagesize( $image_path );
+			// Assume that size of any manual image is same as gallery dimensions
+			// This might not be true, but users should do their own resizing!
+			$image['w'] = $dfcg_options['gallery-width'];
+			$image['h'] = $dfcg_options['gallery-height'];
 			$image['class'] = "dfcg-metabox full";
         	$image['msg'] = '35';
 			// Note: No Error message will be triggered if Metabox image is set but URL is wrong, ie image gives 404
@@ -689,16 +639,12 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 		$image['src'] = $def_img_folder_url . $def_img_name;
 		$image['class'] = "dfcg-default full";
 		
-		// $msg will either be 33, 34 (Auto), or 36 (Full/Partial)
-		if( $msg == '33' ) {
+		// $msg will either be 34 (from Auto), or 36 (from Full/Partial)
+		if( $msg == '34') {
 			
-			$image['msg'] = '33.1'; // Auto, Override set, No metabox URL, Featured image not set, Default image displayed
-			
-		} elseif( $msg == '34') {
-			
-			$image['msg'] = '34.1'; // Auto, Override not set, Featured image not set, Default image displayed
+			$image['msg'] = '34.1'; // Auto, no Override, Featured image not set, Default image displayed
 		
-		} else {
+		} elseif( $msg == '36') {
 			
 			$image['msg'] = '36.1'; // Full/Partial, DCG Metabox image URL empty, Default image displayed
 		}
@@ -707,23 +653,19 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 		
 	}
 	
-	$msg = '37'; // Default image doesn't exist
+	//$msg = '37'; // Default image doesn't exist
 								
 	$image['src'] = DFCG_ERRORIMGURL;
 	$image['w'] = '250';
 	$image['h'] = '194';
 	$image['class'] = "dfcg-error full";
 	
-	// $msg will either be 33, 34 (Auto), or 37 (Full/Partial)
-	if( $msg == '33' ) {
+	// $msg will either be 34 (Auto), or nothing (Full/Partial)
+	if( $msg == '34') {
 			
-		$image['msg'] = '33.2'; // Auto, Override set, No metabox URL, Featured image not set, No Default image, ErrorImg displayed
-			
-	} elseif( $msg == '34') {
-			
-		$image['msg'] = '34.2'; // Auto, Override not set, Featured image not set, No Default image, ErrorImg displayed
+		$image['msg'] = '34.2'; // Auto, no Override, Featured image not set, No Default image, ErrorImg displayed
 		
-	} else {
+	} else{
 			
 		$image['msg'] = '36.2'; // Full/Partial, DCG Metabox image URL empty, No Default image, ErrorImg displayed
 	}

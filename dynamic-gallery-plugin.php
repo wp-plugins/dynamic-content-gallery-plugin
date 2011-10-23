@@ -238,25 +238,25 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 /* Pre-2.6 compatibility to find directories */
-if ( ! defined( 'WP_CONTENT_URL' ) )
+/*if ( ! defined( 'WP_CONTENT_URL' ) )
 	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
 if ( ! defined( 'WP_CONTENT_DIR' ) )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 if ( ! defined( 'WP_PLUGIN_URL' ) )
 	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
 if ( ! defined( 'WP_PLUGIN_DIR' ) )
-	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );*/
 
 
 /* Set constants for plugin */
 define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
-define( 'DFCG_URL', 			WP_PLUGIN_URL . '/dynamic-content-gallery-plugin' );
+define( 'DFCG_URL', 			plugins_url() . '/dynamic-content-gallery-plugin' );
 define( 'DFCG_DIR', 			WP_PLUGIN_DIR . '/dynamic-content-gallery-plugin' );
 define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
 define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
-define( 'DFCG_LANG_DIR_REL', 		'/dynamic-content-gallery-plugin/languages' );
+define( 'DFCG_LANG_DIR_REL', 	'/dynamic-content-gallery-plugin/languages' );
 
-define( 'DFCG_ERRORIMGURL', 		DFCG_LIB_URL . '/error-img/error.jpg' );
+define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
 define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
 
 define( 'DFCG_VER', 			'4.0' );
@@ -395,10 +395,6 @@ if( is_admin() ) {
 	/* Admin - Adds Upgrade nag to DCG Settings page */
 	// Function defined in dcg-admin-core.php
 	add_action( 'admin_notices', 'dfcg_upgrade_nag', 9 );
-	
-	/* Admin - Filters Post Updated/Published message on savere */
-	// Function defined in dcg-admin-core.php
-	add_filter( 'post_updated_messages', 'dfcg_metabox_save_notices' );
 	
 	/* Admin - Adds list of DCG image sizes to Media Uploader */
 	// Function defined in dcg-admin-core.php

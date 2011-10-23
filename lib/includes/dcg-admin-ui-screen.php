@@ -36,10 +36,10 @@ if( !defined( 'ABSPATH' ) ) {
 dfcg_load_textdomain();
 
 // Grab base settings using helper function
-$base_settings = dfcg_base_settings();
+$dfcg_base = dfcg_base_settings();
 
 // Pull options from db - added in 3.3.1 to solve new options issue
-$dfcg_options = get_option( $base_settings['dfcg_option_name'] );
+$dfcg_options = get_option( $dfcg_base['dfcg_option_name'] );
 
  // Run Settings validation checks on page load
 dfcg_on_load_validation($dfcg_options);
@@ -49,13 +49,13 @@ dfcg_on_load_validation($dfcg_options);
 
 	<?php screen_icon('options-general');// Display icon next to title ?>
 	
-	<h2><?php echo $base_settings['dfcg_page_title']?></h2>
+	<h2><?php echo $dfcg_base['dfcg_page_title']?></h2>
 	
 	<p><strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>
 		
 	<form method="post" action="options.php">
 
-	<?php settings_fields( $base_settings['dfcg_option_group'] ); // Settings API, nonces etc ?>
+	<?php settings_fields( $dfcg_base['dfcg_option_name'] ); // Settings API, nonces etc ?>
 	
 	<div id="dfcg-tabs">
 		<ul id="dfcg-tab-titles">

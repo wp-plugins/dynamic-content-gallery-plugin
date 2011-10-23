@@ -84,7 +84,7 @@ function dfcg_postmeta_info() {
  * Gets cat01 to cat10 and off01 to off10 from $dfcg_options array, skips empty image slots,
  * and builds an array for use in WP_Query in Multi-Option constructors.
  *
- * Used by all js script framework constructor functions
+ * Used by all Multi Option constructor functions
  *
  * @global array $dfcg_options Plugin options from db
  * @return array $query_list	Array of cat/offset pairs
@@ -126,4 +126,47 @@ function dfcg_query_list() {
 		unset( $tmp_query_list );
 	}
 	return $query_list;
+}
+
+/**
+ * Gets Featured Image "DCG_Main_wxh_true" sized image from the post/page
+ *
+ * Used by dfcg_get_image() function
+ *
+ * This assumes that the image has been uploaded since the last time the gallery height and width
+ * DCG options were set. If not, the new image size may not exist and a "soft" resized version may be
+ * displayed instead (ie, relies on browser resizing).
+ * To avoid this, users should
+ * re-run the Regenerate Thumbnails plugin to create the new image sizes.
+ *
+ * @uses current_theme_supports() WP function
+ * @uses wp_get_attachment_image_src() WP function
+ * @uses get_post_thumbnail() WP function
+ *
+ * @param $id (int|string) post ID
+ * @global $dfcg_options (array) DCG Settings from db
+ * @return $image (array) = src, w(idth), h(eight), class, or returns false
+ *
+ * @since 4.0
+ */
+function dfcg_get_featured_image( $id ) {
+
+	if( !current_theme_supports( 'post-thumbnails' ) ) return false;
+	
+	global $dfcg_options;
+		
+	// Eg: 'DCG_Main_588x350_true'
+	$size = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_' . $dfcg_options['crop'];
+	
+	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), $size );
+	
+	// Set up the array elements to be sent back to the calling function
+	if( $image ) {
+		$image['src'] = $image[0];
+		$image['w'] = $image[1];
+		$image['h'] = $image[2];
+		$image['class'] = 'dfcg-auto full';
+		unset( $image[0], $image[1], $image[2], $image[3] );
+	}	
+	return $image;
 }

@@ -26,28 +26,6 @@ if (!defined('ABSPATH')) {
 
 
 /**
- * Get list of all Custom Post Types
- *
- * @since 3.3
- */
-function dfcg_get_custom_post_types() {
-	
-	$args=array(
-  		'public'   => true,
-  		'_builtin' => false
-		); 
-	$output = 'objects'; // names or objects
-	$operator = 'and'; // 'and' or 'or'
-	$post_types = get_post_types($args, $output, $operator);
-	
-	return $post_types; // An object
-}
-
-
-
-
-
-/**
  * Settings page tab: General
  *
  * Renamed in v4.0, used to be named dfcg_ui_intro_menu()

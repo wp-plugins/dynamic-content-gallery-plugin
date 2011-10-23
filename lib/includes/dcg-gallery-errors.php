@@ -298,41 +298,21 @@ function dfcg_errors() {
 	#	Note:				Doesn't prevent 404 due to DCG Metabox URL being incorrect
 	$err = $o . __('DCG Message 31', DFCG_DOMAIN) . $c;
 	$err .= $o . __('Image Management = Auto', DFCG_DOMAIN) . $c;
-	$err .= $o . __('DCG Metabox override "Use as Main Image" is checked', DFCG_DOMAIN) . $c;
-	$err .= $o . __('DCG Metabox image URL is displayed', DFCG_DOMAIN) . $c;
+	$err .= $o . __('Featured Image is overridden by DCG Metabox image URL.', DFCG_DOMAIN) . $c;
+	$err .= $o . __('If image is not visible, check that DCG Metabox image URL is correct.', DFCG_DOMAIN) . $c;
 	$errmsgs['31'] = $err;
 	
 	
-	#	Message 32			DCG Metabox image URL empty, Featured image displayed instead
-	#	Image Man:			Auto
-	#	Override:			Yes
-	#	Note:				Theoretically, DCG Metabox validation should prevent this error ever happening 
-	$err = $o . __('DCG Message 32', DFCG_DOMAIN) .' -->';
-	$err .= $o . __('Image Management = Auto', DFCG_DOMAIN) .' -->';
-	$err .= $o . __('DCG Metabox override "Use as Main Image" is checked', DFCG_DOMAIN) .' -->';
-	$err .= $o . __('DCG Metabox image URL is empty. Featured Image is displayed instead.', DFCG_DOMAIN) .' -->';
-	$errmsgs['32'] = $err;
+	#	Message 32			Not used
+	#	Image Man:			None
+	#	Override:			N/A
+	#	Note:				Not used 
 	
 	
-	#	Message 33			DCG Metabox image URL empty, Featured image not set
-	#	Image Man:			Auto
-	#	Override:			Yes
-	#	Note:				Theoretically, DCG Metabox validation should prevent this error ever happening
-	#	Note:				Either default or errorimg will be displayed instead
-	$err = "\n" . '<!-- ' . __('DCG Message 33', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Image Management = Auto', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('DCG Metabox override "Use as Main Image" is checked', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Error: DCG Metabox image URL is empty and Featured Image has not been set.', DFCG_DOMAIN) .' -->';
-	$errmsgs['33'] = $err;
-	
-	
-	#	Message 33.1		DCG Metabox image URL empty, Featured image not set, therefore Default image is displayed
-	#	Image Man:			Auto
-	#	Override:			Not set
-	#	Note:				See message 33
-	$err = $errmsgs['33'];
-	$err .= "\n" . '<!-- ' . __('DCG Message 33.1: Default image is displayed instead.', DFCG_DOMAIN) .' -->';
-	$errmsgs['33.1'] = $err;
+	#	Message 33			Not used
+	#	Image Man:			None
+	#	Override:			N/A
+	#	Note:				Not used	
 	
 	
 	#	Message 34			Featured image not set
@@ -345,13 +325,23 @@ function dfcg_errors() {
 	$errmsgs['34'] = $err;
 	
 	
-	#	Message 34.1		Featured image not set, therefore Default image is displayed
+	#	Message 34.1		Featured image not set, Default image exists
 	#	Image Man:			Auto
 	#	Override:			Not set
 	#	Note:				See message 34
 	$err = $errmsgs['34'];
 	$err .= $o . __('DCG Message 34.1: Default image is displayed instead.', DFCG_DOMAIN) . $c;
 	$errmsgs['34.1'] = $err;
+	
+	
+	#	Message 34.2		Featured image not set, Default image doesn't exist, Error image displayed
+	#	Image Man:			Auto
+	#	Override:			Not set
+	#	Note:				See message 34
+	$err = $errmsgs['34'];
+	$err .= $o . __('DCG Message 34.2: Default image does not exist.', DFCG_DOMAIN) . $c;
+	$err .= $o . __('Error image is displayed instead.', DFCG_DOMAIN) . $c;
+	$errmsgs['34.2'] = $err;
 	
 	
 	#	Message 35			DCG Metabox image is displayed
@@ -363,33 +353,29 @@ function dfcg_errors() {
 	$errmsgs['35'] = $err;
 	
 	
-	#	Message 36			DCG Metabox image is displayed
+	#	Message 36			DCG Metabox image doesn't exist
 	#	Image Man:			Full / Partial
 	#	Note:				Doesn't prevent 404 due to DCG Metabox URL being incorrect	
 	$err = "\n" . '<!-- ' . __('DCG Message 36', DFCG_DOMAIN) .' -->';
 	$err .= "\n" . '<!-- ' . __('Image Management = Full or Partial', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('DCG Metabox image URL is displayed.', DFCG_DOMAIN) .' -->';
+	$err .= "\n" . '<!-- ' . __('Error: DCG Metabox image URL not found.', DFCG_DOMAIN) .' -->';
 	$errmsgs['36'] = $err;
 	
 	
 	#	Message 36.1		DCG Metabox image URL empty, therefore Default image is displayed
 	#	Image Man:			Full / Partial
 	#	Note:				See message 36
-	$err = "\n" . '<!-- ' . __('DCG Message 36.1', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Image Management = Full or Partial', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Error: DCG Metabox image URL not found.', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Default image is displayed instead.', DFCG_DOMAIN) .' -->';
+	$err = $errmsgs['36'];
+	$err .= $o . __('DCG Message 36.1: Default image is displayed instead.', DFCG_DOMAIN) . $c;
 	$errmsgs['36.1'] = $err;
 	
 	
 	#	Message 36.2		DCG Metabox image URL empty, Default image doesn't exist, ErrorImg displayed instead
 	#	Image Man:			Full / Partial
 	#	Note:				See message 36 and 36.1
-	$err = "\n" . '<!-- ' . __('DCG Message 36.2', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Image Management = Full or Partial', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Error: DCG Metabox image URL is not found.', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Error: Default image not found.', DFCG_DOMAIN) .' -->';
-	$err .= "\n" . '<!-- ' . __('Error image is displayed instead.', DFCG_DOMAIN) .' -->';
+	$err = $errmsgs['36'];
+	$err .= $o . __('DCG Message 36.2: Default image does not exist.', DFCG_DOMAIN) . $c;
+	$err .= $o . __('Error image is displayed instead.', DFCG_DOMAIN) . $c;
 	$errmsgs['36.2'] = $err;
 
 	

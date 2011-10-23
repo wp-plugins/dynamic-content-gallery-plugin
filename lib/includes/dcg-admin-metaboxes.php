@@ -27,6 +27,8 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Note: since 4.0 DCG metabox appears on all CPT edit screens if ID Method selected
  *
+ * @uses dfcg_get_custom_post_types()
+ *
  * @since 3.2.1
  * @updated 4.0
  * @global array $dfcg_options plugin options from db
@@ -51,13 +53,7 @@ function dfcg_add_metabox() {
 		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'post', 'side', 'low' );
 		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'page', 'side', 'low' );
 		
-		$args=array(
-  		'public'   => true,
-  		'_builtin' => false
-		); 
-		$output = 'objects'; // names or objects
-		$operator = 'and'; // 'and' or 'or'
-		$post_types = get_post_types($args, $output, $operator);
+		$post_types = dfcg_get_custom_post_types();
 	
 		foreach( $post_types as $post_type ) {
 			add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type->name, 'side', 'low' );
@@ -122,40 +118,7 @@ function dfcg_meta_box( $post ) {
 	<?php if( $dfcg_options['image-url-type'] == 'auto' ) : ?>
 		
 		<p class="howto"><?php _e('You are using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php echo $link; ?></a> <?php _e('Image Management. The DCG will use the Featured Image set for this Post/Page.', DFCG_DOMAIN); ?></p>
-		<p class="howto"><strong><?php _e('Manual override (optional):', DFCG_DOMAIN); ?></strong><br /><?php _e('To override the Featured Image enter the URL (including http://) to the alternative image in the box below.', DFCG_DOMAIN); ?></p>
-			
-		<?php // Deal with Main/Thumb checkboxes
-		$main_override = false;
-		
-		if( get_post_meta($post->ID,'_dfcg-main-override',true) == 'true' ) {
-		
-			$main_override = true;
-		
-		} else {
-		
-			$main_override = false;
-		
-		}
-		
-		$thumb_override = false;
-		
-		if( get_post_meta($post->ID,'_dfcg-thumb-override',true) == 'true' ) {
-		
-			$thumb_override = true;
-		
-		} else {
-		
-			$thumb_override = false;
-		}
-		?>
-			
-		<p>
-			<input type="checkbox" id="_dfcg-main-override" name="_dfcg-main-override" <?php checked($main_override); ?> />
-			<label for="_dfcg-main-override">&nbsp;<?php _e('Override Main DCG image', DFCG_DOMAIN ); ?></label><br />
-			
-			<input type="checkbox" id="_dfcg-thumb-override" name="_dfcg-thumb-override" <?php checked($thumb_override); ?> />
-			<label for="_dfcg-thumb-override">&nbsp;<?php _e('Override Carousel Thumbnail', DFCG_DOMAIN ); ?></label>
-		</p>
+		<p class="howto"><strong><?php _e('Manual override (optional):', DFCG_DOMAIN); ?></strong><br /><?php _e('To override the Featured Image enter the URL (including http://) to the alternative image in the Image URL box below.', DFCG_DOMAIN); ?></p>
 		
 	<?php elseif( $dfcg_options['image-url-type'] == 'full' ) : ?>
 			
@@ -279,7 +242,7 @@ function dfcg_meta_box( $post ) {
  * @updated 4.0
  * @param mixed $post_id Post ID
  * @param object $post object
- * @return nothing Calls add_ update_ delete_option functions to save validated data to db
+ * @return nothing Calls add_* update_* delete_option functions to save validated data to db
  */
 function dfcg_save_metabox_data( $post_id, $post ) {
 	
@@ -290,11 +253,11 @@ function dfcg_save_metabox_data( $post_id, $post ) {
 
 	// Is the user allowed to edit the post or page?
 	if ( 'page' == $_POST['post_type'] ) {
-		if ( !current_user_can( 'edit_page', $post->ID ))
-		return $post->ID;
+		if ( !current_user_can( 'edit_page', $post->ID ) )
+			return $post->ID;
 	} else {
-		if ( !current_user_can( 'edit_post', $post->ID ))
-		return $post->ID;
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return $post->ID;
 	}
 
 	// Build array from $_POST data	
@@ -305,11 +268,8 @@ function dfcg_save_metabox_data( $post_id, $post ) {
 	$newdata['_dfcg-link-title-attr'] = $_POST['_dfcg-link-title-attr'];
 	
 	
-	// Deal with checkboxes
-	$newdata['_dfcg-main-override'] = $_POST['_dfcg-main-override'] ? 'true' : NULL;
-	
-	$newdata['_dfcg-thumb-override'] = $_POST['_dfcg-thumb-override'] ? 'true' : NULL;
-	
+	// Deal with checkboxes.
+	// Note: we don't want to save data for unchecked checkboxes
 	$newdata['_dfcg-exclude'] = $_POST['_dfcg-exclude'] ? 'true' : NULL;
 	
 	
@@ -334,18 +294,7 @@ function dfcg_save_metabox_data( $post_id, $post ) {
 		$newdata['_dfcg-image'] = esc_attr( $newdata['_dfcg-image'] );
 	} 
 	
-	// If override is checked, but Image URL is empty, we set up an Admin Notice to advise of error
-	if( empty( $newdata['_dfcg-image'] ) && $newdata['_dfcg-main-override'] == 'true' ) {
-		$msg['main-override-error'] = 'true';
-	} else {
-		$msg['main-override-error'] = 'false';
-	}
 	
-	if( empty( $newdata['_dfcg-image'] ) && $newdata['_dfcg-thumb-override'] == 'true' ) {
-		$msg['thumb-override-error'] = 'true';
-	} else {
-		$msg['thumb-override-error'] = 'false';
-	}
 	
 	// Deal with URLs
 	$newdata['_dfcg-link'] = esc_url_raw( $newdata['_dfcg-link'] );
@@ -365,7 +314,6 @@ function dfcg_save_metabox_data( $post_id, $post ) {
 	$newdata['_dfcg-sort'] = esc_attr($newdata['_dfcg-sort']);
 	
 	
-	update_option('dfcg_utilities', $msg);
 	// Add values of $newdata as custom fields
 	
 	foreach( $newdata as $key => $value ) {

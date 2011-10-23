@@ -16,6 +16,7 @@
  * @info - Plugin row meta
  * @info - Admin Notices for WP Version and Post Thumbnails check
  * @info - Add image sizes to Media Uploader
+ * @info - Miscellaneous helper functions used elsewhere
  * @info - DCG options handling and upgrading
  *
  * @since 3.0
@@ -87,7 +88,6 @@ function dfcg_base_settings() {
 
 	$output = array();
 
-	$output['dfcg_option_group'] =	'dfcg_plugin_settings_group';
 	$output['dfcg_option_name'] =	'dfcg_plugin_settings';
 	$output['dfcg_page_title'] =	'Dynamic Content Gallery Configuration'; 
 	$output['dfcg_nice_name'] =		'Dynamic Content Gallery'; 
@@ -110,12 +110,10 @@ function dfcg_base_settings() {
 function dfcg_register_settings() {
 	
 	// Grab base settings using helper function
-	$base_settings = dfcg_base_settings();
-	$option_group = $base_settings['dfcg_option_group'];
-	$option_name = $base_settings['dfcg_option_name'];
+	$base = dfcg_base_settings();
 	
 	// register_setting($option_group, $option_name, $sanitize_callback)
-	register_setting( $option_group, $option_name, 'dfcg_sanitise' );
+	register_setting( $base['dfcg_option_name'], $base['dfcg_option_name'], 'dfcg_sanitise' );
 }
 
 
@@ -500,43 +498,6 @@ function dfcg_checks_settings_page() {
 
 
 /**
- * Filter callback to display messages if DCG Metabox validation errors
- *
- * Hooked to 'post_updated_messages' filter
- *
- * For details of $messages array see wp-admin/edit-form-advanced.php
- *
- * @since 4.0
- * @param array $messages Array of messages accessed when post/page updated/published
- * @global array $dfcg_utilities, DCG metabox validation error flags
- * @return array $messages Modified array of post updated messages 
- */	
-function dfcg_metabox_save_notices( $messages ) {
-	
-	global $dfcg_utilities, $post;
-	
-	if( $dfcg_utilities['main-override-error'] !== 'true' && $dfcg_utilities['thumb-override-error'] !== 'true' )
-		return $messages; // Nothing to do here
-	
-	if( $dfcg_utilities['main-override-error'] == 'true' || $dfcg_utilities['thumb-override-error'] == 'true' ) {
-	
-		// Reset override error flags to false and update db options
-		// We do both because it doesn't matter which one triggered the error
-		$dfcg_utilities['main-override-error'] = 'false';
-		$dfcg_utilities['thumb-override-error'] = 'false';
-		update_option( 'dfcg_utilities-error', $dfcg_utilities );
-		
-		$msg = ' <span class="dfcg-message" style="margin-left:20px;"><strong>DCG Metabox warning: You have checked the Override Main and/or Thumb checkbox(es) but you have not entered a URL in the Image URL field.</strong></span>';
-		
-		$messages[$post->post_type][1] = $messages[$post->post_type][1] . $msg;
-		$messages[$post->post_type][6] = $messages[$post->post_type][6] . $msg;
-
-		return $messages;
-	}
-}
-
-
-/**
  * Creates a DCG upgrade nag in the DCG Settings page
  *
  * Hooked to 'admin_notices'
@@ -618,6 +579,27 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	return $sizes;
 }
 
+
+/***** Misc Helper functions used in Admin *****/
+
+/**
+ * Helper function to get list of all registered Custom Post Types
+ *
+ * @since 3.3
+ * @return object(array) $post_types Object containing all registered CPTs
+ */
+function dfcg_get_custom_post_types() {
+	
+	$args=array(
+  		'public'   => true,
+  		'_builtin' => false
+		); 
+	$output = 'objects'; // names or objects
+	$operator = 'and'; // 'and' or 'or'
+	$post_types = get_post_types($args, $output, $operator);
+	
+	return $post_types; // An object
+}
 
 
 
@@ -830,7 +812,6 @@ function dfcg_set_gallery_options() {
 	if( $existing_version == '3.0 RC4' )
 		$existing_version = '2.3.4';
 	
-	$utilities = get_option( 'dfcg_utilities' );
 	$existing_opts = get_option( 'dfcg_plugin_settings' );
 
 
@@ -842,13 +823,6 @@ function dfcg_set_gallery_options() {
 		
 		add_option( 'dfcg_plugin_settings', $new_opts );
 		add_option( 'dfcg_version', DFCG_VER );
-		
-		// This option contains various values/flags used in DCG admin, eg error notices, etc
-		$utilities = array();
-	
-		$utilities['main-override'] = 'false';
-		$utilities['thumb-override'] = 'false';
-		add_option( 'dfcg_utilities', $utilities );
 				
 		return;
 	}
@@ -869,13 +843,6 @@ function dfcg_set_gallery_options() {
 		if( $postmeta ) {
 			delete_option( 'dfcg_plugin_postmeta_upgrade'); // Clear out old
 		}
-		
-		// Create the new utilities db options
-		$utilities = array();
-	
-		$utilities['main-override'] = 'false';
-		$utilities['thumb-override'] = 'false';
-		add_option( 'dfcg_utilities', $utilities );
 		
 		return;
 	}
@@ -1289,13 +1256,6 @@ function dfcg_set_gallery_options() {
 		
 		// Deal with deprecated $dfcg_postmeta_upgrade
 		delete_option( 'dfcg_plugin_postmeta_upgrade' );
-		
-		// Add new db option for dealing with DCG metabox validation
-		$utilities = array();
-		
-		$utilities['main-override'] = 'false';
-		$utilities['thumb-override'] = 'false';
-		add_option( 'dfcg_utilities', $utilities );
 		
 	}
 	
