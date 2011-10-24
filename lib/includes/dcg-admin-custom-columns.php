@@ -27,7 +27,16 @@ add_action( 'admin_init', 'dfcg_load_tools' );
  * Helper function to determine whether to activate Filters and Actions to load Tools or not
  * based on DCG Settings > Tools tab checkboxes
  *
- * Hooked to 'admin_int'
+ * Hooked to 'admin_init'
+ *
+ * Column order will normally be DCG Image - DCG Desc - Featured Image
+ * except for multi-option/one category = > Featured Image - DCG Image - DCG Desc
+ * Note that the gallery method option determines what is visible, independant of the checkbox status
+ * eg: ID method - shows on posts, cpt and pages edit screens
+ * eg: custom post - shows only on cpt edit screen
+ *
+ * Featured image column appears on everything - posts, pages, cpt - regardless of gallery method
+ *
  * @global array $dfcg_options plugin options from db
  * @return load various actions and filters
  */
@@ -39,53 +48,69 @@ function dfcg_load_tools() {
 	switch ( $dfcg_options['populate-method'] ) {
 	
 		case 'custom-post':
-			if( $dfcg_options['posts-column'] == "true" ) {
-				$cpt = $dfcg_options['cpt-name'];
+			$cpt = $dfcg_options['cpt-name'];
+			if( $dfcg_options['column-img'] == "true" ) {
 				add_filter( 'manage_edit-'.$cpt.'_columns', 'dfcg_image_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
 			}
+			if( $dfcg_options['column-desc'] == "true" ) {
+				add_filter( 'manage_edit-'.$cpt.'_columns', 'dfcg_desc_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-feat-img'] == "true" ) {
+				add_filter( 'manage_edit-post_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+				add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+			}
+			break;
+			
+		case 'id-method':
+			if( $dfcg_options['column-img'] == "true" ) {
+				add_filter( 'manage_posts_columns', 'dfcg_image_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
+				add_filter( 'manage_pages_columns', 'dfcg_image_column' );
+				add_action( 'manage_pages_custom_column', 'dfcg_image_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-desc'] == "true" ) {
+				add_filter( 'manage_posts_columns', 'dfcg_desc_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
+				add_filter( 'manage_pages_columns', 'dfcg_desc_column' );
+				add_action( 'manage_pages_custom_column', 'dfcg_desc_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-sort'] == "true" ) {
+				add_filter( 'manage_pages_columns', 'dfcg_sort_column' );
+				add_action( 'manage_pages_custom_column', 'dfcg_sort_column_contents', 10, 2 );
+				add_filter( 'manage_posts_columns', 'dfcg_sort_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_sort_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-feat-img'] == "true" ) {
+				add_filter( 'manage_posts_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+				add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+			}
+			break;
+		
+		default:
+			if( $dfcg_options['column-img'] == "true" ) {
+				add_filter( 'manage_edit-post_columns', 'dfcg_image_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-desc'] == "true" ) {
+				add_filter( 'manage_edit-post_columns', 'dfcg_desc_column' );
+				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
+			}
+			if( $dfcg_options['column-feat-img'] == "true" ) {
+				add_filter( 'manage_posts_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+				add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
+				add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
+			}
 			break;
 	}
-			
+}		
 	
-	if( $dfcg_options['populate-method'] == 'custom-post' && $dfcg_options['posts-column'] == "true" ) {
-
-	$cpt = $dfcg_options['cpt-name'];
-	add_filter( 'manage_edit-'.$cpt.'_columns', 'dfcg_image_column' );
-	add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
-}
-if( isset($dfcg_options['pages-column']) && $dfcg_options['pages-column'] == "true" ) {
-	add_filter( 'manage_pages_columns', 'dfcg_image_column' );
-	add_action( 'manage_pages_custom_column', 'dfcg_image_column_contents', 10, 2 );
-}
-
-// Filters and Actions to add the _dfcg-desc columns
-// Only loaded if the relevant DCG Setting option is checked
-if( isset( $dfcg_options['posts-desc-column']) && $dfcg_options['posts-desc-column'] == "true" ) {
-	add_filter( 'manage_posts_columns', 'dfcg_desc_column' );
-	add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
-}
-if( isset( $dfcg_options['pages-desc-column']) && $dfcg_options['pages-desc-column'] == "true" ) {
-	add_filter( 'manage_pages_columns', 'dfcg_desc_column' );
-	add_action( 'manage_pages_custom_column', 'dfcg_desc_column_contents', 10, 2 );
-}
-
-// Filters and Actions to add the _dfcg-sort columns - only ever used on Edit Pages screen
-if( isset( $dfcg_options['pages-sort-column']) && $dfcg_options['pages-sort-column'] == "true" ) {
-	add_filter( 'manage_pages_columns', 'dfcg_pages_sort_column' );
-	add_action( 'manage_pages_custom_column', 'dfcg_pages_sort_column_contents', 10, 2 );
-}
-
-// Filters and Actions to add the Featured Image column
-if( isset( $dfcg_options['posts-featured-image-column']) && $dfcg_options['posts-featured-image-column'] == "true" ) {
-	add_filter( 'manage_posts_columns', 'dfcg_featured_image_column');
-	add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
-}
-if( isset( $dfcg_options['pages-featured-image-column']) && $dfcg_options['pages-featured-image-column'] == "true" ) {
-	add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
-	add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
-}
-}
 
 
 
@@ -146,7 +171,7 @@ function dfcg_image_column_contents( $column_name, $post_id ) {
         // No override, so show the featured image
 		$img = dfcg_get_featured_image( $post_id );
 			
-		$thumb = get_the_post_thumbnail( $post_id, 'DCG Thumb 100x75 TRUE' );
+		//$thumb = get_the_post_thumbnail( $post_id, 'DCG Thumb 100x75 TRUE' );
 			
 		if( $img ) {
 			
@@ -216,7 +241,7 @@ function dfcg_desc_column_contents($column_name, $post_id) {
 	
 		case 'manual':
 			
-			echo 'DCG Metabox:<br />';
+			echo 'DCG Metabox Desc:<br />';
 			
 			if( $desc = get_post_meta( $post_id, '_dfcg-desc', true ) ) {
 		
@@ -259,8 +284,8 @@ function dfcg_desc_column_contents($column_name, $post_id) {
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
-function dfcg_pages_sort_column($defaults) {
-    $defaults['dfcg_pages_sort_column'] = __('DCG Page Sort');
+function dfcg_sort_column($defaults) {
+    $defaults['dfcg_pages_sort_column'] = __('DCG Sort');
     return $defaults;
 }
 
@@ -273,7 +298,7 @@ function dfcg_pages_sort_column($defaults) {
  * @param mixed $post_id ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column 
  */
-function dfcg_pages_sort_column_contents($column_name, $post_id) {
+function dfcg_sort_column_contents($column_name, $post_id) {
     
 	// Check we're only messing with my column
 	if( $column_name !== 'dfcg_pages_sort_column' ) return;

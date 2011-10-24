@@ -1226,7 +1226,7 @@ function dfcg_ui_errors() {
 /**
  * Posts/Pages edit columns: box and content
  *
- * 7 options: [posts-column],[posts-desc-column],[pages-column],['pages-desc-column'],['pages-sort-column'], ['posts-featured-image-column'], ['pages-featured-image-column'], ['add-media-sizes']
+ * 5 options: [column-img],[column-desc],[column-sort],['column-feat-img'],['add-media-sizes']
  * 
  * @global array $dfcg_options plugin options from db
  * @since 3.2.2
@@ -1235,30 +1235,21 @@ function dfcg_ui_errors() {
 function dfcg_ui_tools() {
 	global $dfcg_options;
 	?>
-	<h3 class="not-top"><?php _e('Add DCG information columns to Posts and Pages Edit screen (OPTIONAL)', DFCG_DOMAIN); ?></h3>
-	<p><?php _e('These settings let you display additional columns in the Edit Posts and Edit Pages screens to show the gallery <strong>Image URL</strong>, Slide Pane description, and current Featured Image.', DFCG_DOMAIN); ?></p>
-	<p><em><?php _e('To hide the additional columns in the Edit Posts and Edit Pages screens, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="dfcg-local-tip" href="#dfcg-tip-col-cpt" rel="#dfcg-tip-col-cpt" title="<?php esc_attr_e('Tip: Custom Post Types', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></p>
+	<h3 class="not-top"><?php _e('Add DCG information columns to Posts, Custom Posts and Pages Edit screens (OPTIONAL)', DFCG_DOMAIN); ?></h3>
+	<p><?php _e('These settings let you display additional columns in the Edit screens to show the gallery Image URL, Slide Pane description, and current Featured Image.', DFCG_DOMAIN); ?></p>
+	<p><em><?php _e('To hide the additional columns, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="dfcg-local-tip" href="#dfcg-tip-col-cpt" rel="#dfcg-tip-col-cpt" title="<?php esc_attr_e('Tip:', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></p>
 	
 	<table class="optiontable form-table">
 		<tbody>
 			
 			<tr valign="top">
-				<th scope="row"><?php _e('Show columns in Edit Posts:', DFCG_DOMAIN); ?></th>
-				<td>DCG Image: <input type="checkbox" name="dfcg_plugin_settings[posts-column]" id="dfcg-posts-column" value="1" <?php checked('true', $dfcg_options['posts-column']); ?> />
-				<span style="padding-left:50px;"><?php _e('DCG Desc:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[posts-desc-column]" id="dfcg-posts-desc-column" value="1" <?php checked('true', $dfcg_options['posts-desc-column']); ?> />
+				<th scope="row"><?php _e('Show columns in Edit screens:', DFCG_DOMAIN); ?></th>
+				<td>DCG Image: <input type="checkbox" name="dfcg_plugin_settings[column-img]" id="dfcg-column-img" value="1" <?php checked('true', $dfcg_options['column-img']); ?> />
+				<span style="padding-left:50px;"><?php _e('DCG Desc:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[column-desc]" id="dfcg-column-desc" value="1" <?php checked('true', $dfcg_options['column-desc']); ?> />
+				<span style="padding-left:50px;"><?php _e('Sort Order:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[column-sort]" id="dfcg-column-sort" value="1" <?php checked('true', $dfcg_options['column-sort']); ?> />
 				<?php if( current_theme_supports('post-thumbnails') ) : ?>
-				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[posts-featured-image-column]" id="dfcg-posts-featured-image-column" value="1" <?php checked('true', $dfcg_options['posts-featured-image-column']); ?> />
+				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[column-feat-img]" id="dfcg-column-feat-img" value="1" <?php checked('true', $dfcg_options['column-feat-img']); ?> />
 				<?php endif; ?></td>
-			</tr>
-			
-			<tr valign="top">
-				<th scope="row"><?php _e('Show columns in Edit Pages:', DFCG_DOMAIN); ?></th>
-				<td><?php _e('DCG Image:', DFCG_DOMAIN); ?> <input type="checkbox" name="dfcg_plugin_settings[pages-column]" id="dfcg-pages-column" value="1" <?php checked('true', $dfcg_options['pages-column']); ?> />
-				<span style="padding-left:50px;"><?php _e('DCG Desc:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-desc-column]" id="dfcg-pages-desc-column" value="1" <?php checked('true', $dfcg_options['pages-desc-column']); ?> />
-				<?php if( current_theme_supports( 'post-thumbnails' ) ) : ?>
-				<span style="padding-left:50px;"><?php _e('Featured Image:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-featured-image-column]" id="dfcg-pages-featured-image-column" value="1" <?php checked('true', $dfcg_options['pages-featured-image-column']); ?> />
-				<?php endif; ?>
-				<span style="padding-left:50px;"><?php _e('Sort Order:', DFCG_DOMAIN); ?></span> <input type="checkbox" name="dfcg_plugin_settings[pages-sort-column]" id="dfcg-pages-sort-column" value="1" <?php checked('true', $dfcg_options['pages-sort-column']); ?> /></td>
 			</tr>
 		</tbody>
 	</table>
@@ -1288,7 +1279,7 @@ function dfcg_ui_tools() {
  * Form hidden fields
  * WP and WPMS
  *
- * Always, 4 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id]
+ * Always, 5 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id],[size-change]
  * If jquery loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
  * If mootools loaded, hide jquery-only = 1 hidden: [slideInfoZoneStatic]
  * If no registered custom post types, 4 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number],[defimgcustompost]
@@ -1306,6 +1297,7 @@ function dfcg_ui_hidden_wp() {
 	<input name="dfcg_plugin_settings[cpt-tax-name]" type="hidden" value="<?php echo $dfcg_options['cpt-tax-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-name]" type="hidden" value="<?php echo $dfcg_options['cpt-term-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-id]" type="hidden" value="<?php echo $dfcg_options['cpt-term-id']; ?>" />
+	<input name="dfcg_plugin_settings[size-change]" type="hidden" value="<?php echo $dfcg_options['size-change']; ?>" />
 	
 	<?php if($dfcg_options['scripts'] == 'mootools' ) : // mootools is loaded, +1 jquery-only Hidden ?>
 	<input name="dfcg_plugin_settings[slideInfoZoneStatic]" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneStatic']; ?>" />

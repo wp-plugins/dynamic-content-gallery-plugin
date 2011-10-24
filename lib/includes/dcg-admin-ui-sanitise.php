@@ -73,6 +73,8 @@ function dfcg_sanitise( $input ) {
 			__('DCG Notice: Image sizes have changed. Run Regenerate Thumbnails to generate new sizes for existing images.', DFCG_DOMAIN),
 			'updated'					// $type
 			);
+			
+		$input['size-change'] = 'true';
 	}
 	
 	
@@ -133,7 +135,7 @@ function dfcg_sanitise( $input ) {
 	
 	//	Whitelist options													(10)
 	//	Path and URL options												(6)		(1)
-	//	Bool options														(20)
+	//	Bool options														(18)
 	//	String options - no XHTML allowed									(6)
 	//	String options - small - no XHTML allowed							(2)
 	//	String options - some XHTML allowed									(1)
@@ -145,7 +147,7 @@ function dfcg_sanitise( $input ) {
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																94
+	//	Total 																92
 	
 	
 	/***** Whitelist options (10/10) *****/
@@ -205,9 +207,9 @@ function dfcg_sanitise( $input ) {
 
 	
 	
-	/***** Bool options (20) Checkboxes *****/
+	/***** Bool options (18) Checkboxes *****/
 	
-	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'mootools', 'errors', 'posts-column', 'pages-column', 'posts-desc-column', 'pages-desc-column', 'pages-sort-column', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'posts-featured-image-column', 'pages-featured-image-column', 'crop', 'desc-man-link', 'add-media-sizes' );
+	$bool_opts = array( 'reset', 'showCarousel', 'showInfopane', 'timed', 'slideInfoZoneSlide', 'mootools', 'errors', 'column-img', 'column-desc', 'column-sort', 'id-sort-control', 'showArrows', 'slideInfoZoneStatic', 'column-feat-img', 'crop', 'desc-man-link', 'add-media-sizes', 'size-change' );
 	
 	// sanitise, eg RESET checkbox
 	foreach( $bool_opts as $key ) {

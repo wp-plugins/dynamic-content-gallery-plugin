@@ -615,7 +615,7 @@ function dfcg_get_custom_post_types() {
  *
  * Used by the "upgrader" function dfcg_set_gallery_options().
  *
- * 94 options (5 are WP only)
+ * 92 options (5 are WP only)
  *
  * @since 3.2.2
  * @updated 4.0
@@ -707,17 +707,15 @@ function dfcg_default_options() {
 		'showArrows' => 'true',						// JS option: added 3.3.3
 		'slideInfoZoneStatic' => 'false',			// JS option: (jquery only) added in 3.3.4 with v2.6 jquery script
 		'errors' => 'false',						// Tools: Error reporting on/off
-		'posts-column' => 'true',					// Tools: Show edit posts column dfcg-image
-		'pages-column' => 'true',					// Tools: Show edit pages column dfcg-image
-		'posts-desc-column' => 'true',				// Tools: Show edit pages column dfcg-desc
-		'pages-desc-column' => 'true',				// Tools: Show edit pages column dfcg-desc
-		'pages-sort-column' => 'true',				// Tools: Show edit pages column _dfcg-sort: bool
-		'posts-featured-image-column' => 'true',	// Tools: Show edit pages column Featured Image
-		'pages-featured-image-column' => 'true',	// Tools: Show edit pages column Featured Image
+		'column-img' => 'true',						// Tools: Show column _dfcg-image in edit screens
+		'column-desc' => 'true',					// Tools: Show column _dfcg_desc in edit screens
+		'column-sort' => 'true',					// Tools: Show column _dfcg-sort in edit screens
+		'column-feat-img' => 'true',				// Tools: Show column Featured Image in edit screens
 		'thumb-type' => 'featured-image',			// Thumbs: [featured-image] or [legacy] - mootools only
 		'crop' => 'true',							// Feat Image crop hard/box resize [true],[false]
 		'desc-man-link' => 'true',					// Append Read More link to manual descriptions
-		'add-media-sizes' => 'true'					// Tools: add DCG image sizes to Media Uploader
+		'add-media-sizes' => 'true',				// Tools: add DCG image sizes to Media Uploader
+		'size-change' => 'false'					// Validation helper for DCG gallery size change
 	);
 	
 	// Return options array for use elsewhere
@@ -779,10 +777,10 @@ function dfcg_default_options() {
  * In 3.3.4 - Total options = 84 + 2 = 86
  *
  * In 4.0 - Added "excerpt" value to "desc-method" option
- * In 4.0 - Added 6: 'posts-featured-image-colum', 'pages-featured-image-column', 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id', 'crop'
- * In 4.0 - Added 3: 'carouselMinimizedOpacity', 'desc-man-link', 'add-media-sizes'
- * In 4.0 - Removed 1: 'just-reset'
- * In 4.0 - Total options = 86 + 6 + 3 -1 = 94
+ * In 4.0 - Added 3: 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id'
+ * In 4.0 - Added 6: 'column-feat-img', 'carouselMinimizedOpacity', 'desc-man-link', 'add-media-sizes', 'crop', 'size-change'
+ * In 4.0 - Removed 3: 'just-reset', 'pages-column', 'pages-desc-column'
+ * In 4.0 - Total options = 86 + 3 + 6 - 3 = 92
  *
  * @uses dfcg_default_options()
  *
@@ -1199,25 +1197,36 @@ function dfcg_set_gallery_options() {
 		// 86 options
 		$existing_opts = get_option( 'dfcg_plugin_settings' );
 		
-		// Option renaming: add 3 new
+		// Option renaming: add 3 new = 89
 		$existing_opts['cpt-name'] = $existing_opts['custom-post-type'];
 		$existing_opts['cpt-posts-number'] = $existing_opts['custom-post-type-number'];
 		$existing_opts['cpt-tax-and-term'] = $existing_opts['custom-post-type-tax'];
 		
-		// Option renaming: delete 3 old
+		// Option renaming: delete 3 old = 86
 		unset( $existing_opts['custom-post-type'] );
 		unset( $existing_opts['custom-post-type-number'] );
 		unset( $existing_opts['custom-post-type-tax'] );
 		
-		// Re-assign a value
+		//renaming: add 3 new = 89
+		$existing_opts['column-img'] = $existing_opts['posts-column'];
+		$existing_opts['column-desc'] = $existing_opts['posts-desc-column'];
+		$existing_opts['column-sort'] = $existing_opts['pages-sort-column'];
+		// renaming: delete 5 old = 84
+		unset( $existing_opts['posts-column'] );
+		unset( $existing_opts['posts-desc-column'] );
+		unset( $existing_opts['pages-column'] );
+		unset( $existing_opts['pages-desc-column'] );
+		unset( $existing_opts['pages-sort-column'] );
+		
+		// Re-assign a value = 84
 		if( $existing_opts['thumb-type'] == "post-thumbnails" )
 			$existing_opts['thumb-type'] = "featured-image";
 	
-		// Add new 9 options
+		// Add 3 new 9 = 87
 		if( $existing_opts['cpt-tax-and-term'] == 'all' || empty( $existing_opts['cpt-tax-and-term'] ) ) {
 			
+			$new_opts['cpt-tax-name'] = '';
 			$new_opts['cpt-term-name'] = '';
-			$new_opts['cpt-term-id'] = '';
 			$new_opts['cpt-term-id'] = '';
 			
 		} else {
@@ -1237,19 +1246,19 @@ function dfcg_set_gallery_options() {
 			$new_opts['cpt-term-id'] = $term->term_id;
 		
 		}
-					
-		$new_opts['posts-featured-image-column'] = 'true';
-		$new_opts['pages-featured-image-column'] = 'true';
+		
+		// Add 6 new = 93		
+		$new_opts['column-feat-img'] = 'true';
 		$new_opts['crop'] = 'true';
 		$new_opts['carouselMinimizedOpacity'] = '0.4';
 		$new_opts['desc-man-link'] = 'true';
 		$new_opts['add-media-sizes'] = 'false';
 		$new_opts['size-change'] = 'false';
 		
-		// Remove 1 option
+		// Remove 1 option = 92
 		unset( $existing_opts['just-reset'] );
 		
-		// Total options = 86 + 3 - 3 + 9 = 95
+		// Total options = 92
 		$updated = wp_parse_args( $existing_opts, $new_opts );
 		
 		update_option( 'dfcg_plugin_settings', $updated );
