@@ -53,12 +53,12 @@ function dfcg_load_tools() {
 				add_filter( 'manage_edit-'.$cpt.'_columns', 'dfcg_image_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
 			}
-			if( $dfcg_options['column-desc'] == "true" ) {
+			if( $dfcg_options['column-desc'] == "true" && $dfcg_options['desc-method'] == 'manual' ) {
 				add_filter( 'manage_edit-'.$cpt.'_columns', 'dfcg_desc_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
 			}
 			if( $dfcg_options['column-feat-img'] == "true" ) {
-				add_filter( 'manage_edit-post_columns', 'dfcg_featured_image_column');
+				add_filter( 'manage_posts_columns', 'dfcg_featured_image_column');
 				add_action( 'manage_posts_custom_column', 'dfcg_featured_image_column_content', 10, 2);
 				add_filter( 'manage_pages_columns', 'dfcg_featured_image_column');
 				add_action( 'manage_pages_custom_column', 'dfcg_featured_image_column_content', 10, 2);
@@ -72,7 +72,7 @@ function dfcg_load_tools() {
 				add_filter( 'manage_pages_columns', 'dfcg_image_column' );
 				add_action( 'manage_pages_custom_column', 'dfcg_image_column_contents', 10, 2 );
 			}
-			if( $dfcg_options['column-desc'] == "true" ) {
+			if( $dfcg_options['column-desc'] == "true" && $dfcg_options['desc-method'] == 'manual' ) {
 				add_filter( 'manage_posts_columns', 'dfcg_desc_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
 				add_filter( 'manage_pages_columns', 'dfcg_desc_column' );
@@ -97,7 +97,7 @@ function dfcg_load_tools() {
 				add_filter( 'manage_edit-post_columns', 'dfcg_image_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_image_column_contents', 10, 2 );
 			}
-			if( $dfcg_options['column-desc'] == "true" ) {
+			if( $dfcg_options['column-desc'] == "true" && $dfcg_options['desc-method'] == 'manual' ) {
 				add_filter( 'manage_edit-post_columns', 'dfcg_desc_column' );
 				add_action( 'manage_posts_custom_column', 'dfcg_desc_column_contents', 10, 2 );
 			}
@@ -236,40 +236,19 @@ function dfcg_desc_column_contents($column_name, $post_id) {
 	
 	// Check we're only messing with my column
 	if( $column_name !== 'dfcg_desc_column' ) return;
-	
-	switch ( $dfcg_options['desc-method'] ) {
-	
-		case 'manual':
 			
-			echo 'DCG Metabox Desc:<br />';
+	echo 'DCG Metabox Desc:<br />';
 			
-			if( $desc = get_post_meta( $post_id, '_dfcg-desc', true ) ) {
+	if( $desc = get_post_meta( $post_id, '_dfcg-desc', true ) ) {
 		
-				$desc = dfcg_shorten_desc( $desc );
+		$desc = dfcg_shorten_desc( $desc );
 			
-				echo $desc;
+		echo $desc;
 			
-			} else {
+	} else {
 		
-				echo '<i>'.__('Not found', DFCG_DOMAIN).'</i>';
-			}
-			break;
-			
-		case 'auto':
-		
-			break;
-			
-		case 'excerpt':
-		
-			break;
-			
-		case 'none':
-		
-			break;
-			
+		echo '<i>'.__('Not found', DFCG_DOMAIN).'</i>';
 	}
-	
-	
 }
         
 
