@@ -1236,8 +1236,7 @@ function dfcg_ui_tools() {
 	global $dfcg_options;
 	?>
 	<h3 class="not-top"><?php _e('Add DCG information columns to Posts, Custom Posts and Pages Edit screens (OPTIONAL)', DFCG_DOMAIN); ?></h3>
-	<p><?php _e('These settings let you display additional columns in the Edit screens to show the gallery Image URL, Slide Pane description, and current Featured Image.', DFCG_DOMAIN); ?></p>
-	<p><em><?php _e('To hide the additional columns, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="dfcg-local-tip" href="#dfcg-tip-col-cpt" rel="#dfcg-tip-col-cpt" title="<?php esc_attr_e('Tip:', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></p>
+	<p><?php _e('These settings let you display additional columns in the Edit screens to show the gallery Image URL, Slide Pane description, and current Featured Image.', DFCG_DOMAIN); ?> <em><?php _e('To hide the additional columns, uncheck the boxes then click the "Save Changes" button. Default is CHECKED.', DFCG_DOMAIN)?></em><a class="dfcg-local-tip" href="#dfcg-tip-cols" rel="#dfcg-tip-cols" title="<?php esc_attr_e('Tip: Edit screen columns', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></p>
 	
 	<table class="optiontable form-table">
 		<tbody>
@@ -1268,8 +1267,10 @@ function dfcg_ui_tools() {
 	</table>
 	
 	<!-- Tool tips -->
-	<div class="dfcg-tip-hidden" id="dfcg-tip-col-cpt">
-		<p><?php esc_attr_e('Note that by default if "Show columns in Edit Posts" options are checked, these columns will also appear in the Edit screens for any Custom Post Types.', DFCG_DOMAIN); ?></p>
+	<div class="dfcg-tip-hidden" id="dfcg-tip-cols">
+		<p><?php esc_attr_e('Note that the display of these additional columns is also dependant on which Gallery method you have chosen.', DFCG_DOMAIN); ?></p>
+		<p><?php esc_attr_e('For example, if the Custom Post Gallery method has been selected, the additional columns will only appear on the edit screen for the selected custom post type.', DFCG_DOMAIN); ?></p>
+		<p><?php esc_attr_e('Featured Image column: if checked here, this will appear on all edit screens regardless of the selected Gallery Method..', DFCG_DOMAIN); ?></p>
 	</div>
 	<!-- end Tool tips -->
 <?php }
