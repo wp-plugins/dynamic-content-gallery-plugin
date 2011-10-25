@@ -29,11 +29,16 @@ add_action( 'admin_init', 'dfcg_load_tools' );
  *
  * Hooked to 'admin_init'
  *
- * Column order will normally be DCG Image - DCG Desc - Featured Image
- * except for multi-option/one category = > Featured Image - DCG Image - DCG Desc
- * Note that the gallery method option determines what is visible, independant of the checkbox status
+ * Checkboxes reduced to a single checkbox for each column.
+ * The gallery method option determines what is visible, independant of the checkbox status
  * eg: ID method - shows on posts, cpt and pages edit screens
  * eg: custom post - shows only on cpt edit screen
+ * eg: multi/onecat - shows only on normal posts edit screen
+ *
+ * DCG Desc only appears if 'manual' is set - no point showing desc if excerpt/auto or none
+ *
+ * Column order will normally be DCG Image - DCG Desc - Featured Image
+ * except for multi-option/one category = > Featured Image - DCG Image - DCG Desc
  *
  * Featured image column appears on everything - posts, pages, cpt - regardless of gallery method
  *
@@ -119,7 +124,7 @@ function dfcg_load_tools() {
  *
  * Column to display DCG Image in posts/pages edit screen
  *
- * Hooked to 'manage_posts_columns', 'manage_pages_columns' filters
+ * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 3.3.3
  * @updated 4.0
@@ -209,7 +214,7 @@ function dfcg_image_column_contents( $column_name, $post_id ) {
  *
  * Column to display DCG Desc in posts/pages edit screen
  *
- * Hooked to 'manage_posts_columns', 'manage_pages_columns' filters
+ * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 3.3.3
  * @param array $defaults Default Edit screen columns
@@ -257,7 +262,7 @@ function dfcg_desc_column_contents($column_name, $post_id) {
  *
  * Column to display DCG Sort in posts/pages edit screen
  *
- * Hooked to 'manage_pages_columns' filter
+ * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 3.3.3
  * @param array $defaults Default Edit screen columns
@@ -318,7 +323,7 @@ function dfcg_shorten_desc($string) {
 /**
  * Filter callback to add Featured Image column
  *
- * Column to display Featured Image in posts/pages edit screen
+ * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 4.0
  * @param array $defaults Default Edit screen columns
