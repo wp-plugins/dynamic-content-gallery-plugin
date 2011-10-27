@@ -30,10 +30,10 @@ add_action( 'admin_init', 'dfcg_load_tools' );
  * Hooked to 'admin_init'
  *
  * Checkboxes reduced to a single checkbox for each column.
- * The gallery method option determines what is visible, independant of the checkbox status
- * eg: ID method - shows on posts, cpt and pages edit screens
- * eg: custom post - shows only on cpt edit screen
- * eg: multi/onecat - shows only on normal posts edit screen
+ * The gallery method option determines which column is visible, independant of the checkbox status
+ * eg: ID method - a checked column shows on posts, cpt and pages edit screens
+ * eg: custom post - a checked column shows only on cpt edit screen
+ * eg: multi/onecat - a checked column shows only on normal posts edit screen
  *
  * DCG Desc only appears if 'manual' is set - no point showing desc if excerpt/auto or none
  *
@@ -204,7 +204,6 @@ function dfcg_image_column_contents( $column_name, $post_id ) {
 			echo '<i>' . __('Not found', DFCG_DOMAIN) . '</i>';
 			
 		}
-		
 	}
 }
 
@@ -272,6 +271,7 @@ function dfcg_sort_column($defaults) {
     $defaults['dfcg_pages_sort_column'] = __('DCG Sort');
     return $defaults;
 }
+
 
 /**
  * Function to populate new DCG Sort column
