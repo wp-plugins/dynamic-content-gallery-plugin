@@ -523,13 +523,11 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
  *
  * Either returns the Featured Image or the DCG metabox URL - depending on the DCG Settings
  *
- * If Featured Images are used, this will be overridden by the DCG metabox URL, if override is set.
+ * If Featured Images are used, this will be overridden by the DCG metabox URL, if not empty.
  * Alternatively, the default image will be returned or, if that doesn't exist, the Error Img
  *
  * In Featured Image mode, the Featured image can be overriden by an Image URL entered in the
- * DCG Metabox. The function checks that the "Use as Main image" checkbox has been checked,
- * then checks that  Metabox URL exists. If it does, the Metabox image is displayed instead
- * of the Featured Image.
+ * DCG Metabox. If the Metabox image URL box is not empty, the URL entered here is displayed instead
  *
  * Function returns an array ($image) containing 5 elements - src, w(idth), h(eight), class, msg (message)
  * All XHTML markup is handled in the gallery constructor function, not here
@@ -544,16 +542,15 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
  * @param $term_id (string/int) - Term ID, relevant for default image filenames in Multi Option, One Cat, Custom Post Types
  *
  * @global $dfcg_options (array) DCG Settings from db
- * @global $dfcg_utilities (array)
- * @global $dfcg_baseimgurl (string)
- * @global $def_img_folder_path (string)
+ * @global $dfcg_postmeta (array) DCG cutsom field keys
+ * @global $dfcg_baseimgurl (string) Base URL of DCG metabox images (takes into account Full or Partial)
  *
  * @return $image (array) = src, w(idth), h(eight), class, msg (message)
  * @since 4.0
  */
 function dfcg_get_image( $id, $term_id = NULL ) {
 
-	global $dfcg_options, $dfcg_postmeta, $dfcg_baseimgurl, $def_img_folder_path, $def_img_folder_url;
+	global $dfcg_options, $dfcg_postmeta, $dfcg_baseimgurl;
 		
 	$image = array();
 	
@@ -608,6 +605,7 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 			$image['src'] = $dfcg_baseimgurl . $image['src'];
 			//$image_path = str_replace( get_bloginfo( 'url' ), ABSPATH, $image['src'] );
 			//@list( $image['w'], $image['h'] ) = getimagesize( $image_path );
+			
 			// Assume that size of any manual image is same as gallery dimensions
 			// This might not be true, but users should do their own resizing!
 			$image['w'] = $dfcg_options['gallery-width'];
@@ -624,16 +622,40 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 	
 	
 	/***** No Metabox and no Featured Image - let's get default image *****/				
-			
-	// Path to Default Category image
-	if( $term_id !== '' ) {
-		$def_img_name = $term_id . '.jpg';
+	
+	// Get default image folder or URL (if id-method)
+	if( $dfcg_options['populate-method'] == 'id-method' ) {
+		
+		$def_img_folder_url = $dfcg_options['defimgid'];
+	
 	} else {
+	
+		$def_img_folder_url = $dfcg_options['defimgfolder'];
+	}
+	
+	// Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
+	// Note: ABSPATH has a trailingslash, site_url doesn't
+	$home = site_url() . '/';
+	$def_img_folder_path = str_replace( $home, ABSPATH, $def_img_folder_url );
+	
+	
+	// Path to Default Category image
+	if( $term_id == NULL ) {
+		// We're in id-method
+		$def_img_name = '';
+	
+	} elseif( $term_id !== '' ) {
+		// We're in multi-option, or one-cat/custom-post with a term selected
+		$def_img_name = $term_id . '.jpg';
+	
+	} else {
+		// We're in one-cat/custom-post with no term selected, ie 'all'
 		$def_img_name = 'all.jpg';
 	}
-			
+	
+	// Path to default image	
 	$def_img_path = $def_img_folder_path . $def_img_name;
-			
+		
 	if( file_exists( $def_img_path ) ) {
 		@list( $image['w'], $image['h'] ) = getimagesize( $def_img_path );
 		$image['src'] = $def_img_folder_url . $def_img_name;
@@ -685,7 +707,7 @@ function dfcg_get_image( $id, $term_id = NULL ) {
  * @uses dfcg_the_content_limit(), creates Auto description (see dfcg-gallery-content-limit.php)
  *
  * @param $id (integer) (required) post/page ID
- * @param $term_id (string/int) - Term ID, relevant for category/cutsom taxonomy descriptions
+ * @param $term_id (string/int) - Term ID, relevant for category/custom taxonomy descriptions
  *
  * @global $dfcg_options (array)
  * @global $dfcg_postmeta (array)
@@ -693,7 +715,7 @@ function dfcg_get_image( $id, $term_id = NULL ) {
  * @return $desc_html (string) HTML markup and text of Slide Pane description
  * @since 4.0
  */
-function dfcg_get_desc( $id, $term_id ) {
+function dfcg_get_desc( $id, $term_id = NULL ) {
 
 	global $dfcg_options, $dfcg_postmeta;
 	

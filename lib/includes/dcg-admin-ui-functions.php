@@ -233,7 +233,8 @@ if ( !is_multisite() ) : ?>
 /**
  * Gallery Method: box and content
  *
- * 1 options: ['populate-method']
+ * 2 options: ['populate-method'],['defimgfolder']
+ * WPMS: 1 hidden ['defimgfolder']
  *
  * @global array $dfcg_options plugin options from db
  * @since 3.3
@@ -311,6 +312,19 @@ function dfcg_ui_gallery() {
 		</tbody>
 	</table>
 	
+	
+	<?php if ( !is_multisite() ) : ?>
+	<table class="optiontable form-table">
+		<tbody>
+			<tr valign="top">
+				<th scope="row"><?php _e('URL to default images folder:', DFCG_DOMAIN); ?></th>
+				<td><a class="dfcg-local-tip" href="#dfcg-tip-gm-def" rel="#dfcg-tip-gm-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></td>
+				<td><input name="dfcg_plugin_settings[defimgfolder]" size="75" value="<?php echo $dfcg_options['defimgfolder']; ?>" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<?php endif; // End if MS ?>
+	
 	<!-- Tool tips -->
 	<div class="dfcg-tip-hidden" id="dfcg-tip-gm-mo">
 		<p><?php esc_html_e('This is the original method used in previous versions of the plugin, and the option to choose if you want to mix Posts from different Categories.', DFCG_DOMAIN); ?></p>
@@ -335,6 +349,14 @@ function dfcg_ui_gallery() {
 		<p><?php esc_html_e('Note: You can only select Custom Post Type posts from a specific taxonomy term, or all posts from a specific Custom Post Type regardless of taxonomy/terms.', DFCG_DOMAIN); ?></p>
 	</div>
 	<?php endif; ?>
+	
+	<?php if ( !is_multisite() ) : // Hide if in WPMS ?>
+	<div class="dfcg-tip-hidden" id="dfcg-tip-gm-def">
+		<p><?php esc_html_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
+		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
+	</div>
+	<?php endif; ?>
+	
 	<!-- end Tool tips -->
 <?php }
 
@@ -342,8 +364,7 @@ function dfcg_ui_gallery() {
 /**
  * Multi-Option: box and content
  *
- * 19 options: ['defimgmulti'], ['off01'] -> ['off09'], ['cat01'] -> ['cat09']
- * WPMS: 1 hidden ['defimgmulti']
+ * 18 options: ['off01'] -> ['off09'], ['cat01'] -> ['cat09']
  *
  * @global array $dfcg_options plugin options from db
  * @since 3.0
@@ -423,17 +444,6 @@ function dfcg_ui_multi() {
 				<td><?php wp_dropdown_categories(array('selected' => $dfcg_options['cat09'], 'name' => 'dfcg_plugin_settings[cat09]', 'orderby' => 'Name' , 'hierarchical' => 1, 'hide_empty' => 1, 'id' => 'cat09' )); ?></td>
 				<td><input name="dfcg_plugin_settings[off09]" size="5" value="<?php echo $dfcg_options['off09']; ?>" /></td>
 			</tr>
-		
-			<?php if ( !is_multisite() ) : ?>
-	
-			<tr valign="top">
-				<th scope="row"><?php _e('URL to default "Category" images folder:', DFCG_DOMAIN); ?></th>
-				<td colspan="2">
-					<input name="dfcg_plugin_settings[defimgmulti]" size="75" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
-					<a class="dfcg-local-tip" href="#dfcg-tip-mo-def" rel="#dfcg-tip-mo-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img class="inline" src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a>
-				</td>
-			</tr>
-			<?php endif; // End if MS ?>
 		</tbody>
 	</table>
 	
@@ -447,14 +457,6 @@ function dfcg_ui_multi() {
 	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-ps">
 		<p><?php _e('Example: Enter <strong>1</strong> for latest post, <strong>2</strong> for the last-but-one post, <strong>3</strong> for the post before that, and so one.', DFCG_DOMAIN); ?></p>
 	</div>
-	
-	<?php if ( !is_multisite() ) : // Hide if in WPMS ?>
-	<div class="dfcg-tip-hidden" id="dfcg-tip-mo-def">
-		<p><?php esc_html_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
-		<p><?php _e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
-	</div>
-	
-	<?php endif; ?>
 	<!-- end Tool tips -->
 	
 <?php }
@@ -464,8 +466,7 @@ function dfcg_ui_multi() {
 /**
  * One Category: box and contents
  *
- * 3 options: ['cat-display'], ['posts-number'], ['defimgonecat']
- * WPMS: 1 hidden ['defimgonecat']
+ * 2 options: ['cat-display'], ['posts-number']
  *
  * @global array $dfcg_options plugin options from db
  * @since 3.0
@@ -508,14 +509,6 @@ function dfcg_ui_onecat() {
 				</td>
 			</tr>
 	
-			<?php if ( !is_multisite() ) : ?>
-	
-			<tr valign="top">
-				<th scope="row"><?php _e('URL to default images folder:', DFCG_DOMAIN); ?></th>
-				<td><a class="dfcg-local-tip" href="#dfcg-tip-oc-def" rel="#dfcg-tip-oc-def" title="<?php esc_attr_e('Tip: URL to default images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></td>
-				<td><input name="dfcg_plugin_settings[defimgonecat]" id="dfcg-defimgonecat" size="75" value="<?php echo $dfcg_options['defimgonecat']; ?>" /></td>
-			</tr>
-			<?php endif; // End if MS ?>
 		</tbody>
 	</table>
 	
@@ -526,13 +519,6 @@ function dfcg_ui_onecat() {
 		<p><?php esc_html_e('The minimum number of Posts is 2, the maximum is 15 (for performance reasons).', DFCG_DOMAIN); ?></p>
 	</div>
 	
-	<?php if ( !is_multisite() ) : ?>
-	<div class="dfcg-tip-hidden" id="dfcg-tip-oc-def">
-		<p><?php esc_html_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that there is no image specified for this Post.', DFCG_DOMAIN); ?></p>
-		<p><?php esc_html_e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
-	</div>
-	
-	<?php endif; ?>
 	<!-- end Tool tips -->
 	
 <?php }
@@ -608,8 +594,7 @@ function dfcg_ui_id() {
 /**
  * Custom Post Type: box and contents
  * 
- * 4 options: ['cpt-name'], ['cpt-tax-and-term'], ['cpt-posts-number'], ['defimgcustompost']
- * WPMS: 1 hidden ['defimgcustompost']
+ * 3 options: ['cpt-name'], ['cpt-tax-and-term'], ['cpt-posts-number']
  *
  * To amke life easier when building WP_Query for output, choice of taxonomy and term is saved in
  * the format taxonomy=term (see ['cpt-tax-and-term'] option)
@@ -706,15 +691,6 @@ function dfcg_ui_custom_post() {
 					</select>
 				</td>
 			</tr>
-		
-			<?php if ( !is_multisite() ) : ?>
-	
-			<tr valign="top">
-				<th scope="row"><?php _e('URL to default "Taxonomy" images folder:', DFCG_DOMAIN); ?></th>
-				<td><a class="dfcg-local-tip" href="#dfcg-tip-cpt-def" rel="#dfcg-tip-cpt-def" title="<?php esc_attr_e('Tip: Default Images folder', DFCG_DOMAIN); ?>"><img src="<?php echo  DFCG_TIP_URL . '/help.png'; ?>" alt="" /></a></td>
-				<td><input name="dfcg_plugin_settings[defimgcustompost]" id="dfcg-defimgcustompost" size="75" value="<?php echo $dfcg_options['defimgcustompost']; ?>" /></td>
-			</tr>
-			<?php endif; // In MS or not ?>
 			
 		</tbody>
 	</table>
@@ -724,13 +700,6 @@ function dfcg_ui_custom_post() {
 	</div><!-- end .dfcg-panel-cpt-opts -->
 	
 	<!-- Tool tips -->
-	<?php if ( !is_multisite() ) : ?>
-	<div class="dfcg-tip-hidden" id="dfcg-tip-cpt-def">
-		<p><?php esc_html_e('Enter the URL to the folder which contains the default images.  The default images will be pulled into the gallery in the event that Posts do not have an image specified in the Write Post DCG Metabox Image URL.', DFCG_DOMAIN); ?></p>
-		<p><?php esc_html_e('This must be an <b>absolute</b> URL.  For example, if your default images are stored in a folder named "default" in your <em>wp-content/uploads</em> folder, the URL entered here will be:', DFCG_DOMAIN); ?> <em>http://www.yourdomain.com/wp-content/uploads/default/</em></p>
-	</div>
-	<?php endif; // In MS or not ?>
-			
 	<?php if( !empty( $post_types ) ) : ?>
 	
 	<div class="dfcg-tip-hidden" id="dfcg-tip-cpt-type">
@@ -1283,7 +1252,7 @@ function dfcg_ui_tools() {
  * Always, 5 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id],[size-change]
  * If jquery loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
  * If mootools loaded, hide jquery-only = 1 hidden: [slideInfoZoneStatic]
- * If no registered custom post types, 4 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number],[defimgcustompost]
+ * If no registered custom post types, 3 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number]
  * If 'post-thumbnails' not supported, 2 hidden: [posts-featured-image-column], [pages-featured-image-column]
  *
  * @global array $dfcg_options plugin options from db
@@ -1319,7 +1288,6 @@ function dfcg_ui_hidden_wp() {
 	<input name="dfcg_plugin_settings[cpt-name]" type="hidden" value="<?php echo $dfcg_options['cpt-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-tax-and-term]" type="hidden" value="<?php echo $dfcg_options['cpt-tax-and-term']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-posts-number]" type="hidden" value="<?php echo $dfcg_options['cpt-posts-number']; ?>" />
-	<input name="dfcg_plugin_settings[defimgcustompost]" type="hidden" value="<?php echo $dfcg_options['defimgcustompost']; ?>" />
 	<?php endif; ?>
 	
 	<?php if( !current_theme_supports('post-thumbnails') ) : ?>
@@ -1334,7 +1302,7 @@ function dfcg_ui_hidden_wp() {
  * Form hidden fields
  * WPMS ONLY
  *
- * WPMS, 5 options: [imageurl],[defimgmulti],[defimgonecat],[defimgpages],[defimgcustompost] 
+ * WPMS, 3 options: [imageurl],[defimgfolder],[defimgid] 
  *
  * @global array $dfcg_options plugin options from db
  * @since 4.0
@@ -1345,10 +1313,8 @@ function dfcg_ui_hidden_wpms() {
 		
 	<?php // Always hidden in WPMS ?>
 	<input name="dfcg_plugin_settings[imageurl]" type="hidden" value="<?php echo $dfcg_options['imageurl']; ?>" />
-	<input name="dfcg_plugin_settings[defimgmulti]" type="hidden" value="<?php echo $dfcg_options['defimgmulti']; ?>" />
-	<input name="dfcg_plugin_settings[defimgonecat]" type="hidden" value="<?php echo $dfcg_options['defimgonecat']; ?>" />
-	<input name="dfcg_plugin_settings[defimgpages]" type="hidden" value="<?php echo $dfcg_options['defimgpages']; ?>" />
-	<input name="dfcg_plugin_settings[defimgcustompost]" type="hidden" value="<?php echo $dfcg_options['defimgcustompost']; ?>" />
+	<input name="dfcg_plugin_settings[defimgfolder]" type="hidden" value="<?php echo $dfcg_options['defimgfolder']; ?>" />
+	<input name="dfcg_plugin_settings[defimgpages]" type="hidden" value="<?php echo $dfcg_options['defimgid']; ?>" />
 		
 <?php }
 

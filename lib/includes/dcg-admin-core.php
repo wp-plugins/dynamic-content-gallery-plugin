@@ -615,7 +615,7 @@ function dfcg_get_custom_post_types() {
  *
  * Used by the "upgrader" function dfcg_set_gallery_options().
  *
- * 92 options (5 are WP only)
+ * 89 options (3 are WP only)
  *
  * @since 3.2.2
  * @updated 4.0
@@ -624,7 +624,6 @@ function dfcg_get_custom_post_types() {
 function dfcg_default_options() {
 	
 	$default_options = array(
-		'homeurl' => get_option('home'),			// Stored, but not currently used...
 		'image-url-type' => 'auto',					// Image Management: URL type for images: [full], [partial], [auto] (added 3.3)
 		'imageurl' => '',							// WP ONLY. Image Management: URL for [partial] URL type
 		'populate-method' => 'one-category',		// Populate method: [multi-option], [one-category], [id-method], [custom-post]
@@ -656,10 +655,8 @@ function dfcg_default_options() {
 		'cpt-tax-name' => '',						// post-type: Name of selected taxonomy (calculated)
 		'cpt-term-name' => '',						// post-type: Name of selected term within selected taxonomy (calculated)
 		'cpt-term-id' => '',						// post-type: ID of selected term (calculated)
-		'defimgmulti' => '',						// WP ONLY. Multi-option: URL for default category image folder
-		'defimgonecat' => '',						// WP ONLY. One-category: URL for default category image folder
 		'defimgid' => '',							// WP ONLY. ID Method: URL for a default image
-		'defimgcustompost' => '',					// WP ONLY. Post-type: URL for default custom category image folder
+		'defimgfolder' => '',						// WP ONLY. URL for default image folder - Multi-option, One-category, Custom-post
 		'defimagedesc' => '',						// Desc: default description - only works if [manual]
 		'desc-method' => 'auto',					// Desc: Select how to display descriptions: [manual],[auto],[none],[excerpt]
 		'max-char' => '100',						// Desc: No. of characters for custom excerpt
@@ -780,7 +777,9 @@ function dfcg_default_options() {
  * In 4.0 - Added 3: 'cpt-tax-name', 'cpt-term-name', 'cpt-term-id'
  * In 4.0 - Added 6: 'column-feat-img', 'carouselMinimizedOpacity', 'desc-man-link', 'add-media-sizes', 'crop', 'size-change'
  * In 4.0 - Removed 3: 'just-reset', 'pages-column', 'pages-desc-column'
- * In 4.0 - Total options = 86 + 3 + 6 - 3 = 92
+ * In 4.0 - Removed 4: 'homeurl', 'defimgmulti', 'defimgonecat', 'defimgcustompost'
+ * In 4.0 - Added 1: 'defimgfolder'
+ * In 4.0 - Total options = 86 + 3 + 6 - 3 + 4 - 1 = 89
  *
  * @uses dfcg_default_options()
  *
@@ -1197,32 +1196,49 @@ function dfcg_set_gallery_options() {
 		// 86 options
 		$existing_opts = get_option( 'dfcg_plugin_settings' );
 		
-		// Option renaming: add 3 new = 89
-		$existing_opts['cpt-name'] = $existing_opts['custom-post-type'];
-		$existing_opts['cpt-posts-number'] = $existing_opts['custom-post-type-number'];
-		$existing_opts['cpt-tax-and-term'] = $existing_opts['custom-post-type-tax'];
+		// Add 1 new, and reassign values to it = 87
+		$new_opts['defimgfolder'] = '';
+		if( $existing_opts['populate-method'] == 'multi-option' )
+			$new_opts['defimgfolder'] = $existing_opts['defimgmulti'];
+			
+		if( $existing_opts['populate-method'] == 'one-category' )
+			$new_opts['defimgfolder'] = $existing_opts['defimgonecat'];
+			
+		if( $existing_opts['populate-method'] == 'custom-post' )
+			$new_opts['defimgfolder'] = $existing_opts['defimgcustompost'];
+			
+		// Delete 4 = 83
+		unset( $existing_opts['defimgmulti'] );
+		unset( $existing_opts['defimgonecat'] );
+		unset( $existing_opts['defimgcustompost'] );
+		unset( $existing_opts['homeurl'] );
 		
-		// Option renaming: delete 3 old = 86
+		// Option renaming: add 3 new = 86
+		$new_opts['cpt-name'] = $existing_opts['custom-post-type'];
+		$new_opts['cpt-posts-number'] = $existing_opts['custom-post-type-number'];
+		$new_opts['cpt-tax-and-term'] = $existing_opts['custom-post-type-tax'];
+		
+		// Option renaming: delete 3 old = 83
 		unset( $existing_opts['custom-post-type'] );
 		unset( $existing_opts['custom-post-type-number'] );
 		unset( $existing_opts['custom-post-type-tax'] );
 		
-		//renaming: add 3 new = 89
-		$existing_opts['column-img'] = $existing_opts['posts-column'];
-		$existing_opts['column-desc'] = $existing_opts['posts-desc-column'];
-		$existing_opts['column-sort'] = $existing_opts['pages-sort-column'];
-		// renaming: delete 5 old = 84
+		//renaming: add 3 new = 86
+		$new_opts['column-img'] = $existing_opts['posts-column'];
+		$new_opts['column-desc'] = $existing_opts['posts-desc-column'];
+		$new_opts['column-sort'] = $existing_opts['pages-sort-column'];
+		// renaming: delete 5 old = 81
 		unset( $existing_opts['posts-column'] );
 		unset( $existing_opts['posts-desc-column'] );
 		unset( $existing_opts['pages-column'] );
 		unset( $existing_opts['pages-desc-column'] );
 		unset( $existing_opts['pages-sort-column'] );
 		
-		// Re-assign a value = 84
+		// Re-assign a value = 81
 		if( $existing_opts['thumb-type'] == "post-thumbnails" )
 			$existing_opts['thumb-type'] = "featured-image";
 	
-		// Add 3 new 9 = 87
+		// Add 3 new = 84
 		if( $existing_opts['cpt-tax-and-term'] == 'all' || empty( $existing_opts['cpt-tax-and-term'] ) ) {
 			
 			$new_opts['cpt-tax-name'] = '';
@@ -1247,7 +1263,7 @@ function dfcg_set_gallery_options() {
 		
 		}
 		
-		// Add 6 new = 93		
+		// Add 6 new = 90		
 		$new_opts['column-feat-img'] = 'true';
 		$new_opts['crop'] = 'true';
 		$new_opts['carouselMinimizedOpacity'] = '0.4';
@@ -1255,10 +1271,10 @@ function dfcg_set_gallery_options() {
 		$new_opts['add-media-sizes'] = 'false';
 		$new_opts['size-change'] = 'false';
 		
-		// Remove 1 option = 92
+		// Remove 1 option = 89
 		unset( $existing_opts['just-reset'] );
 		
-		// Total options = 92
+		// Total options = 89
 		$updated = wp_parse_args( $existing_opts, $new_opts );
 		
 		update_option( 'dfcg_plugin_settings', $updated );

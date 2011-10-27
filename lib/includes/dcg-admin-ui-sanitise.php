@@ -134,7 +134,7 @@ function dfcg_sanitise( $input ) {
 	/***** Organise the options by type etc, into arrays, then sanitise / validate / format correct *****/
 	
 	//	Whitelist options													(10)
-	//	Path and URL options												(6)		(1)
+	//	Path and URL options												(3)		(0)
 	//	Bool options														(18)
 	//	String options - no XHTML allowed									(6)
 	//	String options - small - no XHTML allowed							(2)
@@ -147,7 +147,7 @@ function dfcg_sanitise( $input ) {
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
-	//	Total 																92
+	//	Total 																89
 	
 	
 	/***** Whitelist options (10/10) *****/
@@ -181,12 +181,12 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	/***** Path and URL options (6/1) *****/
+	/***** Path and URL options (3/0) *****/
 	
 	if ( is_multisite() ) {
-		$abs_url_opts = array( 'homeurl' );
+		$abs_url_opts = array();
 	} else {
-		$abs_url_opts = array( 'imageurl', 'defimgmulti', 'defimgonecat', 'defimgid', 'defimgcustompost', 'homeurl' );
+		$abs_url_opts = array( 'imageurl', 'defimgfolder', 'defimgid' );
 	}
 	
 	// sanitise and add trailing slash

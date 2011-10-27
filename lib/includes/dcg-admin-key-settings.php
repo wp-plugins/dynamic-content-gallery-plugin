@@ -225,8 +225,8 @@ function dcg_key_settings_gallery() {
 		
 		if( !is_multisite() ) {
 			
-			if( $dfcg_options['defimgonecat'] ) {
-				$output .= '<td>' . $subhead . '<span>' . $dfcg_options['defimgonecat'] . '</span></td>';
+			if( $dfcg_options['defimgfolder'] ) {
+				$output .= '<td>' . $subhead . '<span>' . $dfcg_options['defimgfolder'] . '</span></td>';
 				$output .= '<td class="third">&nbsp;</td>';
 			} else {
 				$output .= '<td>' . $subhead . $not_defined_msg . '</td>';
@@ -265,8 +265,8 @@ function dcg_key_settings_gallery() {
 		
 		if( !is_multisite() ) {
 			
-			if( $dfcg_options['defimgcustompost'] ) {
-				$output .= '<td>' . $subhead . $dfcg_options['defimgcustompost'] . '</td>';
+			if( $dfcg_options['defimgfolder'] ) {
+				$output .= '<td>' . $subhead . $dfcg_options['defimgfolder'] . '</td>';
 				$output .= '<td class="third">&nbsp;</td>';
 			} else {
 				$output .= '<td>' . $subhead . $not_defined_msg . '</td>';
@@ -304,8 +304,8 @@ function dcg_key_settings_gallery() {
 		
 		if( !is_multisite() ) {
 	
-			if( $dfcg_options['defimgmulti'] ) {
-				$output .= '<td>' . $subhead . $dfcg_options['defimgmulti'] . '</td>';
+			if( $dfcg_options['defimgfolder'] ) {
+				$output .= '<td>' . $subhead . $dfcg_options['defimgfolder'] . '</td>';
 				$output .= '<td class="third">&nbsp;</td>';
 			} else {
 				$output .= '<td>' . $subhead . $not_defined_msg . '</td>';

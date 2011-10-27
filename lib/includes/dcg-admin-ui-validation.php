@@ -61,13 +61,13 @@ function dfcg_on_load_validation( $options_array ) {
 	if ( !is_multisite() ) {
 		
 		// If Multi Option, defimgmulti should be defined
-		if( $options_array['populate-method'] == 'multi-option' && empty( $options_array['defimgmulti'] ) ) {
-			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "Multi Option" Gallery Method. Enter the Path to your Category default images folder in the Multi Option settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
+		if( $options_array['populate-method'] == 'multi-option' && empty( $options_array['defimgfolder'] ) ) {
+			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "Multi Option" Gallery Method. Enter the Path to your default images folder in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
 		}
 		
 		// If One Category, defimgonecat should be defined
-		if( $options_array['populate-method'] == 'one-category' && empty( $options_array['defimgonecat'] ) ) {
-			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "One Category" Gallery Method. Enter the Path to your Category default images folder in the One Category settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
+		if( $options_array['populate-method'] == 'one-category' && empty( $options_array['defimgfolder'] ) ) {
+			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "One Category" Gallery Method. Enter the Path to your default images folder in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
 		}
 	
 		// If ID Method, defimgpages should be defined
@@ -76,8 +76,8 @@ function dfcg_on_load_validation( $options_array ) {
 		}
 		
 		// If Custom Post, defimgcustompost should be defined
-		if( $options_array['populate-method'] == 'custom-post' && empty( $options_array['defimgcustompost'] ) ) {
-			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "Custom Post Type" Gallery Method. Enter the Path to your Taxonomy default images folder in the Custom Post settings in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
+		if( $options_array['populate-method'] == 'custom-post' && empty( $options_array['defimgfolder'] ) ) {
+			echo '<div class="updated"><p>' . __('<strong>DCG Notice:</strong> You are using the "Custom Post Type" Gallery Method. Enter the Path to your default images folder in the Gallery Method tab to take advantage of the default image feature.', DFCG_DOMAIN) . '</p></div>';
 		}
 	}
 }

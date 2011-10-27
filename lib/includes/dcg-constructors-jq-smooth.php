@@ -24,38 +24,37 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 /**
-* This function builds the gallery from Multi Option options
-*
-* @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
-* @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
-* @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
-* @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
-*
-* @var array	$errmsgs			Output of dfcg_errors_output()
-* @var string 	$def_img_folder_path	Absolute path to default images directory
-* @var array 	$query_pairs			cat/off pairs. Output of dfcg_query_list()
-* @var int		$selected_slots			Number of pairs in $query_pair array
-* @var int		$counter				Stores how many times $query_list is run through foreach loop
-* @var int	 	$counter1				Stores how many times WP_Query is run (to do comparison for missing posts)
-* @var int	 	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
-* @var string	$title					Post/page title. Output of get_the_title()
-* @var string 	$slide_text_html		Slide Pane description text. Output of dfcg_get_desc()
-* @var string	$link					Image link data. Output of dfcg_get_link()
-* @var string 	$image					(array) Main Image data. Output of dfcg_get_image()
-* @var string	$thumb_html				Thumbnail HTML. Output of dfcg_get_thumbnail()
-*
-* @global $dfcg_options (array) Plugin options array from db
-* @global $post (object) Post object
-* @global $def_img_folder_url (string) - declared so that nested functions get access to it
-* @global $dfcg_postmeta (array) - declared so that nested functions get access to it
-*
-* @return $output - string - all XHTML output for the gallery
-* @since 3.3
-* @updated 4.0
-*/
+ * This function builds the gallery from Multi Option options
+ *
+ * @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
+ * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
+ * @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+ * @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
+ *
+ * @var array	$errmsgs			Output of dfcg_errors_output()
+ * @var string 	$def_img_folder_path	Absolute path to default images directory
+ * @var array 	$query_pairs			cat/off pairs. Output of dfcg_query_list()
+ * @var int		$selected_slots			Number of pairs in $query_pair array
+ * @var int		$counter				Stores how many times $query_list is run through foreach loop
+ * @var int	 	$counter1				Stores how many times WP_Query is run (to do comparison for missing posts)
+ * @var int	 	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
+ * @var string	$title					Post/page title. Output of get_the_title()
+ * @var string 	$slide_text_html		Slide Pane description text. Output of dfcg_get_desc()
+ * @var string	$link					Image link data. Output of dfcg_get_link()
+ * @var string 	$image					(array) Main Image data. Output of dfcg_get_image()
+ * @var string	$thumb_html				Thumbnail HTML. Output of dfcg_get_thumbnail()
+ *
+ * @global $post (object) Post object
+ * @global $dfcg_options (array) Plugin options array from db
+ * @global $dfcg_postmeta (array) - declared so that nested functions get access to it
+ *
+ * @return $output - string - all XHTML output for the gallery
+ * @since 3.3
+ * @updated 4.0
+ */
 function dfcg_jq_multioption_method_gallery() {
 
-	global $post, $dfcg_options, $dfcg_postmeta, $def_img_folder_path, $def_img_folder_url;
+	global $post, $dfcg_options, $dfcg_postmeta;
 	
 	// Build array of error messages (NULL if Errors are off). Reset to NULL, just in case Settings have been changed
 	$errmsgs = NULL;
@@ -251,49 +250,47 @@ function dfcg_jq_multioption_method_gallery() {
 
 
 /**
-* This function builds the gallery for One Category and Custom Post Type methods
-*
-*
-* @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
-* @uses	dfcg_baseimgurl()			Determines whether FULL or Partial URL applies (see dfcg-gallery-core.php)
-* @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
-* @uses get_the_title()				WP function
-* @uses dfcg_get_desc()				Gets Slide Pane Description (see dfcg-gallery-core.php)
-* @uses dfcg_get_link()				Gets image link (see dfcg-gallery-core.php)
-* @uses dfcg_get_image()			Gets Main Image (see dfcg-gallery-core.php)
-* @uses dfcg_get_thumbnail()		Gets carousel Thumbnail (see dfcg-gallery-core.php)
-*
-*
-* @var array	$errmsgs				Array of error messages. Output of dfcg_errors_output()
-* @var string 	$posts_number			DCG option: number of posts to display (One Cat and CPT)
-* @var string 	$term_id				DCG option: selected category or taxonomy term (One Cat and CPT)
-* @var string 	$def_img_folder_url		DCG option: URL to default images folder (One Cat and CPT)
-* @var string	$query					Query string to be used by WP_QUERY (One Cat and CPT)
-* gvar string	$post_type				DCG option: Custom Post Type (CPT only)
-* @var string	$term_selected			Query string element for tax/term (CPT only)
-* @var string 	$def_img_folder_path	Absolute path to default images directory
-* @var object	$recent					WP_Query object
-* @var string	$counter				Stores how many times items in $recent wp_query loop
-* @var string	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
-* @var string	$title					Output of get_the_title(), Post title
-* @var string 	$slide_text				Output of dfcg_get_desc(), full XHTML markup for Slide Pane description text
-* @var array	$link					Output of dfcg_get_link(), array 'link_url', 'link_title_attr'
-* @var array	$image					Output of dfcg_get_image(), array 'src','w','h','class','error'
-* @var string	$thumb_html				Output of dfcg_get_thumbnail(), full XHTML markup for carousel thumbnail
-*
-* @global $post (object) WP Post object
-* @global $dfcg_options (array) Plugin options array from db
-* @global $dfcg_postmeta (array) Post meta keys
-* @global $def_img_folder_path (string) - declared global so that this variable is available as a global in used functions
-* @global $def_img_folder_url (string) - declared global so that this variable is available as a global in used functions
-*
-* @return $output - string - all XHTML output for the gallery
-* @since 3.2
-* @updated 4.0
-*/
+ * This function builds the gallery for One Category and Custom Post Type methods
+ *
+ *
+ * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
+ * @uses	dfcg_baseimgurl()			Determines whether FULL or Partial URL applies (see dfcg-gallery-core.php)
+ * @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+ * @uses get_the_title()				WP function
+ * @uses dfcg_get_desc()				Gets Slide Pane Description (see dfcg-gallery-core.php)
+ * @uses dfcg_get_link()				Gets image link (see dfcg-gallery-core.php)
+ * @uses dfcg_get_image()			Gets Main Image (see dfcg-gallery-core.php)
+ * @uses dfcg_get_thumbnail()		Gets carousel Thumbnail (see dfcg-gallery-core.php)
+ *
+ *
+ * @var array	$errmsgs				Array of error messages. Output of dfcg_errors_output()
+ * @var string 	$posts_number			DCG option: number of posts to display (One Cat and CPT)
+ * @var string 	$term_id				DCG option: selected category or taxonomy term (One Cat and CPT)
+ * @var string 	$def_img_folder_url		DCG option: URL to default images folder (One Cat and CPT)
+ * @var string	$query					Query string to be used by WP_QUERY (One Cat and CPT)
+ * gvar string	$post_type				DCG option: Custom Post Type (CPT only)
+ * @var string	$term_selected			Query string element for tax/term (CPT only)
+ * @var string 	$def_img_folder_path	Absolute path to default images directory
+ * @var object	$recent					WP_Query object
+ * @var string	$counter				Stores how many times items in $recent wp_query loop
+ * @var string	$counter2				Added 3.2: Stores how many posts are Excluded by _dfcg-exclude custom field being true
+ * @var string	$title					Output of get_the_title(), Post title
+ * @var string 	$slide_text				Output of dfcg_get_desc(), full XHTML markup for Slide Pane description text
+ * @var array	$link					Output of dfcg_get_link(), array 'link_url', 'link_title_attr'
+ * @var array	$image					Output of dfcg_get_image(), array 'src','w','h','class','error'
+ * @var string	$thumb_html				Output of dfcg_get_thumbnail(), full XHTML markup for carousel thumbnail
+ *
+ * @global $post (object) WP Post object
+ * @global $dfcg_options (array) Plugin options array from db
+ * @global $dfcg_postmeta (array) Post meta keys - declared global so that this variable is available as a global in used functions
+ *
+ * @return $output - string - all XHTML output for the gallery
+ * @since 3.2
+ * @updated 4.0
+ */
 function dfcg_jq_onecategory_method_gallery() {
 
-	global $post, $dfcg_options, $dfcg_postmeta, $def_img_folder_path, $def_img_folder_url;
+	global $post, $dfcg_options, $dfcg_postmeta;
 	
 	// Build array of error messages (NULL if Errors are off). Reset to NULL, just in case Settings have been changed
 	$errmsgs = NULL;
@@ -312,9 +309,6 @@ function dfcg_jq_onecategory_method_gallery() {
 		// thanks to use of wp_dropdown_categories in Settings
 		// With One Category Method, this is the cat ID
 		$term_id = $dfcg_options['cat-display'];
-		
-		/* Get the URL to the default "Category" images folder from Settings */
-		$def_img_folder_url = $dfcg_options['defimgonecat'];
 		
 		/* The query */
 		$query = array( 
@@ -341,16 +335,9 @@ function dfcg_jq_onecategory_method_gallery() {
 			
 		$term_id = $dfcg_options['cpt-term-id'];
 		
-		/* Get the URL to the default "Category" images folder from Settings */
-		$def_img_folder_url = $dfcg_options['defimgcustompost'];
-		
 		/* The query */
 		$query = 'post_type=' . $post_type . $term_selected . '&showposts=' . $posts_number;
 	}
-
-
-	// Convert URL to path. Strip domain name from URL, replace with ABSPATH. Default folder can now be anywhere
-	$def_img_folder_path = str_replace( get_bloginfo('url'), ABSPATH, $def_img_folder_url );
 	
 	
 	/* Do the WP_Query */
