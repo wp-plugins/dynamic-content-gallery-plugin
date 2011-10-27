@@ -70,7 +70,7 @@ function dfcg_sanitise( $input ) {
 		add_settings_error(
 			'dfcg_plugin_size-change', 	// $setting
 			'dfcg-size-change',			// $code
-			__('DCG Notice: Image sizes have changed. Run Regenerate Thumbnails to generate new sizes for existing images.', DFCG_DOMAIN),
+			__('DCG Notice: Gallery dimensions have changed. For best results, run the Regenerate Thumbnails plugin to generate new sizes for existing images to match the new Gallery dimensions.', DFCG_DOMAIN),
 			'updated'					// $type
 			);
 			
@@ -91,9 +91,6 @@ function dfcg_sanitise( $input ) {
 		$input[$key] = trim($value);
 	}
 	
-	
-	// deal with just-reset option, overwrite it in case it's 'true' (Should never be the case...)
-	$input['just-reset'] = '0';
 	
 	// deal with One Category Method "All" option to suppress WP_Class Error if category_description() is passed a '0'.
 	// WP_Query will fail gracefully because cat='' is ignored
@@ -439,10 +436,6 @@ function dfcg_sanitise( $input ) {
 			$input[$key] = 1000;
 		}
 	}
-	
-	/*global $wp_settings_errors;
-	var_dump($wp_settings_errors);
-	exit;*/
 	
 	// Return sanitised options array ready for db
 	return $input;
