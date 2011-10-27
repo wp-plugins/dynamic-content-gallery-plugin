@@ -7,8 +7,8 @@ Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Contributors: studiograsshopper
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10131319
 Tags: gallery,images,posts,rotator,content-slider
-Requires at least: 3.0
-Tested up to: 3.2
+Requires at least: 3.3
+Tested up to: 3.3
 Stable tag: 3.3.5
 
 Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts.
@@ -42,11 +42,11 @@ This release represents a significant improvement and enhancement of the DCG. En
 
 * Auto Image Management option - automatically pulls in the Featured Image from relevant Posts/Pages
 * Auto Carousel thumbnails, using WP's Post Thumbnail feature.
-* Auto image resizing to fit gallery dimensions (with help from Regenerate Thumbnails plugin)
+* Auto image resizing to fit gallery dimensions
 * SmoothGallery javascript updated to use latest version of mootools (v1.2.4).
 * New custom jQuery script - now much closer in look and feel to the mootools version
 * A choice of 4 different methods for populating the gallery -  Multi Option, One Category, ID Method or Custom Post Type.
-* Up to 15 gallery images (One Category/Custom Post Type methods), 9 gallery images (Multi Option), or unlimited for ID Method (with custom page Sort Order).
+* Up to 15 gallery images (One Category/Custom Post Type methods), 9 gallery images (Multi Option), or unlimited for ID Method (which also includes Sort Order functionality).
 * Provides for a system of default images which will be displayed in the event an image has not been defined.
 * Displays the Post/Page title and a user-definable description in the Slide Pane.
 * Images can be linked to external URLs.
@@ -84,15 +84,14 @@ Note for WordPress Multisite users:
 * In order for this plugin to be visible to Site Admins, the plugin has to be activated for each blog by the Network Admin. Each Site Admin can then configure the plugin's Settings page in their Admin Settings.
 
 
-**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3, 3.3, 3.3.1**
----------------------------------------------------------------
+**Upgrading from version 3.2, 3.2.1, 3.2.2, 3.2.3, 3.3, 3.3.1, 3.3.2, 3.3.4, 3.3.5**
+------------------------------------------------------------------------------------
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 
 
 **Upgrading from version 2.2, 3.0, 3.1**
 ----------------------------------------
-Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
-Version 3.2 introduced some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after upgrading from version 3.1 or earlier, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/). 
+Not possible - there is no upgrade path from these ancient versions. 
 
 
 
@@ -115,9 +114,9 @@ Alternatively, add it as a Widget via Dashboard>Appearance>Widgets.
 
 **Assigning Images to Posts**
 
-Either select Auto in the Image Management options to automatically pull in Image Attachments from relevant Posts/Pages, or enter your image URL in the Write Post/Page screen DCG Metabox Image URL field. (The exact form of the image URL depends on whether your DCG Image File Management Settings are set to FULL or PARTIAL URL). 
+Either select Featured Images in the Image Management options to automatically use the featured image assigned to relevant Posts/Pages, or enter your image URL in the Write Post/Page screen DCG Metabox Image URL field. (The exact form of the image URL depends on whether your DCG Image File Management Settings are set to FULL or PARTIAL URL). 
 
-Slide Pane text can be configured in three ways - Manual, Auto or None
+Slide Pane text can be configured in four ways - Manual, configurable Auto excerpt, the post Excerpt or None
 
 **Manual:**
 * Enter a Slide Pane Description in the Write Post/Page screen DCG Metabox. For example: Here's our latest news!
@@ -143,9 +142,9 @@ The plugin provides four ways to populate the gallery:
 * ID: designed for Pages, this method can also be used for mixing Pages and Posts in the gallery.
 * Custom Post Type: display up to 15 images from one selected Custom Post Type
 
-Image file management settings provide comprehensive options for how images are referenced, either by Auto, Full URL or Partial URL options.
+Image file management settings provide comprehensive options for how images are referenced, either by Featured Images, Full URL or Partial URL options.
 
-Default images can be defined for each category (One Category and Multi Option display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in WordPress Multisite).
+Default images can be defined for each category or term (One Category, Multi Option and Custom Post display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in WordPress Multisite).
 
 There are a wide range of CSS and javascript Settings for configuring the look and behaviour of the gallery.
 
@@ -212,14 +211,6 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 
 == Upgrade Notice ==
-
-= 3.3.6 =
-Fixes the DCG Metabox so that it now appears on all CPT edit screens when using the ID Method.
-Some minor tidy up of code.
-
-= 3.3.5 =
-Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
-
 
 
 == Changelog ==
