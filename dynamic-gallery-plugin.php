@@ -237,17 +237,6 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 
-/* Pre-2.6 compatibility to find directories */
-/*if ( ! defined( 'WP_CONTENT_URL' ) )
-	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
-if ( ! defined( 'WP_CONTENT_DIR' ) )
-	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-if ( ! defined( 'WP_PLUGIN_URL' ) )
-	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-if ( ! defined( 'WP_PLUGIN_DIR' ) )
-	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );*/
-
-
 /* Set constants for plugin */
 define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
 define( 'DFCG_URL', 			plugins_url() . '/dynamic-content-gallery-plugin' );
