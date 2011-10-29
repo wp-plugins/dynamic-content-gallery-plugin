@@ -476,7 +476,7 @@ function dfcg_get_link( $id, $title ) {
  *
  * @global array $dfcg_options Plugin options from db
  *
- * @return $thumb_html (string) HTML markup for thumbnail
+ * @return string $thumb_html HTML markup for thumbnail
  * @since 3.3
  * @updated 4.0
  */
@@ -484,7 +484,7 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
 	global $dfcg_options;
 	
 	// Get the thumbnail - uses Post Thumbnails if AUTO images are used
-	if( current_theme_supports( 'post-thumbnails' ) && $dfcg_options['thumb-type'] == "featured-image" ) {
+	if( current_theme_supports( 'post-thumbnails' ) && $dfcg_options['thumb-type'] == "featured-image" && $dfcg_options['scripts'] == 'mootools') {
 		
 		$args = array(
 			"class" => "dfcg-postthumb-auto thumbnail",

@@ -297,7 +297,7 @@ function dfcg_errors() {
 	#	Note:				Only means that DCG Metabox URL was found - doesn't mean that Featured Image is actually set
 	#	Note:				Doesn't prevent 404 due to DCG Metabox URL being incorrect
 	$err = $o . __('DCG Message 31', DFCG_DOMAIN) . $c;
-	$err .= $o . __('Image Management = Auto', DFCG_DOMAIN) . $c;
+	$err .= $o . __('Image Management = Featured Images', DFCG_DOMAIN) . $c;
 	$err .= $o . __('Featured Image is overridden by DCG Metabox image URL.', DFCG_DOMAIN) . $c;
 	$err .= $o . __('If image is not visible, check that DCG Metabox image URL is correct.', DFCG_DOMAIN) . $c;
 	$errmsgs['31'] = $err;
