@@ -13,6 +13,36 @@
  *		- Custom Post Type	dfcg_jq_onecategory_method_gallery()
  *		- ID Method			dfcg_jq_id_method_gallery()
  *
+ * jQuery Smooth Markup
+ * ---------------
+ *	<div id="dfcg-outer-wrap"><!-- Start of Dynamic Content Gallery -->
+ *
+ *		dfcg_before() hook
+ *
+ * 		<div id="dfcg-outer-wrapper"><!-- Start of DCG jQuery Smooth output -->
+ *
+ *			<ul id="dfcg-slideshow" style="display:none">
+ *			
+ *				<li><!-- DCG Image # $counter -->
+ *					<h3> $title </h3>
+ *					<img class="$image['class']" src="$image['src']" alt="$title" />
+ *					<p> Slide text </p>
+ *					<a href="$link['link_url']" title="$link['link_title_attr']" rel="bookmark">
+ *						$thumb_html
+ *					</a>
+ *				</li>
+ *			</ul>
+ *
+ *			<div id="dfcg-wrapper">
+ *				// Empty pseudo markup
+ *			</div><!-- end #dfcg-wrapper -->
+ *
+ *		</div><!-- end #dfcg-outer-wrapper -->
+ *
+ *		dfcg_after() hook
+ *
+ * 	</div><!-- end #dfcg-outer-wrap and end of Dynamic Content Gallery output -->
+ *
  * @since 3.3.1
  */
 
@@ -102,7 +132,7 @@ function dfcg_jq_multioption_method_gallery() {
 
 
 	// Start the Gallery Markup
-	$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of Dynamic Content Gallery -->';
+	$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of DCG jQuery Smooth output -->';
 	$output .= "\n\t" . '<ul id="dfcg-slideshow" style="display:none">';
 	
 	
@@ -358,7 +388,7 @@ function dfcg_jq_onecategory_method_gallery() {
 	$counter2 = 0;
 
 	// Start the gallery markup
-	$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of Dynamic Content Gallery -->';
+	$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of DCG jQuery Smooth output -->';
 	$output .= "\n\t" . '<ul id="dfcg-slideshow" style="display:none">';
 
 	while($recent->have_posts()) : $recent->the_post();
@@ -587,7 +617,7 @@ function dfcg_jq_id_method_gallery() {
 		$counter = 0;
 
 		// Start the gallery markup
-		$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of Dynamic Content Gallery -->';
+		$output = "\n" . '<div id="dfcg-outer-wrapper"><!-- Start of DCG jQuery Smooth output -->';
 		$output .= "\n\t" . '<ul id="dfcg-slideshow" style="display:none">';
 
 		foreach( $ids_found as $id_found ) :
@@ -599,13 +629,13 @@ function dfcg_jq_id_method_gallery() {
 			$title = esc_attr($id_found->post_title);
 					
 			// Get the slide pane description (post ID, cat/Term ID)			
-			$slide_text_html = dfcg_get_desc( $id_found->ID, $term_id );
+			$slide_text_html = dfcg_get_desc( $id_found->ID );
 				
 			// Get the Image Link
 			$link = dfcg_get_link( $id_found->ID, $title );
 				
 			// Get the Image
-			$image = dfcg_get_image($id_found->ID, $term_id);
+			$image = dfcg_get_image($id_found->ID);
 									
 			// Get the thumbnail - uses Post Thumbnails if AUTO images are used
 			$thumb_html = dfcg_get_thumbnail($id_found->ID, $image['src'], $title);
@@ -621,7 +651,7 @@ function dfcg_jq_id_method_gallery() {
 			$output .= $errmsgs[$image['msg']];
 			
 			// Output slide pane description
-			$output .= "\n\t\t\t" . $slide_text;
+			$output .= "\n\t\t\t" . $slide_text_html;
 			
 			// Output Image Link
 			$output .= "\n\t\t\t" . '<a href="'. $link .'" title="Read More" rel="bookmark">';
