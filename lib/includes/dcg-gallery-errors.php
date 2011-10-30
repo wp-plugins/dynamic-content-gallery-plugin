@@ -379,7 +379,7 @@ function dfcg_errors() {
 	$errmsgs['36.2'] = $err;
 
 	
-	$errmsgs['37'] = '';
+	$errmsgs['37'] = ''; // Not used
 	
 	
 	
@@ -397,9 +397,9 @@ function dfcg_errors() {
 	*	Notes:				Informational only, this error does not prevent the gallery running.
 	*						Updated 3.3
 	*/
-	$err_40 = "\n" . '<!-- ' . __('DCG Error Message 40: DCG Metabox Slide Pane Description is empty and Default Description does not exist.', DFCG_DOMAIN) .' -->';
-	$err_40 .= "\n" . $noncritical;
-	$err_40 .= "\n" . '<!--	' . __('Fix: Enter a description in the DCG Metabox Slide Pane Description field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) .' -->';
+	$err_40 = $o . __('DCG Error Message 40: DCG Metabox Slide Pane Description is empty and Default Description does not exist.', DFCG_DOMAIN) . $c;
+	$err_40 .= $noncritical;
+	$err_40 .= $o . __('Fix: Enter a description in the DCG Metabox Slide Pane Description field for this Page/Post and/or define a Default Description in the DCG Settings page.', DFCG_DOMAIN) . $c;
 	
 	$errmsgs['40'] = $err_40;
 	
