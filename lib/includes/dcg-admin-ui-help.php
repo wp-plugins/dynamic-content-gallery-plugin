@@ -20,6 +20,12 @@ if( !defined( 'ABSPATH' ) ) {
 }
 
 
+
+if (dfcg_check_version() ) {
+	add_action('load-' . DFCG_PAGEHOOK, 'dfcg_plugin_help');
+}
+
+
 /**
  * Add contextual help to Admin Bar the new 3.3 way
  *
@@ -30,16 +36,13 @@ if( !defined( 'ABSPATH' ) ) {
  * @global $current_screen object global Screen object
  * @since 4.0
  */
-if (dfcg_check_version() ) {
-add_action('load-' . DFCG_PAGEHOOK, 'dfcg_plugin_help');
-}
 function dfcg_plugin_help() {
 	
 	global $current_screen;
 	
 	$sidebar = dfcg_help_sidebar();
 	
-	$current_screen->add_help_sidebar( $sidebar );
+	$current_screen->set_help_sidebar( $sidebar );
 	
 	$current_screen->add_help_tab( array(
 		'id'      => 'dfcg-help-general',
