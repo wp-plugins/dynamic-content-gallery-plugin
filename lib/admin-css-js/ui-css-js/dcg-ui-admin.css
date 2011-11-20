@@ -33,8 +33,8 @@
 .dfcg-key-settings table {width:78%;}/*ok*/
 .dfcg-key-settings table td {background:#f6f6f6;padding:5px 10px;color:#666666;}/*ok*/
 .dfcg-key-settings table td.first {width:200px;vertical-align:top;}/*ok*/
-.dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
-.dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}
+.dfcg-key-settings table td.third {background:url(images/tick.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}/*ok*/
+.dfcg-key-settings table td.third-error {background:url(images/cross.png) no-repeat 6px 6px #f6f6f6;vertical-align:top;}/*ok*/
 
 /* Misc Settings page stuff */
 .off-site {background: url(images/link.png) top left no-repeat; padding:0 0 0 20px;}/*ok*/
@@ -56,7 +56,7 @@
 
 
 /* Form elements */
-textarea, input, select {padding:2px;}
+/*textarea, input, select {padding:2px;}*/
 
 /* Image Management - sliding div */
 .dfcg-panel-image-opts {margin:0;padding:5px 0 0 0;}
