@@ -344,9 +344,9 @@ function dfcg_do_post_thumbnail_messages() {
  */
 function dfcg_check_version() {
 
-	$ver_ok = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
+	$version_ok = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
 	
-	if( $ver_ok )
+	if( $version_ok )
 		return true;
 	else
 		return false;
@@ -401,7 +401,7 @@ function dfcg_checks_plugins_page() {
 	
 	
 	if( $check && $thumbs )
-		return; // Nothing to do here...
+		return; // All is good, nothing to do here...
 	
 	// Define markup
 	$msg_tr = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
@@ -457,6 +457,7 @@ function dfcg_checks_plugins_page() {
 function dfcg_checks_settings_page() {	
 	global $current_screen;
 	
+	// Being polite, only showing the nag on DCG Settings page
 	if( $current_screen->id !== DFCG_PAGEHOOK )
 		return;
 	
@@ -465,7 +466,7 @@ function dfcg_checks_settings_page() {
 	$thumbs = dfcg_check_post_thumbnails();
 	
 	if( $check && $thumbs )
-		return; // Nothing to do here...
+		return; // All is good, nothing to do here...
 		
 	
 	// Define markup
@@ -516,6 +517,7 @@ function dfcg_upgrade_nag() {
 	
 	global $current_screen;
 	
+	// Being polite, only showing the nag on DCG Settings page
 	if( $current_screen->id !== DFCG_PAGEHOOK )
 		return;
 	
