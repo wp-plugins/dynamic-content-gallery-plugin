@@ -328,7 +328,7 @@ function dfcg_do_version_messages() {
  */
 function dfcg_do_post_thumbnail_messages() {
 
-	$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . 'faq/" target="_blank" title="DCG FAQ">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
+	$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . '" target="_blank" title="DCG home page">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
 	
 	return $msg;
 }
