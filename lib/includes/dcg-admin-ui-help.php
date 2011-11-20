@@ -20,7 +20,9 @@ if( !defined( 'ABSPATH' ) ) {
 }
 
 
-
+/**
+ * Only load the help screens if Wp version is OK
+ */
 if (dfcg_check_version() ) {
 	add_action('load-' . DFCG_PAGEHOOK, 'dfcg_plugin_help');
 }
@@ -132,7 +134,7 @@ function dfcg_help_sidebar() {
 }
 
 /**
- * add_help_tab() callback
+ * General Info - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -159,7 +161,7 @@ function dfcg_help_general() {
 
 
 /**
- * add_help_tab() callback
+ * Quick Help - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -181,7 +183,7 @@ function dfcg_help_quick() {
 
 
 /**
- * add_help_tab() callback
+ * Theme Integration - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -202,7 +204,7 @@ function dfcg_help_theme() {
 
 
 /**
- * add_help_tab() callback
+ * Gallery Method - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -211,16 +213,16 @@ function dfcg_help_gallery() {
 ?>
 	<h3><?php esc_html_e('Dynamic Content Gallery - Quick Help - Gallery Method', DFCG_DOMAIN); ?></h3>
 	
-	<p>For many users the best option is One Category. It is great as a "set and forget" option, because it will always pull in the latest posts from your chosen category. The Custom Post option works in a similar way to the One Category method and is, obviously, the best option for pulling in posts from one Custom Post type. In server performance terms, these two methods are probably the quickest and most efficient ones to use.</p>
-	<p>The Multi-Option method is perfect for when you want to mix posts from different categories, for example if you want to feature the latest post from a number of different categories.</p>
-	<p>The ID Method is the most flexible because you can pull in any type of post (normal of Custom) and Pages, and mix them in any order you wish using the Sort Order field in the DCG metabox.</p>
+	<p><?php esc_html_e('For many users the best option is One Category. It is great as a "set and forget" option, because it will always pull in the latest posts from your chosen category. The Custom Post option works in a similar way to the One Category method and is, obviously, the best option for pulling in posts from one Custom Post type. In server performance terms, these two methods are probably the quickest and most efficient ones to use.', DFCG_DOMAIN); ?></p>
+	<p><?php esc_html_e('The Multi-Option method is perfect for when you want to mix posts from different categories, for example if you want to feature the latest post from a number of different categories.', DFCG_DOMAIN); ?></p>
+	<p><?php esc_html_e('The ID Method is the most flexible because you can pull in any type of post (normal of Custom) and Pages, and mix them in any order you wish using the Sort Order field in the DCG metabox.', DFCG_DOMAIN); ?></p>
 
 <?php
 }
 
 
 /**
- * add_help_tab() callback
+ * Image Management - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -229,17 +231,17 @@ function dfcg_help_images() {
 ?>
 	<h3><?php esc_html_e('Dynamic Content Gallery - Quick Help - Image Management', DFCG_DOMAIN); ?></h3>
 	
-	<p>Quite simply, the Featured Images option is the best and easiest to use. The manual methods (Full and Partial) are primarily there for reasons of backwards compatibility, for those users who have been using the DCG since its earliest versions.</p>
-	<p>Note: it is quite possible that the manual image management options will be removed in future. Therefore users are encouraged to use the Featured Image option - it's easier and more flexible.</p>
+	<p><?php esc_html_e('Quite simply, the Featured Images option is the best and easiest to use. The manual methods (Full and Partial) are primarily there for reasons of backwards compatibility, for those users who have been using the DCG since its earliest versions.</p>
+	<p>Note: it is quite possible that the manual image management options will be removed in future. Therefore users are encouraged to use the Featured Image option - it is easier and more flexible.', DFCG_DOMAIN); ?></p>
 	
-	<p>If you select the Partial URL option you will be prompted to enter the URL to the root folder for your images. You must enter a URL here otherwise the DCG will not find your images.</p>
+	<p><?php esc_html_e('If you select the Partial URL option you will be prompted to enter the URL to the root folder for your images. You must enter a URL here otherwise the DCG will not find your images.', DFCG_DOMAIN); ?></p>
 
 <?php
 }
 
 
 /**
- * add_help_tab() callback
+ * Descriptions - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -248,9 +250,9 @@ function dfcg_help_desc() {
 ?>
 	<h3><?php esc_html_e('Dynamic Content Gallery - Quick Help - Descriptions', DFCG_DOMAIN); ?></h3>
 	
-	<p>The Description is the text which appears below the post/Page title in the gallery Slide Pane.</p>
-	<p>Four different options for creating the description are available: two "auto" options, one "manual" option, and one option to disable the description altogether.</p>
-	<p>If you want total control over the text, check the <span class="bold-italic">Manual</span> option and enter the descriptions in the in-post DCG Metabox for each post/Page. This option also let's you set up a fallback description which will be displayed if a DCG Metabox description does not exist.</p>
+	<p><?php esc_html_e('The Description is the text which appears below the post/Page title in the gallery Slide Pane.</p>
+	<p>Four different options for creating the description are available: two "auto" options, one "manual" option, and one option to disable the description altogether.', DFCG_DOMAIN); ?></p>
+	<p>If you want total control over the text, check the <span class="bold-italic">Manual</span> option and enter the descriptions in the in-post DCG Metabox for each post/Page. This option also allows you to set up a fallback description which will be displayed if a DCG Metabox description does not exist.</p>
 	<p>The recommended "auto" option is <span class="bold-italic">Auto</span>. This automatically creates a description from the post/Page content and allows you to specify the length of the description and customise its Read More link.</p>
 	<p>The alternative "auto" option is the <span class="bold-italic">Excerpt</span> option. This will display the post/Page Excerpt - either the handcrafted one if it exists, or an automatic Excerpt of the first 55 words of the post/Page. Bear in mind using an automatic Excerpt will probably result in too much text for the Slide Pane, though this can be dealt with by using the WordPress excerpt filter. You can learn more about this filter <a href="http://www.studiograsshopper.ch/code-snippets/customising-the_excerpt/" target="_blank">here</a>.</p>
 
@@ -259,7 +261,7 @@ function dfcg_help_desc() {
 
 
 /**
- * add_help_tab() callback
+ * Gallery CSS - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -282,7 +284,7 @@ function dfcg_help_css() {
 
 
 /**
- * add_help_tab() callback
+ * Javascript / LOad Scripts - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
@@ -293,7 +295,7 @@ function dfcg_help_scripts() {
 	
 	<p>Go to the <span class="bold-italic">DCG Settings > Javascript Options</span> tab to set the choice of mootools (default) or jQuery scripts. Note that after changing this settings, click Save, then return to the Javascript Options tab to configure the other options in this tab. You have to do this because the javascript options are not identical for both scripts.</p>
 	
-	<p>The <span class="bold-italic">Load Scripts</span> tab allows you to specify in which pages the javascript and gallery CSS are loaded. These settinsg ensure that the javascript and CSS are only loaded where needed, and therefore won't slow down the page load on all the other pages on your site.</p>
+	<p>The <span class="bold-italic">Load Scripts</span> tab allows you to specify in which pages the javascript and gallery CSS are loaded. These settings ensure that the javascript and CSS are only loaded where needed, and therefore won't slow down the page load on all the other pages on your site.</p>
 	<p>In 99.9% of cases users will display the DCG on their home page. Therefore, if this is the case you for, select the <span class="bold-italic">Home page</span> option.</p>
 
 <?php
@@ -301,7 +303,7 @@ function dfcg_help_scripts() {
 
 
 /**
- * add_help_tab() callback
+ * Troubleshooting - add_help_tab() callback
  * See dfcg_plugin_help()
  *
  * @since 4.0
