@@ -505,6 +505,7 @@ function dfcg_checks_settings_page() {
  *
  * Code is based on wp-admin/includes/update.php wp_plugin_update_row() function
  * Checks plugin API response for DCG file name then prints admin notice if new version is available
+ * Version detection compares plugin file version number with wp.org SVN version
  * Only shows nag on DCG Settings page - let's be polite!
  *
  * @uses dfcg_base_settings()
