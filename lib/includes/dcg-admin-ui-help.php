@@ -151,10 +151,6 @@ function dfcg_help_general() {
 	<h4><?php esc_html_e('Understanding the basics', DFCG_DOMAIN); ?></h4>
 	
 	<p><?php esc_html_e('Each image in the DCG gallery is associated with a Post or a Page. The selection of posts/Pages is made in the Gallery Method tab. The Image Management options determine how the plugin associates images with Posts/Pages, either using the Featured Image or manually by entering an image URL in the in-post DCG Metabox.', DFCG_DOMAIN); ?></p>
-	
-	<h4><?php esc_html_e('Need more info?', DFCG_DOMAIN); ?></h4>
-	
-	<p><?php esc_html_e('More detailed documentation can be found via the links in the DCG Resources sidebar on the right.', DFCG_DOMAIN); ?></p>
 
 <?php
 }
@@ -194,10 +190,10 @@ function dfcg_help_theme() {
 	<p><?php esc_html_e('There are two methods you can use for integrating (ie displaying) the DCG in your theme - either the DCG Widget or a Template Tag.', DFCG_DOMAIN); ?></p>
 	<h4>DCG Widget</h4>
 	<p><?php esc_html_e('Assuming your theme has widget areas on your home page, using the DCG Widget is the simplest method to use as no coding is required. Go to Dashboard > Appearance > Widgets and drag the DCG Widget to an appropriate widget area. You can then add a title (optional) and even some "after" text which will display below the DCG.', DFCG_DOMAIN); ?> <em><?php esc_html_e('Note that even if using the DCG Widget, you must set up the various options on the DCG Settings page.', DFCG_DOMAIN); ?></em></p>
-	<h4>Template Tag</h4>
-	<p>For the template tag, add this to your theme:</p>
+	<h4><?php esc_html_e('Template Tag', DFCG_DOMAIN); ?></h4>
+	<p><?php esc_html_e('For the template tag, add this to your theme:', DFCG_DOMAIN); ?></p>
 	<code>&lt;php dynamic_content_gallery(); ?&gt;</code><br /><br />
-	<p>Check out this tutorial: <a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>configuration-guide/#template-code"><?php esc_attr_e('How to choose the correct theme template when adding the plugin code', DFCG_DOMAIN); ?></a></p>
+	<p><?php esc_html_e('Check out this tutorial:', DFCG_DOMAIN); ?> <a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>configuration-guide/#template-code"><?php esc_attr_e('How to choose the correct theme template when adding the plugin code', DFCG_DOMAIN); ?></a></p>
 
 <?php
 }
@@ -231,8 +227,8 @@ function dfcg_help_images() {
 ?>
 	<h3><?php esc_html_e('Dynamic Content Gallery - Quick Help - Image Management', DFCG_DOMAIN); ?></h3>
 	
-	<p><?php esc_html_e('Quite simply, the Featured Images option is the best and easiest to use. The manual methods (Full and Partial) are primarily there for reasons of backwards compatibility, for those users who have been using the DCG since its earliest versions.</p>
-	<p>Note: it is quite possible that the manual image management options will be removed in future. Therefore users are encouraged to use the Featured Image option - it is easier and more flexible.', DFCG_DOMAIN); ?></p>
+	<p><?php esc_html_e('Quite simply, the Featured Images option is the best and easiest to use. The manual methods (Full and Partial) are primarily there for reasons of backwards compatibility, for those users who have been using the DCG since its earliest versions.', DFCG_DOMAIN) ;?></p>
+	<p><?php esc_html_e('Note: it is quite possible that the manual image management options will be removed in future. Therefore users are encouraged to use the Featured Image option - it is easier and more flexible.', DFCG_DOMAIN); ?></p>
 	
 	<p><?php esc_html_e('If you select the Partial URL option you will be prompted to enter the URL to the root folder for your images. You must enter a URL here otherwise the DCG will not find your images.', DFCG_DOMAIN); ?></p>
 
