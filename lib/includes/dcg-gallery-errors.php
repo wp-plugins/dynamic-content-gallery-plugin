@@ -253,11 +253,6 @@ function dfcg_errors() {
 	
 	
 
-	
-
-	
-	
-
 	/**	Error Message 29	dynamic-gallery.php produces no output at all - Doomsday Error!
 	*	Populate-method: 	All
 	*	Trigger:			dynamic-gallery.php produces no output at all, eg there is a missing included file.	
@@ -274,8 +269,6 @@ function dfcg_errors() {
 	$err_29 .= "\n" . '<!-- ' . __('Fix: Check that the plugin has been installed properly and that all files contained within the download ZIP file have been uploaded to your server.', DFCG_DOMAIN) .' -->';
 
 	$errmsgs['29'] = $err_29;
-
-	
 
 
 
