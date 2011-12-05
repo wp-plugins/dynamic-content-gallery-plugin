@@ -326,7 +326,7 @@ function dfcg_onecategory_method_gallery() {
 	
 	/* Do the WP_Query */
 	$recent = new WP_Query( $query );
-	//var_export($recent);
+	
 	// Do we have any posts?
 	if ( !$recent->have_posts() ) {
 		/* Oops! The WP_Query couldn't find any Posts */
@@ -361,7 +361,7 @@ function dfcg_onecategory_method_gallery() {
 					
 		// Get the slide pane description (post ID, cat/Term ID)			
 		$slide_text_html = dfcg_get_desc( $post->ID, $term_id );
-				
+			
 		// Get the Image Link
 		$link = dfcg_get_link( $post->ID, $title );
 				

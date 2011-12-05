@@ -742,11 +742,9 @@ function dfcg_get_desc( $id, $term_id = NULL ) {
 			// show the category description (note: no <p> tags required)
 			$desc_html = category_description( $term_id );
 			
-		} elseif( $dfcg_options['populate-method'] == 'one-category' && $term_id !== '' ) {
+		} elseif( $dfcg_options['populate-method'] == 'one-category' && category_description( $term_id ) !== '' ) {
 			// show the category description (note: no <p> tags required)
-			if( category_description( $term_id ) !== '' ) {
-				$desc_html = category_description( $term_id );
-			}
+			$desc_html = category_description( $term_id );
 			
 		} elseif( $dfcg_options['populate-method'] == 'custom-post-type' && term_description( $term_id, $dfcg_options['cpt-tax-name'] ) ) {
 			// show the category description (note: no <p> tags required)
