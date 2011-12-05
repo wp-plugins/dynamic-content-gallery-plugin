@@ -11,8 +11,10 @@
  * @info dfcg_baseimgurl()
  * @info dfcg_postmeta_info()
  * @info dfcg_query_list()
+ * @info dfcg_get_featured_image()
+ * @info dfcg_get_custom_post_types()
  *
- * @since 3.4
+ * @since 4.0
  */
 
 
@@ -128,6 +130,7 @@ function dfcg_query_list() {
 	return $query_list;
 }
 
+
 /**
  * Gets Featured Image "DCG_Main_wxh_true" sized image from the post/page
  *
@@ -169,4 +172,24 @@ function dfcg_get_featured_image( $id ) {
 		unset( $image[0], $image[1], $image[2], $image[3] );
 	}	
 	return $image;
+}
+
+
+/**
+ * Helper function to get list of all registered Custom Post Types
+ *
+ * @since 3.3
+ * @return object(array) $post_types Object containing all registered CPTs
+ */
+function dfcg_get_custom_post_types() {
+	
+	$args=array(
+  		'public'   => true,
+  		'_builtin' => false
+		); 
+	$output = 'objects'; // names or objects
+	$operator = 'and'; // 'and' or 'or'
+	$post_types = get_post_types($args, $output, $operator);
+	
+	return $post_types; // An object
 }

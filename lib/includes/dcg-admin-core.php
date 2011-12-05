@@ -585,24 +585,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 
 /***** Misc Helper functions used in Admin *****/
 
-/**
- * Helper function to get list of all registered Custom Post Types
- *
- * @since 3.3
- * @return object(array) $post_types Object containing all registered CPTs
- */
-function dfcg_get_custom_post_types() {
-	
-	$args=array(
-  		'public'   => true,
-  		'_builtin' => false
-		); 
-	$output = 'objects'; // names or objects
-	$operator = 'and'; // 'and' or 'or'
-	$post_types = get_post_types($args, $output, $operator);
-	
-	return $post_types; // An object
-}
+
 
 
 
