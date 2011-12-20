@@ -232,7 +232,7 @@ See README.txt file for release dates
 
 /* Prevent direct access to the plugin */
 if( !defined( 'ABSPATH' ) ) {
-	exit( __( 'Sorry, you are not allowed to access this page directly.' ) );
+	exit( _( 'Sorry, you are not allowed to access this page directly.' ) );
 }
 
 

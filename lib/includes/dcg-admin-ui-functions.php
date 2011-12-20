@@ -19,8 +19,8 @@
 /**
  * Prevent direct access to this file
  */
-if (!defined('ABSPATH')) {
-	exit( __('Sorry, you are not allowed to access this file directly.') );
+if ( !defined( 'ABSPATH' ) ) {
+	exit( _( 'Sorry, you are not allowed to access this file directly.' ) );
 }
 
 
