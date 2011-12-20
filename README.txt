@@ -8,7 +8,7 @@ Contributors: studiograsshopper
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10131319
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 3.0
-Tested up to: 3.2.1
+Tested up to: 3.3
 Stable tag: 3.3.5
 
 Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts.
@@ -20,7 +20,7 @@ This plugin creates a dynamic gallery of images for latest and/or featured conte
 
 For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
 
-Compatible with network-enabled (multisite) WordPress 3.0, though available plugin options are slightly reduced.
+Compatible with network-enabled (multisite) WordPress 3.0+, though available plugin options are slightly reduced.
 
 **Key Features**
 ----------------
