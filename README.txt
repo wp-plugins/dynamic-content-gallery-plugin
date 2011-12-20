@@ -20,7 +20,7 @@ This plugin creates a dynamic gallery of images for latest and/or featured conte
 
 For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
 
-Compatible with network-enabled (multisite) WordPress 3.0, though available plugin options are slightly reduced.
+Compatible with network-enabled (multisite) WordPress 3.0+, though available plugin options are slightly reduced.
 
 **New in Version 4.0**
 ----------------------
