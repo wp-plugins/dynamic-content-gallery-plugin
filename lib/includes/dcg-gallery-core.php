@@ -3,7 +3,7 @@
  * Front-end - These are the core front end functions for producing the gallery in the browser
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -20,14 +20,15 @@
  *
  * The above are wrapped in various functions named dfcg_load_{something}() which are called by
  * the dfcg_scripts_css_loader() function, which is hooked to 'template_redirect' so that this function is run before any of the
- * action hooks that it then calls. 
- * The logic of this setup is that dfcg_scripts_css_loader():
+ * action hooks that it then calls.
+ * 
+ * The logic of this setup is that dfcg_enqueue_scripts_css():
  * - determines whether it should load mootools or jquery css/js
  * - determines which page to load the scripts on, based on the DCG Settings > Load Scripts user options
  * - then, based on the above, processes various add_action calls to execute the relevant dfcg_load_{something}() functions.
+ *
  * Note that the hook used in these add_action calls depends on which dfcg_load_{something}() function is being called:
- * - Anything using wp_enqueue_style() is hooked to 'wp_print_styles'
- * - Anything using wp_enqueue_script() is hooked to 'wp_enqueue_scripts' (as per Otto)
+ * - Anything using wp_enqueue_script() or wp_enqueue_style() is hooked to 'wp_enqueue_scripts' (as per Otto)
  * - Anything printed directly into the head or footer is hooked to wp_head or wp_footer 
  *
  * @since 3.0
@@ -46,6 +47,9 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Note: DCG Widget uses this function too.
  *
+ * @since 2.1
+ * @updated 4.0
+ *
  * @uses dfcg_multioption_method_gallery()
  * @uses dfcg_onecategory_method_gallery()
  * @uses dfcg_id_method_gallery()
@@ -53,8 +57,6 @@ if( !defined( 'ABSPATH' ) ) {
  * @uses dfcg_jq_onecategory_method_gallery()
  * @uses dfcg_jq_id_method_gallery()
  *
- * @since 2.1
- * @updated 4.0
  * @global array $dfcg_options Plugin options from db
  * @return echos out gallery markup and content
  */
@@ -140,18 +142,18 @@ function dynamic_content_gallery() {
  * - dfcg_jquery_css()
  * - dfcg_jquery_smooth_scripts()
  *
- * @uses dfcg_load_mootools_css()
- * @uses dfcg_load_mootools_js()
- * @uses dfcg_load_mootools_user_js_css()
- * @uses dfcg_load_jquery_css()
- * @uses dfcg_load_jquery_js()
- * @uses dfcg_load_jquery_user_css()
- * @uses dfcg_load_jquery_user_js()
- *
  * @since 4.0
+ *
+ * @uses dfcg_load_mootools()
+ * @uses dfcg_load_mootools_user()
+ * @uses dfcg_load_jquery_smooth()
+ * @uses dfcg_load_jquery_js()
+ * @uses dfcg_load_jquery_smooth_user_css()
+ * @uses dfcg_load_jquery_smooth_user_js()
+ *
  * @global array $dfcg_options Plugin options from db
  */
-function dfcg_scripts_css_loader() {
+function dfcg_enqueue_scripts_css() {
 	
 	global $dfcg_options;
 	
@@ -159,16 +161,14 @@ function dfcg_scripts_css_loader() {
     	
     	if( $dfcg_options['scripts'] == 'mootools' ) {
     	
-			add_action( 'wp_print_styles', 'dfcg_load_mootools_css' );
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools_js' );
-			add_action( 'wp_head', 'dfcg_load_mootools_user_js_css' );
+			add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
+			add_action( 'wp_head', 'dfcg_load_mootools_user' );
 			
     	} else {
 			
-			add_action( 'wp_print_styles', 'dfcg_load_jquery_css' );
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_js' );
-			add_action( 'wp_head', 'dfcg_load_jquery_user_css' );
-			add_action( 'wp_footer', 'dfcg_load_jquery_user_js', 100 );
+			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
+			add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
+			add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
 		
 		}
     
@@ -185,16 +185,14 @@ function dfcg_scripts_css_loader() {
 				// Mootools or Jquery?
 				if( $dfcg_options['scripts'] == 'mootools' ) {
 					
-					add_action( 'wp_print_styles', 'dfcg_load_mootools_css' );
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools_js' );
-					add_action( 'wp_head', 'dfcg_load_mootools_user_js_css' );
+					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
+					add_action( 'wp_head', 'dfcg_load_mootools_user' );
 				
 				} else {
 					
-					add_action( 'wp_print_styles', 'dfcg_load_jquery_css' );
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_js' );
-					add_action( 'wp_head', 'dfcg_load_jquery_user_css' );
-					add_action( 'wp_footer', 'dfcg_load_jquery_user_js', 100 );
+					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
+					add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
+					add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
 				
 				}
     		}
@@ -213,16 +211,14 @@ function dfcg_scripts_css_loader() {
 				// Mootools or Jquery?
 				if( $dfcg_options['scripts'] == 'mootools' ) {
 					
-					add_action( 'wp_print_styles', 'dfcg_load_mootools_css' );
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools_js' );
-					add_action( 'wp_head', 'dfcg_load_mootools_user_js_css' );
+					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
+					add_action( 'wp_head', 'dfcg_load_mootools_user' );
 				
 				} else {
 					
-					add_action( 'wp_print_styles', 'dfcg_load_jquery_css' );
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_js' );
-					add_action( 'wp_head', 'dfcg_load_jquery_user_css' );
-					add_action( 'wp_footer', 'dfcg_load_jquery_user_js', 100 );
+					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
+					add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
+					add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
 				
 				}
 			}
@@ -232,16 +228,14 @@ function dfcg_scripts_css_loader() {
 		
 		if( $dfcg_options['scripts'] == 'mootools' ) {
 	 		
-	 		add_action( 'wp_print_styles', 'dfcg_load_mootools_css' );
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools_js' );
-			add_action( 'wp_head', 'dfcg_load_mootools_user_js_css' );
+	 		add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
+			add_action( 'wp_head', 'dfcg_load_mootools_user' );
 		
 		} else {		
 			
-			add_action( 'wp_print_styles', 'dfcg_load_jquery_css' );
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_js' );
-			add_action( 'wp_head', 'dfcg_load_jquery_user_css' );
-			add_action( 'wp_footer', 'dfcg_load_jquery_user_js', 100 );
+			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
+			add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
+			add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
 		
 		}
 	}
@@ -249,31 +243,21 @@ function dfcg_scripts_css_loader() {
 
 
 /**
- * Enqueue mootools smoothgallery CSS
+ * Enqueue mootools smoothgallery CSS and JS files
  *
- * Hooked to 'wp_print_styles'
- *
- * @since 4.0
- */
-function dfcg_load_mootools_css() {
-	wp_enqueue_style( 'dcg_mootools_css', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
-}
-
-
-/**
- * Enqueue mootools smoothgallery JS files
- *
- * Hooked to 'wp_enqueue_scripts'
+ * Hooked to 'wp_enqueue_scripts' in dfcg_enqueue_scripts_css()
  *
  * @since 4.0
  */
-function dfcg_load_mootools_js() {
+function dfcg_load_mootools() {
 
 	global $dfcg_options;
 	
+	wp_enqueue_style( 'dcg_mootools', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
+	
 	if( $dfcg_options['mootools'] !== '1' ) {
-	wp_enqueue_script( 'dcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
-	wp_enqueue_script( 'dcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
+		wp_enqueue_script( 'dcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
+		wp_enqueue_script( 'dcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
 	}
 	wp_enqueue_script( 'dcg_mootools_js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
 	wp_enqueue_script( 'dcg_mootools_trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
@@ -281,20 +265,25 @@ function dfcg_load_mootools_js() {
 
 
 /**
- * Load mootools smoothgallery js function call (with dynamic params)
+ * Load mootools user-defined js and CSS (with dynamic content from db options)
  *
  * Hooked to 'wp_head'
  *
  * @since 4.0
+ *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_mootools_user_js_css() {
+function dfcg_load_mootools_user() {
 
 	global $dfcg_options;
 	
-	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin scripts and dynamic CSS -->' . "\n";
+	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin scripts and dynamic CSS -->', DFCG_VER );
+	
+	// Add user defined CSS
+	include_once( DFCG_LIB_DIR . '/includes/dcg-gallery-mootools-styles.php' );
+	
 	// Add JS function call to gallery
-	echo '<script type="text/javascript">
+	echo "\n" . '<script type="text/javascript">
    function startGallery() {
       var myGallery = new gallery($("myGallery"), {
 	  showArrows: '. $dfcg_options['showArrows'] .',
@@ -312,27 +301,13 @@ function dfcg_load_mootools_user_js_css() {
    window.addEvent("domready",startGallery);
 </script>' . "\n";
 	
-	// Add user defined CSS
-	include_once( DFCG_LIB_DIR . '/includes/dcg-gallery-mootools-styles.php' );
-	
 	echo '<!-- End of Dynamic Content Gallery scripts and dynamic CSS -->' . "\n\n";
-
-}
-
-/**
- * Enqueue jQuery Smooth CSS file
- *
- * Hooked to 'wp_print_styles'
- *
- * @since 4.0
- */
-function dfcg_load_jquery_css() {
-	wp_enqueue_style( 'dcg_jquery_css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
 }
 
 
+
 /**
- * Enqueue jQuery Smooth JS file
+ * Enqueue jQuery Smooth JS and CSS
  *
  * Hooked to 'wp_enqueue_scripts'
  *
@@ -340,7 +315,10 @@ function dfcg_load_jquery_css() {
  *
  * @since 4.0
  */
-function dfcg_load_jquery_js() {
+function dfcg_load_jquery_smooth() {
+	
+	wp_enqueue_style( 'dcg_jquery_css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
+	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'dcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
 
@@ -352,14 +330,15 @@ function dfcg_load_jquery_js() {
  * Hooked to 'wp_head'
  *
  * @since 4.0
+ *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_jquery_user_css() {
+function dfcg_load_jquery_smooth_user_css() {
 
 	global $dfcg_options;
 	
-    // Add javascript and CSS files
-	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Begin dynamic CSS -->';
+    // Add user-defined CSS files
+	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin dynamic CSS -->', DFCG_VER );
 	
 	// Add user-defined CSS set in Settings page
 	include_once( DFCG_LIB_DIR .'/includes/dcg-gallery-jquery-smooth-styles.php'  );
@@ -374,13 +353,14 @@ function dfcg_load_jquery_user_css() {
  * Hooked to 'wp_footer' with very low priority to make sure it loads after the main js file
  *
  * @since 4.0
+ *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_jquery_user_js() {
+function dfcg_load_jquery_smooth_user_js() {
 	
 	global $dfcg_options;
 	
-	echo "\n" . '<!-- Dynamic Content Gallery plugin version ' . DFCG_VER . ' www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n";
+	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n", DFCG_VER );
 		
 	echo '<script type="text/javascript">
 		jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
@@ -417,7 +397,7 @@ function dfcg_load_jquery_user_js() {
 		});
 		</script>';
 	
-	echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n";
+	echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n\n";
 }
 
 
@@ -432,10 +412,10 @@ function dfcg_load_jquery_user_js() {
  * Grabs the DCG Metabox External Link URL and title attribute (held as post_meta)
  * and returns these, or permalink and post/page title if they don't exist.
  *
+ * @since 4.0
+ *
  * @param int $id (required) post/page ID
  * @param string $title (required) post/page title used for link title attr
- *
- * @since 4.0
  * @global array $dfcg_postmeta Array containing dfcg custom field keys
  * @return array $link Array containing Link URL and link title attribute
  */
@@ -468,17 +448,16 @@ function dfcg_get_link( $id, $title ) {
  *
  * Used by gallery constructor functions
  *
+ * @since 3.3
+ * @updated 4.0
+ *
  * @uses get_the_post_thumbnail() WP function
  *
  * @param $id (integer) (required) post/page ID
  * @param $image_src (string) - URL to image
  * @param $title (string) - post/page title used for IMG alt attr
- *
  * @global array $dfcg_options Plugin options from db
- *
  * @return string $thumb_html HTML markup for thumbnail
- * @since 3.3
- * @updated 4.0
  */
 function dfcg_get_thumbnail( $id, $image_src, $title ) {
 	global $dfcg_options;
@@ -500,12 +479,12 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
 		} else {
 			//print_r("not set");
 			// A Featured Image has not been set for this post
-			$thumb_html = '<img class="dfcg-postthumb-notset thumbnail" src="'. $image_src . '" alt="'. esc_attr($title) .'" />';
+			$thumb_html = sprintf( '<img class="dfcg-postthumb-notset thumbnail" src="%s" alt="%s" />', $image_src, esc_attr($title) );
 		}
 		
 	} else {
 		// Legacy thumbnails, therefore just use $image_src, no resizing etc
-		$thumb_html = '<img class="dfcg-thumb-legacy thumbnail" src="'. $image_src . '" alt="'. esc_attr($title) .'" />';
+		$thumb_html = sprintf( '<img class="dfcg-thumb-legacy thumbnail" src="%s" alt="%s" />', $image_src, esc_attr($title) );
 	}
 	
 	return $thumb_html;
@@ -532,21 +511,19 @@ function dfcg_get_thumbnail( $id, $image_src, $title ) {
  * Function returns an array ($image) containing 5 elements - src, w(idth), h(eight), class, msg (message)
  * All XHTML markup is handled in the gallery constructor function, not here
  *
+ * @since 4.0
+ *
  * @uses dfcg_grab_featured_image() for getting the Featured Image
  * @uses get_post_meta() for getting the DCG metabox URL
  * @uses file_exists() to check if default image exists in location specified
  * @uses getimagesize() to get width and height of default images
  *
- *
  * @param $id (integer) (required) post/page ID
  * @param $term_id (string/int) - Term ID, relevant for default image filenames in Multi Option, One Cat, Custom Post Types
- *
  * @global $dfcg_options (array) DCG Settings from db
  * @global $dfcg_postmeta (array) DCG cutsom field keys
  * @global $dfcg_baseimgurl (string) Base URL of DCG metabox images (takes into account Full or Partial)
- *
  * @return $image (array) = src, w(idth), h(eight), class, msg (message)
- * @since 4.0
  */
 function dfcg_get_image( $id, $term_id = NULL ) {
 
@@ -704,16 +681,15 @@ function dfcg_get_image( $id, $term_id = NULL ) {
  *
  * Outputs the HTML for the Slide Pane text, in <p> tags
  *
+ * @since 4.0
+ *
  * @uses dfcg_the_content_limit(), creates Auto description (see dfcg-gallery-content-limit.php)
  *
  * @param $id (integer) (required) post/page ID
  * @param $term_id (string/int) - Term ID, relevant for category/custom taxonomy descriptions
- *
  * @global $dfcg_options (array)
  * @global $dfcg_postmeta (array)
- *
  * @return $desc_html (string) HTML markup and text of Slide Pane description
- * @since 4.0
  */
 function dfcg_get_desc( $id, $term_id = NULL ) {
 

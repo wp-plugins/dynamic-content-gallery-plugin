@@ -3,7 +3,7 @@
  * Admin Core functions - this is the parent file that handles all the backend
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -145,31 +145,38 @@ function dfcg_add_to_options_menu() {
 	dfcg_set_gallery_options();
 	
 	// Grab base settings using helper function
-	$base_settings = dfcg_base_settings();
-	$page_title = $base_settings['dfcg_page_title'];
-	$menu_title = $base_settings['dfcg_nice_name'];
+	$base = dfcg_base_settings();
+	$page_title = $base['dfcg_page_title'];
+	$menu_title = $base['dfcg_nice_name'];
 	
 	// Add Settings Page
 	// add_options_page($page_title, $menu_title, $capability, $menu_slug, $function)
 	$dfcg_page_hook = add_options_page( $page_title, $menu_title, 'manage_options', DFCG_FILE_HOOK, 'dfcg_do_settings_page' );
 	
 	// Load Admin external scripts and CSS
-	add_action( 'admin_print_scripts-' . $dfcg_page_hook, 'dfcg_load_admin_scripts', 100 );
-	add_action( 'admin_print_styles-' . $dfcg_page_hook, 'dfcg_load_admin_styles', 100 );
+	add_action( 'admin_enqueue_scripts', 'dfcg_load_admin_scripts', 100 );
+	add_action( 'admin_enqueue_scripts', 'dfcg_load_admin_styles', 100 );
 }
 
 
 /**
  * Callback to load Admin JS
  *
- * Hooked to 'admin_print_scripts-$page_hook' in dfcg_add_to_options_menu()
+ * Hooked to 'admin_enqueue_scripts' in dfcg_add_to_options_menu()
  *
  * @since 3.2
  * @updated 4.0
- * @return calls wp_enqueue_script functions
+ *
+ * @param string $pagehook, passed by admin_enqueue_scripts filter
+ * @return null if not on DCG settings page, or enqueue scripts if on DCG settings page
  */
-function dfcg_load_admin_scripts() {
+function dfcg_load_admin_scripts( $pagehook ) {
 	
+	global $current_screen;
+	
+	if( $pagehook !== $current_screen->id )
+		return;
+		
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
@@ -182,12 +189,19 @@ function dfcg_load_admin_scripts() {
 /**
  * Callback to load Admin CSS
  *
- * Hooked to 'admin_print_styles-$page_hook' in dfcg_add_to_options_menu()
+ * Hooked to 'admin_enqueue_scripts' in dfcg_add_to_options_menu()
  *
  * @since 4.0
- * @return calls wp_enqueue_style functions
+ *
+ * @param string $pagehook, passed by admin_enqueue_scripts filter
+ * @return null if not on DCG settings page, or enqueue styles if on DCG settings page
  */
-function dfcg_load_admin_styles() {
+function dfcg_load_admin_styles( $pagehook ) {
+	
+	global $current_screen;
+	
+	if( $pagehook !== $current_screen->id )
+		return;
 	
 	wp_enqueue_style( 'dfcg_admin_css', DFCG_LIB_URL . '/admin-css-js/ui-css-js/dcg-ui-admin.css', false, DFCG_VER );
 	wp_enqueue_style( 'dfcg_tabs_css', DFCG_LIB_URL . '/admin-css-js/tabs/dcg-tabs-ui.css', false, DFCG_VER );
@@ -211,9 +225,6 @@ function dfcg_do_settings_page(){
 	// @TODO Not sure about this as options are pulled from db again in screen file. Why global?
 	global $dfcg_options;
 	
-	// Need to get these back from the db because they may have been updated since page was last loaded
-	$dfcg_utilities = get_option('dfcg_utilities');
-	
 	include_once( DFCG_LIB_DIR . '/includes/dcg-admin-ui-screen.php' );
 }
 
@@ -223,9 +234,10 @@ function dfcg_do_settings_page(){
  *
  * Hooked to 'plugin_action_links' filter
  *
- * Puts the 'Settings' link in with Deactivate/Activate links in Plugins page
+ * Puts the 'Settings' link in with Deactivate link in Plugins page
  *
  * @since 1.0
+ *
  * @param array $links Default links shown in first column, main Dashboard Plugins page
  * @param string $file File name of main plugin file
  * @return array $links Modified array of links to be shown in first column, main Dashboard Plugins page
@@ -236,8 +248,8 @@ function dfcg_filter_plugin_actions($links, $file){
 	if( !$this_plugin ) $this_plugin = plugin_basename( __FILE__ );
 
 	if( $file == DFCG_FILE_NAME ) {
-		$settings_link = '<a href="admin.php?page=' . DFCG_FILE_HOOK . '">' . __( 'Settings' ) . '</a>';
-		$links = array_merge( array( $settings_link ), $links ); // before other links
+		$settings_link = sprintf( '<a href="%s">%s</a>', 'admin.php?page=' . DFCG_FILE_HOOK, __( 'Settings', DFCG_DOMAIN ) );
+		$links = array_merge( $links, array( $settings_link ) ); // after other links
 	}
 	return $links;
 }
@@ -253,6 +265,7 @@ function dfcg_filter_plugin_actions($links, $file){
  *
  * @since 3.0
  * @updated 4.0
+ *
  * @param array $links Default links for each plugin row
  * @param string $file Plugins.php filehook, ie the plugin's file name
  * @return array $links Modified array of links for the DCG's plugin row
@@ -263,11 +276,11 @@ function dfcg_plugin_meta( $links, $file ) {
 	if( $file == DFCG_FILE_NAME ) {
 	
 		// Create DCG links
-		$settings = '<a href="admin.php?page=' . DFCG_FILE_HOOK . '">' . __( 'Settings' ) . '</a>';
-		$quick = '<a href="' . DFCG_HOME . 'quick-start-guide/" target="_blank">' . __('Quick Start Guide', DFCG_DOMAIN) . '</a>';
-		$config = '<a href="' . DFCG_HOME . 'configuration-guide/" target="_blank">' . __('Configuration Guide', DFCG_DOMAIN) . '</a>';
-		$faq = '<a href="' . DFCG_HOME . 'faq/" target="_blank">' . __('FAQ', DFCG_DOMAIN) . '</a>';
-		$docs = '<a href="' . DFCG_HOME . 'documentation/" target="_blank">' . __('Documentation', DFCG_DOMAIN) . '</a>';
+		$settings = sprintf( '<a href="%s">%s</a>', 'admin.php?page=' . DFCG_FILE_HOOK, __( 'Settings', DFCG_DOMAIN ) );
+		$quick = sprintf( '<a href="%s" target="_blank">%</a>', DFCG_HOME . 'quick-start-guide/', __( 'Quick Start Guide', DFCG_DOMAIN ) );
+		$config = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'configuration-guide/', __( 'Configuration Guide', DFCG_DOMAIN ) );
+		$faq = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'faq/', __( 'FAQ', DFCG_DOMAIN ) );
+		$docs = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'documentation/', __( 'Documentation', DFCG_DOMAIN ) );
 		
 		return array_merge(
 			$links,
@@ -294,7 +307,7 @@ function dfcg_plugin_meta( $links, $file ) {
  */
 function dfcg_do_messages_wpms() {
 	
-	$msg = __('Please contact your Network Administrator.', DFCG_DOMAIN);
+	$msg = __( 'Please contact your Network Administrator.', DFCG_DOMAIN );
 			
 	return $msg;
 }
@@ -311,27 +324,13 @@ function dfcg_do_messages_wpms() {
  */
 function dfcg_do_version_messages() {
 			
-	$msg = __('<strong>DCG Warning!</strong> This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+';
+	$msg = sprintf( '<strong>%s</strong> %s', __( 'DCG Warning!', DFCG_DOMAIN ), __( 'This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+' );
 		
 	return $msg;
 }
 
 
-/**
- * WP Post Thumbnail check message
- *
- * Helper function for post-thumbnails warning message  
- * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
- *
- * @since 4.0
- * @return string $msg Message when WP Post Thumbnails is not enabled
- */
-function dfcg_do_post_thumbnail_messages() {
 
-	$msg = __('<strong>DCG Notice:</strong> For best results, this version of Dynamic Content Gallery requires that your theme supports the WP Post Thumbnails feature.', DFCG_DOMAIN) . ' <a href="' . DFCG_HOME . '" target="_blank" title="DCG home page">' . __('Read more here.', DFCG_DOMAIN) . '</a>';
-	
-	return $msg;
-}
 
 
 /**
@@ -353,21 +352,7 @@ function dfcg_check_version() {
 }
 
 
-/**
- * Check if theme supports 'post-thumbnails'
- * 
- * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
- *
- * @since 4.0
- * @return bool Returns true if post-thumbnails support exists
- */
-function dfcg_check_post_thumbnails() {
 
-	if( current_theme_supports( 'post-thumbnails' ) )
-		return true;
-	else
-		return false;
-}
 
 /**
  * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
@@ -378,9 +363,7 @@ function dfcg_check_post_thumbnails() {
  * This function replaces dfcg_wp_version_check() deprecated in v4.0
  *
  * @uses dfcg_check_version()
- * @uses dfcg_check_post_thumbnails
  * @uses dfcg_do_version_messages()
- * @uses dfcg_do_post_thumbnail_messages()
  * @uses dfcg_do_messages_wpms()
  *
  * @since 3.2
@@ -397,10 +380,9 @@ function dfcg_checks_plugins_page() {
 	
 	// Do the checks
 	$check = dfcg_check_version();
-	$thumbs = dfcg_check_post_thumbnails();
 	
 	
-	if( $check && $thumbs )
+	if( $check )
 		return; // All is good, nothing to do here...
 	
 	// Define markup
@@ -424,16 +406,6 @@ function dfcg_checks_plugins_page() {
 		echo $msg_tr . $msg_div_red . $msg . $msg_end;
 	}
 	
-	// Post Thumbnails not enabled
-	if( !$thumbs ) {
-		
-		$msg = dfcg_do_post_thumbnail_messages();
-		
-		if( is_multisite() )
-			$msg .= dfcg_do_messages_wpms();
-		
-		echo $msg_tr . $msg_div_def . $msg . $msg_end;
-	}
 }
 
 
@@ -445,9 +417,7 @@ function dfcg_checks_plugins_page() {
  * This function prints Admin Notices warning messages at top of DCG Settings page.
  *
  * @uses dfcg_check_version()
- * @uses dfcg_check_post_thumbnails
  * @uses dfcg_do_version_messages()
- * @uses dfcg_do_post_thumbnail_messages()
  * @uses dfcg_do_messages_wpms()
  *
  * @since 4.0
@@ -463,9 +433,9 @@ function dfcg_checks_settings_page() {
 	
 	// Do the checks
 	$check = dfcg_check_version();
-	$thumbs = dfcg_check_post_thumbnails();
 	
-	if( $check && $thumbs )
+	
+	if( $check )
 		return; // All is good, nothing to do here...
 		
 	
@@ -486,15 +456,7 @@ function dfcg_checks_settings_page() {
 	}
 	
 	
-	if( !$thumbs ) {
-		
-		$msg = dfcg_do_post_thumbnail_messages();
-		
-		if( is_multisite() )
-			$msg .= dfcg_do_messages_wpms();
-		
-		echo $notice_start . $msg . $msg_end;
-	}
+	
 }
 
 
@@ -534,7 +496,7 @@ function dfcg_upgrade_nag() {
 	
 	$details_url = admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&TB_iframe=true&width=600&height=500');
 	
-	echo '<div class="error"><p><strong>DCG Notice: Please upgrade!</strong> ';
+	printf( '<div class="error"><p><strong>%s</strong> ', __( 'DCG Notice: Please upgrade!', DFCG_DOMAIN ) );
 	
 	if ( !current_user_can( 'update_plugins' ) )
 		printf( __('Version %1$s of the %2$s is now available. <a href="%3$s" class="thickbox" title="%2$s">View version %1$s Details</a>.'), $r->new_version, $name, esc_url($details_url) );
@@ -574,19 +536,13 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	if( $dfcg_options['add-media-sizes'] == 'false' ) return $sizes;
 	
 	$hard = str_replace('_', ' ', $dfcg_main_hard);
-	$sizes[$dfcg_main_hard] = $hard;
+	$sizes[$dfcg_main_hard] = $hard . ' (hard crop)';
 	
 	$boxr = str_replace('_', ' ', $dfcg_main_boxr);
-	$sizes[$dfcg_main_boxr] = $boxr;
+	$sizes[$dfcg_main_boxr] = $boxr. ' (box resize)';
 	
 	return $sizes;
 }
-
-
-/***** Misc Helper functions used in Admin *****/
-
-
-
 
 
 

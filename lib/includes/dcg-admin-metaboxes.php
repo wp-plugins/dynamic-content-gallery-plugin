@@ -32,12 +32,11 @@ if( !defined( 'ABSPATH' ) ) {
  * @since 3.2.1
  * @updated 4.0
  * @global array $dfcg_options plugin options from db
- * @global array $dfcg_utilities plugin options from db
  * @return nothing Calls add_meta_box() function
  */
 function dfcg_add_metabox() {
 
-	global $dfcg_options, $dfcg_utilities;
+	global $dfcg_options;
 	
 	
 	$name = __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN );
