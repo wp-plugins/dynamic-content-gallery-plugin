@@ -39,31 +39,32 @@ function dfcg_add_metabox() {
 	global $dfcg_options;
 	
 	
-	$name = __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN );
-	$function = 'dfcg_meta_box';
+	$title = __( 'Dynamic Content Gallery Metabox', DFCG_DOMAIN );
+	$callback = 'dfcg_meta_box';
 	
 	if( $dfcg_options['populate-method'] == 'multi-option' || $dfcg_options['populate-method'] == 'one-category' ) {
-	
-		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'post', 'side', 'low' );
+		
+		// add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null )
+		add_meta_box( DFCG_FILE_HOOK . '_box', $title, $callback, 'post', 'side', 'low' );
 	}
 	
 	if( $dfcg_options['populate-method'] == 'id-method' ) {
 	
-		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'post', 'side', 'low' );
-		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, 'page', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $title, $callback, 'post', 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $title, $callback, 'page', 'side', 'low' );
 		
 		$post_types = dfcg_get_custom_post_types();
 	
 		foreach( $post_types as $post_type ) {
-			add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type->name, 'side', 'low' );
+			add_meta_box( DFCG_FILE_HOOK . '_box', $title, $callback, $post_type->name, 'side', 'low' );
 		}
 	}
 	
-	if( $dfcg_options['populate-method'] == 'custom-post' ) {
+	if( $dfcg_options['populate-method'] == 'custom-post' && isset( $dfcg_options['cpt-name'] ) ) {
 	
 		// Only show Metabox on Edit Screen for selected Custom Post Type
 		$post_type = $dfcg_options['cpt-name'];
-		add_meta_box( DFCG_FILE_HOOK . '_box', $name, $function, $post_type, 'side', 'low' );
+		add_meta_box( DFCG_FILE_HOOK . '_box', $title, $callback, $post_type, 'side', 'low' );
 	}
 }
 

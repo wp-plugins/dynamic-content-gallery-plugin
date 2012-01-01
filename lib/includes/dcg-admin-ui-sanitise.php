@@ -3,7 +3,7 @@
  * Settings API Callback Function - to sanitise DCG Settings page input
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -54,7 +54,7 @@ function dfcg_sanitise( $input ) {
 		$message = __('Dynamic Content Gallery Settings have been reset to default settings.', DFCG_DOMAIN);
 		$type = 'updated';
 
-		add_settings_error($setting, $code, $message, $type);
+		add_settings_error( $setting, $code, $message, $type );
 		
 		// put back the defaults -> also resets ['reset'] to '0'
 		$input = dfcg_default_options();
@@ -96,7 +96,7 @@ function dfcg_sanitise( $input ) {
 	// WP_Query will fail gracefully because cat='' is ignored
 	// TODO: Probably not needed now due to sanitisation routines below
 	if( $input['cat-display'] == 0 ) {
-		$input['cat-display'] = '';
+		$input['cat-display'] = 'all';
 	}
 	
 	
@@ -154,7 +154,7 @@ function dfcg_sanitise( $input ) {
 							'populate-method',			// 'multi-option', 'one-category', 'id-method', 'custom-post'
 							'defaultTransition',		// 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal'
 							'limit-scripts',			// 'homepage', 'pagetemplate', 'other', 'page'
-							'scripts',					// 'mootools', 'jquery'
+							'scripts',					// 'mootools', 'jqsmooth', 'flexslider'
 							'slide-h2-weight',			// 'bold', 'normal'
 							'desc-method',				// 'manual', 'auto', 'none', 'excerpt'
 							'slide-p-a-weight',			// 'bold', 'normal'
@@ -163,7 +163,7 @@ function dfcg_sanitise( $input ) {
 						);
 	
 	// Define whitelist
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jquery', 'bold', 'normal', 'manual', 'auto', 'none', 'page', 'featured-image', 'legacy', 'excerpt' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jqsmooth', 'flexslider','bold', 'normal', 'manual', 'auto', 'none', 'page', 'featured-image', 'legacy', 'excerpt' );
 	
 	// sanitise
 	foreach( $whitelisted_opts as $key ) {
@@ -216,7 +216,7 @@ function dfcg_sanitise( $input ) {
 	
 	/***** String options - no XHTML allowed (6) *****/
 	
-	$str_opts_no_html = array( 'textShowCarousel', 'more-text', 'cpt-name', 'cpt-tax-and-term', 'cpt-tax-name', 'cpt-term-name' );
+	$str_opts_no_html = array( 'textShowCarousel', 'more-text', 'cpt-name', 'cpt-tax-and-term', 'cpt-tax-name', 'cpt-term-name', 'cat-display' );
 	
 	// sanitise
 	foreach( $str_opts_no_html as $key ) {
@@ -365,7 +365,7 @@ function dfcg_sanitise( $input ) {
 	
 	// Note: cat-display can be blank to avoid WP_Query error on first loading plugin
 	
-	$int_opts_can_be_blank_big = array( 'cat-display', 'cpt-term-id' );
+	$int_opts_can_be_blank_big = array( 'cpt-term-id' );
 	
 	// sanitise, but leave blank as empty, not 0
 	foreach( $int_opts_can_be_blank_big as $key ) {

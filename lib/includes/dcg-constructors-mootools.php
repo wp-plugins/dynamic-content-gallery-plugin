@@ -3,7 +3,7 @@
  * Front-end - These are the constructor functions which produce the XHTML markup when using Mootools
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -53,8 +53,8 @@ if( !defined( 'ABSPATH' ) ) {
  * This function builds the gallery from Multi Option options
  *
  * @uses dfcg_postmeta_info()		Builds array of postmeta key names (see dfcg-gallery-core.php)
- * @uses	dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
- * @uses	dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
+ * @uses dfcg_errors_output()		Gets all Error Messages, if errors are on (see dfcg-gallery-errors.php)
+ * @uses dfcg_query_list()			Builds array of cat/off pairs for WP_Query (see dfcg-gallery-core.php)
  * @uses dfcg_grab_post_image()		Gets the first image attachment from the Post (see dfcg-gallery-core.php)
  *
  * @var array	$errmsgs			Output of dfcg_errors_output()
@@ -293,9 +293,14 @@ function dfcg_onecategory_method_gallery() {
 		// With One Category Method, this is the cat ID
 		$term_id = $dfcg_options['cat-display'];
 		
+		$term_selected = '';
+		
+		if( $term_id !== 'all' )
+			$term_selected = $dfcg_options['cat-display'];
+		
 		/* The query */
 		$query = array( 
-					'cat' => $term_id,
+					'cat' => $term_selected,
 					'showposts' => $posts_number
 				);
 
@@ -309,16 +314,21 @@ function dfcg_onecategory_method_gallery() {
 		// No need to check that there is a minimum of 2 posts, thanks to dropdown in Settings
 		$posts_number = $dfcg_options['cpt-posts-number'];
 		
-		/* Get the Selected Category/Term */
-		// In format "taxonomy_name=term_Name" eg ade_products=Guitars
-		$term_selected = $dfcg_options['cpt-tax-and-term'];
-		if( $term_selected == 'all' )
-			$term_selected = '';
-		else
-			$term_selected = '&' . $term_selected;
-			
+		// Get Term ID, eg 65
 		$term_id = $dfcg_options['cpt-term-id'];
 		
+		// Initialise variable for later on (prevents PHP undefined index errors)
+		$term_selected = '';
+		
+		/* Get the Selected Category/Term */
+		// In format "taxonomy_name=term_Name" eg ade_products=guitars
+		if( $dfcg_options['cpt-tax-and-term'] == 'all' ) {
+			$term_id = $dfcg_options['cpt-tax-and-term'];
+			$term_selected = '';
+		} else {
+			$term_selected = '&' . $dfcg_options['cpt-tax-and-term'];
+		}
+			
 		/* The query */
 		$query = 'post_type=' . $post_type . $term_selected . '&showposts=' . $posts_number;
 	}

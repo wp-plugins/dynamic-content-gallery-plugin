@@ -19,17 +19,15 @@
  * 3. js function calls and dynamic CSS in a php file are simply echoed to the browser via wp_head or wp_footer as appropriate.
  *
  * The above are wrapped in various functions named dfcg_load_{something}() which are called by
- * the dfcg_scripts_css_loader() function, which is hooked to 'template_redirect' so that this function is run before any of the
+ * the dfcg_enqueue_scripts_styles() function, which is hooked to 'template_redirect' so that this function is run before any of the
  * action hooks that it then calls.
  * 
- * The logic of this setup is that dfcg_enqueue_scripts_css():
- * - determines whether it should load mootools or jquery css/js
+ * The logic of this setup is that dfcg_enqueue_scripts_styles():
+ * - determines which script has been selected css/js
  * - determines which page to load the scripts on, based on the DCG Settings > Load Scripts user options
- * - then, based on the above, processes various add_action calls to execute the relevant dfcg_load_{something}() functions.
+ * - runs the dfcg_enqueue_helper() function
+ * - which adds the various add_action calls containing their relevant dfcg_load_{something}() callbacks.
  *
- * Note that the hook used in these add_action calls depends on which dfcg_load_{something}() function is being called:
- * - Anything using wp_enqueue_script() or wp_enqueue_style() is hooked to 'wp_enqueue_scripts' (as per Otto)
- * - Anything printed directly into the head or footer is hooked to wp_head or wp_footer 
  *
  * @since 3.0
  */
@@ -78,7 +76,7 @@ function dynamic_content_gallery() {
 			$output = dfcg_id_method_gallery();
 		}
 
-	} elseif( $dfcg_options['scripts'] == 'jquery' ) {
+	} elseif( $dfcg_options['scripts'] == 'jqsmooth' ) {
 	
 		if( $dfcg_options['populate-method'] == 'multi-option' ) {
 			// Populate method = MULTI-OPTION
@@ -91,6 +89,21 @@ function dynamic_content_gallery() {
 		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
 			// Populate method = PAGES
 			$output = dfcg_jq_id_method_gallery();
+		}
+
+	} elseif( $dfcg_options['scripts'] == 'flexslider' ) {
+	
+		if( $dfcg_options['populate-method'] == 'multi-option' ) {
+			// Populate method = MULTI-OPTION
+			$output = dfcg_flx_multioption_method_gallery();
+	
+		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
+			$output = dfcg_flx_onecategory_method_gallery();
+
+		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
+			// Populate method = PAGES
+			$output = dfcg_flx_id_method_gallery();
 		}
 
 	} else {
@@ -126,11 +139,11 @@ function dynamic_content_gallery() {
 /***** Functions to handle scripts ******************** */
 
 /**
- * Function to load the appropriate MOOTOOLS or JQUERY scripts/css.
+ * Load the user-selected slider scripts/css.
  *
  * Hooked to 'template_redirect' action
  *
- * This function determines whether to load mootools or jquery js/css, and on what page 
+ * This function determines , and on what page 
  *
  * This function replaces the following deprecated functions, wef v4.0:
  * - dfcg_load_scripts_header()
@@ -153,24 +166,16 @@ function dynamic_content_gallery() {
  *
  * @global array $dfcg_options Plugin options from db
  */
-function dfcg_enqueue_scripts_css() {
+function dfcg_enqueue_scripts_styles() {
 	
 	global $dfcg_options;
 	
+	$scripts = $dfcg_options['scripts'];
+	
 	if( $dfcg_options['limit-scripts'] == 'homepage' && ( is_home() || is_front_page() ) ) {
     	
-    	if( $dfcg_options['scripts'] == 'mootools' ) {
-    	
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
-			add_action( 'wp_head', 'dfcg_load_mootools_user' );
+		dfcg_enqueue_helper( $scripts );
 			
-    	} else {
-			
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
-			add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
-			add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
-		
-		}
     
     } elseif( $dfcg_options['limit-scripts'] == 'pagetemplate' ) {
 	
@@ -182,19 +187,7 @@ function dfcg_enqueue_scripts_css() {
 		foreach ( $dfcg_page_filenames as $key ) {
 			if( is_page_template( $key ) ) {
 				
-				// Mootools or Jquery?
-				if( $dfcg_options['scripts'] == 'mootools' ) {
-					
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
-					add_action( 'wp_head', 'dfcg_load_mootools_user' );
-				
-				} else {
-					
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
-					add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
-					add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
-				
-				}
+				dfcg_enqueue_helper( $scripts );
     		}
     	}
 		
@@ -208,38 +201,43 @@ function dfcg_enqueue_scripts_css() {
 		foreach ( $page_ids as $key ) {
 			if( is_page( $key ) ) {
 			
-				// Mootools or Jquery?
-				if( $dfcg_options['scripts'] == 'mootools' ) {
-					
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
-					add_action( 'wp_head', 'dfcg_load_mootools_user' );
-				
-				} else {
-					
-					add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
-					add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
-					add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
-				
-				}
+				dfcg_enqueue_helper( $scripts );
 			}
 		}
 		
     } elseif( $dfcg_options['limit-scripts'] == 'other' ) {
 		
-		if( $dfcg_options['scripts'] == 'mootools' ) {
-	 		
-	 		add_action( 'wp_enqueue_scripts', 'dfcg_load_mootools' );
-			add_action( 'wp_head', 'dfcg_load_mootools_user' );
-		
-		} else {		
-			
-			add_action( 'wp_enqueue_scripts', 'dfcg_load_jquery_smooth' );
-			add_action( 'wp_head', 'dfcg_load_jquery_smooth_user_css' );
-			add_action( 'wp_footer', 'dfcg_load_jquery_smooth_user_js', 100 );
-		
-		}
+		dfcg_enqueue_helper( $scripts );
 	}
 }
+
+
+/**
+ * Helper function to execute the various add_action calls
+ *
+ * Note that the hook used in these add_action calls depends on which dfcg_load_{$scripts}() function is being called:
+ * - Anything using wp_enqueue_script() or wp_enqueue_style() is hooked to 'wp_enqueue_scripts' (as per Otto)
+ * - Anything printed directly into the head or footer is hooked to wp_head or wp_footer
+ *
+ * Note that the add_action callback names are created dynamically, based on the selected script in the DCG Settings 
+ *
+ * IMPORTANT: Any new slider scripts which require special handling should be referenced in this function.
+ *
+ * @since 4.0
+ *
+ * @param string $scripts, the user selected js script from the plugin's options
+ */
+function dfcg_enqueue_helper( $scripts ) {
+
+	// Default script handling 
+	add_action( 'wp_enqueue_scripts', 'dfcg_load_' . $scripts );
+	add_action( 'wp_head', 'dfcg_load_user_' . $scripts );
+	
+	// Deal with exceptions
+	if( $scripts == 'jqsmooth' )
+		add_action( 'wp_footer', 'dfcg_load_user_js_' . $scripts, 100 );
+} 
+
 
 
 /**
@@ -253,14 +251,14 @@ function dfcg_load_mootools() {
 
 	global $dfcg_options;
 	
-	wp_enqueue_style( 'dcg_mootools', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
+	wp_enqueue_style( 'dcg-mootools', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
 	
 	if( $dfcg_options['mootools'] !== '1' ) {
-		wp_enqueue_script( 'dcg_mootools_core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
-		wp_enqueue_script( 'dcg_mootools_more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
+		wp_enqueue_script( 'dcg-mootools-core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
+		wp_enqueue_script( 'dcg-mootools-more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
 	}
-	wp_enqueue_script( 'dcg_mootools_js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
-	wp_enqueue_script( 'dcg_mootools_trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg-mootools-js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
+	wp_enqueue_script( 'dcg-mootools-trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
 }
 
 
@@ -273,7 +271,7 @@ function dfcg_load_mootools() {
  *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_mootools_user() {
+function dfcg_load_user_mootools() {
 
 	global $dfcg_options;
 	
@@ -315,12 +313,12 @@ function dfcg_load_mootools_user() {
  *
  * @since 4.0
  */
-function dfcg_load_jquery_smooth() {
+function dfcg_load_jqsmooth() {
 	
-	wp_enqueue_style( 'dcg_jquery_css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
+	wp_enqueue_style( 'dcg-jquery-css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
 	
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'dcg_smooth_js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
+	wp_enqueue_script( 'dcg-smooth-js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
 
 }
 
@@ -333,7 +331,7 @@ function dfcg_load_jquery_smooth() {
  *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_jquery_smooth_user_css() {
+function dfcg_load_user_jqsmooth() {
 
 	global $dfcg_options;
 	
@@ -356,7 +354,7 @@ function dfcg_load_jquery_smooth_user_css() {
  *
  * @global $dfcg_options array DCG options from database
  */
-function dfcg_load_jquery_smooth_user_js() {
+function dfcg_load_user_js_jqsmooth() {
 	
 	global $dfcg_options;
 	
@@ -616,18 +614,14 @@ function dfcg_get_image( $id, $term_id = NULL ) {
 	$def_img_folder_path = str_replace( $home, ABSPATH, $def_img_folder_url );
 	
 	
-	// Path to Default Category image
-	if( $term_id == NULL ) {
-		// We're in id-method
-		$def_img_name = '';
-	
-	} elseif( $term_id !== '' ) {
-		// We're in multi-option, or one-cat/custom-post with a term selected
+	// Path to Default Category/Term image
+	if( !empty( $term_id ) ) {
+		// We're not in id-method
 		$def_img_name = $term_id . '.jpg';
 	
 	} else {
-		// We're in one-cat/custom-post with no term selected, ie 'all'
-		$def_img_name = 'all.jpg';
+		// We're in id-method
+		$def_img_name = '';
 	}
 	
 	// Path to default image	
@@ -695,6 +689,10 @@ function dfcg_get_desc( $id, $term_id = NULL ) {
 
 	global $dfcg_options, $dfcg_postmeta;
 	
+	// deal with "All" option to suppress WP_Class Error if category_description() is passed a 'all'.
+	if( $term_id == 'all' )
+		$term_id = '';
+		
 	$desc_html = '';
 
 	if( $dfcg_options['desc-method'] == 'auto' ) {

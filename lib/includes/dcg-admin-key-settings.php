@@ -25,9 +25,10 @@ if( !defined( 'ABSPATH' ) ) {
 /**
  * Active Settings display shown on General tab on the DCG Settings page
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.2.2
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_active_settings() {
 	

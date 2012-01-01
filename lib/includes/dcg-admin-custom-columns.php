@@ -16,13 +16,14 @@
  * @since 3.2
  */
 
+
 /* Prevent direct access to this file */
 if( !defined( 'ABSPATH' ) ) {
 	exit( _( 'Sorry, you are not allowed to access this file directly.' ) );
 }
 
 
-add_action( 'admin_init', 'dfcg_load_tools' );
+
 /**
  * Helper function to determine whether to activate Filters and Actions to load Tools or not
  * based on DCG Settings > Tools tab checkboxes
@@ -38,7 +39,7 @@ add_action( 'admin_init', 'dfcg_load_tools' );
  * DCG Desc only appears if 'manual' is set - no point showing desc if excerpt/auto or none
  *
  * Column order will normally be DCG Image - DCG Desc - Featured Image
- * except for multi-option/one category = > Featured Image - DCG Image - DCG Desc
+ * except for multi-option/one category which will be Featured Image - DCG Image - DCG Desc
  *
  * Featured image column appears on everything - posts, pages, cpt - regardless of gallery method
  *
@@ -48,6 +49,9 @@ add_action( 'admin_init', 'dfcg_load_tools' );
 function dfcg_load_tools() {
 
 	global $dfcg_options;
+	
+	// Just in case they have been updated
+	$dfcg_options = get_option( 'dfcg_plugin_settings' );
 
 	
 	switch ( $dfcg_options['populate-method'] ) {
@@ -128,6 +132,7 @@ function dfcg_load_tools() {
  *
  * @since 3.3.3
  * @updated 4.0
+ *
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
@@ -138,7 +143,7 @@ function dfcg_image_column( $defaults ) {
 
 
 /**
- * Function to populate new DCG Image column
+ * Populate the DCG Image column
  *
  * Displays DCG Metabox Image URL as a link (with thickbox class to display actual image on click)
  * If Auto, looks for DCG metabox override and if it exists, displays link
@@ -146,6 +151,7 @@ function dfcg_image_column( $defaults ) {
  *
  * @since 3.3.3
  * @updated 4.0
+ *
  * @param mixed $column_name	Name of Edit screen column
  * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
  * @global string $dfcg_baseimgurl	URL to images folder
@@ -216,6 +222,7 @@ function dfcg_image_column_contents( $column_name, $post_id ) {
  * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 3.3.3
+ *
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
@@ -226,10 +233,11 @@ function dfcg_desc_column($defaults) {
 
 
 /**
- * Function to populate new DCG Desc column
+ * Populate the DCG Desc column
  *
  * @since 3.3.3
  * @updated 4.0
+ *
  * @param mixed $column_name	Name of Edit screen column
  * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column
@@ -264,6 +272,7 @@ function dfcg_desc_column_contents($column_name, $post_id) {
  * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 3.3.3
+ *
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
@@ -274,10 +283,11 @@ function dfcg_sort_column($defaults) {
 
 
 /**
- * Function to populate new DCG Sort column
+ * Populate the DCG Sort column
  *
  * @since 3.3.3
  * @updated 4.0
+ *
  * @param mixed $column_name Name of Edit screen column
  * @param mixed $post_id ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column 
@@ -305,6 +315,7 @@ function dfcg_sort_column_contents($column_name, $post_id) {
  * Based on my Limit Title plugin
  *
  * @since 3.0
+ *
  * @param string $string Contents of DCG Desc for a post or page
  * @return string $string Shortened dfcg-desc text
  */
@@ -326,6 +337,7 @@ function dfcg_shorten_desc($string) {
  * Hooked to 'manage_edit-{$post_type}_columns', 'manage_posts_columns', 'manage_pages_columns' filters
  *
  * @since 4.0
+ *
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
@@ -336,9 +348,10 @@ function dfcg_featured_image_column( $defaults ) {
 
 
 /**
- * Function to populate Featured Image column
+ * Populate the Featured Image column
  *
  * @since 4.0
+ *
  * @param mixed $column_name Name of Edit screen column
  * @param mixed $post_id ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column 

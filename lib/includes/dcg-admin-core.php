@@ -46,10 +46,10 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * WP_LANG constant must also be defined correctly in wp-config.php.
  *
- * @uses load_plugin_textdomain()
- *
  * @since 3.2
  * @updated 4.0
+ *
+ * @uses load_plugin_textdomain()
  * @global bool $dfcg_text_loaded Defined in dynamic-gallery-plugin.php
  * @return bool $dfcg_text_loaded True on success, NULL on failure
  */
@@ -82,6 +82,7 @@ function dfcg_load_textdomain() {
  * Also, useful for portability to other plugins as only this function needs updating
  *
  * @since 4.0
+ *
  * @return array $output Array containing base variables used by Settings API
  */
 function dfcg_base_settings() {
@@ -101,10 +102,11 @@ function dfcg_base_settings() {
  *
  * Hooked to 'admin_init'
  *
+ * @since 4.0
+ *
  * @uses dfcg_base_settings(), helper function for naming variables
  * @uses dfcg_sanitise(), callback function for sanitising options
  *
- * @since 4.0
  * @return calls register_setting() WP function
  */
 function dfcg_register_settings() {
@@ -127,13 +129,14 @@ function dfcg_register_settings() {
  *
  * No need to check credentials - already built in to core wp function
  *
+ * @since 3.2
+ * @updated 4.0
+ *
  * @uses dfcg_set_gallery_options()
  * @uses dfcg_do_settings_page()
  * @uses dfcg_load_admin_scripts()
  * @uses dfcg_load_admin_styles()
  *
- * @since 3.2
- * @updated 4.0
  * @global $dfcg_page_hook - need to declare as global for scope purposes in other functions
  * @return calls add_options_page() and add_actions
  */
@@ -216,6 +219,7 @@ function dfcg_load_admin_styles( $pagehook ) {
  *
  * @since 3.2
  * @updated 4.0
+ *
  * @global $dfcg_options array, db main options
  * @return includes settings page file for display
  */
@@ -277,7 +281,7 @@ function dfcg_plugin_meta( $links, $file ) {
 	
 		// Create DCG links
 		$settings = sprintf( '<a href="%s">%s</a>', 'admin.php?page=' . DFCG_FILE_HOOK, __( 'Settings', DFCG_DOMAIN ) );
-		$quick = sprintf( '<a href="%s" target="_blank">%</a>', DFCG_HOME . 'quick-start-guide/', __( 'Quick Start Guide', DFCG_DOMAIN ) );
+		$quick = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'quick-start-guide/', __( 'Quick Start Guide', DFCG_DOMAIN ) );
 		$config = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'configuration-guide/', __( 'Configuration Guide', DFCG_DOMAIN ) );
 		$faq = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'faq/', __( 'FAQ', DFCG_DOMAIN ) );
 		$docs = sprintf( '<a href="%s" target="_blank">%s</a>', DFCG_HOME . 'documentation/', __( 'Documentation', DFCG_DOMAIN ) );
@@ -294,43 +298,6 @@ function dfcg_plugin_meta( $links, $file ) {
 
 
 /***** Admin Notices and other warnings *****/
-
-
-/**
- * WPMS check message
- *
- * Helper function for WPMS warning message 
- * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
- *
- * @since 4.0
- * @return string $msg Additional message for WPMS when WP version is insufficient
- */
-function dfcg_do_messages_wpms() {
-	
-	$msg = __( 'Please contact your Network Administrator.', DFCG_DOMAIN );
-			
-	return $msg;
-}
-
-
-/**
- * WP Version check message
- *
- * Helper function for WP version warning message 
- * Used by dfcg_checks_plugins_page() and dfcg_checks_settings_page()
- *
- * @since 4.0
- * @return string $msg Message when WP version is insufficient
- */
-function dfcg_do_version_messages() {
-			
-	$msg = sprintf( '<strong>%s</strong> %s', __( 'DCG Warning!', DFCG_DOMAIN ), __( 'This version of Dynamic Content Gallery requires WordPress ', DFCG_DOMAIN) . DFCG_WP_VERSION_REQ . '+' );
-		
-	return $msg;
-}
-
-
-
 
 
 /**
@@ -352,114 +319,6 @@ function dfcg_check_version() {
 }
 
 
-
-
-/**
- * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
- *
- * Hooked to 'after_action_row_$plugin' filter
- *
- * This function prints warning messages in the relevant row of the table in main Plugins screen.
- * This function replaces dfcg_wp_version_check() deprecated in v4.0
- *
- * @uses dfcg_check_version()
- * @uses dfcg_do_version_messages()
- * @uses dfcg_do_messages_wpms()
- *
- * @since 3.2
- * @updated 4.0
- * @global object(array) $current_screen The current admin screen object
- * @return echos messages wrapped in necessary XHTML markup for display in Plugins table
- */	
-function dfcg_checks_plugins_page() {
-
-	global $current_screen;
-
-	if( $current_screen->id !== "plugins" )
-		return;
-	
-	// Do the checks
-	$check = dfcg_check_version();
-	
-	
-	if( $check )
-		return; // All is good, nothing to do here...
-	
-	// Define markup
-	$msg_tr = '<tr class="plugin-update-tr"><td class="plugin-update" colspan="3">';
-	
-	$msg_div_red = '<div class="update-message" style="background:#FFEBE8;border-color:#BB0000;">';
-	
-	$msg_div_def = '<div class="update-message">';
-	
-	$msg_end = '</div></td></tr>';
-	
-	
-	// WP Version is not valid
-	if( !$check ) {
-	
-		$msg = dfcg_do_version_messages();
-		
-		if( is_multisite() )
-			$msg .= dfcg_do_messages_wpms();
-			
-		echo $msg_tr . $msg_div_red . $msg . $msg_end;
-	}
-	
-}
-
-
-/**
- * Callback to do WP Version check AND check that theme has add_theme_support('post-thumbnails')
- *
- * Hooked to 'admin_notices'
- *
- * This function prints Admin Notices warning messages at top of DCG Settings page.
- *
- * @uses dfcg_check_version()
- * @uses dfcg_do_version_messages()
- * @uses dfcg_do_messages_wpms()
- *
- * @since 4.0
- * @global object(array) $current_screen The current admin screen object
- * @return echos messages for checks which are false
- */	
-function dfcg_checks_settings_page() {	
-	global $current_screen;
-	
-	// Being polite, only showing the nag on DCG Settings page
-	if( $current_screen->id !== DFCG_PAGEHOOK )
-		return;
-	
-	// Do the checks
-	$check = dfcg_check_version();
-	
-	
-	if( $check )
-		return; // All is good, nothing to do here...
-		
-	
-	// Define markup
-	$err_start = '<div class="error"><p>';
-	$notice_start = '<div class="updated"><p>';
-	$msg_end = '</p></div>';
-		
-	
-	if( !$check ) {
-		
-		$msg = dfcg_do_version_messages();
-		
-		if( is_multisite() )
-			$msg .= dfcg_do_messages_wpms();
-					
-		echo $err_start . $msg . $msg_end;
-	}
-	
-	
-	
-}
-
-
 /**
  * Creates a DCG upgrade nag in the DCG Settings page
  *
@@ -470,9 +329,10 @@ function dfcg_checks_settings_page() {
  * Version detection compares plugin file version number with wp.org SVN version
  * Only shows nag on DCG Settings page - let's be polite!
  *
+ * @since 4.0
+ *
  * @uses dfcg_base_settings()
  *
- * @since 4.0
  * @global object(array) $current_screen The current admin screen object
  * @return echos nag message with XHTML markup
  */
@@ -523,6 +383,7 @@ function dfcg_upgrade_nag() {
  * the DCG image 'name' and remove the underscores to create a a nice looking 'label'.
  *
  * @since 4.0
+ *
  * @param array $sizes Default image sizes (associative array)
  * @global string $dfcg_main_hard Registered image size name for DCG Main image with hard crop
  * @global string $dfcg_main_boxr Registered image size name for DCG Main image with box resize
@@ -561,6 +422,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
  *
  * @since 3.2.2
  * @updated 4.0
+ *
  * @return array $default_options Array of default options for the plugin
  */
 function dfcg_default_options() {
@@ -583,17 +445,17 @@ function dfcg_default_options() {
 		'off03' => '1',								// multi-option: the post select
 		'off04' => '1',								// multi-option: the post select
 		'off05' => '1',								// multi-option: the post select
-		'off06' => '',								// multi-option: the post select
-		'off07' => '',								// multi-option: the post select
-		'off08' => '',								// multi-option: the post select
-		'off09' => '',								// multi-option: the post select
-		'cat-display' => '1',						// one-category: the ID of the selected category - since 2.3
+		'off06' => '1',								// multi-option: the post select
+		'off07' => '1',								// multi-option: the post select
+		'off08' => '1',								// multi-option: the post select
+		'off09' => '1',								// multi-option: the post select
+		'cat-display' => 'all',						// one-category: the ID of the selected category - since 2.3
 		'posts-number' => '5',						// one-category: the number of posts to display - since 2.3
 		'ids-selected' => '',						// ID: Page/Post ID's in comma separated list - since 2.3 (renamed in 3.3)
 		'id-sort-control' => 'false',				// ID: Allow custom sort of images using _dfcg-sort: bool
 		'cpt-name' => '',							// post-type: the Custom Post type name, eg ade_products (user selected)
 		'cpt-posts-number' => '5',					// post-type: the number of posts to display (user selected)
-		'cpt-tax-and-term' => '',					// post-type: the taxonomy and term to display posts from (eg my_products=guitars)
+		'cpt-tax-and-term' => 'all',				// post-type: the taxonomy and term to display posts from (eg my_products=guitars)
 		'cpt-tax-name' => '',						// post-type: Name of selected taxonomy (calculated)
 		'cpt-term-name' => '',						// post-type: Name of selected term within selected taxonomy (calculated)
 		'cpt-term-id' => '',						// post-type: ID of selected term (calculated)
@@ -603,9 +465,9 @@ function dfcg_default_options() {
 		'desc-method' => 'auto',					// Desc: Select how to display descriptions: [manual],[auto],[none],[excerpt]
 		'max-char' => '100',						// Desc: No. of characters for custom excerpt
 		'more-text' => '[more]',					// Desc: 'More' text for custom excerpt
-		'gallery-width' => '460',					// all methods: CSS
-		'gallery-height' => '250',					// all methods: CSS
-		'slide-height' => '50',						// all methods: CSS - mootools only
+		'gallery-width' => '480',					// all methods: CSS
+		'gallery-height' => '320',					// all methods: CSS
+		'slide-height' => '70',						// all methods: CSS - mootools only
 		'gallery-border-thick' => '0',				// all methods: CSS
 		'gallery-border-colour' => '#000000',		// all methods: CSS
 		'slide-h2-size' => '12',					// all methods: CSS
@@ -632,7 +494,7 @@ function dfcg_default_options() {
 		'limit-scripts' => 'homepage',				// Load Scripts: Select scripts loading: [homepage],[pagetemplate],[page],[other]
 		'page-filename' => '',						// Load Scripts: Specify a Page Template filename, for loading scripts
 		'page-ids' => '',							// Load Scripts: ordinary page ID numbers
-		'scripts' => 'mootools',					// JS option: Selects js framework: [mootools], [jquery]
+		'scripts' => 'mootools',					// JS option: Selects js framework: [mootools], [jqsmooth], [flexslider]
 		'timed' => 'true',							// JS option
 		'delay' => '9000',							// JS option
 		'showCarousel' => 'true',					// JS option
@@ -644,7 +506,7 @@ function dfcg_default_options() {
 		'defaultTransition' => 'fade',				// JS option - mootools only
 		'mootools' => '0',							// JS option: Toggle on/off Mootools loading - mootools only
 		'showArrows' => 'true',						// JS option: added 3.3.3
-		'slideInfoZoneStatic' => 'false',			// JS option: (jquery only) added in 3.3.4 with v2.6 jquery script
+		'slideInfoZoneStatic' => 'false',			// JS option: (jqsmooth only) added in 3.3.4 with v2.6 jQuery script
 		'errors' => 'false',						// Tools: Error reporting on/off
 		'column-img' => 'true',						// Tools: Show column _dfcg-image in edit screens
 		'column-desc' => 'true',					// Tools: Show column _dfcg_desc in edit screens
@@ -663,7 +525,7 @@ function dfcg_default_options() {
 
 
 /**
- * Function for loading and upgrading options
+ * Load and upgrade options
  *
  * Loads options on 'admin_menu' hook.
  * Completely re-written - changed to "incremental" upgrading in v3.3.3
@@ -712,7 +574,7 @@ function dfcg_default_options() {
  * In 3.3.3 - Total options = 84
  *
  * In 3.3.4 - Added 'slideInfoZoneStatic' options for fixed or sliding Slide Pane with jQuery
- * In 3.3.4 - Added 'gallery-background' option - mootools and jquery
+ * In 3.3.4 - Added 'gallery-background' option - mootools and jQuery
  * In 3.3.4 - Total options = 84 + 2 = 86
  *
  * In 4.0 - Added "excerpt" value to "desc-method" option
@@ -723,16 +585,20 @@ function dfcg_default_options() {
  * In 4.0 - Added 1: 'defimgfolder'
  * In 4.0 - Total options = 86 + 3 + 6 - 3 + 4 - 1 = 89
  *
- * @uses dfcg_default_options()
- *
  * @since 3.2.2
  * @updated 4.0
+ *
+ * @uses dfcg_default_options()
+ *
  * @return if DCG version up to date, returns NULL, otherwise upgrades plugin's options in the db
  */
 function dfcg_set_gallery_options() {
 	
 	// Get current version number (first introduced in 3.0 beta / 2.3)
 	$existing_version = get_option('dfcg_version');
+	
+	
+	/***** Start upgrade routine *****/
 	
 	// Existing version is same as this version - nothing to do here...
 	if( $existing_version == DFCG_VER )
@@ -756,7 +622,7 @@ function dfcg_set_gallery_options() {
 
 
 	/***** Clean install - it's a wasteland here *****/
-	if ( empty( $existing_version ) && empty( $existing_opts ) && empty( $utilities ) ) {			
+	if ( empty( $existing_version ) && empty( $existing_opts ) ) {			
 		
 		$new_opts = dfcg_default_options();
 		
@@ -1181,7 +1047,7 @@ function dfcg_set_gallery_options() {
 			$existing_opts['thumb-type'] = "featured-image";
 	
 		// Add 3 new = 84
-		if( $existing_opts['cpt-tax-and-term'] == 'all' || empty( $existing_opts['cpt-tax-and-term'] ) ) {
+		if( $new_opts['cpt-tax-and-term'] == 'all' || empty( $new_opts['cpt-tax-and-term'] ) ) {
 			
 			$new_opts['cpt-tax-name'] = '';
 			$new_opts['cpt-term-name'] = '';
@@ -1204,6 +1070,14 @@ function dfcg_set_gallery_options() {
 			$new_opts['cpt-term-id'] = $term->term_id;
 		
 		}
+		
+		// Deal with cat-display if blank or 0, set the new default of 'all'
+		// In v4.0, one-cat "all" option now needs cat-display set to 'all', whereas
+		// previously it was 0 or ''
+		// The following prevents getimagesize read errors occuring after the upgrade
+		// Note: If getimagesize error occurs, re-saving Settings will clear the error
+		if( empty( $existing_opts['cat-display'] ) )
+			$existing_opts['cat-display'] = 'all';
 		
 		// Add 6 new = 90		
 		$new_opts['column-feat-img'] = 'true';

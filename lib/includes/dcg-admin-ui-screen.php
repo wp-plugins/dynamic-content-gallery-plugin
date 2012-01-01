@@ -5,7 +5,7 @@
  * This file is included by dfcg_options_page() which is hooked to admin_menu
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -42,7 +42,7 @@ $dfcg_base = dfcg_base_settings();
 $dfcg_options = get_option( $dfcg_base['dfcg_option_name'] );
 
  // Run Settings validation checks on page load
-dfcg_on_load_validation($dfcg_options);
+dfcg_on_load_validation( $dfcg_options );
 ?>
 
 <div class="wrap" id="dfcg-settings-page-wrap">

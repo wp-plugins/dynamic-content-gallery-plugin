@@ -5,7 +5,7 @@ Plugin URI: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Version: 4.0
 Author: Ade Walker, Studiograsshopper
 Author URI: http://www.studiograsshopper.ch
-Description: Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Configurable options and choice of using mootools or jquery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress. Requires WP version 3.3+.
+Description: Creates a dynamic gallery of images for latest or featured content selected from one or more normal post categories, pages, Custom Post Type posts, or a mix of these. Configurable options and choice of using mootools or jQuery to display the gallery. Compatible with Network-enabled (Multisite) Wordpress.
 */
 
 
@@ -50,10 +50,11 @@ Feature:	means new user functionality has been added
 * Feature: 	Added Featured Image column in posts/pages Edit screen, in addition to Tools > DCG Image display
 * Feature:	DCG Image column now displays a thumbnail
 * Feature:	Adds theme support for post-thumbnails automatically, if theme doesn't already support it 
-
+* Enhance:	Main plugin file code reorganised, added init and setup functions hooked to plugins_loaded and after_setup_theme
 * Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
 * Enhance:	Settings page > General Tab, Key Settings output improved
 * Enhance:	V3.2 postmeta upgrade functionality has been removed completely
+* Enhance:	Settings page callback now uses Settings Error API for reset and image size change messages
 
 * Enhance:	Removed inline styles from dfcg-admin-metaboxes.php to match WP3.3 default admin styles
 * Enhance:	Image link title attribute uses post/page title or external link title, for accessibility
@@ -91,7 +92,7 @@ Feature:	means new user functionality has been added
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
 * Bug fix:	Fixed PHP warnings in dfcg-widget.php
-* Bug fix:	Fixed CSS errors in jQuery CSS files
+* Bug fix:	Fixed CSS errors in jqsmooth CSS files
 * Bug fix:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
 				
 = 3.3.5 =
@@ -250,8 +251,8 @@ if( !defined( 'ABSPATH' ) ) {
 
 register_activation_hook( __FILE__, 'dfcg_activation' );
 /**
- * This function runs on plugin activation.
- * It checks to make sure that the minimum WP version is installed
+ * Check that that the minimum WP version is installed
+ * Note: only runs on first activation, not upgrade
  *
  * @uses network_admin_url(), as this fallbacks to admin_url() if no multisite
  *
@@ -296,7 +297,7 @@ function dfcg_init() {
 	define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
 
 	define( 'DFCG_VER', 			'4.0' );
-	define( 'DFCG_WP_VERSION_REQ', 	'3.3-beta1' );
+	define( 'DFCG_WP_VERSION_REQ', 	'3.3' );
 
 	define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
 	define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
@@ -331,8 +332,12 @@ function dfcg_init() {
 	
 		if( $dfcg_options['scripts'] == 'mootools' ) {
 			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-mootools.php' );
-		} else {
+		}
+		if( $dfcg_options['scripts'] == 'jqsmooth' ) {
 			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-jq-smooth.php' );
+		}
+		if( $dfcg_options['scripts'] == 'flexslider' ) {
+			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-flexslider.php' );
 		}
 	
 		if( $dfcg_options['errors'] == 'true' ) {
@@ -365,12 +370,16 @@ function dfcg_init() {
 
 	/* Front-end - Loads scripts and css where gallery is displayed */
 	// Functions defined in dcg-gallery-core.php
-	add_action( 'template_redirect', 'dfcg_enqueue_scripts_css' );
+	add_action( 'template_redirect', 'dfcg_enqueue_scripts_styles' );
 
 	if( is_admin() ) {
 		/* Admin - Register Settings as per new API */
 		// Function defined in dcg-admin-core.php
 		add_action( 'admin_init', 'dfcg_register_settings' );
+		
+		/* Admin - Custom columns, edit screens */
+		// Function defined in dcg-admin-custom-columns.php
+		add_action( 'admin_init', 'dfcg_load_tools' );
 
 		/* Admin - Adds Settings page */
 		// Function defined in dcg-admin-core.php
@@ -391,10 +400,6 @@ function dfcg_init() {
 		/* Admin - Adds WP version warning and Post Thumbnail warning in Plugins table */
 		// Function defined in dcg-admin-core.php
 		add_action( 'after_plugin_row_' . DFCG_FILE_NAME, 'dfcg_checks_plugins_page' );
-	
-		/* Admin - Adds WP version and Post Thumbnail warning in DCG Settings page */
-		// Function defined in dcg-admin-core.php
-		add_action( 'admin_notices', 'dfcg_checks_settings_page' );
 	
 		/* Admin - Adds Upgrade nag to DCG Settings page */
 		// Function defined in dcg-admin-core.php
@@ -426,8 +431,7 @@ add_action( 'after_setup_theme', 'dfcg_setup' );
  * Add DCG image sizes and add theme support
  *
  * Final stage of plugin's setup. Hooked to 'after_theme_setup' so
- * that we can use add_theme_support() function.
- * Note: 'scripts' option is the theme support parameter, so that it can 
+ * that we can use add_theme_support() function. 
  * 
  * @since 4.0
  */

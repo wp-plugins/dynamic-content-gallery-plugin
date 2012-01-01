@@ -3,7 +3,7 @@
  * Functions for displaying contents of Settings page
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -655,7 +655,7 @@ function dfcg_ui_custom_post() {
 													
 					foreach ( $terms as $term ) :
 						// We need it in this format for WP_Query when generating the gallery (may change in WP 3.1)
-						$value = $term->taxonomy . '=' . $term->name;
+						$value = $term->taxonomy . '=' . $term->slug;
 						// This is a prettier format for display in the dropdown list
 						$display = esc_attr($taxonomy->label) . ' - ' . esc_attr($term->name);
 					?>
@@ -972,8 +972,8 @@ function dfcg_ui_js_framework() {
 				<td><?php _e('Use SmoothGallery Mootools script. This is the default setting.', DFCG_DOMAIN); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><input name="dfcg_plugin_settings[scripts]" id="dfcg-scripts-jquery" type="radio" style="margin-right:5px;" value="jquery" <?php checked('jquery', $dfcg_options['scripts']); ?> />
-				<label for="dfcg-scripts-jquery">jQuery</label></th>
+				<th scope="row"><input name="dfcg_plugin_settings[scripts]" id="dfcg-scripts-jqsmooth" type="radio" style="margin-right:5px;" value="jqsmooth" <?php checked('jqsmooth', $dfcg_options['scripts']); ?> />
+				<label for="dfcg-scripts-jqsmooth">jQuerySmooth</label></th>
 				<td><?php _e('Use jQuery script. Select this option in the event of javascript conflicts with other plugins.', DFCG_DOMAIN); ?></td>
 			</tr>
 		</tbody>
@@ -1044,7 +1044,7 @@ function dfcg_ui_javascript() {
 			</tr>
 			<?php endif; ?>
 			
-			<?php if( $dfcg_options['scripts'] == 'jquery' ) : ?>
+			<?php if( $dfcg_options['scripts'] == 'jqsmooth' ) : ?>
 			<tr valign="top">
 				<th scope="row"><?php _e('Do not animate Slide Pane:', DFCG_DOMAIN); ?></th>
 				<td><input name="dfcg_plugin_settings[slideInfoZoneStatic]" id="dfcg-slideInfoZoneStatic" type="checkbox" value="1" <?php checked('true', $dfcg_options['slideInfoZoneStatic']); ?> /><span style="padding-left:50px"><em><?php _e('Check the box to keep Slide Pane static, ie not animated. Default is UNCHECKED.', DFCG_DOMAIN); ?></em></span></td>
@@ -1246,9 +1246,9 @@ function dfcg_ui_tools() {
  * Form hidden fields
  * WP and WPMS
  *
- * Always, 5 hidden: [homeurl],[cpt-tax-name],[cpt-term-name],[cpt-term-id],[size-change]
- * If jquery loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
- * If mootools loaded, hide jquery-only = 1 hidden: [slideInfoZoneStatic]
+ * Always, 4 hidden: [cpt-tax-name],[cpt-term-name],[cpt-term-id],[size-change]
+ * If jqsmooth loaded, hide mootools-only = 6 hidden: [slide-height],[slideInfoZoneSlide],[defaultTransition],[mootools],[carouselMinimizedOpacity],[thumb-type]
+ * If mootools loaded, hide jqsmooth-only = 1 hidden: [slideInfoZoneStatic]
  * If no registered custom post types, 3 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number]
  * If 'post-thumbnails' not supported, 2 hidden: [posts-featured-image-column], [pages-featured-image-column]
  *
@@ -1260,17 +1260,16 @@ function dfcg_ui_hidden_wp() {
 	global $dfcg_options;
 	?>
 	<?php // Always hidden in WP/WPMS ?>
-	<input name="dfcg_plugin_settings[homeurl]" type="hidden" value="<?php echo $dfcg_options['homeurl']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-tax-name]" type="hidden" value="<?php echo $dfcg_options['cpt-tax-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-name]" type="hidden" value="<?php echo $dfcg_options['cpt-term-name']; ?>" />
 	<input name="dfcg_plugin_settings[cpt-term-id]" type="hidden" value="<?php echo $dfcg_options['cpt-term-id']; ?>" />
 	<input name="dfcg_plugin_settings[size-change]" type="hidden" value="<?php echo $dfcg_options['size-change']; ?>" />
 	
-	<?php if($dfcg_options['scripts'] == 'mootools' ) : // mootools is loaded, +1 jquery-only Hidden ?>
+	<?php if($dfcg_options['scripts'] == 'mootools' ) : // mootools is loaded, +1 jqsmooth-only Hidden ?>
 	<input name="dfcg_plugin_settings[slideInfoZoneStatic]" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneStatic']; ?>" />
 	<?php endif; ?>
 	
-	<?php if($dfcg_options['scripts'] == 'jquery' ) : // jquery is loaded, +6 mootools-only Hidden ?>
+	<?php if($dfcg_options['scripts'] == 'jqsmooth' ) : // jqsmooth is loaded, +6 mootools-only Hidden ?>
 	<input name="dfcg_plugin_settings[slide-height]" type="hidden" value="<?php echo $dfcg_options['slide-height']; ?>" />
 	<input name="dfcg_plugin_settings[slideInfoZoneSlide]" type="hidden" value="<?php echo $dfcg_options['slideInfoZoneSlide']; ?>" />
 	<input name="dfcg_plugin_settings[defaultTransition]" type="hidden" value="<?php echo $dfcg_options['defaultTransition']; ?>" />
@@ -1409,7 +1408,7 @@ function dfcg_ui_help() {
 	
 	<p><?php _e('You can also create <a class="off-site" target="_blank" href="http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/#default-images">default images</a> and specify their location on your server so that, in the event an Auto image or DCG Metabox Image URL is missing from a Post or Page, a default image will be shown in its place.', DFCG_DOMAIN); ?><?php _e('Note: The Custom Post Type gallery method does not currently support default images.', DFCG_DOMAIN); ?></p>
 
-	<p><?php _e('There are lots of options for the <a class="dfcg-panel-css-link" href="#dfcg-panel-css">Gallery CSS</a>, as well as various <a class="dfcg-panel-javascript-link" href="#dfcg-panel-javascript">Javascript Options</a> which determine the behaviour of the gallery. There are also <a class="dfcg-panel-scripts-link" href="#dfcg-panel-scripts">Load Scripts</a> options for restricting the loading of the plugin\'s javascript files to reduce the impact of the plugin on page loading times. Finally, you have two choices of javascript framework, mootools or jquery, selected in the <a class="dfcg-panel-javascript-link" href="#dfcg-panel-javascript">Javascript Options</a>, which should help eliminate javascript conflicts with other plugins.', DFCG_DOMAIN); ?></p>
+	<p><?php _e('There are lots of options for the <a class="dfcg-panel-css-link" href="#dfcg-panel-css">Gallery CSS</a>, as well as various <a class="dfcg-panel-javascript-link" href="#dfcg-panel-javascript">Javascript Options</a> which determine the behaviour of the gallery. There are also <a class="dfcg-panel-scripts-link" href="#dfcg-panel-scripts">Load Scripts</a> options for restricting the loading of the plugin\'s javascript files to reduce the impact of the plugin on page loading times. Finally, you have two choices of javascript framework, mootools or jQuerySmooth, selected in the <a class="dfcg-panel-javascript-link" href="#dfcg-panel-javascript">Javascript Options</a>, which should help eliminate javascript conflicts with other plugins.', DFCG_DOMAIN); ?></p>
 	
 	<p><?php esc_attr_e('Still a bit lost? Find out more in the Configuration Guide =>', DFCG_DOMAIN); ?></p>
 	<ul class="links">
