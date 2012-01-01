@@ -396,10 +396,6 @@ function dfcg_init() {
 		/* Admin - Adds additional links in main Plugins page */
 		// Function defined in dcg-admin-core.php
 		add_filter( 'plugin_row_meta', 'dfcg_plugin_meta', 10, 2 );
-
-		/* Admin - Adds WP version warning and Post Thumbnail warning in Plugins table */
-		// Function defined in dcg-admin-core.php
-		add_action( 'after_plugin_row_' . DFCG_FILE_NAME, 'dfcg_checks_plugins_page' );
 	
 		/* Admin - Adds Upgrade nag to DCG Settings page */
 		// Function defined in dcg-admin-core.php
