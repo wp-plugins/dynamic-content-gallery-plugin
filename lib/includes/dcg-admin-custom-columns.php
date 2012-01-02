@@ -226,8 +226,8 @@ function dfcg_image_column_contents( $column_name, $post_id ) {
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
-function dfcg_desc_column($defaults) {
-    $defaults['dfcg_desc_column'] = __('DCG Desc');
+function dfcg_desc_column( $defaults ) {
+    $defaults['dfcg_desc_column'] = __( 'DCG Desc' );
     return $defaults;
 }
 
@@ -242,7 +242,7 @@ function dfcg_desc_column($defaults) {
  * @param mixed $post_id	ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column
  */
-function dfcg_desc_column_contents($column_name, $post_id) {
+function dfcg_desc_column_contents( $column_name, $post_id ) {
     
 	global $dfcg_options;
 	
@@ -259,7 +259,7 @@ function dfcg_desc_column_contents($column_name, $post_id) {
 			
 	} else {
 		
-		echo '<i>'.__('Not found', DFCG_DOMAIN).'</i>';
+		echo '<i>'.__( 'Not found', DFCG_DOMAIN ) .'</i>';
 	}
 }
         
@@ -276,8 +276,8 @@ function dfcg_desc_column_contents($column_name, $post_id) {
  * @param array $defaults Default Edit screen columns
  * @return array $defaults Modified Edit screen columns
  */
-function dfcg_sort_column($defaults) {
-    $defaults['dfcg_pages_sort_column'] = __('DCG Sort');
+function dfcg_sort_column( $defaults ) {
+    $defaults['dfcg_pages_sort_column'] = __( 'DCG Sort' );
     return $defaults;
 }
 
@@ -292,7 +292,7 @@ function dfcg_sort_column($defaults) {
  * @param mixed $post_id ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column 
  */
-function dfcg_sort_column_contents($column_name, $post_id) {
+function dfcg_sort_column_contents( $column_name, $post_id ) {
     
 	// Check we're only messing with my column
 	if( $column_name !== 'dfcg_pages_sort_column' ) return;
@@ -303,7 +303,7 @@ function dfcg_sort_column_contents($column_name, $post_id) {
 			
 	} else {
 		
-		echo '<i>'.__('None', DFCG_DOMAIN).'</i>';
+		echo '<i>'.__( 'None', DFCG_DOMAIN ) .'</i>';
 		
 	}
 }
@@ -319,13 +319,13 @@ function dfcg_sort_column_contents($column_name, $post_id) {
  * @param string $string Contents of DCG Desc for a post or page
  * @return string $string Shortened dfcg-desc text
  */
-function dfcg_shorten_desc($string) {
+function dfcg_shorten_desc( $string ) {
 
 	$length = '30';
 	$replacer = ' [...]';
    
-	if(strlen($string) > $length)
-		$string = (preg_match('/^(.*)\W.*$/', substr($string, 0, $length+1), $matches) ? $matches[1] : substr($string, 0, $length)) . $replacer;
+	if( strlen( $string ) > $length )
+		$string = ( preg_match( '/^(.*)\W.*$/', substr( $string, 0, $length+1 ), $matches) ? $matches[1] : substr( $string, 0, $length ) ) . $replacer;
 
 	return $string;
 }
@@ -342,7 +342,7 @@ function dfcg_shorten_desc($string) {
  * @return array $defaults Modified Edit screen columns
  */
 function dfcg_featured_image_column( $defaults ) {
-       $defaults['dfcg_featured_image'] = __('Featured Image') ;
+       $defaults['dfcg_featured_image'] = __( 'Featured Image' ) ;
     	return $defaults;
 }
 
@@ -356,14 +356,14 @@ function dfcg_featured_image_column( $defaults ) {
  * @param mixed $post_id ID of Post/Page being displayed on Edit screen
  * @return echos out XHTML and contents of column 
  */
-function dfcg_featured_image_column_content($column_name, $id) {
+function dfcg_featured_image_column_content( $column_name, $id ) {
     
     // Check we're only messing with my column
-    if( $column_name !== 'dfcg_featured_image') return;
+    if( $column_name !== 'dfcg_featured_image' ) return;
 		
 	if( has_post_thumbnail( $id ) ) {
 		the_post_thumbnail( 'DCG_Thumb_100x75_true' );
 	} else {
-		echo '<i>' . __('Not set', DFCG_DOMAIN) . '</i>';
+		echo '<i>' . __( 'Not set', DFCG_DOMAIN ) . '</i>';
     }
 }

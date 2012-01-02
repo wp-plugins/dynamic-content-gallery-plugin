@@ -25,11 +25,12 @@ if( !defined( 'ABSPATH' ) ) {
 /**
  * Function to control Error Reporting
  *
+ * @since 3.2
+ *
  * @uses	dfcg_errors()
  *
  * @global array $dfcg_options Array of plugin options from db
  * @return array $errmsgs Array of error messages, if Errors have been turned on in settings
- * @since 3.2
  */
 function dfcg_errors_output() {
 	

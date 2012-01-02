@@ -18,15 +18,16 @@
  * 2. wp_enqueue_script() is used to load pure JS files, eg something.js
  * 3. js function calls and dynamic CSS in a php file are simply echoed to the browser via wp_head or wp_footer as appropriate.
  *
- * The above are wrapped in various functions named dfcg_load_{something}() which are called by
- * the dfcg_enqueue_scripts_styles() function, which is hooked to 'template_redirect' so that this function is run before any of the
- * action hooks that it then calls.
+ * The above are wrapped in various functions named dfcg_load_{scriptname}() where {scriptname} is the identifier
+ * of the script, eg 'mootools', 'jqsmooth', etc.
+ * These are called by dfcg_enqueue_scripts_styles() function, hooked to 'template_redirect',
+ * via dfcg_enqueue_helper() which simplifies the code in the parent function.
  * 
  * The logic of this setup is that dfcg_enqueue_scripts_styles():
  * - determines which script has been selected css/js
  * - determines which page to load the scripts on, based on the DCG Settings > Load Scripts user options
  * - runs the dfcg_enqueue_helper() function
- * - which adds the various add_action calls containing their relevant dfcg_load_{something}() callbacks.
+ * - which adds the various add_action calls containing their relevant dfcg_load_{scriptname}() callbacks.
  *
  *
  * @since 3.0
@@ -91,21 +92,6 @@ function dynamic_content_gallery() {
 			$output = dfcg_jq_id_method_gallery();
 		}
 
-	} elseif( $dfcg_options['scripts'] == 'flexslider' ) {
-	
-		if( $dfcg_options['populate-method'] == 'multi-option' ) {
-			// Populate method = MULTI-OPTION
-			$output = dfcg_flx_multioption_method_gallery();
-	
-		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
-			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-			$output = dfcg_flx_onecategory_method_gallery();
-
-		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
-			// Populate method = PAGES
-			$output = dfcg_flx_id_method_gallery();
-		}
-
 	} else {
 	
 		// Something has gone horribly wrong and there's no output!
@@ -143,26 +129,11 @@ function dynamic_content_gallery() {
  *
  * Hooked to 'template_redirect' action
  *
- * This function determines , and on what page 
- *
- * This function replaces the following deprecated functions, wef v4.0:
- * - dfcg_load_scripts_header()
- * - dfcg_load_scripts_footer()
- * - dfcg_enqueue_jquery()
- *
- * The 7 (3 for mootools, 4 for jquery) dfcg_load-xxx() functions replace the following deprecated functions, wef v4.0:
- * - dfcg_mootools_scripts()
- * - dfcg_jquery_css()
- * - dfcg_jquery_smooth_scripts()
+ * This determines which page the scripts should be loaded on, based on user settings
  *
  * @since 4.0
  *
- * @uses dfcg_load_mootools()
- * @uses dfcg_load_mootools_user()
- * @uses dfcg_load_jquery_smooth()
- * @uses dfcg_load_jquery_js()
- * @uses dfcg_load_jquery_smooth_user_css()
- * @uses dfcg_load_jquery_smooth_user_js()
+ * @uses dfcg_enqueue_helper()
  *
  * @global array $dfcg_options Plugin options from db
  */

@@ -35,8 +35,9 @@ if (dfcg_check_version() ) {
  *
  * Requires WP 3.3+
  *
- * @global $current_screen object global Screen object
  * @since 4.0
+ *
+ * @global $current_screen object global Screen object
  */
 function dfcg_plugin_help() {
 	

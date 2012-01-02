@@ -29,6 +29,7 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * @since 3.2.2
  * @updated 4.0
+ *
  * @param array $input $_POST input from form
  * @global array $dfcg_options plugin options from db
  * @return array $input Sanitised form input ready for db

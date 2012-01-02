@@ -3,7 +3,7 @@
  * Functions for adding metaboxes to Post and Pages Write screen for display of custom fields
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2011
+ * @copyright Copyright 2008-2012
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -27,10 +27,11 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * Note: since 4.0 DCG metabox appears on all CPT edit screens if ID Method selected
  *
- * @uses dfcg_get_custom_post_types()
- *
  * @since 3.2.1
  * @updated 4.0
+ *
+ * @uses dfcg_get_custom_post_types()
+ *
  * @global array $dfcg_options plugin options from db
  * @return nothing Calls add_meta_box() function
  */
@@ -78,6 +79,7 @@ function dfcg_add_metabox() {
  *
  * @since 3.2.2
  * @updated 4.0
+ *
  * @param object $post object
  * @global array $dfcg_options plugin options from db
  * @return echos the XHTML for the Metabox
@@ -240,6 +242,7 @@ function dfcg_meta_box( $post ) {
  *
  * @since 3.2.1
  * @updated 4.0
+ *
  * @param mixed $post_id Post ID
  * @param object $post object
  * @return nothing Calls add_* update_* delete_option functions to save validated data to db

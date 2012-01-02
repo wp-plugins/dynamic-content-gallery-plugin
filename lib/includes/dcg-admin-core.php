@@ -14,9 +14,8 @@
  * @info - Load admin js and CSS
  * @info - Plugin action links
  * @info - Plugin row meta
- * @info - Admin Notices for WP Version and Post Thumbnails check
+ * @info - DCG Upgrade nag
  * @info - Add image sizes to Media Uploader
- * @info - Miscellaneous helper functions used elsewhere
  * @info - DCG options handling and upgrading
  *
  * @since 3.0

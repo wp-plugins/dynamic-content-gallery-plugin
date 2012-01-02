@@ -31,10 +31,11 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * If FULL or AUTO, baseimgurl is empty; if PARTIAL, baseimgurl is pulled from options
  *
- * @global array $dfcg_options Plugin options from db
- * @return string $output Either the base URL (PARTIAL) or empty (FULL)
  * @since 3.0
  * @updated 3.3
+ *
+ * @global array $dfcg_options Plugin options from db
+ * @return string $output Either the base URL (PARTIAL) or empty (FULL)
  */
 function dfcg_baseimgurl() {
 
@@ -60,9 +61,10 @@ function dfcg_baseimgurl() {
  *
  * Used by gallery constructor functions
  *
- * @return array $postmeta
  * @since 3.3
  * @updated 4.0
+ *
+ * @return array $postmeta
  */
 function dfcg_postmeta_info() {
 
@@ -88,9 +90,10 @@ function dfcg_postmeta_info() {
  *
  * Used by all Multi Option constructor functions
  *
+ * @since 3.2
+ *
  * @global array $dfcg_options Plugin options from db
  * @return array $query_list	Array of cat/offset pairs
- * @since 3.2
  */
 function dfcg_query_list() {
 
@@ -142,6 +145,8 @@ function dfcg_query_list() {
  * To avoid this, users should
  * re-run the Regenerate Thumbnails plugin to create the new image sizes.
  *
+ * @since 4.0
+ *
  * @uses current_theme_supports() WP function
  * @uses wp_get_attachment_image_src() WP function
  * @uses get_post_thumbnail() WP function
@@ -149,8 +154,6 @@ function dfcg_query_list() {
  * @param $id (int|string) post ID
  * @global $dfcg_options (array) DCG Settings from db
  * @return $image (array) = src, w(idth), h(eight), class, or returns false
- *
- * @since 4.0
  */
 function dfcg_get_featured_image( $id ) {
 
@@ -179,6 +182,7 @@ function dfcg_get_featured_image( $id ) {
  * Helper function to get list of all registered Custom Post Types
  *
  * @since 3.3
+ *
  * @return object(array) $post_types Object containing all registered CPTs
  */
 function dfcg_get_custom_post_types() {

@@ -30,12 +30,13 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  * Renamed in v4.0, used to be named dfcg_ui_intro_menu()
  * 
+ * @since 3.0
+ * @updated 3.3
+ *
  * @uses dfcg_check_version()
  * @uses dfcg_ui_active_settings()
  *
  * @global array $dfcg_options plugin options from db
- * @since 3.0
- * @updated 3.3
  */
 function dfcg_ui_general() {
 	global $dfcg_options;
@@ -89,9 +90,10 @@ function dfcg_ui_general() {
  * WPMS: 2 hidden ['imageurl'],['defimgfolder']
  * Mootools only: ['thumb-type']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.3
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_image() {
 	global $dfcg_options;
@@ -253,9 +255,10 @@ if ( !is_multisite() ) : ?>
  *
  * 1 options: ['populate-method']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.3
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_gallery() {
 	global $dfcg_options;
@@ -363,9 +366,10 @@ function dfcg_ui_gallery() {
  *
  * 18 options: ['off01'] -> ['off09'], ['cat01'] -> ['cat09']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_multi() {
 	global $dfcg_options;
@@ -465,9 +469,10 @@ function dfcg_ui_multi() {
  *
  * 2 options: ['cat-display'], ['posts-number']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_onecat() {
 	global $dfcg_options;
@@ -529,9 +534,10 @@ function dfcg_ui_onecat() {
  * 3 options: ['ids-selected'], ['id-sort-control'], ['defimgid']
  * WPMS: 1 hidden ['defimgid'] 
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_id() {
 	global $dfcg_options;
@@ -596,9 +602,10 @@ function dfcg_ui_id() {
  * To amke life easier when building WP_Query for output, choice of taxonomy and term is saved in
  * the format taxonomy=term (see ['cpt-tax-and-term'] option)
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_custom_post() {
 	global $dfcg_options;
@@ -723,10 +730,11 @@ function dfcg_ui_custom_post() {
  * Descriptions: box and content
  *
  * 4 options: ['desc-method'], ['max-char'], ['more-text'], ['defimgdesc']
- * 
- * @global array $dfcg_options plugin options from db
+ *
  * @since 3.2.2
  * @updated 4.0
+ * 
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_desc() {
 	global $dfcg_options;
@@ -807,10 +815,11 @@ function dfcg_ui_desc() {
  * 25 options: ['gallery-width'],['gallery-height'],['gallery-border-thick'],['gallery-border-colour'],['slide-height'],['slide-overlay-color'],['slide-h2-size'],['slide-h2-weight'],['slide-h2-colour'],['slide-h2-padtb'],['slide-h2-padlr'],['slide-h2-margtb'],['slide-h2-marglr'],['slide-p-size'],['slide-p-colour'],['slide-p-line-height'],['slide-p-padtb'],['slide-p-padlr'],['slide-p-margtb'],['slide-p-marglr'],['slide-p-a-color'],['slide-p-a-weight'],['slide-p-ahover-color'],['slide-p-ahover-weight'],['gallery-background']
  *
  * Mootools only: ['slide-height']
- * 
- * @global array $dfcg_options plugin options from db
+ *
  * @since 3.0
  * @updated 3.3.4
+ * 
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_css() {
 	global $dfcg_options;
@@ -954,9 +963,10 @@ function dfcg_ui_css() {
  *
  * 1 options: ['scripts']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 3.3
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_js_framework() {
 	global $dfcg_options;
@@ -995,9 +1005,10 @@ function dfcg_ui_js_framework() {
  * Mootools only: [slideInfoZoneSlide], [defaultTransition], [mootools], [carouselMinimizedOpacity]
  * jQuery only: [slideInfoZoneStatic]
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_javascript() {
 	global $dfcg_options;
@@ -1094,9 +1105,10 @@ function dfcg_ui_javascript() {
  *
  * 2 options: ['limit-scripts'], ['page-filename']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.2.2
  * @updated 3.3
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_restrict_scripts() {
 	global $dfcg_options;
@@ -1169,9 +1181,10 @@ function dfcg_ui_restrict_scripts() {
  *
  * 1 options: ['errors']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 3.3
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_errors() {
 	global $dfcg_options;
@@ -1193,10 +1206,11 @@ function dfcg_ui_errors() {
  * Posts/Pages edit columns: box and content
  *
  * 5 options: [column-img],[column-desc],[column-sort],['column-feat-img'],['add-media-sizes']
- * 
- * @global array $dfcg_options plugin options from db
+ *
  * @since 3.2.2
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_tools() {
 	global $dfcg_options;
@@ -1252,9 +1266,10 @@ function dfcg_ui_tools() {
  * If no registered custom post types, 3 hidden: [custom-post-type],[custom-post-type-tax],[custom-post-type-number]
  * If 'post-thumbnails' not supported, 2 hidden: [posts-featured-image-column], [pages-featured-image-column]
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
  * @updated 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_hidden_wp() {
 	global $dfcg_options;
@@ -1300,8 +1315,9 @@ function dfcg_ui_hidden_wp() {
  *
  * WPMS, 3 options: [imageurl],[defimgfolder],[defimgid] 
  *
- * @global array $dfcg_options plugin options from db
  * @since 4.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_hidden_wpms() {
 	global $dfcg_options;
@@ -1320,8 +1336,9 @@ function dfcg_ui_hidden_wpms() {
  *
  * 1 options: ['reset']
  *
- * @global array $dfcg_options plugin options from db
  * @since 3.0
+ *
+ * @global array $dfcg_options plugin options from db
  */
 function dfcg_ui_reset_end() {
 	global $dfcg_options;
