@@ -1,18 +1,19 @@
-/**	This file is part of the DYNAMIC CONTENT GALLERY Plugin
-*	*******************************************************
-*	Copyright 2008-2011  Ade WALKER  (email : info@studiograsshopper.ch)
-*
-* 	@package	Dynamic Content Gallery
-*	@version	3.4
-*
-*	Modified CSS file based on original jd.gallery.css from SmoothGallery
-*	See dfcg-gallery-mootools-styles.php for CSS elements set in Settings page.
-*
-*	v3.2	Line 72	Added text-align left
-*	v3.2.2	Removed line 72 text-align left
-*	v3.4	Added !important to margin/padding for .jdGallery .carousel .label, .jdExtCarousel .label
-*	
-*/
+/**	
+ * CSS for SmoothGallery script
+ *	
+ * @author Ade WALKER  (email : info@studiograsshopper.ch)
+ * @copyright Copyright 2008-2012
+ * @package dynamic_content_gallery
+ * @version 4.0
+ *
+ * Modified CSS file based on original jd.gallery.css from SmoothGallery
+ * See dfcg-gallery-mootools-styles.php for CSS elements set in Settings page.
+ * 
+ * v3.2		Line 72	Added text-align left
+ * v3.2.2	Removed line 72 text-align left
+ * v3.4		Added !important to margin/padding for .jdGallery .carousel .label, .jdExtCarousel .label
+ *	
+ */
 
 
 #myGallery {

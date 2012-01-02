@@ -55,7 +55,6 @@ Feature:	means new user functionality has been added
 * Enhance:	Settings page > General Tab, Key Settings output improved
 * Enhance:	V3.2 postmeta upgrade functionality has been removed completely
 * Enhance:	Settings page callback now uses Settings Error API for reset and image size change messages
-
 * Enhance:	Removed inline styles from dfcg-admin-metaboxes.php to match WP3.3 default admin styles
 * Enhance:	Image link title attribute uses post/page title or external link title, for accessibility
 * Enhance:	Changed Post Thumbnail support error message from error to warning
@@ -77,17 +76,12 @@ Feature:	means new user functionality has been added
 * Enhance:	Added DFCG_NAME constant
 * Enhance:	Deprecated DFCG_WP_VERSION_REQ constant - WP verson now handled in activation hook
 * Enhance:	Plugin URL's / Dir's now defined useing plugins_url() and plugin_dir_path()
-
-
-
+* Enhance:	Removed WP version and post-thumbnail validation checks (apart from version checks in dfcg_init() etc)
 * Enhance:	Added new file dcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
-
 * Enhance:	dfcg-gallery-constructors.php renamed to dcg-constructors-mootools.php
 * Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed to dcg-constructors-jq-smooth.php
-
 * Enhance:	File/folder structure reorganised - all folders now in 'lib' folder - some files deprecated
 * Enhance:	All file prefixes changed to dcg- from dfcg-
-
 * Bug fix:	Removed deprecated -moz-opacity CSS from jdgallery.css
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
