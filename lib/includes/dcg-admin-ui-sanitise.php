@@ -134,14 +134,14 @@ function dfcg_sanitise( $input ) {
 	//	Whitelist options													(10)
 	//	Path and URL options												(3)		(0)
 	//	Bool options														(18)
-	//	String options - no XHTML allowed									(6)
+	//	String options - no XHTML allowed									(7)
 	//	String options - small - no XHTML allowed							(2)
 	//	String options - some XHTML allowed									(1)
 	//	String options - CSS hexcodes										(7)
 	//	String options - numeric comma separated only 						(2)
 	//	String options - filenames											(1)
 	//	Integer options - positive - can be blank, can't be zero 			(9)
-	//	Integer options - positive - can be blank, can't be zero 			(2)
+	//	Integer options - positive - can be blank, can't be zero 			(1)
 	//	Integer options - positive - can't be blank, can't be zero 			(9)
 	//	Integer options - positive integer - can't be blank, can be zero 	(18)
 	//	Integer options - positive - large									(1)
@@ -155,7 +155,7 @@ function dfcg_sanitise( $input ) {
 							'populate-method',			// 'multi-option', 'one-category', 'id-method', 'custom-post'
 							'defaultTransition',		// 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal'
 							'limit-scripts',			// 'homepage', 'pagetemplate', 'other', 'page'
-							'scripts',					// 'mootools', 'jqsmooth', 'flexslider'
+							'scripts',					// 'mootools', 'jqsmooth'
 							'slide-h2-weight',			// 'bold', 'normal'
 							'desc-method',				// 'manual', 'auto', 'none', 'excerpt'
 							'slide-p-a-weight',			// 'bold', 'normal'
@@ -164,7 +164,7 @@ function dfcg_sanitise( $input ) {
 						);
 	
 	// Define whitelist
-	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jqsmooth', 'flexslider','bold', 'normal', 'manual', 'auto', 'none', 'page', 'featured-image', 'legacy', 'excerpt' );
+	$dfcg_whitelist = array( 'full', 'partial', 'multi-option', 'one-category', 'id-method', 'custom-post', 'fade', 'fadeslideleft', 'continuousvertical', 'continuoushorizontal', 'homepage', 'pagetemplate', 'other', 'mootools', 'jqsmooth', 'bold', 'normal', 'manual', 'auto', 'none', 'page', 'featured-image', 'legacy', 'excerpt' );
 	
 	// sanitise
 	foreach( $whitelisted_opts as $key ) {
@@ -215,7 +215,7 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	/***** String options - no XHTML allowed (6) *****/
+	/***** String options - no XHTML allowed (7) *****/
 	
 	$str_opts_no_html = array( 'textShowCarousel', 'more-text', 'cpt-name', 'cpt-tax-and-term', 'cpt-tax-name', 'cpt-term-name', 'cat-display' );
 	
@@ -362,7 +362,7 @@ function dfcg_sanitise( $input ) {
 	}
 	
 	
-	/***** Integer options - positive - can be blank, can't be 0 (2) *****/
+	/***** Integer options - positive - can be blank, can't be 0 (1) *****/
 	
 	// Note: cat-display can be blank to avoid WP_Query error on first loading plugin
 	
