@@ -286,10 +286,10 @@ function dfcg_load_user_mootools() {
  */
 function dfcg_load_jqsmooth() {
 	
-	wp_enqueue_style( 'dcg-jquery-css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
+	wp_enqueue_style( 'dcg-jqsmooth-css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
 	
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'dcg-smooth-js', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
+	wp_enqueue_script( 'dcg-jqsmooth', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
 
 }
 
