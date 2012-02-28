@@ -280,7 +280,7 @@ add_action( 'plugins_loaded', 'dfcg_init' );
 function dfcg_init() {
 
 	/** Set constants for plugin */
-	define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/');
+	define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/' );
 	define( 'DFCG_URL', 			plugins_url( 'dynamic-content-gallery-plugin' ) );
 	define( 'DFCG_DIR', 			plugin_dir_path( __FILE__ ) );
 	define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
@@ -327,11 +327,9 @@ function dfcg_init() {
 		if( $dfcg_options['scripts'] == 'mootools' ) {
 			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-mootools.php' );
 		}
+		
 		if( $dfcg_options['scripts'] == 'jqsmooth' ) {
 			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-jq-smooth.php' );
-		}
-		if( $dfcg_options['scripts'] == 'flexslider' ) {
-			include_once( DFCG_LIB_DIR . '/includes/dcg-constructors-flexslider.php' );
 		}
 	
 		if( $dfcg_options['errors'] == 'true' ) {

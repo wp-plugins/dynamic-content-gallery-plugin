@@ -493,7 +493,7 @@ function dfcg_default_options() {
 		'limit-scripts' => 'homepage',				// Load Scripts: Select scripts loading: [homepage],[pagetemplate],[page],[other]
 		'page-filename' => '',						// Load Scripts: Specify a Page Template filename, for loading scripts
 		'page-ids' => '',							// Load Scripts: ordinary page ID numbers
-		'scripts' => 'mootools',					// JS option: Selects js framework: [mootools], [jqsmooth], [flexslider]
+		'scripts' => 'mootools',					// JS option: Selects js framework: [mootools], [jqsmooth]
 		'timed' => 'true',							// JS option
 		'delay' => '9000',							// JS option
 		'showCarousel' => 'true',					// JS option
