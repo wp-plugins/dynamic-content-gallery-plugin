@@ -40,12 +40,12 @@ if( !defined( 'ABSPATH' ) ) {
  *
  * @param	string	$max_char, Number of characters to display
  * @param	string	$more_link_text, Text to display as link to post
- * @param	string	$content, Post/Page content, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
- * @param	int		$page_id, ID of Page, only used if function is called outside the Loop/Wp_Query, ie when in Pages Method
+ * @param	string	$content, Post/Page content, only used if function is called outside the Loop/Wp_Query, ie when in ID Method
+ * @param	int		$id, ID of Post/Page, only used if function is called outside the Loop/Wp_Query, ie when in ID Method
  * @param	string	$stripteaser
  * @return	Text excerpt
  */
-function dfcg_get_the_content_limit( $max_char, $more_link_text = '(more...)', $content = NULL, $page_id = NULL, $stripteaser = 0 ) {
+function dfcg_get_the_content_limit( $max_char, $more_link_text = '(more...)', $content = NULL, $id = NULL, $stripteaser = 0 ) {
     
 	// $max_char can be 0 if user only wants the more link to be displayed when using Auto Text
 	if( $max_char == '0' ) {
@@ -81,12 +81,12 @@ function dfcg_get_the_content_limit( $max_char, $more_link_text = '(more...)', $
         $link = '';
     
 	// We have More link but no page id, ie we're in Multi Option or One Cat Methods
-	} elseif( !empty( $more_link_text ) && empty( $page_id ) ) {
+	} elseif( !empty( $more_link_text ) && empty( $id ) ) {
         $link = sprintf( '%s <a href="%s" rel="nofollow">%s</a>', $sep, get_permalink(), $more_link_text );
     
 	} else {
 		// We have More link and page id, ie we're in Pages Method
-		$link = sprintf( '%s <a href="%s" rel="nofollow">%s</a>', $sep, get_permalink($page_id), $more_link_text );
+		$link = sprintf( '%s <a href="%s" rel="nofollow">%s</a>', $sep, get_permalink($id), $more_link_text );
 	}
 
     return sprintf( '<p class="dfcg-desc-auto">%s%s</p>', $content, $link );
@@ -100,7 +100,7 @@ function dfcg_get_the_content_limit( $max_char, $more_link_text = '(more...)', $
  *
  * @since 3.1
  */
-function dfcg_the_content_limit( $max_char, $more_link_text = '(more...)', $content = NULL, $page_id = NULL, $stripteaser = 0 ) {
-	$auto_text = dfcg_get_the_content_limit( $max_char, $more_link_text, $content, $page_id, $stripteaser );
+function dfcg_the_content_limit( $max_char, $more_link_text = '(more...)', $content = NULL, $id = NULL, $stripteaser = 0 ) {
+	$auto_text = dfcg_get_the_content_limit( $max_char, $more_link_text, $content, $id, $stripteaser );
 	return $auto_text;
 }

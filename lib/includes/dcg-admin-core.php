@@ -1003,8 +1003,20 @@ function dfcg_set_gallery_options() {
 		// 86 options
 		$existing_opts = get_option( 'dfcg_plugin_settings' );
 		
+		// Rename scripts option
+		if( $existing_opts['scripts'] == 'jquery' )
+			$existing_opts['scripts'] = 'jqsmooth';
+		
+		// Fix error re defimgpages in WPMS, replace defimgpages with defimgid
+		// For some reason, this was missed in previous upgrades
+		if( $existing_opts['defimgpages'] ) {
+			$new_opts['defimgid'] = '';
+			unset( $existing_opts['defimgpages'] );
+		}
+		
 		// Add 1 new, and reassign values to it = 87
 		$new_opts['defimgfolder'] = '';
+		
 		if( $existing_opts['populate-method'] == 'multi-option' )
 			$new_opts['defimgfolder'] = $existing_opts['defimgmulti'];
 			

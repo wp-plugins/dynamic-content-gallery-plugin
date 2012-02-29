@@ -652,11 +652,13 @@ function dfcg_get_image( $id, $term_id = NULL ) {
  *
  * @param $id (integer) (required) post/page ID
  * @param $term_id (string/int) - Term ID, relevant for category/custom taxonomy descriptions
+ * @param $content (string) - post content, only used for ID Method
+ *
  * @global $dfcg_options (array)
  * @global $dfcg_postmeta (array)
  * @return $desc_html (string) HTML markup and text of Slide Pane description
  */
-function dfcg_get_desc( $id, $term_id = NULL ) {
+function dfcg_get_desc( $id, $term_id = NULL, $content = NULL ) {
 
 	global $dfcg_options, $dfcg_postmeta;
 	
@@ -667,14 +669,20 @@ function dfcg_get_desc( $id, $term_id = NULL ) {
 	$desc_html = '';
 
 	if( $dfcg_options['desc-method'] == 'auto' ) {
+		
 		// We're using Auto custom excerpt
-		$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
+		if( $dfcg_options['populate-method'] == 'id-method' )
+			$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'], $content, $id );
+		
+		else
+			$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
+
 					
 	} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 	
 		// Do we append Read More to manual descriptions?
 		if( $dfcg_options['desc-man-link'] ) {
-			$more = '&nbsp;<a href="'.get_permalink().'">' . $dfcg_options['more-text'] . '</a>';
+			$more = '&nbsp;<a href="'.get_permalink( $id ).'">' . $dfcg_options['more-text'] . '</a>';
 		} else {
 			$more = '';
 		}
@@ -700,8 +708,13 @@ function dfcg_get_desc( $id, $term_id = NULL ) {
 			$desc_html = '<p class="dfcg-desc-default">' . stripslashes( $dfcg_options['defimagedesc'] ) . $more . '</p>';
 							
 		} else {
+			
 			// Fall back to Auto custom excerpt
-			$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
+			if( $dfcg_options['populate-method'] == 'id-method' )
+				$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'], $content, $id );
+		
+			else
+				$desc_html = dfcg_the_content_limit( $dfcg_options['max-char'], $dfcg_options['more-text'] );
 		}
 		
 	} elseif( $dfcg_options['desc-method'] == 'excerpt' ) {
@@ -710,7 +723,7 @@ function dfcg_get_desc( $id, $term_id = NULL ) {
 		$desc_html = apply_filters( 'the_excerpt', $desc_html );
 		
 	} else {
-		// We're using "None" (note: smoothgallery needs <p> tags or won't work)
+		// We're using "None" (note: smoothgallery needs <p> tags or it won't work)
 		$desc_html = '<p class="dfcg-desc-none"></p>';
 	}
 	

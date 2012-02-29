@@ -640,7 +640,7 @@ function dfcg_jq_id_method_gallery() {
 			$title = esc_attr($id_found->post_title);
 					
 			// Get the slide pane description (post ID, cat/Term ID)			
-			$slide_text_html = dfcg_get_desc( $id_found->ID );
+			$slide_text_html = dfcg_get_desc( $id_found->ID, '', $id_found->post_content );
 				
 			// Get the Image Link
 			$link = dfcg_get_link( $id_found->ID, $title );
@@ -665,7 +665,7 @@ function dfcg_jq_id_method_gallery() {
 			$output .= "\n\t\t\t" . $slide_text_html;
 			
 			// Output Image Link
-			$output .= "\n\t\t\t" . '<a href="'. $link .'" title="Read More" rel="bookmark">';
+			$output .= "\n\t\t\t" . '<a href="'. $link['link_url'] .'" title="' . $link['link_title_attr'] . '" rel="bookmark">';
 			
 			// Output thumbnail
 			$output .= "\n\t\t\t" . $thumb_html;

@@ -565,7 +565,7 @@ function dfcg_id_method_gallery() {
 			$title = esc_attr($id_found->post_title);
 					
 			// Get the slide pane description (post ID, cat/Term ID)			
-			$slide_text_html = dfcg_get_desc( $id_found->ID );
+			$slide_text_html = dfcg_get_desc( $id_found->ID, '', $id_found->post_content );
 				
 			// Get the Image Link
 			$link = dfcg_get_link( $id_found->ID, $title );

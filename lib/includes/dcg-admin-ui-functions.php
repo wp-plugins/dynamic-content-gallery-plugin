@@ -1326,7 +1326,7 @@ function dfcg_ui_hidden_wpms() {
 	<?php // Always hidden in WPMS ?>
 	<input name="dfcg_plugin_settings[imageurl]" type="hidden" value="<?php echo $dfcg_options['imageurl']; ?>" />
 	<input name="dfcg_plugin_settings[defimgfolder]" type="hidden" value="<?php echo $dfcg_options['defimgfolder']; ?>" />
-	<input name="dfcg_plugin_settings[defimgpages]" type="hidden" value="<?php echo $dfcg_options['defimgid']; ?>" />
+	<input name="dfcg_plugin_settings[defimgid]" type="hidden" value="<?php echo $dfcg_options['defimgid']; ?>" />
 		
 <?php }
 
