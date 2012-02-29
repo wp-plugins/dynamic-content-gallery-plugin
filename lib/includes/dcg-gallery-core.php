@@ -681,7 +681,7 @@ function dfcg_get_desc( $id, $term_id = NULL, $content = NULL ) {
 	} elseif( $dfcg_options['desc-method'] == 'manual' ) {
 	
 		// Do we append Read More to manual descriptions?
-		if( $dfcg_options['desc-man-link'] ) {
+		if( $dfcg_options['desc-man-link'] == 'true' ) {
 			$more = '&nbsp;<a href="'.get_permalink( $id ).'">' . $dfcg_options['more-text'] . '</a>';
 		} else {
 			$more = '';

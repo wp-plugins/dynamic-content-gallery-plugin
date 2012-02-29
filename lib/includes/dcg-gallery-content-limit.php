@@ -32,8 +32,8 @@ if( !defined( 'ABSPATH' ) ) {
  * Used in gallery constructor functions
  *
  * Note that when dealing with non-Loop/WP_Query, ie when using the custom db query in the ID Method, we don't have access
- * to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $page_id
- * arguments for passing the Page content and ID to this function.
+ * to $post object, so get_the_content() and get_permalink() will not work as expected. Hence the extra $content and $id
+ * arguments for passing the ID Method content and ID to this function.
  *
  * @since 3.1
  * @updated 4.0
@@ -85,7 +85,7 @@ function dfcg_get_the_content_limit( $max_char, $more_link_text = '(more...)', $
         $link = sprintf( '%s <a href="%s" rel="nofollow">%s</a>', $sep, get_permalink(), $more_link_text );
     
 	} else {
-		// We have More link and page id, ie we're in Pages Method
+		// We have More link and page id, ie we're in ID Method
 		$link = sprintf( '%s <a href="%s" rel="nofollow">%s</a>', $sep, get_permalink($id), $more_link_text );
 	}
 
