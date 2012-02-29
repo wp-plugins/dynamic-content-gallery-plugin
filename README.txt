@@ -11,7 +11,7 @@ Requires at least: 3.3
 Tested up to: 3.3
 Stable tag: 3.3.5
 
-Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Type posts.
+Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Types.
 
 
 == Description==
@@ -26,7 +26,7 @@ Compatible with network-enabled (multisite) WordPress 3.0+, though available plu
 ----------------------
 Version 4.0 is a major release with lots of rewriting and reorganisation of the plugin. Key NEW features are:
 
-* Auto Image Management using WP's built-in Featured Image
+* Auto Image Management using WP's built-in Featured Image (Post Thumbnails) functionality
 * Auto resizing of images to fit your chosen gallery dimensions
 * Slide descriptions can now use the Excerpt
 * Enhanced custom columns in the All Pages and All Posts screens to show Featured Image in use, etc.
@@ -127,8 +127,6 @@ Slide Pane text can be configured in four ways - Manual, configurable Auto excer
 **None:**
 * Select None if you don't want to display a Slide Pane Description. (Post/Page title will still display with this option)
 
-*Note for WP Multisite users*: Use the Media Uploader (accessed via the Add Media button in Dashboard > Posts > Edit) to upload your images and to find the full URL to be used in the Write Post/Page screen DCG Metabox Image URL field. See the Settings page for further information on how to do this. This tip is good for WordPress too - especially if using the FULL URL option in your [Image file management](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) Settings. An even better tip for Multisite setups is to use the Auto Image Management option to automatically pull in post attachments.
-
 
 
 == Frequently Asked Questions ==
@@ -192,7 +190,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 2. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
 
-3. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
+3. To benefit from the new Featured Images option your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
 
 If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
 
@@ -217,46 +215,57 @@ Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contribu
 
 = 4.0 =
 * Released
-* Feature:	Added carouselMinimizedOpacity option for mootools = carousel label minimised opacity
+* Feature:	Added Featured Image capability for Image Management (main image and thumbnails)
+* Feature:	Custom DCG image sizes using add_image_size()
+* Feature:	Added option to add DCG Image sizes to Media Uploader screen, to insert DCG image sizes in posts
+* Feature:	Added carouselMinimizedOpacity option for mootools (carousel label minimised opacity)
 * Feature:	Added dfcg_before and dfcg_after hooks to dynamic_content_gallery() output
 * Feature:	Added dfcg_widget_before and dfcg_widget_after hooks to DCG Widget
 * Feature:	Added option to use Post Excerpt in Slide Pane descriptions
-* Feature:	Added manual link title attr for external links in DCG Metabox
-* Feature: 	Added Featured Image column in posts/pages Edit screen
+* Feature:	Added option to append Read More link to manual descriptions
+* Feature:	DCG Metabox overrides now handled better - just enter a URL to override Featured Image in DCG
+* Feature:	Added manual link title attribute for external links in DCG Metabox
+* Feature: 	Added Featured Image column in posts/pages Edit screen, in addition to Tools > DCG Image display
+* Feature:	DCG Image column now displays a thumbnail
+* Feature:	Adds theme support for post-thumbnails automatically, if theme doesn't already support it 
+* Enhance:	Main plugin file code reorganised, added init and setup functions hooked to plugins_loaded and after_setup_theme
+* Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
+* Enhance:	Settings page > General Tab, Key Settings output improved
+* Enhance:	V3.2 postmeta upgrade functionality has been removed completely
+* Enhance:	Settings page callback now uses Settings Error API for reset and image size change messages
+* Enhance:	Removed inline styles from dfcg-admin-metaboxes.php to match WP3.3 default admin styles
 * Enhance:	Image link title attribute uses post/page title or external link title, for accessibility
 * Enhance:	Changed Post Thumbnail support error message from error to warning
-* Enhance:	Gallery constructor functions now return output rather than echo
 * Enhance:	Added classes to <p> tags in slide pane descriptions
 * Enhance:	Added class="dfcg-desc-auto" to dfcg_content_limit() function output
 * Enhance:	dfcg_set_gallery_options() completely re-written
-* Enhance:	UI JS moved to new dfcg-ui-admin.js file
-* Enhance:	dfcg-admin-ui-js.php and contents deprecated
-* Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading admin JS and CSS
+* Enhance:	Now properly using wp_enqueue_script and wp_enqueue_style for loading all front-end JS and CSS
+* Enhance:	Now using admin_enqueue_scripts for loading admin JS and CSS
+* Enhance:	Gallery constructor functions now return output rather than echo
+* Enhance:	Multisite now tested with is_multisite() rather than function_exists('wpmu_create_blog')
 * Enhance:	Added DCG upgrade nag to DCG Settings page
-* Enhance:	Added new helper functions for admin messages - dfcg_version_messages() and dfcg_post_thumbnail_messages()
-* Enhance:	dfcg_admin_notice_reset() deprecated, replaced by dfcg_settings_reset()
-* Enhance:	dfcg_wp_version_check() deprecated, replaced by dfcg_checks()
-* Enhance:	dfcg_admin_notices() added - deals with version/post thumbnail messages
-* Enhance:	Settings page UI improved - sliding panels show/hide depending on selected options etc
-* Enhance:	Rewritten Help tab content in Settings page
-* Enhance:	Added new file dfcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
-* Enhance:	Settings page > General Tab, Key Settings output improved
+* Enhance:	Improved Help tab content in Settings page
 * Enhance:	Renamed the filters in dfcg_get_the_content_limit() function (added dfcg_ prefix)
-* Enhance:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
+* Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
 * Enhance:	Added DFCG_LIB_URL constant
 * Enhance:	Added DFCG_LIB_DIR constant
-* Enhance:	DFCG_DOMAIN constant now defined as dynamic_content_gallery
-* Enhance:	Added DFCG_LANG_DIR constant for location of plugin's languages folder
+* Enhance:	Added DFCG_LANG_DIR_REL constant for location of plugin's languages folder
 * Enhance:	Added DFCG_HOME constant
 * Enhance:	Added DFCG_NAME constant
-* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder
-* Enhance:	dfcg-gallery-constructors-jq.php renamed dfcg-constructors-jq-smooth.php
-* Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
-* Enhance:	dfcg-gallery-constructors.php renamed dfcg-constructors-mootools.php
-* Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed dfcg-constructors-jq-smooth.php
+* Enhance:	Deprecated DFCG_WP_VERSION_REQ constant - WP verson now handled in activation hook
+* Enhance:	Plugin URL's / Dir's now defined useing plugins_url() and plugin_dir_path()
+* Enhance:	Removed WP version and post-thumbnail validation checks (apart from version checks in dfcg_init() etc)
+* Enhance:	Added new file dcg-common-core.php for dfcg_baseimgurl() and dfcg_postmeta_info() functions
+* Enhance:	dfcg-gallery-constructors.php renamed to dcg-constructors-mootools.php
+* Enhance:	dfcg-gallery-constructors-jq-smooth.php renamed to dcg-constructors-jq-smooth.php
+* Enhance:	File/folder structure reorganised - all folders now in 'lib' folder - some files deprecated
+* Enhance:	All file prefixes changed to dcg- from dfcg-
+* Bug fix:	Removed deprecated -moz-opacity CSS from jdgallery.css
 * Bug fix:	DCG Metabox now appears on all CPT edit screens when ID Method is selected
 * Bug fix:	Fixed minor XHTML validation errors in Settings page (id's, inline styles, etc)
 * Bug fix:	Fixed PHP warnings in dfcg-widget.php
+* Bug fix:	Fixed CSS errors in jqsmooth CSS files
+* Bug fix:	Removed references to *load_textdomain* in PHP comments - to prevent Codestyling Local. plugin reporting an error!!!!
 
 = 3.3.5 =
 * Released	4 December 2010
