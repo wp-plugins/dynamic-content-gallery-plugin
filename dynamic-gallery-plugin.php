@@ -243,6 +243,30 @@ if( !defined( 'ABSPATH' ) ) {
 
 
 
+/** Set constants for plugin */
+define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/' );
+define( 'DFCG_URL', 			plugins_url( 'dynamic-content-gallery-plugin' ) );
+define( 'DFCG_DIR', 			plugin_dir_path( __FILE__ ) );
+define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
+define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
+define( 'DFCG_LANG_DIR_REL', 	'/dynamic-content-gallery-plugin/languages' );
+
+define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
+define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
+
+define( 'DFCG_VER', 			'4.0' );
+define( 'DFCG_WP_VERSION_REQ', 	'3.3' );
+
+define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
+define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
+define( 'DFCG_FILE_NAME', 		'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
+define( 'DFCG_FILE_HOOK', 		'dynamic_content_gallery' );
+define( 'DFCG_PAGEHOOK', 		'settings_page_' . DFCG_FILE_HOOK );
+
+define( 'DFCG_SHORTNAME',		'dfcg' );
+
+	
+
 register_activation_hook( __FILE__, 'dfcg_activation' );
 /**
  * Check that that the minimum WP version is installed
@@ -253,16 +277,16 @@ register_activation_hook( __FILE__, 'dfcg_activation' );
  * @since 4.0
  */
 function dfcg_activation() {
-
-	$wp_version_required = '3.3';
 	
-	$wp_valid = version_compare( get_bloginfo( "version" ), $wp_version_required, '>=' );
+	$wp_valid = version_compare( get_bloginfo( "version" ), DFCG_WP_VERSION_REQ, '>=' );
 	
 	if ( ! $wp_valid ) {
         
         deactivate_plugins( plugin_basename( __FILE__ ) ); /** Deactivate ourself */
+        
+        $message = sprintf( __('Sorry, this version of the Dynamic Content Gallery plugin requires WordPress %s or greater.' ), DFCG_WP_VERSION_REQ );
 		
-		wp_die( sprintf( __('Sorry, this version of the Dynamic Content Gallery plugin requires WordPress %s or greater. <br /><a href="%s">Go back to the Dashboard > Plugins screen</a>.' ), $wp_version_required, network_admin_url() . '/plugins.php' ) );
+		wp_die( $message, 'Dynamic Content Gallery plugin', array( 'back_link' => true ) );
 	}
 }
 
@@ -271,37 +295,12 @@ add_action( 'plugins_loaded', 'dfcg_init' );
 /**
  * Initialises plugin
  *
- * - defines constants
  * - includes plugin files
  * - registers add_action hooks
  *
  * @since 4.0
  */
 function dfcg_init() {
-
-	/** Set constants for plugin */
-	define( 'DFCG_HOME', 			'http://www.studiograsshopper.ch/dynamic-content-gallery/' );
-	define( 'DFCG_URL', 			plugins_url( 'dynamic-content-gallery-plugin' ) );
-	define( 'DFCG_DIR', 			plugin_dir_path( __FILE__ ) );
-	define( 'DFCG_LIB_URL', 		DFCG_URL . '/lib' );
-	define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
-	define( 'DFCG_LANG_DIR_REL', 	'/dynamic-content-gallery-plugin/languages' );
-
-	define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
-	define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
-
-	define( 'DFCG_VER', 			'4.0' );
-	define( 'DFCG_WP_VERSION_REQ', 	'3.3' );
-
-	define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
-	define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
-	define( 'DFCG_FILE_NAME', 		'dynamic-content-gallery-plugin/dynamic-gallery-plugin.php' );
-	define( 'DFCG_FILE_HOOK', 		'dynamic_content_gallery' );
-	define( 'DFCG_PAGEHOOK', 		'settings_page_' . DFCG_FILE_HOOK );
-
-	define( 'DFCG_SHORTNAME',		'dfcg' );
-
-
 
 	/** Set up variables needed throughout the plugin */
 	
