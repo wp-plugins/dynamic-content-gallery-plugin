@@ -332,18 +332,18 @@ function dfcg_init() {
 		include_once( DFCG_LIB_DIR . '/includes/dcg-gallery-core.php' );
 	
 		if( $dfcg_options['scripts'] == 'mootools' ) {
-			include_once( DFCG_MOOTOOLS_DIR . '/dcg-gallery-mootools.php' );
-			include_once( DFCG_MOOTOOLS_DIR . '/dcg-constructors-mootools.php' );
+			include_once( DFCG_MOOTOOLS_DIR . '/dcg-mootools-functions.php' );
+			include_once( DFCG_MOOTOOLS_DIR . '/dcg-mootools-constructors.php' );
 		}
 		
 		if( $dfcg_options['scripts'] == 'jqsmooth' ) {
-			include_once( DFCG_JQSMOOTH_DIR . '/dcg-gallery-jqsmooth.php' );
-			include_once( DFCG_JQSMOOTH_DIR . '/dcg-constructors-jqsmooth.php' );
+			include_once( DFCG_JQSMOOTH_DIR . '/dcg-jqsmooth-functions.php' );
+			include_once( DFCG_JQSMOOTH_DIR . '/dcg-jqsmooth-constructors.php' );
 		}
 		
 		if( $dfcg_options['scripts'] == 'flexslider' ) {
-			include_once( DFCG_FLEX_DIR . '/dcg-gallery-flexslider.php' );
-			include_once( DFCG_FLEX_DIR . '/dcg-constructors-flexslider.php' );
+			include_once( DFCG_FLEX_DIR . '/dcg-flexslider-functions.php' );
+			include_once( DFCG_FLEX_DIR . '/dcg-flexslider-constructors.php' );
 		}
 	
 		if( $dfcg_options['errors'] == 'true' ) {
