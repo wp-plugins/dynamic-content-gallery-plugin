@@ -53,7 +53,7 @@ function dfcg_load_user_jqsmooth() {
 	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin dynamic CSS -->', DFCG_VER );
 	
 	// Add user-defined CSS set in Settings page
-	include_once( DFCG_JQSMOOTH_DIR .'/dcg-gallery-jqsmooth-styles.php'  );
+	include_once( DFCG_JQSMOOTH_DIR .'/dcg-jqsmooth-styles.php'  );
 	
 	echo '<!-- End of Dynamic Content Gallery dynamic CSS -->' . "\n\n";
 }

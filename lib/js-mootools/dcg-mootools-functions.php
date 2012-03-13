@@ -56,7 +56,7 @@ function dfcg_load_user_mootools() {
 	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin scripts and dynamic CSS -->', DFCG_VER );
 	
 	// Add user defined CSS
-	include_once( DFCG_MOOTOOLS_DIR . '/dcg-gallery-mootools-styles.php' );
+	include_once( DFCG_MOOTOOLS_DIR . '/dcg-mootools-styles.php' );
 	
 	// Add JS function call to gallery
 	echo "\n" . '<script type="text/javascript">
