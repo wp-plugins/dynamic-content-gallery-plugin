@@ -252,11 +252,11 @@ define( 'DFCG_LIB_DIR', 		DFCG_DIR . '/lib' );
 define( 'DFCG_LANG_DIR_REL', 	'/dynamic-content-gallery-plugin/languages' );
 
 define( 'DFCG_MOOTOOLS_URL', 	DFCG_URL . '/lib/js-mootools' );
-define( 'DFCG_JQSMOOTH_URL', 	DFCG_URL . '/lib/js-jquery-smooth' );
+define( 'DFCG_JQSMOOTH_URL', 	DFCG_URL . '/lib/js-jqsmooth' );
 define( 'DFCG_FLEX_URL', 		DFCG_URL . '/lib/js-flexslider' );
 
 define( 'DFCG_MOOTOOLS_DIR', 	DFCG_DIR . '/lib/js-mootools' );
-define( 'DFCG_JQSMOOTH_DIR', 	DFCG_DIR . '/lib/js-jquery-smooth' );
+define( 'DFCG_JQSMOOTH_DIR', 	DFCG_DIR . '/lib/js-jqsmooth' );
 define( 'DFCG_FLEX_DIR', 		DFCG_DIR . '/lib/js-flexslider' );
 
 define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
@@ -338,7 +338,7 @@ function dfcg_init() {
 		
 		if( $dfcg_options['scripts'] == 'jqsmooth' ) {
 			include_once( DFCG_JQSMOOTH_DIR . '/dcg-gallery-jqsmooth.php' );
-			include_once( DFCG_JQSMOOTH_DIR . '/dcg-constructors-jq-smooth.php' );
+			include_once( DFCG_JQSMOOTH_DIR . '/dcg-constructors-jqsmooth.php' );
 		}
 		
 		if( $dfcg_options['scripts'] == 'flexslider' ) {
