@@ -55,6 +55,9 @@ if( !defined( 'ABSPATH' ) ) {
  * @uses dfcg_jq_multioption_method_gallery()
  * @uses dfcg_jq_onecategory_method_gallery()
  * @uses dfcg_jq_id_method_gallery()
+ * @uses dfcg_flex_multioption_method_gallery()
+ * @uses dfcg_flex_onecategory_method_gallery()
+ * @uses dfcg_flex_id_method_gallery()
  *
  * @global array $dfcg_options Plugin options from db
  * @return echos out gallery markup and content
@@ -90,6 +93,21 @@ function dynamic_content_gallery() {
 		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
 			// Populate method = PAGES
 			$output = dfcg_jq_id_method_gallery();
+		}
+		
+	} elseif( $dfcg_options['scripts'] == 'flexslider' ) {
+	
+		if( $dfcg_options['populate-method'] == 'multi-option' ) {
+			// Populate method = MULTI-OPTION
+			$output = dfcg_flex_multioption_method_gallery();
+	
+		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
+			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
+			$output = dfcg_flex_onecategory_method_gallery();
+
+		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
+			// Populate method = PAGES
+			$output = dfcg_flex_id_method_gallery();
 		}
 
 	} else {
@@ -208,166 +226,6 @@ function dfcg_enqueue_helper( $scripts ) {
 	if( $scripts == 'jqsmooth' )
 		add_action( 'wp_footer', 'dfcg_load_user_js_' . $scripts, 100 );
 } 
-
-
-
-/**
- * Enqueue mootools smoothgallery CSS and JS files
- *
- * Hooked to 'wp_enqueue_scripts' in dfcg_enqueue_scripts_css()
- *
- * @since 4.0
- */
-function dfcg_load_mootools() {
-
-	global $dfcg_options;
-	
-	wp_enqueue_style( 'dcg-mootools', DFCG_LIB_URL . '/js-mootools/css/jd.gallery.css', false, DFCG_VER, 'all' );
-	
-	if( $dfcg_options['mootools'] !== '1' ) {
-		wp_enqueue_script( 'dcg-mootools-core', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4-core-jm.js', false, DFCG_VER );
-		wp_enqueue_script( 'dcg-mootools-more', DFCG_LIB_URL . '/js-mootools/scripts/mootools-1.2.4.4-more.js', false, DFCG_VER );
-	}
-	wp_enqueue_script( 'dcg-mootools-js', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery_1_2_4_4.js', false, DFCG_VER );
-	wp_enqueue_script( 'dcg-mootools-trans', DFCG_LIB_URL . '/js-mootools/scripts/jd.gallery.transitions_1_2_4_4.js', false, DFCG_VER );
-}
-
-
-/**
- * Load mootools user-defined js and CSS (with dynamic content from db options)
- *
- * Hooked to 'wp_head'
- *
- * @since 4.0
- *
- * @global $dfcg_options array DCG options from database
- */
-function dfcg_load_user_mootools() {
-
-	global $dfcg_options;
-	
-	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin scripts and dynamic CSS -->', DFCG_VER );
-	
-	// Add user defined CSS
-	include_once( DFCG_LIB_DIR . '/includes/dcg-gallery-mootools-styles.php' );
-	
-	// Add JS function call to gallery
-	echo "\n" . '<script type="text/javascript">
-   function startGallery() {
-      var myGallery = new gallery($("myGallery"), {
-	  showArrows: '. $dfcg_options['showArrows'] .',
-	  showCarousel: '. $dfcg_options['showCarousel'] .',
-	  showInfopane: '. $dfcg_options['showInfopane'] .',
-	  timed: '. $dfcg_options['timed'] .',
-	  delay: '. $dfcg_options['delay'] .',
-	  defaultTransition: "'. $dfcg_options['defaultTransition'] .'",
-	  slideInfoZoneOpacity: '. $dfcg_options['slideInfoZoneOpacity'] .',
-	  slideInfoZoneSlide: '. $dfcg_options['slideInfoZoneSlide'] .',
-	  carouselMinimizedOpacity: '. $dfcg_options['carouselMinimizedOpacity'] .',
-	  textShowCarousel: "'. $dfcg_options['textShowCarousel'] .'"
-      });
-   }
-   window.addEvent("domready",startGallery);
-</script>' . "\n";
-	
-	echo '<!-- End of Dynamic Content Gallery scripts and dynamic CSS -->' . "\n\n";
-}
-
-
-
-/**
- * Enqueue jQuery Smooth JS and CSS
- *
- * Hooked to 'wp_enqueue_scripts'
- *
- * Note: js file is enqueued to the footer, jQuery is enqueued to the head
- *
- * @since 4.0
- */
-function dfcg_load_jqsmooth() {
-	
-	wp_enqueue_style( 'dcg-jqsmooth-css', DFCG_LIB_URL . '/js-jquery-smooth/css/dcg-jquery-smooth.css', false, DFCG_VER, 'all' );
-	
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'dcg-jqsmooth', DFCG_LIB_URL . '/js-jquery-smooth/scripts/dcg-jq-script.min.js', false, DFCG_VER, true );	
-
-}
-
-/**
- * Load jQuery Smooth dynamic CSS
- * 
- * Hooked to 'wp_head'
- *
- * @since 4.0
- *
- * @global $dfcg_options array DCG options from database
- */
-function dfcg_load_user_jqsmooth() {
-
-	global $dfcg_options;
-	
-    // Add user-defined CSS files
-	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Begin dynamic CSS -->', DFCG_VER );
-	
-	// Add user-defined CSS set in Settings page
-	include_once( DFCG_LIB_DIR .'/includes/dcg-gallery-jquery-smooth-styles.php'  );
-	
-	echo '<!-- End of Dynamic Content Gallery dynamic CSS -->' . "\n\n";
-}
-
-
-/**
- * Load jQuery Smooth js function call (with dynamic params)
- *
- * Hooked to 'wp_footer' with very low priority to make sure it loads after the main js file
- *
- * @since 4.0
- *
- * @global $dfcg_options array DCG options from database
- */
-function dfcg_load_user_js_jqsmooth() {
-	
-	global $dfcg_options;
-	
-	printf( "\n" . '<!-- Dynamic Content Gallery plugin version %s www.studiograsshopper.ch  Add jQuery smoothSlideshow scripts -->' . "\n", DFCG_VER );
-		
-	echo '<script type="text/javascript">
-		jQuery("#dfcg-slideshow").smoothSlideshow("#dfcg-wrapper", {
-			showArrows: '. $dfcg_options['showArrows'] .',
-			showCarousel: '. $dfcg_options['showCarousel'] .',
-			showInfopane: '. $dfcg_options['showInfopane'] .',
-			timed: '. $dfcg_options['timed'] .',
-			delay: '. $dfcg_options['delay'] .',
-			thumbScrollSpeed:4,
-			preloader: true,
-			preloaderImage: true,
-			preloaderErrorImage: true,
-			elementSelector: "li",
-			imgContainer:"#dfcg-image",
-			imgPrevBtn:"#dfcg-imgprev",
-			imgNextBtn:"#dfcg-imgnext",
-			imgLinkBtn:"#dfcg-imglink",
-			titleSelector: "h3",
-			subtitleSelector: "p",
-			linkSelector: "a",
-			imageSelector: "img.full",
-			thumbnailSelector: "img.thumbnail",
-			carouselContainerSelector: "#dfcg-thumbnails",
-			thumbnailContainerSelector: "#dfcg-slider",
-			thumbnailInfoSelector: "#dfcg-sliderInfo",
-			carouselSlideDownSelector: "#dfcg-openGallery",
-			carouselSlideDownSpeed: 500,
-			infoContainerSelector:"#dfcg-text",
-			borderActive:"#fff",
-			slideInfoZoneOpacity: '. $dfcg_options['slideInfoZoneOpacity'] .',
-			carouselOpacity: 0.3,
-			thumbSpacing: 10,
-			slideInfoZoneStatic: '. $dfcg_options['slideInfoZoneStatic'] .'
-		});
-		</script>';
-	
-	echo "\n" . '<!-- End of Dynamic Content Gallery plugin scripts -->' . "\n\n";
-}
 
 
 
