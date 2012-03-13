@@ -64,11 +64,11 @@ if( !defined( 'ABSPATH' ) ) {
 	}
 	
 #dfcg-imgprev {
-	background:url(<?php echo DFCG_LIB_URL . '/js-jquery-smooth/css/images/fleche1.png'; ?>) left center no-repeat;
+	background:url(<?php echo DFCG_JQSMOOTH_URL . '/css/images/fleche1.png'; ?>) left center no-repeat;
 	}
 	
 #dfcg-imgnext {
-	background:url(<?php echo DFCG_LIB_URL . '/js-jquery-smooth/css/images/fleche2.png'; ?>) right center no-repeat;
+	background:url(<?php echo DFCG_JQSMOOTH_URL . '/css/images/fleche2.png'; ?>) right center no-repeat;
 	}
 		
 #dfcg-slidearea {
