@@ -253,11 +253,9 @@ define( 'DFCG_LANG_DIR_REL', 	'/dynamic-content-gallery-plugin/languages' );
 
 define( 'DFCG_MOOTOOLS_URL', 	DFCG_URL . '/lib/js-mootools' );
 define( 'DFCG_JQSMOOTH_URL', 	DFCG_URL . '/lib/js-jqsmooth' );
-define( 'DFCG_FLEX_URL', 		DFCG_URL . '/lib/js-flexslider' );
 
 define( 'DFCG_MOOTOOLS_DIR', 	DFCG_DIR . '/lib/js-mootools' );
 define( 'DFCG_JQSMOOTH_DIR', 	DFCG_DIR . '/lib/js-jqsmooth' );
-define( 'DFCG_FLEX_DIR', 		DFCG_DIR . '/lib/js-flexslider' );
 
 define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
 define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
@@ -339,11 +337,6 @@ function dfcg_init() {
 		if( $dfcg_options['scripts'] == 'jqsmooth' ) {
 			include_once( DFCG_JQSMOOTH_DIR . '/dcg-jqsmooth-functions.php' );
 			include_once( DFCG_JQSMOOTH_DIR . '/dcg-jqsmooth-constructors.php' );
-		}
-		
-		if( $dfcg_options['scripts'] == 'flexslider' ) {
-			include_once( DFCG_FLEX_DIR . '/dcg-flexslider-functions.php' );
-			include_once( DFCG_FLEX_DIR . '/dcg-flexslider-constructors.php' );
 		}
 	
 		if( $dfcg_options['errors'] == 'true' ) {

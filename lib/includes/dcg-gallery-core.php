@@ -55,9 +55,6 @@ if( !defined( 'ABSPATH' ) ) {
  * @uses dfcg_jq_multioption_method_gallery()
  * @uses dfcg_jq_onecategory_method_gallery()
  * @uses dfcg_jq_id_method_gallery()
- * @uses dfcg_flex_multioption_method_gallery()
- * @uses dfcg_flex_onecategory_method_gallery()
- * @uses dfcg_flex_id_method_gallery()
  *
  * @global array $dfcg_options Plugin options from db
  * @return echos out gallery markup and content
@@ -93,21 +90,6 @@ function dynamic_content_gallery() {
 		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
 			// Populate method = PAGES
 			$output = dfcg_jq_id_method_gallery();
-		}
-		
-	} elseif( $dfcg_options['scripts'] == 'flexslider' ) {
-	
-		if( $dfcg_options['populate-method'] == 'multi-option' ) {
-			// Populate method = MULTI-OPTION
-			$output = dfcg_flex_multioption_method_gallery();
-	
-		} elseif( $dfcg_options['populate-method'] == 'one-category' || $dfcg_options['populate-method'] == 'custom-post' ) {
-			// Populate method = ONE CATEGORY or CUSTOM POST TYPE
-			$output = dfcg_flex_onecategory_method_gallery();
-
-		} elseif( $dfcg_options['populate-method'] == 'id-method' ) {
-			// Populate method = PAGES
-			$output = dfcg_flex_id_method_gallery();
 		}
 
 	} else {
