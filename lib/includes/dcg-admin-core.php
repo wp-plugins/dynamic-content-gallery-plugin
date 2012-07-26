@@ -1009,10 +1009,10 @@ function dfcg_set_gallery_options() {
 		
 		// Fix error re defimgpages in WPMS, replace defimgpages with defimgid
 		// For some reason, this was missed in previous upgrades
-		if( $existing_opts['defimgpages'] ) {
-			$new_opts['defimgid'] = '';
-			unset( $existing_opts['defimgpages'] );
-		}
+		//if( isset( $existing_opts['defimgpages'] ) ) {
+		//	$new_opts['defimgid'] = '';
+		//	unset( $existing_opts['defimgpages'] );
+		//}
 		
 		// Add 1 new, and reassign values to it = 87
 		$new_opts['defimgfolder'] = '';
