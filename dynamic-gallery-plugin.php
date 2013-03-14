@@ -432,7 +432,7 @@ add_action( 'after_setup_theme', 'dfcg_setup' );
  */
 function dfcg_setup() {
 
-	global $dfcg_options;
+	global $dfcg_options, $dfcg_main_hard, $dfcg_main_boxr;
 	
 	add_theme_support( 'dynamic-content-gallery', $dfcg_options['scripts'] );
 	
