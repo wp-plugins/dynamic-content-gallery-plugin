@@ -9,7 +9,7 @@ Description: Creates a dynamic gallery of images for latest or featured content 
 */
 
 
-/***** Copyright 2008-2012  Ade WALKER  (email : info@studiograsshopper.ch) *****/
+/***** Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch) *****/
 
 
 /***** License information *****
@@ -261,7 +261,7 @@ define( 'DFCG_ERRORIMGURL', 	DFCG_LIB_URL . '/error-img/error.jpg' );
 define( 'DFCG_TIP_URL',			DFCG_LIB_URL . '/admin-css-js/cluetip/images' );
 
 define( 'DFCG_VER', 			'4.0' );
-define( 'DFCG_WP_VERSION_REQ', 	'3.3' );
+define( 'DFCG_WP_VERSION_REQ', 	'3.5' );
 
 define( 'DFCG_NAME', 			'Dynamic Content Gallery' );
 define( 'DFCG_DOMAIN', 			'dynamic_content_gallery' );
@@ -447,19 +447,10 @@ function dfcg_setup() {
 	// these values in the DCG Settings page.
 
 	// Set main gallery image sizes
-	$dfcg_main_hard = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_true';
-	$dfcg_main_boxr = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_false';
+	$dfcg_main_hard = 'DCG_Main_hc';
+	$dfcg_main_boxr = 'DCG_Main_br';
 
-	add_image_size( 'DCG_Thumb_100x75_true', 100, 75, true );
+	add_image_size( 'DCG_Thumb', 100, 75, true );
 	add_image_size( $dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true );
 	add_image_size( $dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false );
 }
-
-
-// Set main gallery image sizes
-	//$dfcg_main_hard = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_true';
-	//$dfcg_main_boxr = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_false';
-//add_image_size( 'DCG Test', 180, 75, true ); // test
-//	add_image_size( 'DCG_Thumb_100x75_true', 100, 75, true );
-	//add_image_size( $dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true );
-	//add_image_size( $dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false );

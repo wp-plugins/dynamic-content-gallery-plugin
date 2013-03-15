@@ -7,8 +7,8 @@ Plugin page: http://www.studiograsshopper.ch/dynamic-content-gallery/
 Contributors: studiograsshopper
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10131319
 Tags: gallery,images,posts,rotator,content-slider
-Requires at least: 3.3
-Tested up to: 3.3
+Requires at least: 3.5
+Tested up to: 3.5.1
 Stable tag: 3.3.5
 
 Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Types.
@@ -18,7 +18,6 @@ Creates a dynamic gallery of images for latest or featured content posts, catego
 
 This plugin creates a dynamic gallery of images for latest and/or featured content using either the JonDesign SmoothGallery script for mootools, or a custom jQuery script.  The plugin dynamically creates the gallery from your latest and/or featured content by either automatically pulling in the Featured Image from relevant Posts/Pages, or by manually specifying image URLs in a DCG Metabox in the Write screen for the relevant Posts/Pages. Additionally, default images can be displayed in the event that Posts/Pages don't have Featured Image or manually specified image. A Dashboard Settings page gives access to a comprehensive range of options for populating the gallery and configuring its look and behaviour. The DCG can be added to your theme as a Widget, or by using a template tag. 
 
-For best results, make sure that your theme supports Post Thumbnails, introduced in WP 2.9.
 
 Compatible with network-enabled (multisite) WordPress 3.0+, though available plugin options are slightly reduced.
 
@@ -91,7 +90,7 @@ Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-c
 
 **Upgrading from version 2.2, 3.0, 3.1**
 ----------------------------------------
-Not possible - there is no upgrade path from these ancient versions. 
+Not possible - there is no upgrade path from these ancient versions. There deactivate and delete the old version and install the current version from [here](http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/)
 
 
 
@@ -189,8 +188,6 @@ There are no known issues as such, but there are some behaviours which you shoul
 1. Javascript conflicts.  By default the plugin uses SmoothGallery which is built on the Mootools javascript framework.  This framework may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, and you are unable to resolve the conflict, try using the supplied jQuery script instead, which you can select in the plugin's Settings page.
 
 2. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
-
-3. To benefit from the new Featured Images option your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
 
 If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
 

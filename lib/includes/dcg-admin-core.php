@@ -3,7 +3,7 @@
  * Admin Core functions - this is the parent file that handles all the backend
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2012
+ * @copyright Copyright 2008-2013
  * @package dynamic_content_gallery
  * @version 4.0
  *
@@ -395,11 +395,13 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	
 	if( $dfcg_options['add-media-sizes'] == 'false' ) return $sizes;
 	
-	$hard = str_replace('_', ' ', $dfcg_main_hard);
-	$sizes[$dfcg_main_hard] = $hard . ' hc';
+	//$hard = str_replace('_', ' ', $dfcg_main_hard);
+	$sizes[$dfcg_main_hard] = str_replace('_', ' ', $dfcg_main_hard);
+	//$sizes[$dfcg_main_hard] = $hard . ' hc';
 	
-	$boxr = str_replace('_', ' ', $dfcg_main_boxr);
-	$sizes[$dfcg_main_boxr] = $boxr. ' br';
+	//$boxr = str_replace('_', ' ', $dfcg_main_boxr);
+	$sizes[$dfcg_main_boxr] = str_replace('_', ' ', $dfcg_main_boxr);
+	//$sizes[$dfcg_main_boxr] = $boxr. ' br';
 	
 	return $sizes;
 }

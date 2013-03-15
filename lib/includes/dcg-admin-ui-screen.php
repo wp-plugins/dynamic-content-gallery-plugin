@@ -5,7 +5,7 @@
  * This file is included by dfcg_options_page() which is hooked to admin_menu
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2012
+ * @copyright Copyright 2008-2013
  * @package dynamic_content_gallery
  * @version 4.0
  *

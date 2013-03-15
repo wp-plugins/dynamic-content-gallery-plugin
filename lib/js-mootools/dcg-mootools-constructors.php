@@ -3,7 +3,7 @@
  * Front-end - These are the constructor functions which produce the XHTML markup when using Mootools
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2012
+ * @copyright Copyright 2008-2013
  * @package dynamic_content_gallery
  * @version 4.0
  *

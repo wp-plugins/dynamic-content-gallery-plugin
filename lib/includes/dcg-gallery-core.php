@@ -3,7 +3,7 @@
  * Front-end - These are the core front end functions for producing the gallery in the browser
  *
  * @author Ade WALKER  (email : info@studiograsshopper.ch)
- * @copyright Copyright 2008-2012
+ * @copyright Copyright 2008-2013
  * @package dynamic_content_gallery
  * @version 4.0
  *
