@@ -396,10 +396,10 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	if( $dfcg_options['add-media-sizes'] == 'false' ) return $sizes;
 	
 	$hard = str_replace('_', ' ', $dfcg_main_hard);
-	$sizes[$dfcg_main_hard] = $hard . ' (hard crop)';
+	$sizes[$dfcg_main_hard] = $hard . ' hc';
 	
 	$boxr = str_replace('_', ' ', $dfcg_main_boxr);
-	$sizes[$dfcg_main_boxr] = $boxr. ' (box resize)';
+	$sizes[$dfcg_main_boxr] = $boxr. ' br';
 	
 	return $sizes;
 }

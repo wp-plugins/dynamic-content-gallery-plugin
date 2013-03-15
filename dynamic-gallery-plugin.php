@@ -454,3 +454,12 @@ function dfcg_setup() {
 	add_image_size( $dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true );
 	add_image_size( $dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false );
 }
+
+
+// Set main gallery image sizes
+	//$dfcg_main_hard = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_true';
+	//$dfcg_main_boxr = 'DCG_Main_' . $dfcg_options['gallery-width'] . 'x' . $dfcg_options['gallery-height'] . '_false';
+//add_image_size( 'DCG Test', 180, 75, true ); // test
+//	add_image_size( 'DCG_Thumb_100x75_true', 100, 75, true );
+	//add_image_size( $dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true );
+	//add_image_size( $dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false );
