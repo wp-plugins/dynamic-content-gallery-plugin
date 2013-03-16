@@ -432,7 +432,7 @@ add_action( 'after_setup_theme', 'dfcg_setup' );
  */
 function dfcg_setup() {
 
-	global $dfcg_options, $dfcg_main_hard, $dfcg_main_boxr;
+	global $dfcg_options, $dfcg_main_hard, $dfcg_thumb_hard, $dfcg_main_boxr;
 	
 	add_theme_support( 'dynamic-content-gallery', $dfcg_options['scripts'] );
 	
@@ -447,10 +447,11 @@ function dfcg_setup() {
 	// these values in the DCG Settings page.
 
 	// Set main gallery image sizes
+	$dfcg_thumb_hard = 'DCG_Thumb';
 	$dfcg_main_hard = 'DCG_Main_hc';
 	$dfcg_main_boxr = 'DCG_Main_br';
 
-	add_image_size( 'DCG_Thumb', 100, 75, true );
+	add_image_size( $dfcg_thumb_hard, 100, 75, true );
 	add_image_size( $dfcg_main_hard, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], true );
 	add_image_size( $dfcg_main_boxr, $dfcg_options['gallery-width'], $dfcg_options['gallery-height'], false );
 }

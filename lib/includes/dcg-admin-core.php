@@ -391,9 +391,11 @@ function dfcg_upgrade_nag() {
  */
 function dfcg_filter_image_size_names_muploader( $sizes ) {
 	
-	global $dfcg_main_hard, $dfcg_main_boxr, $dfcg_options;
+	global $dfcg_main_hard, $dfcg_main_boxr, $dfcg_thumb_hard, $dfcg_options;
 	
 	if( $dfcg_options['add-media-sizes'] == 'false' ) return $sizes;
+	
+	$sizes[$dfcg_thumb_hard] = str_replace('_', ' ', $dfcg_thumb_hard);
 	
 	//$hard = str_replace('_', ' ', $dfcg_main_hard);
 	$sizes[$dfcg_main_hard] = str_replace('_', ' ', $dfcg_main_hard);
@@ -403,7 +405,7 @@ function dfcg_filter_image_size_names_muploader( $sizes ) {
 	$sizes[$dfcg_main_boxr] = str_replace('_', ' ', $dfcg_main_boxr);
 	//$sizes[$dfcg_main_boxr] = $boxr. ' br';
 	
-	return $sizes;
+	return apply_filters( 'dcg_image_size_names_choose', $sizes );
 }
 
 
