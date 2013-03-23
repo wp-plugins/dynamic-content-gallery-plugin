@@ -63,7 +63,7 @@ Comprehensive information on installing, configuring and using the plugin can be
 * [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
 * [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
-All support is handled at the [Studiograsshopper Forum](http://www.studiograsshopper.ch/forum/). I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
+All support is handled at the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).
 
 
 == Installation ==
@@ -165,7 +165,7 @@ This plugin is provided free of charge without warranty.  In the event you exper
 * [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
 * [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
-If, having referred to the above resources, you still need assistance, visit the support page at http://www.studiograsshopper.ch/forum/.  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible. I do not have time to monitor the wordpress.org forums, therefore please post any questions on my site's forum.
+If, having referred to the above resources, you still need assistance, you can post a question on the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible.
 
 Thanks for downloading the plugin.  Enjoy!
 
