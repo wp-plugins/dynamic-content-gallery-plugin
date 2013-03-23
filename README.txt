@@ -183,7 +183,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 5. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
 
-If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
+If you find any bugs, or have suggestions for future features, please leave a message on the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).
 
 
 
