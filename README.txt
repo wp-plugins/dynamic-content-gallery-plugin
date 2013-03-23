@@ -189,7 +189,7 @@ There are no known issues as such, but there are some behaviours which you shoul
 
 2. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
 
-If you find any bugs, or have suggestions for future features, please leave a message on the [Support Forum](http://www.studiograsshopper.ch/forum/).
+If you find any bugs, or have suggestions for future features, please leave a message on the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).
 
 
 
