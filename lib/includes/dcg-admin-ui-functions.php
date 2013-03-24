@@ -1373,7 +1373,7 @@ function dfcg_ui_credits() {
 			<a class="off-site" target="_blank" href="<?php echo DFCG_HOME; ?>error-messages/"><?php _e('Error Messages', DFCG_DOMAIN); ?></a>
 		</p>
 		<p><?php _e('The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by', DFCG_DOMAIN); ?> <a href="http://smoothgallery.jondesign.net/">Jonathan Schemoul</a> <?php _e('and a custom jQuery script developed by', DFCG_DOMAIN); ?> Maxim Palianytsia, <?php _e('and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Maxim and Jason.', DFCG_DOMAIN); ?></p> 
-		<p><?php _e('Dynamic Content Gallery plugin for WordPress and WordPress MultiSite', DFCG_DOMAIN); ?>&nbsp;&copy;&nbsp;2008-2011 <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
+		<p><?php _e('Dynamic Content Gallery plugin for WordPress', DFCG_DOMAIN); ?>&nbsp;&copy;&nbsp;2008-2013 <a href="http://www.studiograsshopper.ch/">Ade Walker</a>&nbsp;&nbsp;&nbsp;<strong><?php _e('Version: ', DFCG_DOMAIN); ?><?php echo DFCG_VER; ?></strong></p>      
 		
 	</div><!-- end .dfcg-credits -->
 <?php }
