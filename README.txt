@@ -55,7 +55,9 @@ All support is handled at the [plugin's WordPress.org Support Forum](http://word
 
 
 **Installing for the FIRST TIME**
---------------------------------------------
+---------------------------------
+
+Either use the WordPress Plugin Installer (Dashboard > Plugins > Add New, then search for "dynamic content gallery"), or manually as follows:
 
 1. Download the latest version of the plugin to your computer.
 2. Extract and upload the folder *dynamic-content-gallery-plugin* to your */wp-content/plugins/* directory. Please ensure that you do not rename any folder or filenames in the process.
@@ -78,6 +80,91 @@ Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-c
 Follow the upgrade instructions [here](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_43).
 Version 3.2 introduced some changes to the handling of Custom Fields dfcg-desc, dfcg-image and dfcg-link, which requires existing Custom Field data to be upgraded. The first time you visit the plugin's Settings page after upgrading from version 3.1 or earlier, you will be prompted to perform this Custom Field upgrade. Follow the on-screen instructions to perform this upgrade. Further information regarding this Custom Field upgrade can be found [here](http://www.studiograsshopper.ch/wordpress-plugins/dynamic-content-gallery-v3-2-released/). 
 
+
+
+== Frequently Asked Questions ==
+
+**How does it work?**
+---------------------
+The plugin provides four ways to populate the gallery:
+
+* Multi Option: user-definable combination of categories and Posts to display up to 9 images
+* One Category: display up to 15 images from one selected category
+* ID: designed for Pages, this method can also be used for mixing Pages and Posts in the gallery.
+* Custom Post Type: display up to 15 images from one selected Custom Post Type
+
+Image file management settings provide comprehensive options for how images are referenced, either by Auto, Full URL or Partial URL options.
+
+Default images can be defined for each category (One Category and Multi Option display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in WordPress Multisite).
+
+There are a wide range of CSS and javascript Settings for configuring the look and behaviour of the gallery.
+
+The plugin is supplied with an updated version of the original Smoothgallery mootools script and a jQuery alternative, selectable via the plugin's Settings page.
+
+
+**Where can I get Support?**
+----------------------------
+
+Further information about setting up and using the plugin can be found here:
+
+* [Dynamic Content Gallery home page](http://www.studiograsshopper.ch/dynamic-content-gallery/)
+* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
+* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
+* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
+* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
+
+If, having read the information linked to above, you cannot solve your issue, or if you find a bug, you can post a message on the plugin's [Support Forum](http://wordpress.org/extend/plugins/serial-posts/).
+
+Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible.
+
+
+**Troubleshooting**
+-------------------
+
+In the event of problems with the plugin, refer to the Resources listed above.
+
+Use the in-built Error messages (printed to the page source as HTML comments) for information about configuration errors and guidance on how to fix them.
+
+
+**Known Issues**
+----------------
+
+There are no known issues as such, but there are some behaviours which you should be aware of.  The tips mentioned below are a good place to start in the event that you experience a problem with the plugin.
+
+1. Javascript conflicts.  By default the plugin uses SmoothGallery which is built on the Mootools javascript framework.  This framework may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, and you are unable to resolve the conflict, try using the supplied jQuery script instead, which you can select in the plugin's Settings page.
+
+2. Known conflicts: A list of plugins which are known to conflict with the mootools gallery script can be found at http://www.studiograsshopper.ch/forum/
+
+3. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
+
+4. In order to reduce loading time it is recommended to match your image dimensions to the visible dimensions of the gallery and optimise the filesize in your image editor.
+
+5. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
+
+
+**Can I Donate?**
+-----------------
+Yes, of course you can! If you have found the plugin useful, please consider a Donation to help me continue to invest the time and effort in maintaining and improving this plugin. You can find a link in the plugin's Settings page. Donations are welcome and much appreciated. Thanks!
+
+
+**Acknowledgements**
+--------------------
+
+The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a custom jQuery script developed by developed by Maxim Palianytsia, and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Maxim and Jason.
+
+Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contributing code for the Custom Post Type integration into the DCG.
+
+
+**License and Disclaimer**
+--------------------------
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 2 as published by
+the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+The license for this software can be found here: [http://www.gnu.org/licenses/gpl-2.0.html](http://www.gnu.org/licenses/gpl-2.0.html)
+
+Thanks for downloading the plugin.  Enjoy!
 
 
 == Configuration and set-up ==
@@ -116,86 +203,8 @@ Slide Pane text can be configured in three ways - Manual, Auto or None
 
 
 
-== Frequently Asked Questions ==
-
-**How does it work?**
----------------------
-The plugin provides four ways to populate the gallery:
-
-* Multi Option: user-definable combination of categories and Posts to display up to 9 images
-* One Category: display up to 15 images from one selected category
-* ID: designed for Pages, this method can also be used for mixing Pages and Posts in the gallery.
-* Custom Post Type: display up to 15 images from one selected Custom Post Type
-
-Image file management settings provide comprehensive options for how images are referenced, either by Auto, Full URL or Partial URL options.
-
-Default images can be defined for each category (One Category and Multi Option display methods), which are used as "fall-backs" in the event that a Post does not have the necessary custom field set up, and thereby ensures that the gallery will always display images.  (Note that this functionality is not available when used in WordPress Multisite).
-
-There are a wide range of CSS and javascript Settings for configuring the look and behaviour of the gallery.
-
-The plugin is supplied with an updated version of the original Smoothgallery mootools script and a jQuery alternative, selectable via the plugin's Settings page.
-
-
-**Download**
-------------
-
-Latest stable version is available from http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/ 
-
-
-**Support**
------------
-
-This plugin is provided free of charge without warranty.  In the event you experience problems you should visit these resources:
-
-* [Dynamic Content Gallery home page](http://www.studiograsshopper.ch/dynamic-content-gallery/)
-* [Configuration Guide](http://www.studiograsshopper.ch/dynamic-content-gallery/configuration-guide/)
-* [Documentation](http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/)
-* [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
-* [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
-
-If, having referred to the above resources, you still need assistance, you can post a question on the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).  Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible.
-
-Thanks for downloading the plugin.  Enjoy!
-
-If you have found the plugin useful, please consider a Donation to help me continue to invest the time and effort in maintaining and improving this plugin. Thank you!
-
-
-**Troubleshooting**
--------------------
-
-In the event of problems with the plugin, refer to the Resources listed above.
-
-Use the in-built Error messages (printed to the page source as HTML comments) for information about configuration errors and guidance on how to fix them.
-
-
-**Known Issues**
-----------------
-
-There are no known issues as such, but there are some behaviours which you should be aware of.  The tips mentioned below are a good place to start in the event that you experience a problem with the plugin.
-
-1. Javascript conflicts.  By default the plugin uses SmoothGallery which is built on the Mootools javascript framework.  This framework may conflict with other plugins which use either the same javascript framework or a conflicting one.  In the event of problems with the gallery, and you are unable to resolve the conflict, try using the supplied jQuery script instead, which you can select in the plugin's Settings page.
-
-2. Known conflicts: A list of plugins which are known to conflict with the mootools gallery script can be found at http://www.studiograsshopper.ch/forum/
-
-3. The mootools gallery script will not run properly if it cannot find the first image in the gallery. It also requires a minimum of 2 images.
-
-4. In order to reduce loading time it is recommended to match your image dimensions to the visible dimensions of the gallery and optimise the filesize in your image editor.
-
-5. To benefit from the new Auto Image Management options your theme needs to support WP's Post Thumbnails feature, introduced in WP 2.9. See this [FAQ] (http://www.studiograsshopper.ch/dynamic-content-gallery/documentation/#faq_32) for how to add Post Thumbnails support to your theme.
-
-If you find any bugs, or have suggestions for future features, please leave a message on the [plugin's WordPress.org Support Forum](http://wordpress.org/support/plugin/dynamic-content-gallery-plugin).
-
-
-
-**Acknowledgements**
-
-The Dynamic Content Gallery plugin uses the mootools SmoothGallery script developed by Jonathan Shemoul of JonDesigns.net, and a custom jQuery script developed by developed by Maxim Palianytsia, and was forked from the original Featured Content Gallery v1.0 developed by Jason Schuller. Grateful acknowledgements to Jonathan, Maxim and Jason.
-
-Many thanks and props to [Benjamin Mueller](http://inkblought.com/) for contributing code for the Custom Post Type integration into the DCG.
-
-
 == Screenshots ==
-1. Dynamic Content Gallery
+1. Dynamic Content Gallery screenshot
 
 
 
