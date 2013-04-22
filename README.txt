@@ -113,7 +113,7 @@ Further information about setting up and using the plugin can be found here:
 * [FAQ](http://www.studiograsshopper.ch/dynamic-content-gallery/faq/)
 * [Error messages info](http://www.studiograsshopper.ch/dynamic-content-gallery/error-messages/)
 
-If, having read the information linked to above, you cannot solve your issue, or if you find a bug, you can post a message on the plugin's [Support Forum](http://wordpress.org/extend/plugins/serial-posts/).
+If, having read the information linked to above, you cannot solve your issue, or if you find a bug, you can post a message on the plugin's [Support Forum](http://wordpress.org/extend/plugins/dynamic-content-gallery-plugin/).
 
 Support is provided in my free time but every effort will be made to respond to support queries as quickly as possible.
 
