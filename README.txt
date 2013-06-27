@@ -9,7 +9,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: gallery,images,posts,rotator,content-slider
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 3.3.6
+Stable tag: 3.3.5
 
 Creates a dynamic gallery of images for latest or featured content posts, categories, pages and Custom Post Types.
 
