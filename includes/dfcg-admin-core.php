@@ -542,9 +542,11 @@ function dfcg_default_options() {
 *
 * In 3.3.5 - No change. Total options = 86
 *
+* In 3.3.6 - No change. Total options = 86
+*
 * @uses dfcg_default_options()
 * @since 3.2.2
-* @updated 3.3.5
+* @updated 3.3.6
 */
 function dfcg_set_gallery_options() {
 	
@@ -938,6 +940,14 @@ function dfcg_set_gallery_options() {
 	
 	/***** Upgrade to 3.3.5 from 3.3.4 *****/
 	if ( version_compare($existing_version, '3.3.5', '<') ) {
+	
+		// Nothing to do here...
+	}
+	
+	
+	
+	/***** Upgrade to 3.3.6 from 3.3.5 *****/
+	if ( version_compare($existing_version, '3.3.6', '<') ) {
 	
 		// Nothing to do here...
 	}
