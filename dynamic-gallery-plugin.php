@@ -33,6 +33,7 @@ Feature:	means new user functionality has been added
 /* Version History
 
 	3.3.6		- Bug fix:	Fixes error with DCG metabox save nonce
+				- Enhance:	Remove inline font-size from textareas/input fields in DCG Metabox
 	
 	3.3.5		- Bug fix:	Fixes HTML markup error in dfcg-admin-metaboxes.php (missing </em> tag in External Link block)
 	
